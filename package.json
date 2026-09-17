@@ -1,0 +1,11 @@
+{
+  "name": "batchhub-notes",
+  "version": "1.0.0",
+  "description": "Static HTML notes repository for BatchHub — deployed via GitHub Pages",
+  "scripts": {
+    "build": "node scripts/generate-manifest.js"
+  },
+  "author": "shreyx404",
+  "license": "MIT",
+  "private": true
+}

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ═══════════════════════════════════════════════════════════════════
+     METADATA — Fill these in for each new note.
+     The manifest generator (scripts/generate-manifest.js) reads these.
+     ═══════════════════════════════════════════════════════════════════ -->
+<meta name="note-id"      content="SUBJECT-unitN">          <!-- e.g. dcn-unit3 -->
+<meta name="note-subject" content="SUBJECT">                <!-- e.g. DCN, FDS, SE -->
+<meta name="note-unit"    content="Unit N">                 <!-- e.g. Unit 3 -->
+<meta name="note-tags"    content="Tag1, Tag2, Tag3">       <!-- comma-separated -->
+<meta name="note-summary" content="Brief one-line summary"> <!-- shown on index card -->
+<title>Unit N — Note Title | SUBJECT Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #252525;
+    --border2: #2e2e2e;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --text-dimmer: #444;
+    --accent: #f0f0f0;
+    --mark: #1f1f1f;
+    --warm: #e8c47c;
+    --tip-bg: rgba(92,184,120,0.06);
+    --tip-border: rgba(92,184,120,0.25);
+    --tip-text: #5cb878;
+    --warn-bg: rgba(232,160,80,0.06);
+    --warn-border: rgba(232,160,80,0.25);
+    --warn-text: #e8a050;
+    --exam-bg: rgba(120,140,232,0.06);
+    --exam-border: rgba(120,140,232,0.25);
+    --exam-text: #8898e8;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ─── READING PROGRESS BAR ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 3px;
+    background: var(--warm);
+    z-index: 9999;
+    transition: width 0.1s linear;
+  }
+
+  /* ─── SIDEBAR TOC ─── */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 28px 0 40px;
+    transition: transform 0.3s ease;
+  }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
+
+  .sidebar-brand {
+    padding: 0 22px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-brand .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    transition: color 0.2s;
+  }
+  .sidebar-brand .back-link:hover { color: var(--warm); }
+  .sidebar-brand .subject {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sidebar-brand .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.3;
+  }
+
+  .toc-toggle {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    width: 36px; height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .nav-section {
+    padding: 0 22px 6px;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 5px 22px;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+    line-height: 1.5;
+  }
+  .sidebar a:hover, .sidebar a.active {
+    color: var(--text);
+    background: var(--mark);
+    border-left-color: var(--warm);
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .main {
+    margin-left: 260px;
+    padding: 60px 64px;
+    max-width: 1000px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 72px;
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+  .hero-info {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.08em;
+  }
+
+  /* ─── SECTIONS ─── */
+  .section { margin-bottom: 80px; }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 36px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin: 24px 0 8px;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); line-height: 1.75; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 600; color: var(--accent); }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text-dim);
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.key {
+    border-left-color: var(--warm);
+    background: rgba(232,196,124,0.03);
+  }
+  .callout.tip {
+    border-left-color: var(--tip-text);
+    background: var(--tip-bg);
+  }
+  .callout.warning {
+    border-left-color: var(--warn-text);
+    background: var(--warn-bg);
+  }
+  .callout.exam {
+    border-left-color: var(--exam-text);
+    background: var(--exam-bg);
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout.key .callout-label { color: var(--warm); }
+  .callout.tip .callout-label { color: var(--tip-text); }
+  .callout.warning .callout-label { color: var(--warn-text); }
+  .callout.exam .callout-label { color: var(--exam-text); }
+  .callout p, .callout li { font-size: 13.5px; color: var(--text-dim); }
+
+  /* ─── FORMULA ─── */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    padding: 18px 24px;
+    margin: 20px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── CODE ─── */
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--warm);
+  }
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 22px;
+    margin: 20px 0;
+    overflow-x: auto;
+    border-radius: 6px;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; margin: 24px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  tbody td {
+    border: 1px solid var(--border);
+    padding: 9px 14px;
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:nth-child(even) td { background: #0e0e0e; }
+
+  /* ─── LISTS ─── */
+  ul, ol { padding-left: 20px; margin: 12px 0 16px; }
+  li {
+    margin-bottom: 7px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  li strong { font-weight: 600; color: var(--accent); }
+
+  /* ─── VISUAL / DIAGRAM WRAPPER ─── */
+  .visual {
+    margin: 28px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .visual-caption {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    text-align: center;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    margin-top: 100px;
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    .sidebar, .toc-toggle, .progress-bar { display: none !important; }
+    .main { margin-left: 0; padding: 20px; max-width: 100%; }
+    body { background: #fff; color: #111; font-size: 12px; }
+    h1, h2, h3, h4, strong { color: #000; }
+    .callout { border-color: #ccc; background: #f9f9f9; }
+    .callout p, .callout li { color: #333; }
+    table { font-size: 11px; }
+    thead th { background: #eee; color: #333; }
+    tbody td { border-color: #ddd; color: #111; }
+    .visual { background: #f5f5f5; border-color: #ddd; }
+    footer { display: none; }
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); width: 280px; }
+    .sidebar.open { transform: translateX(0); }
+    .toc-toggle { display: flex; }
+    .main { margin-left: 0; padding: 60px 20px 40px; }
+    .hero h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Reading Progress -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Mobile TOC Toggle -->
+<button class="toc-toggle" id="tocToggle" aria-label="Toggle Table of Contents">☰</button>
+
+<!-- ═══════════ SIDEBAR TOC ═══════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <a href="../../index.html" class="back-link">← Notes Hub</a>
+    <div class="subject">SUBJECT CODE · UNIT N</div>
+    <div class="title">Note Title Here</div>
+  </div>
+
+  <div class="nav-section">Contents</div>
+  <!-- Add your TOC links here. Use IDs matching your section anchors. -->
+  <a href="#section-1">1 · First Section</a>
+  <a href="#section-2">2 · Second Section</a>
+  <a href="#section-3">3 · Third Section</a>
+</nav>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-meta">SUBJECT · Unit N</div>
+    <h1>Note Title Here</h1>
+    <p class="hero-sub">
+      A brief description of what this note covers.
+    </p>
+    <div class="hero-info">
+      <span>Author / Batch</span>
+      <span>VIT Pune</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 1 ═══════════ -->
+  <div class="section" id="section-1">
+    <div class="section-number">01</div>
+    <h2>Section Title</h2>
+
+    <p>Section content goes here. Use standard HTML elements.</p>
+
+    <!-- Key Concept callout -->
+    <div class="callout key">
+      <div class="callout-label">Key Concept</div>
+      <p>Important concept explanation.</p>
+    </div>
+
+    <!-- Tip callout -->
+    <div class="callout tip">
+      <div class="callout-label">💡 Tip</div>
+      <p>Helpful tip for students.</p>
+    </div>
+
+    <!-- Warning callout -->
+    <div class="callout warning">
+      <div class="callout-label">⚠ Warning</div>
+      <p>Common mistake or pitfall.</p>
+    </div>
+
+    <!-- Exam Note callout -->
+    <div class="callout exam">
+      <div class="callout-label">📝 Exam Note</div>
+      <p>Frequently asked in exams.</p>
+    </div>
+
+    <!-- Table example -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Column A</th><th>Column B</th><th>Column C</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Data</td><td>Data</td><td>Data</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Formula example -->
+    <div class="formula">
+      Formula: x = y × z
+    </div>
+
+    <!-- Code example -->
+    <pre><code>// Code snippet example
+function example() {
+  return "hello";
+}</code></pre>
+
+    <!-- Diagram wrapper -->
+    <div class="visual">
+      <div>[ Diagram or visual content here ]</div>
+      <div class="visual-caption">Figure 1 — Description of the diagram</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SECTION 2 ═══════════ -->
+  <div class="section" id="section-2">
+    <div class="section-number">02</div>
+    <h2>Next Section Title</h2>
+    <p>Continue your content…</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Unit N · Note Title · SUBJECT Notes</span>
+    <span>VIT Pune</span>
+  </footer>
+
+</div>
+
+<script>
+// ── Reading progress bar ──
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = Math.min(pct, 100) + '%';
+});
+
+// ── Mobile TOC toggle ──
+document.getElementById('tocToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.querySelector('.main').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+});
+
+// ── Active TOC highlighting ──
+(function () {
+  const links = document.querySelectorAll('.sidebar a[href^="#"]');
+  const sections = [];
+  links.forEach(link => {
+    const id = link.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) sections.push({ el, link });
+  });
+
+  function update() {
+    let active = sections[0];
+    for (const s of sections) {
+      if (s.el.getBoundingClientRect().top <= 120) active = s;
+    }
+    links.forEach(l => l.classList.remove('active'));
+    if (active) active.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', update);
+  update();
+})();
+</script>
+
+</body>
+</html>

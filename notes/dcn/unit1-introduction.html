@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="dcn-unit1">
+<meta name="note-subject" content="DCN">
+<meta name="note-unit" content="Unit 1">
+<meta name="note-tags" content="Networking, Data Communication, Fundamentals, Signals, Transmission">
+<meta name="note-summary" content="Complete introduction to Data Communication & Networks — covering data communication components, signal types, transmission modes, multiplexing, switching, and network topologies.">
+<title>DCN Unit I — Complete Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #252525;
+    --border2: #2e2e2e;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --text-dimmer: #444;
+    --accent: #f0f0f0;
+    --mark: #1f1f1f;
+    --tag-bg: #1a1a1a;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 28px 0 40px;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
+
+  .sidebar-brand {
+    padding: 0 22px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .sidebar-brand .subject {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sidebar-brand .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.3;
+  }
+
+  .nav-section {
+    padding: 0 22px 6px;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 5px 22px;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+    line-height: 1.5;
+  }
+  .sidebar a:hover, .sidebar a.active {
+    color: var(--text);
+    background: var(--mark);
+    border-left-color: var(--text-dim);
+  }
+
+  /* ─── MAIN ─── */
+  .main {
+    margin-left: 240px;
+    padding: 60px 64px;
+    max-width: 1000px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding-bottom: 52px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 72px;
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-bottom: 80px;
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 36px 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin: 24px 0 8px;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); line-height: 1.75; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ─── CALLOUTS ─── */
+  .callout {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text-dim);
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.key {
+    border-left-color: #e8e8e8;
+    background: #141414;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout p, .callout li { font-size: 13.5px; color: var(--text-dim); }
+
+  /* ─── FORMULA ─── */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    padding: 18px 24px;
+    margin: 20px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; margin: 24px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead th {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  tbody td {
+    border: 1px solid var(--border);
+    padding: 9px 14px;
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:nth-child(even) td { background: #0e0e0e; }
+
+  /* ─── LISTS ─── */
+  ul, ol {
+    padding-left: 20px;
+    margin: 12px 0 16px;
+  }
+  li {
+    margin-bottom: 7px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  li strong { font-weight: 600; color: var(--accent); }
+
+  /* ─── DIAGRAMS / VISUALS ─── */
+  .visual {
+    margin: 28px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .visual-caption {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    text-align: center;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+
+  /* DATA FLOW diagram */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 560px;
+    justify-content: center;
+  }
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 10px 16px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--text);
+    white-space: nowrap;
+    text-align: center;
+    min-width: 80px;
+  }
+  .flow-arrow {
+    color: var(--text-dimmer);
+    font-size: 18px;
+    flex-shrink: 0;
+    padding: 0 6px;
+    line-height: 1;
+  }
+  .flow-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dimmer);
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+
+  /* DUPLEX diagrams */
+  .duplex-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 640px;
+  }
+  .duplex-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 16px;
+    text-align: center;
+  }
+  .duplex-card .dc-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .dc-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 5px 0;
+    font-size: 18px;
+    line-height: 1;
+  }
+  .dc-node { font-size: 10px; font-family: var(--mono); color: var(--text-dim); }
+  .duplex-card .dc-example {
+    font-size: 10px;
+    color: var(--text-dimmer);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ERROR type visual */
+  .error-vis {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    max-width: 540px;
+  }
+  .err-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+  }
+  .err-label {
+    font-size: 10px;
+    color: var(--text-dimmer);
+    width: 64px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .err-bits {
+    display: flex;
+    gap: 3px;
+  }
+  .bit {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: var(--mono);
+  }
+  .bit.err {
+    background: #2a1a1a;
+    border-color: #4a2a2a;
+    color: #c04040;
+  }
+
+  /* PARITY visual */
+  .parity-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 28px);
+    gap: 3px;
+    justify-content: center;
+    margin: 8px 0;
+  }
+  .p-cell {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+  }
+  .p-cell.pbit {
+    background: #1a2a1a;
+    border-color: #2a4a2a;
+    color: #60b060;
+  }
+  .p-cell.head {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-dimmer);
+    font-size: 9px;
+  }
+
+  /* CRC diagram */
+  .crc-box {
+    border: 1px solid var(--border2);
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    width: 100%;
+    max-width: 480px;
+    line-height: 2;
+  }
+  .crc-step { color: var(--text-dim); }
+  .crc-result { color: var(--accent); font-weight: 600; }
+  .crc-dim { color: var(--text-dimmer); }
+
+  /* TOPOLOGY diagrams */
+  .topo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .topo-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .topo-card .tc-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ─── PILL TAGS ─── */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 16px; }
+  .tag {
+    background: var(--tag-bg);
+    border: 1px solid var(--border2);
+    padding: 3px 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── COMPARISON GRID ─── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .compare-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 18px;
+  }
+  .compare-card .cc-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .compare-card li { font-size: 13px; }
+
+  /* ─── DIVIDER ─── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
+
+  /* ─── CODE ─── */
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--surface2);
+    padding: 1px 6px;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 32px 20px; }
+    .duplex-grid { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .topo-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="subject">DCN · Unit I</div>
+    <div class="title">Data Communication &amp; Networking</div>
+  </div>
+
+  <div class="nav-section">Topics</div>
+  <a href="#s1">1. Data Communication</a>
+  <a href="#s2">2. Types of Data</a>
+  <a href="#s3">3. Components</a>
+  <a href="#s4">4. Protocols &amp; Standards</a>
+  <a href="#s5">5. Bandwidth</a>
+  <a href="#s6">6. Data Transmission</a>
+  <a href="#s7">7. Baud Rate vs bps</a>
+  <a href="#s8">8. Communication Modes</a>
+  <a href="#s9">9. Types of Errors</a>
+  <a href="#s10">10. Redundancy</a>
+  <a href="#s11">11. Error Detection</a>
+  <a href="#s12">12. IEEE 802 Standards</a>
+  <a href="#s13">13. MAC Sublayer</a>
+  <a href="#s14">14. Topologies</a>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-meta">VIT Pune · CSE-IoT · Second Year Sem I · Prof. Amol S. Suryawanshi</div>
+    <h1>Data Communication<br>&amp; Networking</h1>
+    <p class="hero-sub">Comprehensive Unit I notes covering data communication fundamentals, signal types, error detection, IEEE 802 standards, and network topologies.</p>
+  </div>
+
+  <!-- ══ SECTION 1 ══ -->
+  <div class="section" id="s1">
+    <div class="section-number">01</div>
+    <h2>Data Communication</h2>
+
+    <p>Data communications is the <strong>exchange of data between two devices via a transmission medium</strong> (e.g., a wire cable). The communicating devices must be part of a system comprising both hardware and software.</p>
+
+    <div class="callout key">
+      <div class="callout-label">Key Definition</div>
+      <p><strong>Telecommunication</strong> (tele = Greek for "far") covers telephony, telegraphy, and television. <strong>Data</strong> is information in any agreed-upon form between parties.</p>
+    </div>
+
+    <h3>Four Fundamental Characteristics</h3>
+    <p>The effectiveness of a data communications system depends on:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Characteristic</th><th>Description</th><th>Real-world Impact</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Delivery</strong></td>
+            <td>Data must reach the correct destination — only the intended device/user</td>
+            <td>Misrouted packets → wrong recipient</td>
+          </tr>
+          <tr>
+            <td><strong>Accuracy</strong></td>
+            <td>Data must arrive unaltered; corrupted data is unusable</td>
+            <td>Bit flips in files → corrupt downloads</td>
+          </tr>
+          <tr>
+            <td><strong>Timeliness</strong></td>
+            <td>Data delivered in time; late data = useless data. Real-time transmission: data delivered as produced, in order</td>
+            <td>Video buffering, VoIP dropouts</td>
+          </tr>
+          <tr>
+            <td><strong>Jitter</strong></td>
+            <td>Variation in packet arrival time. E.g., video packets expected every 30ms but arriving at 30ms and 40ms alternately → uneven quality</td>
+            <td>Choppy video calls, audio glitches</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2 ══ -->
+  <div class="section" id="s2">
+    <div class="section-number">02</div>
+    <h2>Types of Data</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Analog Data</div>
+        <ul>
+          <li>Continuous in nature — can take any value within a range</li>
+          <li>Represented by <strong>sine waves</strong></li>
+          <li>Varies smoothly over time (no sudden jumps)</li>
+          <li>Used in traditional systems: telephone lines, radio</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px; color:var(--text-dim)"><em>Examples: Human voice, thermometer readings, FM radio, analog TV</em></p>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Digital Data</div>
+        <ul>
+          <li>Discrete — has fixed, separate values (0s and 1s)</li>
+          <li>Represented by <strong>square waves</strong></li>
+          <li>Easier to store, process, transmit with low noise</li>
+          <li>Used in modern computing and communication</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px; color:var(--text-dim)"><em>Examples: Text files, MP3, internet data, computer storage</em></p>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div style="width:100%; max-width:520px; padding: 0 10px;">
+        <svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+          <!-- Analog wave -->
+          <text x="10" y="18" font-family="IBM Plex Mono, monospace" font-size="9" fill="#555" letter-spacing="1">ANALOG</text>
+          <path d="M10,60 C35,20 65,20 90,60 C115,100 145,100 170,60 C195,20 225,20 250,60 C275,100 305,100 330,60 C355,20 385,20 410,60 C435,100 465,100 490,60" stroke="#aaa" stroke-width="1.5" fill="none"/>
+          <!-- Digital wave -->
+          <text x="10" y="88" font-family="IBM Plex Mono, monospace" font-size="9" fill="#555" letter-spacing="1">DIGITAL</text>
+          <polyline points="10,112 10,98 85,98 85,112 160,112 160,98 245,98 245,112 320,112 320,98 405,98 405,112 490,112" stroke="#555" stroke-width="1.5" fill="none"/>
+          <!-- labels -->
+          <line x1="10" y1="75" x2="490" y2="75" stroke="#252525" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="visual-caption">Analog (smooth sine) vs Digital (square pulse) signal representation</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3 ══ -->
+  <div class="section" id="s3">
+    <div class="section-number">03</div>
+    <h2>Components of Data Communication</h2>
+    <p>A data communications system has <strong>five components</strong>:</p>
+
+    <div class="visual">
+      <div class="flow-row">
+        <div style="text-align:center">
+          <div class="flow-node">Message</div>
+          <div class="flow-label" style="margin-top:4px">text/audio/video</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="text-align:center">
+          <div class="flow-node">Sender</div>
+          <div class="flow-label" style="margin-top:4px">computer/phone</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="text-align:center">
+          <div class="flow-node" style="border-style:dashed; color:var(--text-dim)">Medium</div>
+          <div class="flow-label" style="margin-top:4px">cable/radio</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="text-align:center">
+          <div class="flow-node">Receiver</div>
+          <div class="flow-label" style="margin-top:4px">computer/TV</div>
+        </div>
+      </div>
+      <div style="text-align:center; font-family: var(--mono); font-size:10px; color:var(--text-dimmer)">↑ governed by PROTOCOL — rules for format, transmission, receipt</div>
+      <div class="visual-caption">Five components of a data communication system</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Component</th><th>Role</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Message</strong></td><td>The information to be communicated</td><td>Text, numbers, images, audio, video</td></tr>
+          <tr><td>2</td><td><strong>Sender</strong></td><td>Device that sends the data</td><td>Computer, phone, video camera</td></tr>
+          <tr><td>3</td><td><strong>Receiver</strong></td><td>Device that receives the message</td><td>Computer, TV, telephone handset</td></tr>
+          <tr><td>4</td><td><strong>Transmission Medium</strong></td><td>Physical path the message travels</td><td>Twisted-pair wire, coax, fiber, radio waves</td></tr>
+          <tr><td>5</td><td><strong>Protocol</strong></td><td>Rules governing communication. Without it: two devices may be connected but unable to communicate (like French speaker ↔ Japanese speaker)</td><td>TCP/IP, HTTP, FTP</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Real-world Example — WhatsApp</div>
+      <p>Your phone → Wi-Fi/4G → Internet routers (fiber optic) → WhatsApp servers (Meta) → Recipient's ISP → Recipient's phone. The message is end-to-end encrypted throughout this journey.</p>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4 ══ -->
+  <div class="section" id="s4">
+    <div class="section-number">04</div>
+    <h2>Protocols, Standards &amp; Organizations</h2>
+
+    <h3>Protocol</h3>
+    <p>A set of rules that define how data is <strong>formatted, transmitted, and received</strong>. Examples: TCP/IP, HTTP, FTP, UDP.</p>
+
+    <h3>Standards</h3>
+    <p>Documented agreements ensuring interoperability and consistency across hardware/software from different vendors. They guarantee:</p>
+    <ul>
+      <li>Devices and systems can <strong>interoperate</strong></li>
+      <li>Reliability, efficiency, and <strong>compatibility</strong></li>
+      <li>Predictable, error-free data communication</li>
+    </ul>
+
+    <h3>Key Standards Organizations</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Organization</th><th>Full Name</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IEEE</strong></td><td>Institute of Electrical and Electronics Engineers</td><td>802.x LAN/WAN standards</td></tr>
+          <tr><td><strong>ISO</strong></td><td>International Organization for Standardization</td><td>OSI model, various global standards</td></tr>
+          <tr><td><strong>IETF</strong></td><td>Internet Engineering Task Force</td><td>Internet protocols (TCP, HTTP, DNS)</td></tr>
+          <tr><td><strong>ITU</strong></td><td>International Telecommunication Union</td><td>Global telecom standards</td></tr>
+          <tr><td><strong>ANSI</strong></td><td>American National Standards Institute</td><td>US national standards</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5 ══ -->
+  <div class="section" id="s5">
+    <div class="section-number">05</div>
+    <h2>Bandwidth</h2>
+
+    <p>Bandwidth is the <strong>maximum rate at which data can be transmitted</strong> over a communication channel in a given amount of time. It is the capacity of a network path, not speed.</p>
+
+    <div class="callout key">
+      <div class="callout-label">Bandwidth vs Speed</div>
+      <p><strong>Bandwidth</strong> = how much information you can receive per second (volume). <strong>Speed</strong> = how fast that information arrives. A wide highway (high bandwidth) lets more cars through; but each car (data packet) still travels at the same speed.</p>
+    </div>
+
+    <div class="formula">Bandwidth (bps) = Baud Rate × log₂(L)</div>
+    <p style="font-size:13px; color:var(--text-dim); text-align:center; margin-top:-10px;">Where L = number of signal levels</p>
+
+    <h3>Types of Bandwidth</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Analog Bandwidth</strong></td><td>Range of frequencies a channel can carry (Hz). Difference between upper and lower frequency components.</td></tr>
+          <tr><td><strong>Digital Bandwidth</strong></td><td>Maximum data rate in bps a digital channel can support</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Units</h3>
+    <div class="tags">
+      <span class="tag">bps — bits/sec</span>
+      <span class="tag">Kbps — 10³ bps</span>
+      <span class="tag">Mbps — 10⁶ bps</span>
+      <span class="tag">Gbps — 10⁹ bps</span>
+      <span class="tag">Tbps — 10¹² bps</span>
+    </div>
+
+    <h3>Factors Affecting Bandwidth</h3>
+    <ul>
+      <li><strong>Transmission Medium</strong> — Fiber optics > coaxial > twisted pair</li>
+      <li><strong>Signal Type</strong> — Analog signals have limited frequency range</li>
+      <li><strong>Noise &amp; Interference</strong> — Reduce effective data rate</li>
+      <li><strong>Hardware Capabilities</strong> — Routers, switches, NICs</li>
+      <li><strong>Protocols Used</strong> — Some protocols introduce significant overhead</li>
+    </ul>
+
+    <h3>How to Increase Bandwidth</h3>
+    <ul>
+      <li>Get a higher Mbps ISP plan</li>
+      <li>Upgrade to a modern router (supports higher frequencies)</li>
+      <li>Use a wired Ethernet connection (reduces wireless congestion)</li>
+    </ul>
+  </div>
+
+  <!-- ══ SECTION 6 ══ -->
+  <div class="section" id="s6">
+    <div class="section-number">06</div>
+    <h2>Data Transmission &amp; Transfer Rate</h2>
+
+    <h3>Data Transmission</h3>
+    <p>Refers to methods of transferring data over a communication medium from one device to another. Focuses on <strong>digital transmission</strong> — sending/receiving digital bit streams.</p>
+
+    <h3>Two Types of Transmission</h3>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Parallel Transmission</div>
+        <div style="margin: 12px 0; text-align:center">
+          <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;height:auto">
+            <rect x="5" y="5" width="40" height="70" rx="2" fill="#181818" stroke="#333"/>
+            <text x="25" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#666">SRC</text>
+            <rect x="155" y="5" width="40" height="70" rx="2" fill="#181818" stroke="#333"/>
+            <text x="175" y="44" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#666">DST</text>
+            <!-- 4 parallel lines -->
+            <line x1="45" y1="20" x2="155" y2="20" stroke="#444" stroke-width="1"/>
+            <line x1="45" y1="33" x2="155" y2="33" stroke="#444" stroke-width="1"/>
+            <line x1="45" y1="46" x2="155" y2="46" stroke="#444" stroke-width="1"/>
+            <line x1="45" y1="59" x2="155" y2="59" stroke="#444" stroke-width="1"/>
+            <text x="100" y="15" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555">b7</text>
+            <text x="100" y="28" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555">b6</text>
+            <text x="100" y="41" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555">b5</text>
+            <text x="100" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#555">b4</text>
+          </svg>
+        </div>
+        <ul>
+          <li>Multiple bits transmitted <strong>simultaneously</strong> per clock pulse</li>
+          <li>Used for <strong>short distance</strong> (computer → printer)</li>
+          <li>Faster but requires more wires</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Serial Transmission</div>
+        <div style="margin: 12px 0; text-align:center">
+          <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;height:auto">
+            <rect x="5" y="15" width="40" height="30" rx="2" fill="#181818" stroke="#333"/>
+            <text x="25" y="34" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#666">SRC</text>
+            <rect x="155" y="15" width="40" height="30" rx="2" fill="#181818" stroke="#333"/>
+            <text x="175" y="34" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#666">DST</text>
+            <line x1="45" y1="30" x2="155" y2="30" stroke="#444" stroke-width="1.5"/>
+            <!-- bit squares on line -->
+            <rect x="58" y="24" width="12" height="12" fill="#222" stroke="#444"/>
+            <text x="64" y="33" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#aaa">1</text>
+            <rect x="74" y="24" width="12" height="12" fill="#222" stroke="#444"/>
+            <text x="80" y="33" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#aaa">0</text>
+            <rect x="90" y="24" width="12" height="12" fill="#222" stroke="#444"/>
+            <text x="96" y="33" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#aaa">1</text>
+            <rect x="106" y="24" width="12" height="12" fill="#222" stroke="#444"/>
+            <text x="112" y="33" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#aaa">1</text>
+            <polygon points="136,30 126,25 126,35" fill="#444"/>
+          </svg>
+        </div>
+        <ul>
+          <li>One bit sent at a time over a single channel</li>
+          <li>Used for <strong>long distance</strong> (computer → computer over network)</li>
+          <li>8 bits per clock pulse including start/stop bits (parity bits)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Data Transfer Rate (DTR)</h3>
+    <p>The amount of digital data moved from one place to another in a given time. Also called <strong>throughput</strong> or <strong>bit rate</strong>.</p>
+
+    <div class="formula">DTR = D / T &nbsp;&nbsp;|&nbsp;&nbsp; bps = Number of bits ÷ Transmission Time (sec)</div>
+
+    <h4>Speed Reference</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Connection Type</th><th>DTR</th></tr></thead>
+        <tbody>
+          <tr><td>Dial-up modem</td><td>33.6 Kbps</td></tr>
+          <tr><td>USB 1.0</td><td>12 Mbps</td></tr>
+          <tr><td>USB 2.0</td><td>480 Mbps</td></tr>
+          <tr><td>Gigabit Ethernet</td><td>1,000 Mbps (1 Gbps)</td></tr>
+          <tr><td>Cisco Silicon One G100</td><td>25.6 Tbps</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Factors Affecting Data Transfer Rates</h3>
+    <ul>
+      <li><strong>Network Congestion</strong> — Too much traffic → packet loss, queuing delays, session timeouts</li>
+      <li><strong>Network Latency</strong> — Total time for a packet to travel source → destination. TCP (connection-oriented) increases latency; UDP (connectionless) doesn't.</li>
+      <li><strong>Inadequate Hardware</strong> — Low RAM/CPU/I-O on client or server slows TCP processes</li>
+      <li><strong>Filtering &amp; Encryption</strong> — Firewalls scanning for viruses → packet loss, retransmission overhead</li>
+      <li><strong>Traffic Prioritization (QoS)</strong> — VoIP/video gets high priority; low-priority traffic suffers during congestion</li>
+      <li><strong>Load Balancing</strong> — Misconfigured load balancers → packet loss, retransmissions</li>
+      <li><strong>Transmission Medium</strong> — Fiber optic &gt; twisted-pair; DTR varies by cable type</li>
+    </ul>
+  </div>
+
+  <!-- ══ SECTION 7 ══ -->
+  <div class="section" id="s7">
+    <div class="section-number">07</div>
+    <h2>Baud Rate vs Bits Per Second</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Bits Per Second (bps)</div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:10px;">Number of <strong>bits (0 or 1)</strong> transmitted per second. Measures useful data throughput.</p>
+        <div class="formula" style="font-size:11px; padding:10px;">1 Kbps = 1,000 bps<br>1 Mbps = 1,000,000 bps<br>1 Gbps = 10⁹ bps</div>
+        <p style="font-size:12px; color:var(--text-dimmer); margin-top:8px;"><em>This is what internet speed tests measure.</em></p>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Baud Rate</div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:10px;">Number of <strong>signal units (symbols)</strong> transmitted per second. One symbol may carry multiple bits.</p>
+        <div class="formula" style="font-size:11px; padding:10px;">bps = Baud Rate × bits/symbol</div>
+        <p style="font-size:12px; color:var(--text-dimmer); margin-top:8px;"><em>In DSL/Wi-Fi, bps &gt; baud rate because each symbol encodes multiple bits via modulation.</em></p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Key Distinction</div>
+      <p>Baud Rate counts <em>signal changes per second</em>; bps counts <em>bits per second</em>. When a modulation technique encodes, say, 4 bits per symbol: a 1200 baud signal = 4800 bps.</p>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 8 ══ -->
+  <div class="section" id="s8">
+    <div class="section-number">08</div>
+    <h2>Modes of Communication (Data Flow)</h2>
+
+    <div class="visual">
+      <div class="duplex-grid">
+        <div class="duplex-card">
+          <div class="dc-title">Simplex</div>
+          <div class="dc-track">
+            <span class="dc-node">A</span>
+            <span style="font-size:20px; color:#666;">→</span>
+            <span class="dc-node">B</span>
+          </div>
+          <p style="font-size:11px; color:var(--text-dimmer); margin-top:8px; line-height:1.5">Unidirectional. Only one device transmits; other only receives.</p>
+          <div class="dc-example">Keyboard → Monitor<br>TV broadcast</div>
+        </div>
+        <div class="duplex-card">
+          <div class="dc-title">Half-Duplex</div>
+          <div class="dc-track">
+            <span class="dc-node">A</span>
+            <span style="font-size:20px; color:#666;">⇄</span>
+            <span class="dc-node">B</span>
+          </div>
+          <p style="font-size:11px; color:var(--text-dimmer); margin-top:8px; line-height:1.5">Both can send/receive, but <em>not simultaneously</em>. One-lane road.</p>
+          <div class="dc-example">Walkie-talkies<br>CB radios</div>
+        </div>
+        <div class="duplex-card">
+          <div class="dc-title">Full-Duplex</div>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:center;margin:8px 0">
+            <div class="dc-track"><span class="dc-node">A</span><span style="font-size:20px;color:#666;">→</span><span class="dc-node">B</span></div>
+            <div class="dc-track"><span class="dc-node">B</span><span style="font-size:20px;color:#666;">→</span><span class="dc-node">A</span></div>
+          </div>
+          <p style="font-size:11px; color:var(--text-dimmer); margin-top:8px; line-height:1.5">Both transmit and receive <em>simultaneously</em>. Two-way street.</p>
+          <div class="dc-example">Telephone calls<br>Modern Ethernet</div>
+        </div>
+      </div>
+      <div class="visual-caption">Three modes of communication — Simplex, Half-Duplex, Full-Duplex</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mode</th><th>Direction</th><th>Simultaneous?</th><th>Channel Usage</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Simplex</td><td>One-way only</td><td>N/A</td><td>100% in one direction</td><td>Keyboard, TV broadcast</td></tr>
+          <tr><td>Half-Duplex</td><td>Both ways (alternating)</td><td>No</td><td>100% for current transmitter</td><td>Walkie-talkie, old Ethernet</td></tr>
+          <tr><td>Full-Duplex</td><td>Both ways</td><td>Yes</td><td>Split between both directions</td><td>Phone call, modern switch</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 9 ══ -->
+  <div class="section" id="s9">
+    <div class="section-number">09</div>
+    <h2>Types of Errors</h2>
+
+    <p>An <strong>error</strong> is a condition when the receiver's information does not match the sender's. Digital signals suffer from noise during transmission, causing bit flips (0→1 or 1→0). Errors are handled at the <strong>Data Link Layer or Transport Layer</strong> of the OSI model.</p>
+
+    <h3>1. Single-Bit Error</h3>
+    <p>Only <strong>one bit</strong> in a data unit is changed. Caused by induced noise or electromagnetic interference. Though seemingly minor, it can fully corrupt decoded data.</p>
+
+    <div class="visual">
+      <div class="error-vis">
+        <div class="err-row">
+          <div class="err-label">SENT</div>
+          <div class="err-bits">
+            <div class="bit">0</div><div class="bit">1</div><div class="bit">1</div><div class="bit">1</div>
+          </div>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-left:10px;">= 7 (decimal)</span>
+        </div>
+        <div class="err-row">
+          <div class="err-label">RECEIVED</div>
+          <div class="err-bits">
+            <div class="bit">0</div><div class="bit err">0</div><div class="bit">1</div><div class="bit">1</div>
+          </div>
+          <span style="font-family:var(--mono);font-size:11px;color:#c04040;margin-left:10px;">= 3 (decimal) ← WRONG</span>
+        </div>
+      </div>
+      <div class="visual-caption">Single-bit error: bit 2 flipped 1→0, decodes as 3 instead of 7</div>
+    </div>
+
+    <h3>2. Multiple-Bit Error</h3>
+    <p>More than one bit in a data transmission is affected. Relatively rare compared to single-bit errors but can occur in high-noise/high-interference digital environments.</p>
+
+    <div class="visual">
+      <div class="error-vis">
+        <div class="err-row">
+          <div class="err-label">SENT</div>
+          <div class="err-bits">
+            <div class="bit">1</div><div class="bit">0</div><div class="bit">1</div><div class="bit">0</div><div class="bit">1</div><div class="bit">0</div>
+          </div>
+        </div>
+        <div class="err-row">
+          <div class="err-label">RECEIVED</div>
+          <div class="err-bits">
+            <div class="bit err">0</div><div class="bit">0</div><div class="bit">1</div><div class="bit err">1</div><div class="bit">1</div><div class="bit">0</div>
+          </div>
+          <span style="font-family:var(--mono);font-size:11px;color:#c04040;margin-left:10px;">2 bits flipped</span>
+        </div>
+      </div>
+      <div class="visual-caption">Multiple-bit error: random non-consecutive bits affected</div>
+    </div>
+
+    <h3>3. Burst Error</h3>
+    <p>Multiple consecutive bits are corrupted in a <strong>short time window</strong>. Caused by communication line interference or impulsive noise. Harder to detect/correct than isolated bit errors.</p>
+
+    <div class="visual">
+      <div class="error-vis">
+        <div class="err-row">
+          <div class="err-label">SENT</div>
+          <div class="err-bits">
+            <div class="bit">1</div><div class="bit">1</div><div class="bit">0</div><div class="bit">0</div><div class="bit">0</div><div class="bit">1</div>
+          </div>
+        </div>
+        <div class="err-row">
+          <div class="err-label">RECEIVED</div>
+          <div class="err-bits">
+            <div class="bit">1</div><div class="bit err">0</div><div class="bit err">1</div><div class="bit err">1</div><div class="bit">0</div><div class="bit">1</div>
+          </div>
+          <span style="font-family:var(--mono);font-size:11px;color:#c04040;margin-left:10px;">3 consecutive bits</span>
+        </div>
+      </div>
+      <div class="visual-caption">Burst error: 3 adjacent bits corrupted in one interference event</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Multiple-Bit Error</th><th>Burst Error</th></tr></thead>
+        <tbody>
+          <tr><td>Bit positions</td><td>Random / non-consecutive</td><td>Consecutive / adjacent</td></tr>
+          <tr><td>Cause</td><td>Random noise</td><td>Temporary disturbance / impulse</td></tr>
+          <tr><td>Error location</td><td>Spread across data</td><td>Clustered in a small region</td></tr>
+          <tr><td>Detection complexity</td><td>Easier to isolate</td><td>Harder to detect and correct</td></tr>
+          <tr><td>Fix</td><td>CRC, parity</td><td>Reed-Solomon, convolutional codes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 10 ══ -->
+  <div class="section" id="s10">
+    <div class="section-number">10</div>
+    <h2>Redundancy</h2>
+
+    <p>Redundancy is the <strong>duplication of critical components or functions</strong> to increase reliability. If one part fails, the redundant part takes over, ensuring minimal disruption. It is the foundation of all error detection techniques.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Definition</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Data Redundancy</strong></td>
+            <td>Same data stored in multiple locations/formats</td>
+            <td>Database replication, RAID, cloud backups</td>
+          </tr>
+          <tr>
+            <td><strong>Path Redundancy</strong><br>(Network)</td>
+            <td>Multiple communication paths between devices</td>
+            <td>STP switches, dual ISP connections, mesh topology</td>
+          </tr>
+          <tr>
+            <td><strong>Hardware Redundancy</strong></td>
+            <td>Duplicate physical components</td>
+            <td>Dual power supplies, mirrored drives, redundant routers</td>
+          </tr>
+          <tr>
+            <td><strong>Software Redundancy</strong></td>
+            <td>Multiple software systems/backup modules</td>
+            <td>Multiple AV engines, parallel system services</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Advantages</div>
+        <ul>
+          <li>Increases reliability and availability</li>
+          <li>Improves fault tolerance</li>
+          <li>Enables error detection and correction</li>
+          <li>Ensures continuous service in critical systems</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Disadvantages</div>
+        <ul>
+          <li>Increased cost (hardware, storage, bandwidth)</li>
+          <li>Introduces system design complexity</li>
+          <li>Requires additional management and maintenance</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Use Cases</div>
+      <p>Data Centers (multiple ISPs + power sources), Cloud Computing (cross-region replication), Banking and Military (disaster recovery, high availability).</p>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 11 ══ -->
+  <div class="section" id="s11">
+    <div class="section-number">11</div>
+    <h2>Error Detection Methods</h2>
+
+    <p>Error detection introduces <strong>redundancy bits</strong> into transmitted data. The receiver uses these extra bits to verify data integrity. Detection ≠ correction — detected errors require retransmission.</p>
+
+    <div class="tags">
+      <span class="tag">VRC / Simple Parity</span>
+      <span class="tag">LRC / 2D Parity</span>
+      <span class="tag">Checksum</span>
+      <span class="tag">CRC</span>
+    </div>
+
+    <hr>
+
+    <h3>1. Vertical Redundancy Check (VRC) / Simple Parity Check</h3>
+    <p>Adds <strong>one extra parity bit</strong> per data unit. In <em>even parity</em>: total number of 1s (including parity bit) is even. In <em>odd parity</em>: total 1s is odd.</p>
+
+    <div class="visual">
+      <div style="text-align:center; margin-bottom: 8px; font-family:var(--mono); font-size:10px; color:var(--text-dimmer);">EVEN PARITY EXAMPLE — Data: 1011001 (four 1s → parity bit = 0)</div>
+      <div class="parity-grid">
+        <div class="p-cell head">d7</div><div class="p-cell head">d6</div><div class="p-cell head">d5</div><div class="p-cell head">d4</div><div class="p-cell head">d3</div><div class="p-cell head">d2</div><div class="p-cell head">d1</div><div class="p-cell head">P</div>
+        <div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell pbit">0</div>
+      </div>
+      <div class="visual-caption">7 data bits + 1 parity bit = 8-bit transmitted frame</div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Advantages</div>
+        <ul>
+          <li>Detects all <strong>single-bit errors</strong></li>
+          <li>Detects odd number of errors</li>
+          <li>Simple to implement in hardware/software</li>
+          <li>Minimal overhead — only 1 extra bit per byte</li>
+          <li>Fast error detection</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Disadvantages</div>
+        <ul>
+          <li>Cannot detect <strong>even number of bit errors</strong></li>
+          <li>No error <em>correction</em> capability</li>
+          <li>Inefficient for large data blocks</li>
+          <li>No protection against burst errors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">VRC Failure Example</div>
+      <p>Data: <code>101010</code> → Codeword: <code>1010101</code> (even parity). If two bits flip → <code>1111101</code>. Receiver counts 1s: 5 (odd)... wait, 5 is odd — BUT if two bits flip in a way that maintains even count of 1s, the receiver sees "no error" — which is wrong.</p>
+    </div>
+
+    <hr>
+
+    <h3>2. Longitudinal Redundancy Check (LRC) / Two-Dimensional Parity</h3>
+    <p>Parity bits calculated for <strong>each row AND each column</strong> of a data matrix. Both row-parity and column-parity are sent with data. Receiver compares computed parity with received parity.</p>
+
+    <div class="visual">
+      <div style="font-family:var(--mono); font-size:12px; color:var(--text); line-height:2;">
+        <div style="color:var(--text-dimmer); font-size:10px; margin-bottom:6px; letter-spacing:0.08em;">EXAMPLE MATRIX (each row = 1 data word)</div>
+        <div style="display:flex; gap:4px; align-items:center;">
+          <div>
+            <div style="display:flex;gap:3px;"><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell pbit">0</div></div>
+            <div style="display:flex;gap:3px;margin-top:3px;"><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell pbit">1</div></div>
+            <div style="display:flex;gap:3px;margin-top:3px;"><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell">1</div><div class="p-cell">0</div><div class="p-cell">1</div><div class="p-cell pbit">1</div></div>
+            <div style="display:flex;gap:3px;margin-top:3px;background:#1a2a1a;"><div class="p-cell pbit">0</div><div class="p-cell pbit">1</div><div class="p-cell pbit">0</div><div class="p-cell pbit">0</div><div class="p-cell pbit">1</div><div class="p-cell" style="background:transparent;border-color:var(--border);">—</div></div>
+          </div>
+          <div style="font-size:10px;color:var(--text-dimmer);padding-left:12px;line-height:2;">
+            <div>← row parity</div>
+            <div>← row parity</div>
+            <div>← row parity</div>
+            <div>← <span style="color:#60b060;">col parity</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="visual-caption">LRC matrix: row parity (right column) + column parity (bottom row)</div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Advantages over VRC</div>
+        <ul>
+          <li>Detects <strong>and corrects</strong> all single-bit errors</li>
+          <li>Detects 2- and 3-bit errors occurring anywhere in matrix</li>
+          <li>Can pinpoint exact error location (row × column intersection)</li>
+          <li>Easy to implement with XOR logic</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Disadvantages</div>
+        <ul>
+          <li>Fails if even number of bits flip in same column</li>
+          <li>Cannot <em>correct</em> 2- or 3-bit errors — only detect</li>
+          <li>Adds one extra redundant message row → overhead</li>
+          <li>Not suitable for high-noise channels (burst errors)</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>3. Checksum</h3>
+    <p>Data divided into equal-sized segments. <strong>1's complement</strong> arithmetic used to sum all segments. Sum is complemented → checksum. Sent with data. Receiver performs same calculation; if result is all zeros → data is correct.</p>
+
+    <h4>Sender Steps</h4>
+    <ol>
+      <li>Divide data into <em>k</em> segments of <em>m</em> bits each</li>
+      <li>Add all segments using 1's complement arithmetic</li>
+      <li>Complement the sum → this is the <strong>checksum</strong></li>
+      <li>Transmit data + checksum</li>
+    </ol>
+
+    <h4>Receiver Steps</h4>
+    <ol>
+      <li>Add all received segments (including checksum) using 1's complement</li>
+      <li>Complement the result</li>
+      <li>If result = 0000...0 → <strong>no error</strong>; otherwise → <strong>error detected</strong>, discard</li>
+    </ol>
+
+    <hr>
+
+    <h3>4. Cyclic Redundancy Check (CRC)</h3>
+    <p>The most powerful error-detection method. Based on <strong>binary polynomial division</strong> (modulo-2 arithmetic / XOR). Data is treated as a large binary number and divided by a generator polynomial. The remainder = CRC, appended to data.</p>
+
+    <div class="callout key">
+      <div class="callout-label">Core Principle</div>
+      <p>Unlike checksum (addition-based), CRC is <strong>division-based</strong>. A sequence of redundant bits (CRC bits) are appended so the resulting data is exactly divisible by the generator polynomial. If the receiver's division has a non-zero remainder → error.</p>
+    </div>
+
+    <h4>CRC Algorithm Steps</h4>
+    <div class="crc-box">
+      <div class="crc-dim">Given: Data = <span style="color:var(--text)">11010011</span>  |  Generator = <span style="color:var(--text)">1011</span> (degree=3)</div>
+      <br>
+      <div class="crc-step">Step 1: Append (k-1) = 3 zeros to data</div>
+      <div>11010011 → <span class="crc-result">11010011000</span></div>
+      <br>
+      <div class="crc-step">Step 2: Perform modulo-2 division (XOR)</div>
+      <div style="font-size:11px; color:var(--text-dim)">11010011000 ÷ 1011 using XOR repeatedly</div>
+      <br>
+      <div class="crc-step">Step 3: Remainder = CRC (must be k-1 = 3 bits)</div>
+      <div>Remainder: <span class="crc-result">011</span></div>
+      <br>
+      <div class="crc-step">Step 4: Append CRC to original data</div>
+      <div>Transmitted: <span class="crc-result">11010011</span> + <span style="color:#60b060">011</span> = <span class="crc-result">11010011011</span></div>
+      <br>
+      <div class="crc-dim">Receiver: divides 11010011011 by 1011 → remainder = 000 → ✓ no error</div>
+    </div>
+
+    <h4>Requirements for a Good Generator Polynomial</h4>
+    <ul>
+      <li>Must be a <strong>binary polynomial</strong> (e.g., 1011 represents x³+x+1)</li>
+      <li><strong>Highest and lowest bits must be 1</strong> (e.g., 1001 ✓, 0101 ✗)</li>
+      <li>Chosen based on application — standard polynomials selected for maximum error detection</li>
+      <li>Not all random polynomials work — poor choices miss error patterns</li>
+    </ul>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">CRC Advantages</div>
+        <ul>
+          <li>Detects single-bit, double-bit, odd-number, and burst errors</li>
+          <li>Efficient — uses simple XOR arithmetic</li>
+          <li>Scalable (choose polynomial by application)</li>
+          <li>Widely used: Ethernet, USB, storage devices, Wi-Fi</li>
+          <li>Easily implemented in hardware (shift registers + XOR gates)</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">CRC Disadvantages</div>
+        <ul>
+          <li>Cannot <em>correct</em> errors — only detects</li>
+          <li>Detection power depends on generator polynomial choice</li>
+          <li>Not cryptographically secure — can't prevent tampering</li>
+          <li>Overhead for very short messages</li>
+          <li>Certain patterns may slip through undetected</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Error Detection Comparison Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Extra Bits</th><th>Detects</th><th>Corrects</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VRC</strong></td><td>1 bit per byte</td><td>Single-bit, odd # errors</td><td>No</td><td>Low-noise channels</td></tr>
+          <tr><td><strong>LRC</strong></td><td>1 extra row</td><td>Single, 2-3 bit anywhere</td><td>Single-bit only</td><td>Moderate noise</td></tr>
+          <tr><td><strong>Checksum</strong></td><td>m bits (segment size)</td><td>Most errors</td><td>No</td><td>Transport layer (IP, TCP)</td></tr>
+          <tr><td><strong>CRC</strong></td><td>k-1 bits</td><td>Single, burst, most multi-bit</td><td>No</td><td>Network/storage (Ethernet, USB)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 12 ══ -->
+  <div class="section" id="s12">
+    <div class="section-number">12</div>
+    <h2>IEEE 802 Standards</h2>
+
+    <p>IEEE 802 is a family of networking standards covering <strong>Physical Layer (Layer 1) and Data Link Layer (Layer 2)</strong> of the OSI model for LANs and MANs.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Standard</th><th>Name</th><th>Status</th><th>Key Feature</th></tr></thead>
+        <tbody>
+          <tr><td><strong>802.1</strong></td><td>Bridging &amp; Management</td><td>Active</td><td>VLANs, STP, 802.1X security, QoS</td></tr>
+          <tr><td><strong>802.2</strong></td><td>Logical Link Control (LLC)</td><td>Active</td><td>Upper sublayer of Data Link — 3 service types</td></tr>
+          <tr><td><strong>802.3</strong></td><td>Ethernet</td><td>Dominant</td><td>CSMA/CD, wired LAN, 10Mbps–40Gbps+</td></tr>
+          <tr><td><strong>802.4</strong></td><td>Token Bus</td><td>Obsolete</td><td>Token passing on bus topology (factory automation)</td></tr>
+          <tr><td><strong>802.5</strong></td><td>Token Ring</td><td>Obsolete</td><td>Token passing on logical ring (IBM, banking)</td></tr>
+          <tr><td><strong>802.11</strong></td><td>Wi-Fi (WLAN)</td><td>Very Active</td><td>Wireless LAN — a/b/g/n/ac/ax variants</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h3>IEEE 802.1 — Network Management &amp; Bridging</h3>
+    <p>Operates at Data Link Layer (Layer 2). Does not define a specific network type; instead defines how networks are <strong>managed, interconnected, and secured</strong>. Used in wired LANs, wireless LANs, data centers, AV networks.</p>
+    <ul>
+      <li><strong>STP (Spanning Tree Protocol)</strong> — Prevents network loops in switched Ethernet</li>
+      <li><strong>VLANs</strong> — Virtual LANs for network segmentation</li>
+      <li><strong>802.1X</strong> — Port-based network access control (security)</li>
+      <li><strong>QoS</strong> — Quality of Service: prioritizes critical traffic (VoIP, video) over less important traffic</li>
+    </ul>
+
+    <div class="callout">
+      <div class="callout-label">802.1 Data Flow Example (PC → Printer)</div>
+      <p><strong>1. LLC (802.2)</strong> wraps data in a frame, adds MAC address of destination printer. <strong>2. MAC (802.1)</strong> adds source MAC address; MAC sublayer regulates how data is sent onto the network cable. <strong>3. Ethernet (802.3)</strong> transmits the frame over the physical cable.</p>
+    </div>
+
+    <hr>
+
+    <h3>IEEE 802.2 — Logical Link Control (LLC)</h3>
+    <p>Defines the <strong>LLC sublayer</strong> — the upper part of the Data Link Layer. While 802.3/802.5/etc. define the MAC sublayer and physical layer, 802.2 manages reliable communication above the MAC.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Service Type</th><th>Description</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Type 1 (Unacknowledged)</strong></td><td>Connectionless — no acknowledgment, no error recovery</td><td>Broadcasting, where speed matters more than reliability</td></tr>
+          <tr><td><strong>Type 2 (Acknowledged)</strong></td><td>Connection-oriented — acknowledged, error recovery</td><td>Reliable data transfer (similar to TCP)</td></tr>
+          <tr><td><strong>Type 3 (Acknowledged Connectionless)</strong></td><td>Connectionless with acknowledgment per frame</td><td>Industrial control systems</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h3>IEEE 802.3 — Ethernet</h3>
+    <p>The most dominant wired LAN standard. Defines both the MAC sublayer (Layer 2) and Physical Layer (Layer 1).</p>
+    <ul>
+      <li><strong>CSMA/CD</strong> — Carrier Sense Multiple Access with Collision Detection: devices listen before transmitting; if collision detected, back off and retry</li>
+      <li><strong>Frame structure</strong>: Preamble | Destination MAC | Source MAC | Type | Data | FCS (CRC)</li>
+      <li>Speeds: 10 Mbps → 100 Mbps → 1 Gbps → 10 Gbps → 40 Gbps</li>
+      <li>Media: twisted-pair, coaxial, fiber optic</li>
+    </ul>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Physical Layer (PHY)</div>
+        <ul>
+          <li>Electrical/optical characteristics</li>
+          <li>Cable type (coax, UTP, fiber)</li>
+          <li>Voltage levels for signals</li>
+          <li>Data encoding as electrical/light pulses</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">MAC Sublayer</div>
+        <ul>
+          <li>Manages shared cable access</li>
+          <li>Defines data packet format</li>
+          <li>MAC addressing for device identification</li>
+          <li>Implements CSMA/CD collision detection</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>IEEE 802.4 — Token Bus (Obsolete)</h3>
+    <p>Defines the Token Bus protocol: physical <strong>bus topology</strong> but logical <strong>ring communication</strong>. A token (special data frame) circulates; only token holder may transmit. Was used in factory automation (MAP — Manufacturing Automation Protocol by GM). Now replaced by Ethernet.</p>
+
+    <h4>Working</h4>
+    <ol>
+      <li>Token circulates in a defined logical order around the bus</li>
+      <li>Only the device with the token can transmit → <strong>collision-free</strong></li>
+      <li>Guarantees fairness — every device gets a turn</li>
+      <li>Ideal for real-time industrial control systems</li>
+    </ol>
+
+    <hr>
+
+    <h3>IEEE 802.5 — Token Ring (Obsolete)</h3>
+    <p>Developed originally by IBM (1980s). Uses <strong>token-passing</strong> instead of CSMA/CD. Devices logically arranged in a ring, physically connected in star using a <strong>Multi-Station Access Unit (MSAU)</strong>.</p>
+
+    <h4>Token Ring Lifecycle</h4>
+    <div class="visual">
+      <div style="font-family:var(--mono); font-size:12px; color:var(--text-dim); max-width:400px; width:100%;">
+        <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--border);">
+          <span style="color:var(--text-dimmer); font-size:10px; width:20px;">1</span>
+          <span>Idle → Token circulates around ring</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--border);">
+          <span style="color:var(--text-dimmer); font-size:10px; width:20px;">2</span>
+          <span>Station wants to transmit → Seizes token, sends data frame</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--border);">
+          <span style="color:var(--text-dimmer); font-size:10px; width:20px;">3</span>
+          <span>Data frame circulates → Receiver copies it, marks as received</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid var(--border);">
+          <span style="color:var(--text-dimmer); font-size:10px; width:20px;">4</span>
+          <span>Frame returns to sender → Sender removes it from ring</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:8px 0;">
+          <span style="color:var(--text-dimmer); font-size:10px; width:20px;">5</span>
+          <span>Token regenerated → Passed to next station in ring</span>
+        </div>
+      </div>
+      <div class="visual-caption">IEEE 802.5 Token Ring lifecycle</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Frame Type</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Token Frame</strong></td><td>Controls access to the network medium</td></tr>
+          <tr><td><strong>Data Frame</strong></td><td>Carries actual data and control information</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h3>IEEE 802.11 — Wi-Fi (WLAN)</h3>
+    <p>Defines protocols for <strong>Wireless Local Area Networks (WLANs)</strong>. Uses radio waves to connect devices. Maintained by IEEE LAN/MAN Standards Committee.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Standard</th><th>Band</th><th>Max Speed</th><th>Wi-Fi Generation</th></tr></thead>
+        <tbody>
+          <tr><td>802.11b</td><td>2.4 GHz</td><td>11 Mbps</td><td>Wi-Fi 1</td></tr>
+          <tr><td>802.11a</td><td>5 GHz</td><td>54 Mbps</td><td>Wi-Fi 2</td></tr>
+          <tr><td>802.11g</td><td>2.4 GHz</td><td>54 Mbps</td><td>Wi-Fi 3</td></tr>
+          <tr><td>802.11n</td><td>2.4/5 GHz</td><td>600 Mbps</td><td>Wi-Fi 4</td></tr>
+          <tr><td>802.11ac</td><td>5 GHz</td><td>3.5 Gbps</td><td>Wi-Fi 5</td></tr>
+          <tr><td>802.11ax</td><td>2.4/5/6 GHz</td><td>9.6 Gbps</td><td>Wi-Fi 6/6E</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Key Technologies in 802.11</h4>
+    <ul>
+      <li><strong>OFDM</strong> (Orthogonal Frequency Division Multiplexing) — Efficient data transmission across subcarriers</li>
+      <li><strong>MIMO</strong> (Multiple Input Multiple Output) — Multiple antennas increase throughput and range</li>
+      <li><strong>MU-MIMO</strong> (Multi-User MIMO) — Simultaneously serves multiple devices</li>
+      <li><strong>Beamforming</strong> — Focuses the wireless signal toward the device instead of broadcasting in all directions</li>
+      <li><strong>Channel Bonding</strong> — Combines multiple channels for higher throughput</li>
+    </ul>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="cc-title">Wi-Fi Advantages</div>
+        <ul>
+          <li>Wireless mobility — no physical cables</li>
+          <li>Easy deployment and scalability</li>
+          <li>Widely adopted globally</li>
+          <li>Roaming capability across APs</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <div class="cc-title">Wi-Fi Limitations</div>
+        <ul>
+          <li>Susceptible to interference (especially 2.4 GHz)</li>
+          <li>Lower speed and range vs wired networks</li>
+          <li>Security concerns if improperly encrypted</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 13 ══ -->
+  <div class="section" id="s13">
+    <div class="section-number">13</div>
+    <h2>MAC Sublayer</h2>
+
+    <p>The <strong>MAC (Medium Access Control) Sublayer</strong> is the lower sublayer of the Data Link Layer (Layer 2) in the OSI model. It controls how devices in a network <strong>gain access to the shared communication medium</strong> and transmit data without collisions.</p>
+
+    <div class="callout key">
+      <div class="callout-label">Why MAC Matters</div>
+      <p>Without MAC, multiple devices on the same network would transmit simultaneously → collisions → corrupt data. MAC ensures orderly, efficient access to the shared medium.</p>
+    </div>
+
+    <div class="visual">
+      <svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;height:auto">
+        <!-- OSI layer stack -->
+        <rect x="30" y="10" width="440" height="30" rx="2" fill="#1a1a1a" stroke="#333"/>
+        <text x="250" y="30" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#888">Layer 3 — Network Layer (IP)</text>
+        
+        <rect x="30" y="50" width="440" height="55" rx="2" fill="#1a2a1a" stroke="#2a4a2a"/>
+        <text x="250" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#60a060">Layer 2 — Data Link Layer</text>
+        
+        <rect x="40" y="75" width="200" height="22" rx="1" fill="#141a14" stroke="#2a3a2a"/>
+        <text x="140" y="90" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#508050">LLC Sublayer (802.2)</text>
+        
+        <rect x="250" y="75" width="210" height="22" rx="1" fill="#1a2a14" stroke="#304828"/>
+        <text x="355" y="90" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#70a050">MAC Sublayer (802.3/11/5)</text>
+        
+        <rect x="30" y="115" width="440" height="30" rx="2" fill="#1a1a1a" stroke="#333"/>
+        <text x="250" y="134" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#888">Layer 1 — Physical Layer</text>
+        
+        <line x1="250" y1="50" x2="250" y2="145" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>
+        
+        <text x="250" y="165" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#444">MAC sits between LLC and Physical Layer</text>
+      </svg>
+      <div class="visual-caption">MAC Sublayer position in the OSI model</div>
+    </div>
+
+    <h3>Main Functions of the MAC Sublayer</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Framing</strong></td><td>Encapsulates data into frames with header, payload, and trailer (FCS/CRC)</td></tr>
+          <tr><td><strong>MAC Addressing</strong></td><td>Assigns and uses 48-bit hardware addresses to uniquely identify devices on local network</td></tr>
+          <tr><td><strong>Medium Access Control</strong></td><td>Determines when a device can transmit; prevents/manages collisions (CSMA/CD for Ethernet, token passing for Token Ring)</td></tr>
+          <tr><td><strong>Error Detection</strong></td><td>Adds FCS (Frame Check Sequence) — CRC computed and appended to detect transmission errors</td></tr>
+          <tr><td><strong>Flow Control</strong></td><td>Regulates data flow between sender and receiver to prevent buffer overflow</td></tr>
+          <tr><td><strong>Synchronization</strong></td><td>Ensures sender and receiver are synchronized using preamble bits</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>MAC Address</h3>
+    <p>A 48-bit hardware address assigned to a Network Interface Card (NIC). Written in hexadecimal: <code>00:1A:2B:3C:4D:5E</code></p>
+    <ul>
+      <li><strong>First 24 bits</strong> — OUI (Organizationally Unique Identifier) — assigned by IEEE to manufacturer</li>
+      <li><strong>Last 24 bits</strong> — Device-specific identifier assigned by manufacturer</li>
+    </ul>
+
+    <h3>MAC in Different IEEE Standards</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Standard</th><th>Technology</th><th>MAC Access Method</th></tr></thead>
+        <tbody>
+          <tr><td>IEEE 802.3</td><td>Ethernet</td><td>CSMA/CD (listen, transmit, detect collision, back off)</td></tr>
+          <tr><td>IEEE 802.11</td><td>Wi-Fi</td><td>CSMA/CA (avoid collisions — can't detect on wireless)</td></tr>
+          <tr><td>IEEE 802.5</td><td>Token Ring</td><td>Token Passing (only token holder transmits)</td></tr>
+          <tr><td>IEEE 802.4</td><td>Token Bus</td><td>Token Passing on logical ring over bus</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 14 ══ -->
+  <div class="section" id="s14">
+    <div class="section-number">14</div>
+    <h2>Network Topologies</h2>
+
+    <p>A <strong>topology</strong> defines the physical or logical arrangement of devices (nodes) in a network and how they communicate.</p>
+
+    <div class="visual">
+      <div class="topo-grid">
+        <!-- MESH -->
+        <div class="topo-card">
+          <div class="tc-title">Mesh</div>
+          <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <line x1="70" y1="20" x2="20" y2="60" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="20" x2="120" y2="60" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="20" x2="70" y2="90" stroke="#333" stroke-width="1"/>
+            <line x1="20" y1="60" x2="120" y2="60" stroke="#333" stroke-width="1"/>
+            <line x1="20" y1="60" x2="70" y2="90" stroke="#333" stroke-width="1"/>
+            <line x1="120" y1="60" x2="70" y2="90" stroke="#333" stroke-width="1"/>
+            <circle cx="70" cy="20" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="20" cy="60" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="120" cy="60" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="70" cy="90" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+          </svg>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">Every device connected to every other device (full mesh shown)</p>
+          <div style="margin-top:8px;">
+            <span style="font-size:11px;color:#6a9a6a;">✓ Highly fault-tolerant</span><br>
+            <span style="font-size:11px;color:#9a6a6a;">✗ Costly, complex cabling</span>
+          </div>
+        </div>
+
+        <!-- STAR -->
+        <div class="topo-card">
+          <div class="tc-title">Star</div>
+          <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <line x1="70" y1="55" x2="70" y2="15" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="110" y2="30" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="120" y2="70" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="90" y2="95" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="50" y2="95" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="20" y2="70" stroke="#333" stroke-width="1"/>
+            <line x1="70" y1="55" x2="30" y2="30" stroke="#333" stroke-width="1"/>
+            <rect x="61" y="46" width="18" height="18" rx="2" fill="#1a1a1a" stroke="#666" stroke-width="1.5"/>
+            <text x="70" y="58" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#888">SW</text>
+            <circle cx="70" cy="15" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="110" cy="30" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="120" cy="70" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="90" cy="95" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="50" cy="95" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="20" cy="70" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="30" cy="30" r="5" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+          </svg>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">All devices connect to a central hub or switch</p>
+          <div style="margin-top:8px;">
+            <span style="font-size:11px;color:#6a9a6a;">✓ Easy to manage, add devices</span><br>
+            <span style="font-size:11px;color:#9a6a6a;">✗ Central hub = single point of failure</span>
+          </div>
+        </div>
+
+        <!-- BUS -->
+        <div class="topo-card">
+          <div class="tc-title">Bus</div>
+          <svg viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <line x1="10" y1="50" x2="130" y2="50" stroke="#555" stroke-width="2"/>
+            <line x1="30" y1="50" x2="30" y2="25" stroke="#333" stroke-width="1"/>
+            <line x1="60" y1="50" x2="60" y2="25" stroke="#333" stroke-width="1"/>
+            <line x1="90" y1="50" x2="90" y2="25" stroke="#333" stroke-width="1"/>
+            <line x1="110" y1="50" x2="110" y2="25" stroke="#333" stroke-width="1"/>
+            <circle cx="30" cy="20" r="7" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="60" cy="20" r="7" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="90" cy="20" r="7" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <circle cx="110" cy="20" r="7" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+            <rect x="5" y="46" width="8" height="8" fill="#333"/>
+            <rect x="127" y="46" width="8" height="8" fill="#333"/>
+            <text x="70" y="68" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#444">← backbone cable →</text>
+          </svg>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">All devices on a single shared cable (bus). Data broadcasts both directions.</p>
+          <div style="margin-top:8px;">
+            <span style="font-size:11px;color:#6a9a6a;">✓ Easy install, less cable</span><br>
+            <span style="font-size:11px;color:#9a6a6a;">✗ Collision-prone, hard to troubleshoot</span>
+          </div>
+        </div>
+
+        <!-- RING -->
+        <div class="topo-card">
+          <div class="tc-title">Ring</div>
+          <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+            <circle cx="70" cy="55" r="35" fill="none" stroke="#333" stroke-width="1.5" stroke-dasharray="none"/>
+            <circle cx="70" cy="20" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="105" cy="55" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="70" cy="90" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <circle cx="35" cy="55" r="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5"/>
+            <!-- arrows on ring -->
+            <polygon points="92,27 82,22 88,17" fill="#444"/>
+            <polygon points="105,70 110,60 100,60" fill="#444"/>
+            <polygon points="48,83 53,88 58,80" fill="#444"/>
+            <polygon points="35,40 30,50 40,50" fill="#444"/>
+          </svg>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:8px;">Each device connects to exactly two others, forming a loop. Data hops through nodes.</p>
+          <div style="margin-top:8px;">
+            <span style="font-size:11px;color:#6a9a6a;">✓ Predictable transmission</span><br>
+            <span style="font-size:11px;color:#9a6a6a;">✗ One break = whole ring down</span>
+          </div>
+        </div>
+      </div>
+      <div class="visual-caption">Network topologies — Mesh, Star, Bus, Ring</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Topology</th><th>Structure</th><th>Advantages</th><th>Disadvantages</th><th>IEEE Standard</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Mesh</strong></td>
+            <td>Every node ↔ every other node</td>
+            <td>Highly reliable, fault-tolerant, no data loss if one link fails</td>
+            <td>Very costly, complex to install and manage</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Star</strong></td>
+            <td>All nodes → central hub/switch</td>
+            <td>Easy to add/remove, simple troubleshooting</td>
+            <td>Central hub failure = entire network down</td>
+            <td>802.3 (Ethernet)</td>
+          </tr>
+          <tr>
+            <td><strong>Bus</strong></td>
+            <td>All nodes on single shared cable</td>
+            <td>Easy to install, less cable required</td>
+            <td>Collisions common, hard to troubleshoot, limited scalability</td>
+            <td>Early 802.3</td>
+          </tr>
+          <tr>
+            <td><strong>Ring</strong></td>
+            <td>Each node connects to 2 neighbors in loop</td>
+            <td>Reduced collisions, predictable data flow</td>
+            <td>Complex troubleshooting, slower (data hops through each node)</td>
+            <td>802.5 (Token Ring)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top:80px; padding-top:24px; border-top:1px solid var(--border); font-family:var(--mono); font-size:10px; color:var(--text-dimmer); letter-spacing:0.06em;">
+    DCN Unit I Notes · Data Communication &amp; Networking · VIT Pune · CSE-IoT, CSBT
+  </div>
+
+</main>
+
+<script>
+  // Highlight active sidebar link on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const links = document.querySelectorAll('.sidebar a');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
