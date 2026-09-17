@@ -1,200 +1,333 @@
 # Academic Syllabus & Curriculum Reference (`SYLLABUS.md`)
 
-> **Scope**: This document defines the canonical academic syllabus, unit breakdown, core concepts, textbook references, and high-frequency exam topics for the **5 core engineering curriculum subjects** hosted in `BatchHub-notes`.
+> **Institution**: Bansilal Ramnath Agarwal Charitable Trust's **Vishwakarma Institute of Technology, Pune**  
+> *(An Autonomous Institute affiliated to Savitribai Phule Pune University)*  
+> **Department**: Department of Computer Science & Engineering (Internet of Things & Cyber Security Including Block Chain Technology) [CSE-IoTCSBT]  
+> **Curriculum Pattern**: **Pattern 'A-25'** · **Year**: Second Year (S.Y. B.Tech.)  
+> **Academic Year**: 2025–26 / 2026–27 · **Issue**: 01 · **Rev**: 00  
 >
-> **Authority**: All AI agents and human contributors authoring notes MUST align their unit content and naming strictly with this specification.
+> **Authority**: All AI agents and human contributors authoring notes in `BatchHub-notes` MUST align their unit content, numbering, and naming strictly with this official syllabus specification.
 
 ---
 
-## 1. Curriculum Overview
+## 1. Curriculum Structure & Course Overview
 
-| Subject Code | Folder | Full Course Title | Typical Semester | Total Units |
-|---|---|---|---|---|
-| **`dcn`** | `notes/dcn/` | Data Communication & Networks | Sem 4 / 5 | 6 Units |
-| **`fds`** | `notes/fds/` | Fundamentals of Data Science | Sem 4 / 5 | 6 Units |
-| **`oop`** | `notes/oop/` | Object-Oriented Programming | Sem 3 / 4 | 6 Units |
-| **`biot`** | `notes/biot/` | Basics of Internet of Things (BIoT) | Sem 4 / 5 | 6 Units |
-| **`pas`** | `notes/pas/` | Probability and Statistics | Sem 3 / 4 | 6 Units |
+| Subject No. | Course Code | Subject Code (Folder) | Course Title | Teaching Scheme (Th/Lab/Tut) | Total Credits | Exam Pattern | Total Units | Notes Status |
+|---|---|---|---|---|---|---|---|---|
+| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | In Backlog (0/6) |
+| **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
+| **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | In Backlog (0/4) |
+| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | In Backlog (0/4) |
+| **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | In Backlog (0/4) |
+| **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
+| **S7 (RAD)**| `HS2001` | — | Reasoning and Aptitude Development - 3 | 1 / 0 / 0 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
+| **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
+| **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
----
-
-## 2. Subject Specifications
-
-### 2.1 Data Communication & Networks (`dcn`)
-
-* **Target Folder**: `notes/dcn/`
-* **Core Textbooks**: 
-  - *Data Communications and Networking* — Behrouz A. Forouzan (5th/6th Ed.)
-  - *Computer Networks* — Andrew S. Tanenbaum, David J. Wetherall (5th Ed.)
-
-#### Unit Breakdown & Scope
-1. **Unit 1: Introduction to Data Communication & Physical Layer** (`DCNU1.html`)
-   - *Concepts*: Data communication model, components, data representation, data flow (simplex, half duplex, full duplex). Network criteria, physical structures, topologies (mesh, star, bus, ring, hybrid). Categories of networks (LAN, MAN, WAN). Transmission media (guided: twisted pair, coaxial, fiber; unguided: radio, microwave, infrared). Signals (analog vs digital, periodic vs non-periodic, composite signals, bandwidth, bit rate). Transmission impairments (attenuation, distortion, noise). Nyquist bit rate & Shannon capacity theorems.
-   - *Exam Weightage*: 12–15 marks.
-   - *Key Derivations/Problems*: Shannon capacity formula calculations, Nyquist maximum data rate.
-
-2. **Unit 2: Network Reference Models & Architecture** (`DCNU2.html`)
-   - *Concepts*: Layered tasks, sender/receiver protocol hierarchies. The OSI 7-Layer Reference Model (Physical, Data Link, Network, Transport, Session, Presentation, Application layers). Functions, PDUs, and headers at each layer. Encapsulation & decapsulation process. The TCP/IP Protocol Suite (4/5-layer model). Comprehensive comparison: OSI vs. TCP/IP. Addressing modes (Physical/MAC, Logical/IP, Port, Specific addresses).
-   - *Exam Weightage*: 12–15 marks.
-   - *Key Questions*: Detailed 7-layer breakdown with header roles; OSI vs TCP/IP architectural contrasts.
-
-3. **Unit 3: Data Link Layer & Medium Access Control (MAC)** (`DCNU3.html`)
-   - *Concepts*: DLL design issues, framing (character counting, byte stuffing, bit stuffing). Error detection & correction (parity check, checksum, Cyclic Redundancy Check - CRC generator polynomials, Hamming Code distance and single-bit correction). Elementary flow control protocols (Unrestricted Simplex, Stop-and-Wait). Sliding window protocols (Go-Back-N, Selective Repeat ARQ, efficiency derivations). Multiple access protocols: Random access (ALOHA, Slotted ALOHA, CSMA, CSMA/CD with binary exponential backoff, CSMA/CA). Controlled access (Reservation, Polling, Token passing). Channelization (FDMA, TDMA, CDMA principles). Wired LANs: Standard Ethernet (802.3), frame format, Fast/Gigabit Ethernet overview.
-   - *Exam Weightage*: 16–20 marks.
-
-4. **Unit 4: Network Layer & IP Addressing** (`DCNU4.html`)
-   - *Concepts*: Network layer design issues, store-and-forward packet switching, connection-oriented (Virtual Circuit) vs connectionless (Datagram) service. IPv4 addressing: Classful addressing, subnets, subnet masking, supernetting, CIDR notation, VLSM calculations. IPv4 datagram format, fragmentation and reassembly, options. IPv6 addressing architecture, 128-bit address representation, IPv6 packet header, transition mechanisms (dual stack, tunneling, header translation). Address resolution: ARP and RARP mechanics. Internet control: ICMPv4 (error and query messages).
-   - *Exam Weightage*: 18–20 marks.
-
-5. **Unit 5: Routing Protocols & Transport Layer** (`DCNU5.html`)
-   - *Concepts*: Routing algorithms: Shortest path routing (Dijkstra’s algorithm), Distance Vector routing (Bellman-Ford algorithm, Count-to-Infinity problem and solutions: split horizon, poison reverse), Link State routing (LSP generation and flooding). Hierarchical routing. Interior vs Exterior routing protocols (RIP, OSPF, BGP overview). Transport Layer services: Port numbers, socket abstraction, connection multiplexing. UDP: format, checksum, lightweight nature. TCP: Segment format, connection management (3-way handshake, 4-step teardown, SYN flood attack), sliding window flow control (receiver window credit mechanism), congestion control algorithms (Slow Start, Congestion Avoidance, Fast Retransmit, Fast Recovery - AIMD).
-   - *Exam Weightage*: 18–20 marks.
-
-6. **Unit 6: Application Layer & Network Security** (`DCNU6.html`)
-   - *Concepts*: Application architecture: Client-Server vs P2P. Domain Name System (DNS): namespace, resource records, recursive vs iterative query resolution. Electronic Mail: SMTP, POP3, IMAP, MIME format. World Wide Web: HTTP/1.0, HTTP/1.1 (persistent connections, pipelining), HTTP/2 (multiplexed streams), HTTP/3 (QUIC overview). Network Security fundamentals: CIA triad, symmetric key cryptography (AES/DES overview), asymmetric key cryptography (RSA algorithm, public/private keys), digital signatures, digital certificates and PKI. Transport Layer Security: SSL/TLS handshake protocol, HTTPS operation. Firewalls (packet filtering, stateful inspection) and NAT (Network Address Translation).
-   - *Exam Weightage*: 14–16 marks.
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (FDS: 6, DCN: 4, BIOT: 4, OOP: 4, PAS: 4).
 
 ---
 
-### 2.2 Fundamentals of Data Science (`fds`)
+## 2. Detailed Technical Subject Syllabi
+
+### 2.1 CB2003: Fundamentals of Data Structures (`fds`)
 
 * **Target Folder**: `notes/fds/`
+* **Credits**: 4 | **Teaching Scheme**: Theory: 3 Hours/Week, Lab: 2 Hours/Week
+* **Prerequisites**: Knowledge of programming fundamentals using C or Python, control structures, functions, arrays, memory management, and file handling.
 * **Core Textbooks**:
-  - *Python for Data Analysis* — Wes McKinney (O'Reilly)
-  - *An Introduction to Statistical Learning* — Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani
-  - *Data Science from Scratch* — Joel Grus
+  1. E. Horowitz, S. Sahni, D. Mehta; *Fundamentals of Data Structures in C*; 2nd Edition; Universities Press; 2008.
+  2. Y. Langsam, M. Augenstein, A. Tannenbaum; *Data Structures Using C and C++*; 2nd Edition; Pearson Education; 2006.
+* **Reference E-Books & Resources**:
+  1. Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein; *Introduction to Algorithms* (CLRS); 3rd Edition; MIT Press.
+  2. Brad Miller, David Ranum; *Problem Solving with Algorithms and Data Structures using Python*; Runestone Academy.
+  3. NPTEL: *Data Structures and Algorithms Design* by Prof. Nitin Saxena (IIT Kanpur).
+  4. Coursera: *Data Structures* (UC San Diego).
 
-#### Unit Breakdown & Scope
-1. **Unit 1: Introduction to Data Science & Python Scientific Computing** (`FDSU1.html`)
-   - *Concepts*: Data Science lifecycle, roles, structured vs unstructured data. Scientific computing with NumPy: `ndarray` creation, indexing, slicing, broadcasting, vectorized operations, universal functions (`ufunc`), linear algebra operations. Pandas fundamentals: `Series` and `DataFrame` objects, hierarchical indexing, data ingestion (CSV, JSON, SQL), head/tail, info, describe summaries.
-   - *Exam Weightage*: 12–14 marks.
+#### Course Outcomes (COs)
+- **CO1**: Analyze and compute time and space complexity of algorithms.
+- **CO2**: Apply searching and sorting algorithms to solve computational problems.
+- **CO3**: Implement and apply stack and queue operations in applications.
+- **CO4**: Develop and use various types of linked lists to manage dynamic data.
+- **CO5**: Apply tree data structures for hierarchical data representation and operations.
+- **CO6**: Demonstrate understanding of graph and their applications.
 
-2. **Unit 2: Data Cleaning, Preprocessing & Feature Engineering** (`FDSU2.html`)
-   - *Concepts*: Missing data handling (MCAR, MAR, MNAR, imputation techniques: mean/median/mode, KNN imputer). Outlier detection & treatment (Z-score, IQR rule, Winsorization). Data transformation: Min-Max scaling, Standardization (Z-score), Robust scaler, Log/Power transforms. Categorical encoding: Nominal (One-Hot, Target encoding) vs Ordinal (Label encoding). Feature engineering: polynomial features, binning, interaction terms. Feature selection: Filter methods (Pearson correlation, Chi-Square, ANOVA), Wrapper methods (RFE), Embedded methods (L1 Lasso, L2 Ridge).
-   - *Exam Weightage*: 15–18 marks.
+#### Unit Breakdown & Scope (6 Units)
 
-3. **Unit 3: Exploratory Data Analysis (EDA) & Data Visualization** (`FDSU3.html`)
-   - *Concepts*: Univariate, bivariate, and multivariate analysis. Statistical summaries: measures of central tendency (mean, median, trimmed mean), measures of dispersion (variance, standard deviation, IQR, MAD). Skewness and Kurtosis. Data visualization principles: Matplotlib and Seaborn architecture. Plot types: histograms, KDE plots, box plots, violin plots, scatter plots, pair plots, heatmaps with correlation matrices. Choosing the right visualization for distribution vs relationship vs composition.
-   - *Exam Weightage*: 14–16 marks.
+##### SECTION I
+1. **Unit 1: Introduction to Data Structures and Complexity** (7 Hours) — `FDSU1.html`
+   - *Concepts*: Abstract Data Types (ADTs), need of data structures, classification of data structures (primitive vs non-primitive, linear vs non-linear). Complexity analysis of algorithms using asymptotic notations: Big-O ($\mathcal{O}$), Big-$\Omega$, and Big-$\Theta$ notations. Time-space trade-off. Recursion basics and applications.
+   - *Key Derivations/Problems*: Recurrence relation analysis, growth rates of functions.
 
-4. **Unit 4: Statistical Inference & Hypothesis Testing** (`FDSU4.html`)
-   - *Concepts*: Population vs Sample, sampling techniques (random, stratified, cluster). Central Limit Theorem (CLT) and sampling distributions. Confidence intervals for mean and proportions. Hypothesis testing framework: Null ($H_0$) vs Alternative ($H_1$) hypotheses, Type I ($\alpha$) and Type II ($\beta$) errors, power of a test, p-value interpretation. Parametric tests: One-sample and two-sample Student's t-test, paired t-test, Z-test, One-Way and Two-Way ANOVA ($F$-test). Non-parametric tests: Chi-Square goodness of fit and independence test, Mann-Whitney U test.
-   - *Exam Weightage*: 16–18 marks.
+2. **Unit 2: Arrays and Searching & Sorting Techniques** (7 Hours) — `FDSU2.html`
+   - *Concepts*: 1D and 2D arrays, address calculation, sparse matrix representation and transpose algorithms, strings and string manipulation, dynamic arrays. Linear search and binary search (iterative and recursive). Sorting algorithms: Bubble sort, Selection sort, Insertion sort, Merge sort, Quick sort. Comprehensive time & space complexity analysis of all techniques.
+   - *Case Studies*: Sensor data buffering using arrays, Pattern matching in intrusion detection, or Analyzing large-scale array logs for anomalies.
 
-5. **Unit 5: Supervised Learning (Regression & Classification)** (`FDSU5.html`)
-   - *Concepts*: Supervised learning paradigm. Linear Regression: Ordinary Least Squares (OLS) derivation, assumptions of linear regression, multicollinearity and VIF, metrics ($R^2$, Adjusted $R^2$, MSE, RMSE, MAE). Regularized regression: Ridge ($L_2$), Lasso ($L_1$), ElasticNet. Logistic Regression: Sigmoid activation, log-odds, cross-entropy loss function. Classification metrics: Confusion matrix, Accuracy, Precision, Recall, F1-Score, ROC-AUC curve. k-Nearest Neighbors (k-NN) classification, distance metrics. Decision Trees: splitting criteria (Entropy, Information Gain, Gini Impurity), pruning strategies.
-   - *Exam Weightage*: 18–20 marks.
+3. **Unit 3: Linked Lists** (7 Hours) — `FDSU3.html`
+   - *Concepts*: Memory fragmentation & pointer behavior, Singly linked list (SLL), Doubly linked list (DLL), Circular linked list (CLL). Core operations: insert (beginning, end, position), delete, traverse, search. Applications: polynomial representation and addition/multiplication, dynamic memory management allocation simulation.
 
-6. **Unit 6: Unsupervised Learning & Model Evaluation** (`FDSU6.html`)
-   - *Concepts*: Unsupervised paradigm. Clustering algorithms: K-Means clustering (algorithm steps, inertia, Elbow method, Silhouette score), Hierarchical clustering (Agglomerative, Divisive, linkage criteria, dendrograms), DBSCAN (density reachability, core/border/noise points). Dimensionality reduction: Principal Component Analysis (PCA - covariance matrix decomposition, eigenvectors, scree plot, explained variance ratio). Bias-Variance tradeoff, overfitting vs underfitting. Cross-validation techniques (k-fold, Stratified k-fold, Leave-One-Out). Hyperparameter tuning (GridSearchCV, RandomizedSearchCV).
-   - *Exam Weightage*: 15–18 marks.
+##### SECTION II
+4. **Unit 4: Stacks and Queues** (7 Hours) — `FDSU4.html`
+   - *Concepts*: Stack ADT, array and linked implementation. Stack applications: expression evaluation (postfix/prefix), infix to postfix conversion, recursion using call stack. Queue ADT: operations, linear queue limitations, Circular queue, Priority queue, Double-Ended Queue (Deque). Applications of queues in real-world problems (CPU scheduling, print queues).
+
+5. **Unit 5: Trees** (7 Hours) — `FDSU5.html`
+   - *Concepts*: Tree terminologies (root, node, edge, degree, height, depth). Binary trees, properties, representation. Binary Search Trees (BST): insertion, deletion, search, find height, mirror. Tree traversals: In-order, Pre-order, Post-order (recursive and non-recursive), Level-order display. Expression trees, Huffman coding algorithm. Applications in decision-making and hierarchical file systems.
+
+6. **Unit 6: Graphs** (7 Hours) — `FDSU6.html`
+   - *Concepts*: Graph representations: Adjacency matrix, Adjacency list. Graph traversals: Breadth First Search (BFS), Depth First Search (DFS). Applications of graphs in networking and social media: Transitive closure (Warshall’s algorithm), Topological sorting. Applications: Networking, Social graphs, IoT network routing, Blockchain peer-to-peer networks.
+   - *Case Study*: Attack path modelling using graphs.
+
+#### Standard Lab Assignments
+1. Implement recursive functions and analyze complexity: Permutations of string OR Tower of Hanoi.
+2. Search on database: Linear and binary search on employee/student records OR phone contact prefix search.
+3. Sort array of movie names (Selection & Insertion sort pass-wise).
+4. Implement and compare Merge Sort vs Quick Sort with large datasets and running time plots.
+5. Singly, doubly, and circular linked list music playlist manager (add/delete/skip/next/previous).
+6. Stack ADT: Postfix evaluation OR Balanced HTML/XML tag sequence verification.
+7. Print queue simulation (FIFO) OR Railway ticket booking with circular queue and deque.
+8. Expression tree construction from prefix/postfix with recursive & non-recursive traversals.
+9. BST operations: Insert, Inorder, Search, Height, Level-wise, Delete, Mirror.
+10. Graph BFS and DFS using adjacency matrix and adjacency list.
 
 ---
 
-### 2.3 Object-Oriented Programming (`oop`)
+### 2.2 CB2004: Data Communication and Networking (`dcn`)
 
-* **Target Folder**: `notes/oop/`
+* **Target Folder**: `notes/dcn/`
+* **Credits**: 3 | **Teaching Scheme**: Theory: 2 Hours/Week, Lab/Tut: 1 Hour/Week
+* **Prerequisites**: Working of computer, Number Systems.
 * **Core Textbooks**:
-  - *Object-Oriented Programming with C++* — E. Balagurusamy
-  - *The C++ Programming Language* — Bjarne Stroustrup
-  - *Core Java: Fundamentals* — Cay S. Horstmann
+  1. B. A. Forouzan; *Data Communications and Networking*; New Delhi, India: Tata McGraw-Hill; 2006.
+  2. J. F. Kurose and K. W. Ross; *Computer Networking: A Top-Down Approach*; Pearson; 2021.
+* **Reference Books & Resources**:
+  1. A. Godbole; *Data Communication and Networking*; Tata McGraw-Hill; 2002.
+  2. A. S. Tanenbaum and D. J. Wetherall; *Computer Networks*; 5th ed.; PHI Learning; 2011.
+  3. CCNA: *Introduction to Networks* (Cisco Networking Academy).
 
-#### Unit Breakdown & Scope
-1. **Unit 1: Foundations of OOP & Class Anatomy** (`OOPU1.html`)
-   - *Concepts*: Procedural vs Object-Oriented paradigm. The 4 Pillars of OOP: Abstraction, Encapsulation, Inheritance, Polymorphism. Classes and Objects: state, behavior, identity. Access specifiers (private, protected, public). Inline functions, friend functions, friend classes. Static data members and static member functions. Memory layout of an object in C++.
-   - *Exam Weightage*: 12–14 marks.
+#### Course Outcomes (COs)
+- **CO1**: Explain and apply the fundamentals of data communication and networking concepts such as transmission media, protocols, and network devices.
+- **CO2**: Analyze and differentiate the functions of each layer in the OSI reference model using real-world examples and scenarios.
+- **CO3**: Analyze the TCP/IP network communication model and evaluate its layered structure through case studies and configuration exercises.
+- **CO4**: Design and implement a small computer network by assigning and configuring IP addresses, subnet masks, and basic routing.
 
-2. **Unit 2: Constructors, Destructors & Dynamic Memory Management** (`OOPU2.html`)
-   - *Concepts*: Constructors: default, parameterized, copy constructor (deep copy vs shallow copy mechanics), dynamic constructors. Member initializer lists. Destructors and resource cleanup order. Dynamic memory allocation: `new` and `delete` operators vs `malloc`/`free`. Pointer to objects, `this` pointer applications. Memory leaks and dangling pointer prevention. Smart pointers overview (`unique_ptr`, `shared_ptr`).
-   - *Exam Weightage*: 14–16 marks.
+#### Unit Breakdown & Scope (4 Units)
 
-3. **Unit 3: Inheritance & Hierarchical Modeling** (`OOPU3.html`)
-   - *Concepts*: Types of inheritance: Single, Multilevel, Multiple, Hierarchical, Hybrid. Base class access control (public, protected, private inheritance). Order of constructor and destructor invocation in inheritance chains. Virtual Base Classes and resolving the Diamond Problem. Composition (Has-A) vs Inheritance (Is-A).
-   - *Exam Weightage*: 16–18 marks.
+##### SECTION I
+1. **Unit 1: Data communication and its components** (7 Hours) — `DCNU1.html` ✅ *Published*
+   - *Concepts*: Process of data communication and its 5 components: Transmitter (Sender), Receiver, Medium, Message, Protocol. Protocols, Standards, Standard organizations (IEEE, ITU-T, IETF, ISO). Bandwidth, Data Transmission Rate, Baud Rate vs Bits per second (bps). Modes of Communication: Simplex, Half-duplex, Full-duplex. Signal and its properties: analog vs digital, frequency, wavelength, phase. Types of Errors: Single-Bit Error and Burst Error. Redundancy Error Detection: Longitudinal Redundancy Check (LRC), Vertical Redundancy Check (VRC), Cyclic Redundancy Check (CRC). IEEE standards: 802.1, 802.2, 802.3 (Ethernet), 802.4 (Token Bus), 802.5 (Token Ring). Wireless LANs: 802.11 Architecture, MAC Sublayer.
 
-4. **Unit 4: Polymorphism & Virtual Functions** (`OOPU4.html`)
-   - *Concepts*: Compile-time (Static) Polymorphism: Function overloading, Operator overloading (unary, binary, stream `<<` and `>>` operators via friend functions). Rules for overloading operators. Run-time (Dynamic) Polymorphism: Virtual functions, `override` keyword. Virtual table (`vtable`) and virtual table pointer (`vptr`) internal mechanism. Pure virtual functions and Abstract classes. Virtual destructors and their necessity.
-   - *Exam Weightage*: 18–20 marks.
+2. **Unit 2: OSI Reference Model** (7 Hours) — `DCNU2.html` ✅ *Published*
+   - *Concepts*: Layered Architecture, Peer-to-Peer Processes, Interfaces between Layers, Protocols, Organization of the Layers, Encapsulation and Decapsulation. Layers of the OSI Reference Model (Functions, Services, and Features of each Layer):
+     - Layer 1: Physical Layer (bit transmission, topology, data rate, line configuration).
+     - Layer 2: Data-Link Layer (framing, physical addressing, error & flow control, access control).
+     - Layer 3: Network Layer (logical addressing, packet routing, fragmenting).
+     - Layer 4: Transport Layer (service-point port addressing, segmentation & reassembly, connection control, flow/error control).
+     - Layer 5: Session Layer (dialog control, synchronization, token management).
+     - Layer 6: Presentation Layer (translation, compression, encryption).
+     - Layer 7: Application Layer (network virtual terminal, FTAM, mail services, directory services).
 
-5. **Unit 5: Templates & Exception Handling** (`OOPU5.html`)
-   - *Concepts*: Generic programming principles. Function templates, multiple arguments, template specialization. Class templates with default and non-type parameters. Exception handling architecture: `try`, `catch`, `throw` statements. Catching multiple exceptions, re-throwing exceptions, `catch(...)` catch-all block. Exception specifications, custom exception classes, RAII (Resource Acquisition Is Initialization) pattern.
-   - *Exam Weightage*: 14–16 marks.
+##### SECTION II
+3. **Unit 3: IP addressing** (7 Hours) — `DCNU3.html` 🟡 *Pending*
+   - *Concepts*: Addressing mechanisms in the Internet. IP Addressing: IPv4 address format, dotted-decimal notation. Classful IP Address classes (Class A, B, C, D, E) and default masks. IP addressing mechanisms: Subnetting (custom subnet masks, subnet address calculations), Supernetting, Masking. CIDR notation and VLSM. IPv6 addressing: 128-bit representation (colon-hexadecimal, zero compression rule), address space allocation, unicast/multicast/anycast, IPv6 Auto-configuration (SLAAC, DHCPv6).
 
-6. **Unit 6: Standard Template Library (STL) & Modern Design Patterns** (`OOPU6.html`)
-   - *Concepts*: Components of STL: Containers, Iterators, Algorithms. Sequence containers (`vector`, `list`, `deque`). Associative containers (`set`, `map`, `multimap`). Container adapters (`stack`, `queue`, `priority_queue`). Standard algorithms (sort, search, transform, accumulate). Functors and Lambda expressions in C++11/14. Introduction to Design Patterns: Creational (Singleton, Factory Method), Structural (Adapter), Behavioral (Observer).
-   - *Exam Weightage*: 14–16 marks.
+4. **Unit 4: TCP/IP Model** (7 Hours) — `DCNU4.html` 🟡 *Pending*
+   - *Concepts*: TCP/IP Layered Architecture vs OSI model. Data Link Layer in TCP/IP: Nodes and links, services, categories of links, sub-layers. Link layer addressing: three types of addresses (physical, logical, port), Address Resolution Protocol (ARP) operation, cache, and packet format. Transport layer protocols: transport layer services, connectionless vs connection-oriented service. Transmission Control Protocol (TCP): features, segment format, 3-way handshake, 4-way teardown, flow and error control. User Datagram Protocol (UDP): features, datagram format, checksum calculation, application use cases.
+
+#### Standard Lab Practicals
+1. Study of Number Systems.
+2. Network Topologies: Bus, Ring, Star, Mesh, Tree, Hybrid.
+3. Network Connecting Devices: Hub, Switch, Router, Repeater, Bridge, Gateway, Modem, Wireless components.
+4. Cable creation: Straight-through and Crossover standard network cables testing with cable tester.
+5. Wired media topology setup.
+6. Wireless media topology setup.
+7. Configure Static and Dynamic IP addresses.
+8. Configure DHCP server.
+9. TCP/IP Utilities and commands: `ipconfig`, `ping`, `traceroute`, `netstat`, `pathping`, `route`.
+10. Install Wireshark and configure as packet sniffer for traffic capture.
 
 ---
 
-### 2.4 Basics of Internet of Things (`biot`)
+### 2.3 CB2005: Basics of IoT (`biot`)
 
 * **Target Folder**: `notes/biot/`
+* **Credits**: 3 | **Teaching Scheme**: Theory: 2 Hours/Week, Lab: 2 Hours/Week
+* **Prerequisites**: Digital System Design, Electronics Workshop, Fundamentals of IoT.
 * **Core Textbooks**:
-  - *Internet of Things: A Hands-On Approach* — Arshdeep Bahga, Vijay Madisetti
-  - *IoT Fundamentals: Networking Technologies, Protocols, and Use Cases for IoT* — David Hanes et al. (Cisco Press)
+  1. Hakima Chaouchi; *The Internet of Things Connecting Objects to the Web*; Wiley; 2010.
+  2. Olivier Hersent, David Boswarthick, Omar Elloumi; *The Internet of Things: Key Applications and Protocols*; Wiley.
+  3. Daniel Minoli; *Building the Internet of Things with IPv6 and MIPv6: The Evolving World of M2M Communications*; Wiley.
+* **Reference Books**:
+  1. A. Bahga and V. Madisetti; *Internet of Things: A Hands-On Approach*; 2014.
+* **MOOCs**:
+  1. NPTEL: *Introduction To Internet of Things* by Prof. Sudip Misra (IIT Kharagpur).
+  2. Infosys Springboard: *IoT Devices*.
 
-#### Unit Breakdown & Scope
-1. **Unit 1: Introduction to IoT Architecture & Smart Objects** (`BIOTU1.html`)
-   - *Concepts*: Definition, characteristics, and physical/logical design of IoT. IoT enabling technologies (wireless sensor networks, cloud computing, big data analytics, embedded systems). IoT levels and deployment templates. Sensors (temperature, humidity, PIR, ultrasonic, IMU/accelerometer) vs Actuators (relays, motors, solenoids). Signal conditioning, Analog-to-Digital conversion (ADC), and resolution.
-   - *Exam Weightage*: 12–14 marks.
+#### Course Outcomes (COs)
+- **CO1**: Explain and demonstrate the use of concepts, terminologies, and architecture of IoT systems through case studies and system design examples.
+- **CO2**: Compare and analyze the working principles of microprocessors and microcontrollers through practical experiments and simulations.
+- **CO3**: Apply appropriate communication protocols for the design and implementation of IoT systems in real-world scenarios.
+- **CO4**: Identify and apply IoT security and privacy methods to secure IoT devices, data, and communication channels in given problem statements.
 
-2. **Unit 2: Microcontrollers & Hardware Prototyping Platforms** (`BIOTU2.html`)
-   - *Concepts*: Embedded computing hardware: Arduino (AVR architecture), ESP8266 / ESP32 (Wi-Fi + BLE SoC), Raspberry Pi (Single Board Computer, Linux OS). Interfacing protocols: GPIO, PWM (Pulse Width Modulation), UART (serial), SPI (Serial Peripheral Interface - master/slave, clock polarity/phase), I2C (Inter-Integrated Circuit - 2-wire bus, addressing, master/slave arbitration). Power management and sleep modes in constrained nodes.
-   - *Exam Weightage*: 16–18 marks.
+#### Unit Breakdown & Scope (4 Units)
 
-3. **Unit 3: IoT Wireless Connectivity & Networking** (`BIOTU3.html`)
-   - *Concepts*: IEEE 802.15.4 physical and MAC layer standard. Low-power PANs: Zigbee (mesh topology, coordinator, router, end device), 6LoWPAN (IPv6 over low-power wireless personal area networks - header compression and fragmentation). Bluetooth Low Energy (BLE): GAP, GATT, advertising, peripheral vs central. Long-Range IoT (LPWAN): LoRa and LoRaWAN (architecture, spreading factors, gateway, chirp spread spectrum), NB-IoT, cellular IoT standards.
-   - *Exam Weightage*: 16–18 marks.
+##### SECTION I
+1. **Unit 1: Introduction to IoT** (7 Hours) — `BIOTU1.html`
+   - *Concepts*: Introduction, Definitions & Characteristics of IoT, History of IoT. IoT Architectures (3-layer, 5-layer, ITU-T reference architecture). Physical and Logical Design of IoT. Enabling Technologies in IoT (Sensors, Actuators, WSN, Cloud, Big Data). About "Things" in IoT, Identifiers in IoT (RFID, Barcode, IP, MAC). About the Internet in IoT. IoT Frameworks. Difference between IoT and M2M (Machine-to-Machine).
 
-4. **Unit 4: IoT Application & Messaging Protocols** (`BIOTU4.html`)
-   - *Concepts*: Constraints of traditional HTTP in IoT. Message Queuing Telemetry Transport (MQTT): publish-subscribe architecture, MQTT broker, topics, QoS levels (QoS 0, 1, 2), retain flags, Last Will and Testament (LWT). Constrained Application Protocol (CoAP): RESTful architecture over UDP, confirmable vs non-confirmable messages, observe pattern, CoAP vs HTTP comparison. WebSockets for bidirectional full-duplex communication.
-   - *Exam Weightage*: 18–20 marks.
+2. **Unit 2: Introduction of Microprocessor & Microcontroller** (7 Hours) — `BIOTU2.html`
+   - *Concepts*: Basics of Microprocessors, types and evolutionary timeline, block diagram and operational functioning. Evolution of microcontrollers, selection criteria for particular IoT applications. MCS-51 (8051) architecture, family devices and derivatives. 8051 Pin configuration, Port architecture (Ports 0, 1, 2, 3), memory organization (internal RAM/ROM, SFRs), external memory interfacing.
 
-5. **Unit 5: IoT Cloud, Edge & Data Pipelines** (`BIOTU5.html`)
-   - *Concepts*: Cloud IoT platforms (AWS IoT Core, Azure IoT Hub, ThingsBoard). Device shadows / digital twins. Telemetry ingestion, time-series data storage, real-time analytics. Edge computing vs Fog computing vs Cloud computing: latency reduction, bandwidth conservation, offline resilience. Edge analytics architectures.
-   - *Exam Weightage*: 14–16 marks.
+##### SECTION II
+3. **Unit 3: IP based Protocols for IoT** (7 Hours) — `BIOTU3.html`
+   - *Concepts*: Need for lightweight IP protocols in constrained nodes. IPv6 and 6LoWPAN (IPv6 over Low-Power Wireless Personal Area Networks - header compression, adaptation layer). RPL (Routing Protocol for Low-Power and Lossy Networks). Web services: REST architecture. Messaging protocols: AMQP (Advanced Message Queuing Protocol), CoAP (Constrained Application Protocol — REST over UDP), MQTT (Message Queuing Telemetry Transport — pub/sub, broker, QoS levels 0/1/2). Authorization and Access Control in IoT.
 
-6. **Unit 6: IoT Security, Privacy & Industry Applications** (`BIOTU6.html`)
-   - *Concepts*: Vulnerabilities in IoT devices (default passwords, unencrypted firmware, lack of secure boot). IoT security layers: perception layer, network layer, application layer security. Secure device provisioning, TLS for constrained devices, firmware updates over the air (FOTA). Real-world case studies: Smart Home automation, Smart Agriculture (soil moisture & precision irrigation), Smart City (smart streetlights & waste management), Industrial IoT (IIoT - predictive maintenance).
-   - *Exam Weightage*: 14–16 marks.
+4. **Unit 4: IoT Security and Privacy** (7 Hours) — `BIOTU4.html`
+   - *Concepts*: Challenges and threats to IoT security (hardware vulnerabilities, unencrypted communications, botnets). Encryption and authentication techniques for constrained devices (AES, lightweight cryptography, PKI). Privacy concerns, user privacy rights, and regulatory frameworks. Best practices for securing IoT devices and deployments (secure boot, firmware updates, network isolation).
+
+#### Standard Lab Practicals
+1. Study & survey of development boards for IoT (Arduino, ESP32, Raspberry Pi, NodeMCU).
+2. Study & survey of various IoT cloud platforms (ThingsBoard, Blynk, AWS IoT, Adafruit IO).
+3. Interfacing basic sensors and actuators with Arduino Uno.
+4. Build a cloud-ready temperature sensor with Arduino Uno and an IoT platform.
+5. Sensor and actuator integration with Arduino.
+6. IoT-based Stepper Motor Control using Raspberry Pi.
+7. IoT-based Web-Controlled Home Automation using Arduino Uno.
+8. Simple IoT project with ESP8266 Wi-Fi module.
+9. Implementation of an RFID-based IoT project.
 
 ---
 
-### 2.5 Probability and Statistics (`pas`)
+### 2.4 CB2006: Object Oriented Programming (`oop`)
+
+* **Target Folder**: `notes/oop/`
+* **Credits**: 3 | **Teaching Scheme**: Theory: 1 Hour/Week, Lab: 2 Hours/Week
+* **Prerequisites**: Basic Programming such as C language.
+* **Core Textbooks**:
+  1. E. Balagurusamy; *Object-Oriented Programming with C++*; 4th ed.; McGraw-Hill; 2008.
+  2. Bjarne Stroustrup; *The C++ Programming Language*; 3rd ed.; Pearson Education.
+  3. Jeff Friesen; *Beginning Java 6 Platform from Novice to Professional*; Apress/Springer.
+  4. Gallardo, Burnette, McGovern; *Eclipse in Action: A Guide for Java Developers*; Manning.
+* **Reference Books**:
+  1. Herbert Schildt; *C++ The Complete Reference*; 8th ed.; McGraw-Hill; 2011.
+  2. Robert Lafore; *Object-Oriented Programming in C++*; 4th ed.; Sams Publishing.
+  3. Khalid A. Mughal; *A Programmer's Guide to Java SCJP Certification*; 3rd ed.; Pearson.
+* **MOOCs**: Swayam: *Programming in Modern C++* by Prof. Partha Pratim Das (IIT Kharagpur).
+
+#### Course Outcomes (COs)
+- **CO1**: Understanding and Implementation of OOP Fundamentals.
+- **CO2**: Apply inheritance, templates, and STL to develop C++ programs.
+- **CO3**: Demonstrate the use of Java syntax, OOP principles, and packages to develop applications.
+- **CO4**: Design Java applications using exception handling, event handling, collections, and JDBC.
+
+#### Unit Breakdown & Scope (4 Units)
+
+##### SECTION I: C++ Programming
+1. **Unit 1: Introduction to OOP** (7 Hours) — `OOPU1.html`
+   - *Concepts*: Fundamentals of OOP paradigm. Introduction to Programming and C++, Differences between C and C++. Variables, Data Types, and Operators. Control Structures, Loops, and Iteration. Functions and Modular Programming. Basics of Console Input and Output streams (`cin`, `cout`). Dynamic Memory Allocation (`new`, `delete`). Introduction to Classes and Objects, Creation and Destruction of Objects. Data Members, Member Functions, Access Specifiers (`private`, `protected`, `public`). `this` Pointer. Constructors (default, parameterized, copy) and Destructors. Static Class Members and Static Member Functions. Friend Classes and Friend Functions. Function Overloading and Operator Overloading.
+
+2. **Unit 2: OOP Principles** (7 Hours) — `OOPU2.html`
+   - *Concepts*: Introduction to Inheritance, Base and Derived class Constructors, Types of Inheritance (Single, Multilevel, Multiple, Hierarchical, Hybrid). Down-casting and Up-casting. Function Overriding, Virtual Functions, Polymorphism, Pure Virtual Functions, Abstract Classes, Virtual Base Classes (Diamond problem resolution). C++ Class Hierarchy. File Streams (`ifstream`, `ofstream`, `fstream`), Text File Handling, Binary File Handling. Function Templates, Class Templates. Standard Template Library (STL): containers (`vector`, `list`, `map`), iterators, algorithms.
+
+##### SECTION II: Java Programming
+3. **Unit 3: Fundamentals of Java Programming and Object-Oriented Concepts** (7 Hours) — `OOPU3.html`
+   - *Concepts*: Introduction to Java, History and Features of Java, Comparison with C and C++. JDK, JRE, and JVM architecture. First Java Program, Data types, Variables, Constants, Literals, Operators, Strings, Arrays. Control Flow statements. OOP in Java: Classes and Objects, Getters/Setters, Methods, `Scanner` class. Constructors, `super` and `this` keywords. Access Modifiers, `static` keyword. Encapsulation, Data protection. Inheritance in Java: types, `extends` and `implements` keywords. Polymorphism: Compile-time (Method Overloading) vs Runtime (Method Overriding). Static and Dynamic Binding. Abstraction: Interfaces and Abstract classes, abstract vs non-abstract methods. Memory management in Java (Heap vs Stack, Garbage Collection basics). Packages and import mechanisms.
+
+4. **Unit 4: Exception Handling, GUI and Database Programming in Java** (7 Hours) — `OOPU4.html`
+   - *Concepts*: Exception Handling: `try`, `catch`, `finally` blocks, Multiple catch, Nested `try`, `throw` and `throws` keywords. `final` vs `finally` vs `finalize`. Designing Graphical User Interfaces in Java: Components and Containers, Layout Managers (`FlowLayout`, `BorderLayout`, `GridLayout`). AWT Components, Window Menus. Extending GUI features using Swing Components (`JFrame`, `JButton`, `JTextField`, etc.). Java Utilities (`java.util` package). Event-Driven Programming in Java: Event-handling mechanism, Delegation Event Model, Event Classes, Event Sources, Event Listeners. JDBC: JDBC Drivers, steps to connect to Database, connectivity with MySQL / Oracle, `DriverManager`. Types of JDBC statements: `Statement`, `PreparedStatement`, `CallableStatement`, `ResultSet`, CRUD operations. Java Collections Framework: Collections of Objects, Collection Types, `List` (`ArrayList`, `Vector`), `Set` (`HashSet`, `TreeSet`), `Queue`, `Map` (`HashMap`), Hashing mechanism.
+
+#### Standard Lab Practicals
+- **Part I (C++)**:
+  1. Basics: Area of rectangle, Celsius to Fahrenheit conversion, Voting eligibility, Fibonacci series, Factorial recursion, Prime testing.
+  2. Constructors: Rectangle class, basic Banking system.
+  3. Static members & `this` pointer.
+  4. Operator overloading using friend function.
+  5. Inheritance: Shape hierarchy with virtual area function.
+  6. Polymorphism: Polymorphic banking system with savings/checking accounts.
+  7. Function template for maximum of two values.
+- **Part II (Java)**:
+  1. Bank account class with `Scanner`, constructor, deposit/withdraw methods, `toString()`.
+  2. Inheritance hierarchy with `super`, `this`, `static`, `final`, polymorphism.
+  3. Abstract class and Interface on `Document` class with multiple interfaces.
+  4. Java Database Connectivity (JDBC) with MySQL/Oracle for CRUD operations.
+  5. GUI Java application with Swing and event handling.
+
+---
+
+### 2.5 MM0501: Probability and Statistics (`pas`)
 
 * **Target Folder**: `notes/pas/`
+* **Credits**: 3 | **Teaching Scheme**: Theory: 2 Hours/Week, Tutorial: 1 Hour/Week
+* **Prerequisites**: Basic algebra, Calculus, Logical reasoning, and basic problem-solving skills.
 * **Core Textbooks**:
-  - *Probability and Statistics for Engineers and Scientists* — Ronald E. Walpole, Raymond H. Myers
-  - *Higher Engineering Mathematics* — B.S. Grewal
+  1. Sheldon M. Ross; *Probability and Statistics for Engineers and Scientists*; 5th ed.; Elsevier.
+  2. *Schaum's Outline of Probability and Statistics*; 4th ed.; McGraw-Hill.
+  3. J. L. Devore; *Probability and Statistics for Engineering and the Sciences*; 9th ed.; Cengage Learning; 2016.
+* **Reference Books**:
+  1. Richard A. Johnson, I. Miller, J. E. Freund; *Probability and Statistics for Engineers*; 9th ed.; PHI; 2016.
+  2. G. S. Rao; *Probability and Statistics for Science and Engineering*; 11th ed.; Universities Press; 2018.
+  3. R. E. Walpole, R. H. Myers, S. L. Myers, K. Ye; *Probability and Statistics for Engineers and Scientists*; 9th ed.; Pearson; 2012.
+* **MOOCs**:
+  1. NPTEL: *Probability and Statistics* by Prof. Somesh Kumar (IIT Kharagpur).
+  2. NPTEL: *Introduction to Probability* by Prof. G. Srinivasan (IIT Madras).
+  3. HarvardX: *Introduction to Probability*.
 
-#### Unit Breakdown & Scope
-1. **Unit 1: Probability Theory & Random Variables** (`PASU1.html`)
-   - *Concepts*: Sample space, events, axioms of probability. Conditional probability, multiplication rule, independent events. Law of Total Probability and Bayes' Theorem with diagnostic/engineering applications. Random variables: definition, discrete vs continuous. Probability Mass Function (PMF), Probability Density Function (PDF), Cumulative Distribution Function (CDF) and their properties. Mathematical Expectation, Variance, Standard Deviation, properties of expectation and variance.
-   - *Exam Weightage*: 15–18 marks.
+#### Course Outcomes (COs)
+- **CO1**: Use descriptive statistics, probability concepts, and random variables to process data.
+- **CO2**: Apply discrete and continuous probability distributions to engineering problems.
+- **CO3**: Perform statistical inference using estimation and hypothesis testing.
+- **CO4**: Analyze and interpret relationships in data using correlation and regression.
 
-2. **Unit 2: Standard Discrete Probability Distributions** (`PASU2.html`)
-   - *Concepts*: Bernoulli trials. Binomial Distribution: assumptions, PMF, derivation of mean ($\mu = np$) and variance ($\sigma^2 = npq$), fitting of binomial distribution. Poisson Distribution: Poisson process assumptions, PMF, limiting case of binomial distribution, derivation of mean and variance ($\mu = \lambda$, $\sigma^2 = \lambda$). Geometric Distribution: memoryless property. Negative Binomial and Hypergeometric distributions overview. Real-world modeling: packet arrival rates, defect modeling.
-   - *Exam Weightage*: 15–18 marks.
+#### Unit Breakdown & Scope (4 Units)
 
-3. **Unit 3: Standard Continuous Probability Distributions** (`PASU3.html`)
-   - *Concepts*: Continuous Uniform distribution: PDF, mean, variance. Normal (Gaussian) Distribution: properties of normal curve, standard normal variable ($Z$), standard normal tables, 68-95-99.7 empirical rule, applications in error modeling. Exponential Distribution: PDF, mean, variance, memoryless property, modeling waiting times and device lifetimes. Gamma, Weibull, and Beta distributions overview.
-   - *Exam Weightage*: 16–18 marks.
+##### SECTION I
+1. **Unit 1: Descriptive Statistics** (6 Hours) — `PASU1.html`
+   - *Concepts*: Types of data: Qualitative, Quantitative, Discrete, Continuous. Frequency distributions. Visualizations: Histograms, Bar charts, Box plots, Scatter plots. Measures of Central Tendency: Mean, Median, Mode. Measures of Dispersion: Variance, Standard Deviation, Range, Quartiles, Coefficient of Variation (CV).
 
-4. **Unit 4: Two-Dimensional Random Variables & Joint Distributions** (`PASU4.html`)
-   - *Concepts*: Joint PMF and joint PDF. Marginal distributions and conditional distributions. Independence of random variables. Covariance and Pearson’s correlation coefficient ($r$), properties of correlation ($ -1 \le r \le 1 $). Regression lines of $Y$ on $X$ and $X$ on $Y$, angle between regression lines. Transformation of random variables. Central Limit Theorem (CLT) statement and practical applications for large sample sums and averages.
-   - *Exam Weightage*: 16–18 marks.
+2. **Unit 2: Probability Basics and distributions** (8 Hours) — `PASU2.html`
+   - *Concepts*: Basic probability rules: Axioms of probability, Complement rule, Addition rule. Conditional Probability & Independence of events, Multiplication rule. Bayes’ Theorem and its engineering diagnostic applications. Random Variables: Discrete and Continuous random variables. Probability Mass Function (PMF), Probability Density Function (PDF), Cumulative Distribution Function (CDF). Mathematical Expectation, Variance, and their algebraic properties. Discrete distributions: Bernoulli, Binomial ($B(n, p)$), Poisson ($\text{Pois}(\lambda)$). Continuous distributions: Uniform, Exponential. Applications in engineering and component reliability.
 
-5. **Unit 5: Statistical Inference & Hypothesis Testing** (`PASU5.html`)
-   - *Concepts*: Parameter estimation: point estimation (unbiasedness, consistency), maximum likelihood estimation (MLE). Interval estimation: confidence intervals for population mean (known and unknown variance) and proportions. Statistical hypothesis testing: null and alternative hypotheses, Type I ($\alpha$) and Type II ($\beta$) errors, critical regions, level of significance, p-value. Large sample tests ($Z$-tests): test for single mean, difference of means, single proportion, difference of proportions. Small sample tests: Student's $t$-test (single mean, difference of means, paired $t$-test), Snedecor's $F$-test for equality of variances, Chi-Square ($\chi^2$) test for goodness of fit and independence of attributes in contingency tables.
-   - *Exam Weightage*: 18–20 marks.
+##### SECTION II
+3. **Unit 3: Normal Distribution & Sampling Theory** (6 Hours) — `PASU3.html`
+   - *Concepts*: Normal (Gaussian) Distribution: Standard normal distribution, $Z$-scores, Properties of the bell curve. Tests involving the Normal distribution, One-Tailed and Two-Tailed tests, $P$-value. Special applications of normal distribution (engineering tolerances, quality control). Normal approximation to Binomial and Poisson distributions. Sampling Theory: Random sampling, Sample mean, Sample variance. Sampling distribution of the sample mean. Standard Error (SE). Central Limit Theorem (CLT) — intuitive explanation, significance, and numerical applications.
 
-6. **Unit 6: Queuing Theory & Stochastic Processes** (`PASU6.html`)
-   - *Concepts*: Stochastic processes: discrete-time vs continuous-time, Markov property. Markov chains, transition probability matrix (TPM), Chapman-Kolmogorov equations, steady-state probabilities. Queuing system characteristics: arrival process, service mechanism, queue discipline, Kendall’s notation. $M/M/1$ Queuing System: birth-death process, steady-state probability distribution, average queue length ($L_q$), average system length ($L$), average waiting time in queue ($W_q$), average waiting time in system ($W$), Little’s formulas ($L = \lambda W$, $L_q = \lambda W_q$). $M/M/1/K$ (finite capacity queue) overview. Applications in network packet buffer dimensioning.
-   - *Exam Weightage*: 16–18 marks.
+4. **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (8 Hours) — `PASU4.html`
+   - *Concepts*:
+     - **Estimation**: Point estimation, properties of good estimators (unbiasedness, consistency, efficiency). Interval estimation: Confidence Intervals for mean ($\sigma$ known and $\sigma$ unknown).
+     - **Hypothesis Testing**: Null ($H_0$) and Alternative ($H_1$) hypotheses, Type I ($\alpha$) and Type II ($\beta$) errors, Level of significance. One-sample $Z$-test and $t$-test.
+     - **Goodness of Fit & Independence**: Chi-Square ($\chi^2$) Tests: Test for goodness of fit, Test for independence of attributes in contingency tables.
+     - **ANOVA**: Analysis of Variance: One-way ANOVA, $F$-test, and variance ratio interpretation.
+     - **Correlation & Regression**: Correlation analysis, Pearson's correlation coefficient, Line of regression ($Y$ on $X$ and $X$ on $Y$), Standard error of estimate, Spearman's rank correlation. Single and multiple regression, Linear regression, Curve fitting by the Method of Least Squares.
+
+#### Standard Tutorials
+1. Descriptive Statistics for Factory Production (mean, median, mode, variance, SD, CV).
+2. Probability in Electrical Component Failure & Bayes' Theorem.
+3. Modeling Call Arrivals Using Discrete Distributions (Binomial and Poisson).
+4. Reliability Analysis Using Exponential Distribution and MTBF.
+5. Normal Distribution in Quality Control ($Z$-scores, tolerance limits).
+6. Hypothesis Testing for Process Verification (one-sample $Z$-test / $t$-test).
+7. Chi-Square Test for Inspection Data (Tool-based: Python / Excel).
+8. One-Way ANOVA for Comparing Manufacturing Methods (Tool-based: Python / Excel).
 
 ---
 
-## 3. Operational Rule for All Contributors & Agents
+## 3. Ancillary Curriculum Modules (Reference Only)
+
+The official VIT CSE-IoTCSBT A-25 scheme also encompasses four institutional modules:
+- **`HS2002` From Campus to Corporate – 1** (Credits: 2 | 2 Hours/Week):
+  - *Vertical 1*: Companies & Industry (Domains, Strategy, P&L, Balance Sheet, AOP Budgeting).
+  - *Vertical 2*: Application of Knowledge (Product Management, UX/UI, Go-to-Market, QA & Testing, Customer Success, Security/Privacy, AI Evolution).
+  - *Vertical 3*: Professional Skills (Curiosity, Articulation, Problem Breakdown with Mind Maps, Project Management, Critical Thinking with Mental Models).
+- **`HS2001` Reasoning and Aptitude Development – 3** (Credits: 1 | 1 Hour/Week):
+  - *Section I*: English Language & Communication Skills + Logical and Analytical Reasoning (Syllogisms, Coding-Decoding, Data Sufficiency, Series).
+  - *Section II*: Quantitative Aptitude Fundamentals (Number systems, HCF/LCM, Profit/Loss, Speed-Time-Distance, P&C, Probability, Spatial reasoning).
+- **`CB2001` Design Thinking – 1** / `IR2101` International Tech Front Module (Credits: 1):
+  - Paper publications, patents, literature reviews, journal evaluation, IPR, research ethics, and paper drafting.
+- **`CB2002` / `ML2002` Engineering Design and Innovation – 1** / `IR2102` (Credits: 2 | Lab: 4 Hours/Week):
+  - Project Centric Learning (PCL), Raspberry Pi/IoT hardware case studies (soil moisture, temperature, motion, smoke, collision detection).
+
+---
+
+## 4. Operational Rule for All Contributors & Agents
 
 > ⚡ **Mandatory Synchronization Invariant**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**

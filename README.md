@@ -3,7 +3,8 @@
 Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)** — deployed automatically to GitHub Pages.
 
 **Live Archive**: [https://shreyx404.github.io/BatchHub-notes/](https://shreyx404.github.io/BatchHub-notes/)  
-**Main Portal**: [https://batch-hub-red.vercel.app/notes](https://batch-hub-red.vercel.app/notes)
+**Main Portal**: [https://batch-hub-red.vercel.app/notes](https://batch-hub-red.vercel.app/notes)  
+**Academic Curriculum**: Vishwakarma Institute of Technology (VIT Pune) · S.Y. B.Tech (CSE-IoTCSBT) · Pattern A-25  
 
 ---
 
@@ -13,13 +14,13 @@ Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)*
 BatchHub-notes/
 ├── .github/workflows/deploy.yml   ← Auto-deploy to GitHub Pages on push to main
 ├── notes/                         ← Subject folders (mirrors BatchHub database)
-│   ├── biot/                      ← Basics of Internet of Things
-│   ├── dcn/                       ← Data Communication & Networks
-│   │   ├── DCNU1.html             ← Unit 1: Introduction to Data Communication
+│   ├── biot/                      ← Basics of IoT (CB2005 - 4 Units)
+│   ├── dcn/                       ← Data Communication and Networking (CB2004 - 4 Units)
+│   │   ├── DCNU1.html             ← Unit 1: Data communication and its components
 │   │   └── DCNU2.html             ← Unit 2: OSI 7-Layer Reference Model
-│   ├── fds/                       ← Fundamentals of Data Science
-│   ├── oop/                       ← Object-Oriented Programming
-│   └── pas/                       ← Probability and Statistics
+│   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units)
+│   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
+│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units)
 ├── templates/note-template.html   ← Reusable editorial note template
 ├── scripts/generate-manifest.js   ← Scans notes/ and compiles notes.json
 ├── index.html                     ← Standalone index portal with live search
@@ -53,6 +54,21 @@ BatchHub-notes/
 | 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)** | Contributor Protocol: Branching conventions, step-by-step authoring workflow, commit message standards. |
 | 📜 **[CHANGELOG.md](CHANGELOG.md)** | Release History: SemVer releases, additions, deprecations, and structural upgrades. |
 
+---
+
+## 📂 Official Curriculum Matrix (VIT Pattern A-25)
+
+The repository hosts notes for the 5 core technical courses in the Second Year (S.Y. B.Tech) CSE-IoTCSBT curriculum:
+
+| Folder Code | Course Code | Full Course Title | Teaching Scheme | Credits | Scope | Notes Status |
+|---|---|---|---|---|---|---|
+| **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | 0/6 Units |
+| **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
+| **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
+| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
+| **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 0/4 Units |
+
+**Total Academic Scope**: **22 Units** (2 published, 20 planned).
 
 ---
 
@@ -84,7 +100,7 @@ npm run build
 cp templates/note-template.html notes/dcn/DCNU3.html
 ```
 
-> **Naming Convention**: You can use `<SUBJECT>U<N>.html` (e.g. `DCNU3.html`, `FDSU1.html`) or slug format (`unit3-tcp-ip.html`).
+> **Naming Convention**: Use `<SUBJECT>U<N>.html` (e.g. `DCNU3.html`, `FDSU1.html`) or slug format (`unit3-ip-addressing.html`).
 
 ### Step 2: Configure `<meta>` tags in `<head>`
 
@@ -92,9 +108,9 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 <meta name="note-id"      content="dcn-unit3">
 <meta name="note-subject" content="DCN">
 <meta name="note-unit"    content="Unit 3">
-<meta name="note-tags"    content="Networking, TCP, UDP, Transport Layer">
-<meta name="note-summary" content="Complete guide to Transport Layer protocols, flow control, and TCP 3-way handshake.">
-<title>Unit III — Transport Layer Protocols | DCN Notes</title>
+<meta name="note-tags"    content="Networking, IP Addressing, Subnetting, IPv4, IPv6">
+<meta name="note-summary" content="Complete guide to IP addressing, classful routing, subnetting, CIDR, and IPv6.">
+<title>Unit III — IP Addressing | DCN Notes</title>
 ```
 
 ### Step 3: Write content using standardized components
@@ -147,20 +163,8 @@ git push origin main
 1. Visit the [Notes Archive](https://shreyx404.github.io/BatchHub-notes/).
 2. Locate the note and click **"Copy Link"** (copies canonical URL to clipboard with toast confirmation).
 3. In BatchHub, navigate to **Admin Dashboard** (`/admin/notes`).
-4. Select the Subject (e.g., *Data Communication & Networks*), enter the title, paste the copied URL, and click **Save Note**.
+4. Select the Subject (e.g., *Data Communication and Networking*), enter the title, paste the copied URL, and click **Save Note**.
 5. The note instantly appears in the student gallery under [`https://batch-hub-red.vercel.app/notes`](https://batch-hub-red.vercel.app/notes)!
-
----
-
-## 📂 Official Subject Codes
-
-| Code | Subject Title | Directory |
-|---|---|---|
-| `biot` | Basics of Internet of Things | `notes/biot/` |
-| `dcn` | Data Communication & Networks | `notes/dcn/` |
-| `fds` | Fundamentals of Data Science | `notes/fds/` |
-| `oop` | Object-Oriented Programming | `notes/oop/` |
-| `pas` | Probability and Statistics | `notes/pas/` |
 
 ---
 

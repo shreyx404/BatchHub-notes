@@ -136,18 +136,28 @@ The build script parses all HTML files under `notes/` without parsing the full D
 
 ---
 
-## 4. Subject Directory Specification
+## 4. Subject Directory Specification & Academic Mapping
 
-To maintain strict parity with BatchHub's database subjects, the folder taxonomy is locked:
+To maintain strict parity with VIT Pune's CSE-IoTCSBT (Pattern A-25) curriculum and BatchHub's database subjects, the folder taxonomy is locked:
 
 ```
 notes/
-├── biot/     # Basics of Internet of Things (BIoT)
-├── dcn/      # Data Communication & Networks (DCN)
-├── fds/      # Fundamentals of Data Science (FDS)
-├── oop/      # Object-Oriented Programming (OOP)
-└── pas/      # Probability and Statistics (PAS)
+├── biot/     # Basics of IoT (CB2005 - 4 Units)
+├── dcn/      # Data Communication and Networking (CB2004 - 4 Units)
+├── fds/      # Fundamentals of Data Structures (CB2003 - 6 Units)
+├── oop/      # Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
+└── pas/      # Probability and Statistics (MM0501 - 4 Units)
 ```
+
+| Subject Folder | Course Code | Full Course Title | Total Units | Delivery Method |
+|---|---|---|---|---|
+| `notes/fds/` | `CB2003` | Fundamentals of Data Structures | 6 Units | Pure HTML5/CSS3 |
+| `notes/dcn/` | `CB2004` | Data Communication and Networking | 4 Units | Pure HTML5/CSS3 |
+| `notes/biot/` | `CB2005` | Basics of IoT | 4 Units | Pure HTML5/CSS3 |
+| `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units | Pure HTML5/CSS3 |
+| `notes/pas/` | `MM0501` | Probability and Statistics | 4 Units | Pure HTML5/CSS3 |
+
+Total Academic Note Scope: **22 Units**.
 
 ---
 
@@ -168,4 +178,3 @@ notes/
 > - Architectural documentation never drifts from the physical file structure.
 > - The live GitHub Pages deployment is continuously up to date with zero staging lag.
 > - Any agent or developer joining the codebase has accurate, verifiable system manuals.
-

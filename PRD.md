@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 
 ---
 
@@ -36,23 +36,35 @@ A zero-overhead, ultra-fast, static HTML note hosting engine deployed on **GitHu
 
 | Stakeholder | Role | Primary Goal |
 |---|---|---|
-| **Students (VIT Pune)** | End consumers via BatchHub or direct link | Read distraction-free technical notes on mobile/desktop, search topics quickly, and print clean cheat-sheets. |
+| **Students (VIT Pune — CSE-IoTCSBT)** | End consumers via BatchHub or direct link | Read distraction-free technical notes on mobile/desktop, search topics quickly, and print clean cheat-sheets. |
 | **BatchHub Admin** | Note curator & administrator | Ingest notes into BatchHub via `/admin/notes` in seconds without dealing with file uploads or cloud storage buckets. |
-| **Content Contributors & AI Agents** | Note authors | Write or port notes using a standardized template with predefined callout boxes, diagrams, and metadata tags. |
+| **Content Contributors & AI Agents** | Note authors | Write or port notes using a standardized template with predefined callout boxes, diagrams, and metadata tags aligned with the syllabus. |
 
 ---
 
 ## 3. Academic Curriculum & Subject Taxonomy
 
-The repository mirrors the academic subjects configured in the BatchHub platform:
+The repository strictly mirrors the official **Vishwakarma Institute of Technology (VIT Pune)** curriculum:
+- **Department**: Computer Science & Engineering (IoT & Cyber Security Including Block Chain Technology) [CSE-IoTCSBT]
+- **Pattern**: Pattern 'A-25' · **Level**: Second Year (S.Y. B.Tech.) · **A.Y.**: 2025–26 / 2026–27
 
-| Subject Code | Folder | Full Subject Title | Semester / Core Focus |
-|---|---|---|---|
-| `dcn` | `notes/dcn/` | Data Communication & Networks | OSI Model, Physical/Data Link, TCP/IP, Routing, Protocols |
-| `fds` | `notes/fds/` | Fundamentals of Data Science | Python Data Stack, Statistics, EDA, Modeling, Visualization |
-| `oop` | `notes/oop/` | Object-Oriented Programming | C++ / Java, OOP Principles, Memory Management, Design Patterns |
-| `biot` | `notes/biot/` | Basics of Internet of Things (BIoT) | Sensors, Microcontrollers, MQTT/CoAP, Edge Computing, Protocols |
-| `pas` | `notes/pas/` | Probability and Statistics | Probability Distributions, Hypothesis Testing, Queuing Theory |
+### 3.1 Core Technical Subjects (Primary Note Archive)
+
+| Subject Code | Folder | Course Code | Full Subject Title | Teaching Scheme (Th/Lab/Tut) | Credits | Total Units |
+|---|---|---|---|---|---|---|
+| **`fds`** | `notes/fds/` | `CB2003` | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | **6 Units** |
+| **`dcn`** | `notes/dcn/` | `CB2004` | **Data Communication and Networking** | 2 / 0 / 1 | 3 | **4 Units** |
+| **`biot`** | `notes/biot/` | `CB2005` | **Basics of IoT** | 2 / 2 / 0 | 3 | **4 Units** |
+| **`oop`** | `notes/oop/` | `CB2006` | **Object Oriented Programming** | 1 / 2 / 0 | 3 | **4 Units** (C++ & Java) |
+| **`pas`** | `notes/pas/` | `MM0501` | **Probability and Statistics** | 2 / 0 / 1 | 3 | **4 Units** |
+
+**Total Core Note Scope**: **22 Units** across 5 subjects.
+
+### 3.2 Ancillary Curriculum Modules (Reference Only)
+- `HS2002`: From Campus to Corporate - 1 (2 Credits)
+- `HS2001`: Reasoning and Aptitude Development - 3 (1 Credit)
+- `CB2001` / `IR2101`: Design Thinking - 1 (1 Credit)
+- `CB2002` / `ML2002` / `IR2102`: Engineering Design and Innovation - 1 (2 Credits)
 
 ---
 
@@ -90,7 +102,7 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 2. Contributor runs `npm run build` to synchronize `notes.json`.
 3. Changes are pushed to `main`. GitHub Actions automatically verifies and deploys to GitHub Pages in ~25 seconds.
 4. The admin visits `https://shreyx404.github.io/BatchHub-notes/`, clicks **"Copy Link"** on the note card.
-5. In BatchHub Admin (`/admin/notes`), the admin creates a note entry under the respective subject (e.g. *Data Communication & Networks*) and pastes the URL.
+5. In BatchHub Admin (`/admin/notes`), the admin creates a note entry under the respective subject (e.g. *Data Communication and Networking*) and pastes the URL.
 6. BatchHub links directly to the hosted note for all batch students.
 
 ---
@@ -113,7 +125,7 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 - Recursively scans `notes/` directory for `.html` files.
 - Extracts standard metadata via regular expressions from HTML `<meta>` and `<title>` tags:
   - `note-id`: Unique alphanumeric identifier
-  - `note-subject`: Subject identifier (e.g., `DCN`)
+  - `note-subject`: Subject identifier (e.g., `DCN`, `FDS`, `OOP`, `BIOT`, `PAS`)
   - `note-unit`: Unit number (e.g., `Unit 2`)
   - `note-tags`: Comma-delimited keywords
   - `note-summary`: High-level summary of covered concepts
@@ -163,7 +175,7 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 ---
 
 ## 8. Success Metrics & KPIs
-1. **Adoption**: 100% of curriculum units across 5 core subjects hosted and linked into BatchHub.
+1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub.
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
 
@@ -172,4 +184,3 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 ## 9. Operational Invariant & Maintenance Protocol
 - **Continuous Documentation Synchronization**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state.
 - **Immediate Deployment**: Push the entire codebase to GitHub `main` immediately following verification to trigger the automated GitHub Pages deployment pipeline.
-

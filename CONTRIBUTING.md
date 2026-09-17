@@ -10,12 +10,12 @@ Whether you are authoring a new unit note, fixing an academic typo, or enhancing
 
 1. **Pure Static Stack**: Do not introduce build frameworks (React, Vue, Vite, Tailwind CSS, or npm runtime dependencies). Notes must remain single, standalone HTML5/CSS3 files.
 2. **Deterministic Manifest**: Whenever a note is added, renamed, or modified, run `npm run build` to keep `notes.json` synchronized.
-3. **Canonical Subjects Only**: Stick strictly to the 5 official subjects:
-   - `biot` — Basics of Internet of Things
-   - `dcn`  — Data Communication & Networks
-   - `fds`  — Fundamentals of Data Science
-   - `oop`  — Object-Oriented Programming
-   - `pas`  — Probability and Statistics
+3. **Canonical Subjects Only**: Stick strictly to the 5 official curriculum subjects (VIT Pune CSE-IoTCSBT Pattern A-25):
+   - `biot` — Basics of IoT (`CB2005`, 4 Units)
+   - `dcn`  — Data Communication and Networking (`CB2004`, 4 Units)
+   - `fds`  — Fundamentals of Data Structures (`CB2003`, 6 Units)
+   - `oop`  — Object Oriented Programming (`CB2006`, 4 Units: C++ & Java)
+   - `pas`  — Probability and Statistics (`MM0501`, 4 Units)
 4. **Mandatory System Markdown Synchronization**: Every pull request or task MUST update the system markdown suite (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) and push all changes.
 
 ---

@@ -4,12 +4,15 @@
 
 | Phase | Description | Status | Progress |
 |---|---|---|---|
-| **Phase 1** | Repository Setup, CI/CD, Portal & Baseline Template | ✅ **Completed** | 100% |
-| **Phase 2** | Data Communication & Networks (DCN) Units | 🟡 **In Progress** | 33% (2/6 Units) |
-| **Phase 3** | Additional Subjects Ingestion (FDS, OOP, BIoT, PAS) | ⚪ **Planned** | 0% |
+| **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
+| **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | 🟡 **In Progress** | **50%** (2/4 Units) |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ⚪ **Planned** | 0% (0/18 Units) |
 | **Phase 4** | Portal & Note Reader Enhancements | ⚪ **Backlog** | 0% |
-| **Phase 5** | BatchHub Admin Sync & Batch Integration | 🟡 **In Progress** | 50% |
+| **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 50% |
 
+> **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **2 / 22 Units** (9.1%).
+>
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
 
@@ -50,76 +53,97 @@
   - [x] `CONTRIBUTING.md` — Contributor guidelines & PR protocol.
   - [x] `CHANGELOG.md` — Release history & semantic versioning tracker.
   - [x] `README.md` — Public documentation and landing guide.
-  - [x] Continuous Documentation & Push rule enforced across all markdowns.
 
 ---
 
-## Phase 2: DCN (Data Communication & Networks) Ingestion 🟡
+## Phase 2: DCN (Data Communication and Networking — CB2004) Ingestion 🟡
 
-- [x] **Unit 1: Introduction to Data Communication** (`notes/dcn/DCNU1.html`)
-  - [x] Data communication components & signal types.
-  - [x] Transmission modes, multiplexing (FDM/TDM), switching techniques.
-  - [x] Network topologies & transmission media.
-- [x] **Unit 2: OSI 7-Layer Reference Model** (`notes/dcn/DCNU2.html`)
-  - [x] Comprehensive layer breakdown (Physical to Application).
-  - [x] Protocols, PDUs, and headers per layer.
+- [x] **Unit 1: Data communication and its components** (`notes/dcn/DCNU1.html`) ✅
+  - [x] 5 Components of data communication, protocols, standard organizations.
+  - [x] Transmission modes, bandwidth, baud rate vs bit rate, signal properties.
+  - [x] Single-bit & burst errors, error detection (LRC, VRC, CRC).
+  - [x] IEEE standards (802.1–802.5), 802.11 Wireless LAN architecture & MAC sublayer.
+- [x] **Unit 2: OSI Reference Model** (`notes/dcn/DCNU2.html`) ✅
+  - [x] Layered architecture, peer-to-peer processes, encapsulation & decapsulation.
+  - [x] 7-layer functional breakdown (Physical through Application).
+  - [x] PDUs, protocols, and headers per layer.
   - [x] OSI vs. TCP/IP model comparison table.
-- [ ] **Unit 3: Data Link Layer & MAC Sublayer**
-  - [ ] Framing techniques (Bit/Byte stuffing).
-  - [ ] Flow control protocols (Stop-and-Wait, Go-Back-N, Selective Repeat).
-  - [ ] Error detection & correction (Parity, CRC, Hamming code).
-  - [ ] CSMA/CD, CSMA/CA, Ethernet architecture.
-- [ ] **Unit 4: Network Layer & IP Addressing**
-  - [ ] IPv4 vs IPv6 header format and differences.
-  - [ ] Classful vs Classless addressing (CIDR, Subnetting, VLSM).
-  - [ ] Routing algorithms (Distance Vector / Bellman-Ford, Link State / Dijkstra).
-  - [ ] Routing protocols (RIP, OSPF, BGP).
-- [ ] **Unit 5: Transport Layer & Reliability**
-  - [ ] Port addressing & socket multiplexing.
-  - [ ] TCP 3-Way Handshake, teardown, and sliding window flow control.
-  - [ ] TCP congestion control (Slow Start, Congestion Avoidance, Fast Retransmit).
-  - [ ] UDP lightweight datagrams & use cases.
-- [ ] **Unit 6: Application Layer & Network Security**
-  - [ ] DNS resolution flow and resource records.
-  - [ ] HTTP/1.1 vs HTTP/2 vs HTTP/3.
-  - [ ] Cryptography basics: Symmetric vs Asymmetric encryption.
-  - [ ] SSL/TLS handshake & HTTPS security.
+- [ ] **Unit 3: IP addressing** (`notes/dcn/DCNU3.html`) ⚪
+  - [ ] Internet addressing mechanism, IPv4 address structure and notation.
+  - [ ] Classful addressing (Classes A–E) and default masks.
+  - [ ] Subnetting, supernetting, CIDR notation, and subnet mask calculations.
+  - [ ] IPv6 addressing representation, address space allocation, SLAAC & auto-configuration.
+- [ ] **Unit 4: TCP/IP Model** (`notes/dcn/DCNU4.html`) ⚪
+  - [ ] TCP/IP layered architecture vs OSI.
+  - [ ] Data Link Layer: Nodes and links, categories of links, link layer addressing.
+  - [ ] Address Resolution Protocol (ARP) mechanics and cache.
+  - [ ] Transport Layer: Services, connection-oriented (TCP) vs connectionless (UDP).
+  - [ ] TCP segment format, 3-way handshake, 4-way teardown, flow/error control.
+  - [ ] UDP datagram format and checksum.
 
 ---
 
 ## Phase 3: Multi-Subject Expansion ⚪
 
-### 1. Fundamentals of Data Science (FDS) — `notes/fds/`
-- [ ] Unit 1: Introduction to Data Science, Python Data Stack (NumPy, Pandas).
-- [ ] Unit 2: Data Cleaning, Preprocessing & Feature Engineering.
-- [ ] Unit 3: Exploratory Data Analysis (EDA) & Data Visualization.
-- [ ] Unit 4: Statistical Inference, Correlation & Hypothesis Testing.
-- [ ] Unit 5: Regression & Classification Models.
-- [ ] Unit 6: Unsupervised Learning (Clustering, PCA) & Model Evaluation.
+### 1. Fundamentals of Data Structures (FDS — CB2003) — `notes/fds/` (6 Units)
+- [ ] Unit 1: Introduction to Data Structures and Complexity (`FDSU1.html`)
+  - [ ] ADTs, classification, Big-O / Big-$\Omega$ / Big-$\Theta$ analysis, time-space trade-offs, recursion.
+- [ ] Unit 2: Arrays and Searching & Sorting Techniques (`FDSU2.html`)
+  - [ ] 1D/2D arrays, sparse matrix, dynamic arrays, Linear & Binary search.
+  - [ ] Bubble, Selection, Insertion, Merge, Quick sort analysis. Sensor buffering case study.
+- [ ] Unit 3: Linked Lists (`FDSU3.html`)
+  - [ ] Singly, Doubly, and Circular linked lists, operations, polynomial arithmetic, memory allocation.
+- [ ] Unit 4: Stacks and Queues (`FDSU4.html`)
+  - [ ] Stack ADT, infix-to-postfix, expression evaluation, call stack recursion.
+  - [ ] Linear, Circular, Priority queues and Deque with real-world applications.
+- [ ] Unit 5: Trees (`FDSU5.html`)
+  - [ ] Binary trees, BST operations (insert, search, delete, mirror, height).
+  - [ ] In-order, Pre-order, Post-order (recursive/iterative), Expression trees, Huffman coding.
+- [ ] Unit 6: Graphs (`FDSU6.html`)
+  - [ ] Adjacency matrix/list, BFS, DFS, Warshall’s transitive closure, topological sorting.
+  - [ ] Networking, social graphs, and attack path modelling case studies.
 
-### 2. Object-Oriented Programming (OOP) — `notes/oop/`
-- [ ] Unit 1: OOP Paradigms: Encapsulation, Abstraction, Inheritance, Polymorphism.
-- [ ] Unit 2: Constructors, Destructors, and Object Lifecycle.
-- [ ] Unit 3: Memory Management (Pointers, References, Dynamic Allocation).
-- [ ] Unit 4: Operator Overloading & Function Overloading.
-- [ ] Unit 5: Exception Handling & Template Metaprogramming (Generics).
-- [ ] Unit 6: Standard Template Library (STL / Collections) & Design Patterns.
+### 2. Object Oriented Programming (OOP — CB2006) — `notes/oop/` (4 Units)
+- [ ] Unit 1: Introduction to OOP [C++] (`OOPU1.html`)
+  - [ ] OOP fundamentals vs C, I/O streams, dynamic memory (`new`/`delete`), classes & objects.
+  - [ ] Access specifiers, `this` pointer, constructors/destructors, static members, friend functions, overloading.
+- [ ] Unit 2: OOP Principles [C++ & STL] (`OOPU2.html`)
+  - [ ] Inheritance types, base/derived constructors, upcasting/downcasting, virtual functions.
+  - [ ] Polymorphism, pure virtual, virtual base class, file handling, templates, STL containers & iterators.
+- [ ] Unit 3: Fundamentals of Java Programming and OOP Concepts (`OOPU3.html`)
+  - [ ] Java architecture (JDK/JRE/JVM), types, control flow, Java classes/objects, `Scanner`.
+  - [ ] `super`/`this`, modifiers, encapsulation, inheritance (`extends`/`implements`), polymorphism, interfaces.
+- [ ] Unit 4: Exception Handling, GUI and Database Programming in Java (`OOPU4.html`)
+  - [ ] `try`/`catch`/`finally`/`throw`/`throws`, Java AWT & Swing components, layout managers.
+  - [ ] Event delegation model, JDBC connectivity (MySQL/Oracle), CRUD operations, Collection framework.
 
-### 3. Basics of Internet of Things (BIoT) — `notes/biot/`
-- [ ] Unit 1: IoT Architecture, Smart Objects, and Sensors/Actuators.
-- [ ] Unit 2: Microcontrollers & SBCs (Arduino, ESP32, Raspberry Pi).
-- [ ] Unit 3: Wireless Protocols (BLE, Zigbee, LoRaWAN, Wi-Fi).
-- [ ] Unit 4: Messaging Protocols (MQTT, CoAP, WebSockets).
-- [ ] Unit 5: Cloud & Edge Computing for IoT.
-- [ ] Unit 6: IoT Security, Device Provisioning & Case Studies.
+### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units)
+- [ ] Unit 1: Introduction to IoT (`BIOTU1.html`)
+  - [ ] Definitions, characteristics, physical/logical design, enabling technologies, identifiers, IoT vs M2M.
+- [ ] Unit 2: Introduction of Microprocessor & Microcontroller (`BIOTU2.html`)
+  - [ ] Microprocessor vs microcontroller, MCS-51 (8051) architecture, pin configuration, port architecture.
+  - [ ] Memory organization (RAM/ROM/SFRs) and external memory interfacing.
+- [ ] Unit 3: IP based Protocols for IoT (`BIOTU3.html`)
+  - [ ] IPv6, 6LoWPAN adaptation, RPL routing, REST web services, AMQP, CoAP, MQTT (pub/sub, QoS).
+  - [ ] Authorization and access control in IoT.
+- [ ] Unit 4: IoT Security and Privacy (`BIOTU4.html`)
+  - [ ] Security challenges, threat landscape, encryption & authentication for constrained nodes.
+  - [ ] Privacy concerns, regulations, and security best practices (secure boot, isolation, FOTA).
 
-### 4. Probability and Statistics (PAS) — `notes/pas/`
-- [ ] Unit 1: Probability Theory, Conditional Probability, Bayes' Theorem.
-- [ ] Unit 2: Discrete Random Variables (Binomial, Poisson, Geometric).
-- [ ] Unit 3: Continuous Distributions (Normal, Uniform, Exponential).
-- [ ] Unit 4: Joint Distributions, Covariance & Central Limit Theorem.
-- [ ] Unit 5: Point Estimation, Confidence Intervals & Hypothesis Testing.
-- [ ] Unit 6: Regression Analysis & Queuing Theory.
+### 4. Probability and Statistics (PAS — MM0501) — `notes/pas/` (4 Units)
+- [ ] Unit 1: Descriptive Statistics (`PASU1.html`)
+  - [ ] Qualitative/quantitative data, frequency distributions, visualizations (histograms, box plots).
+  - [ ] Measures of central tendency (mean, median, mode) and dispersion (variance, SD, CV).
+- [ ] Unit 2: Probability Basics and distributions (`PASU2.html`)
+  - [ ] Probability axioms, conditional probability, Bayes’ theorem, random variables (PMF, PDF, CDF).
+  - [ ] Expectation and variance. Discrete (Bernoulli, Binomial, Poisson) & Continuous (Uniform, Exponential).
+- [ ] Unit 3: Normal Distribution & Sampling Theory (`PASU3.html`)
+  - [ ] Normal distribution properties, $Z$-scores, $P$-values, normal approximation to Binomial/Poisson.
+  - [ ] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).
+- [ ] Unit 4: Estimation, Hypothesis Testing, Correlation & Regression (`PASU4.html`)
+  - [ ] Point & interval estimation (confidence intervals). Null/alternative hypotheses, Type I/II errors.
+  - [ ] One-sample $Z$-test and $t$-test, Chi-Square ($\chi^2$) goodness of fit & independence tests.
+  - [ ] One-Way ANOVA ($F$-test), Pearson correlation, regression lines, and method of least squares.
 
 ---
 

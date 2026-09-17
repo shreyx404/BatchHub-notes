@@ -47,7 +47,7 @@ The central manifest is located at the root of the deployment:
     "properties": {
       "id": {
         "type": "string",
-        "description": "Globally unique alphanumeric identifier (e.g. dcn-unit1, oop-unit3)"
+        "description": "Globally unique alphanumeric identifier (e.g. dcn-unit1, fds-unit2)"
       },
       "subject": {
         "type": "string",
@@ -85,7 +85,17 @@ The central manifest is located at the root of the deployment:
 }
 ```
 
-### 2.2 Live Example Payload
+### 2.2 Subject Catalog & Enum Mapping
+
+| Enum Value | Folder | Course Code | Full Course Title | Total Units | Typical ID Pattern |
+|---|---|---|---|---|---|
+| `FDS` | `notes/fds/` | `CB2003` | Fundamentals of Data Structures | 6 Units | `fds-unit<1-6>` |
+| `DCN` | `notes/dcn/` | `CB2004` | Data Communication and Networking | 4 Units | `dcn-unit<1-4>` |
+| `BIOT`| `notes/biot/`| `CB2005` | Basics of IoT | 4 Units | `biot-unit<1-4>`|
+| `OOP` | `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units | `oop-unit<1-4>` |
+| `PAS` | `notes/pas/` | `MM0501` | Probability and Statistics | 4 Units | `pas-unit<1-4>` |
+
+### 2.3 Live Example Payload
 
 ```json
 [

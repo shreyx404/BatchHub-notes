@@ -10,10 +10,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Ingestion of DCN Units 3–6 (Data Link Layer, Network Layer, Transport Layer, Application Layer).
-- Initial units for Fundamentals of Data Science (`notes/fds/`).
-- Initial units for Object-Oriented Programming (`notes/oop/`).
+- Ingestion of DCN Units 3 and 4 (`CB2004` IP addressing & TCP/IP Model).
+- Initial units for Fundamentals of Data Structures (`notes/fds/` — `CB2003`).
+- Initial units for Object Oriented Programming (`notes/oop/` — `CB2006`).
+- Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
+- Initial units for Probability and Statistics (`notes/pas/` — `MM0501`).
 - KaTeX mathematical formula rendering engine.
+
+---
+
+## [1.3.0] - 2026-09-17
+
+### Changed
+- **Official Curriculum Ground Truth Alignment**: Fully aligned the repository curriculum, subject naming, and course structures with the official **Vishwakarma Institute of Technology (VIT Pune)** CSE-IoTCSBT (Pattern 'A-25', S.Y. B.Tech) syllabus:
+  - Reclassified **`fds`** to **`CB2003: Fundamentals of Data Structures`** (Credits: 4, 6 Units) from the previous placeholder "Fundamentals of Data Science".
+  - Normalized official course codes and unit allocations:
+    - `CB2003`: Fundamentals of Data Structures (6 Units)
+    - `CB2004`: Data Communication and Networking (4 Units)
+    - `CB2005`: Basics of IoT (4 Units)
+    - `CB2006`: Object Oriented Programming (4 Units: Units 1–2 in C++, Units 3–4 in Java)
+    - `MM0501`: Probability and Statistics (4 Units)
+  - Normalized total academic note scope to **22 Units** across 5 subjects (with DCN at 50% completion: 2/4 units published).
+  - Documented ancillary institutional courses: `HS2002` (Campus to Corporate - 1), `HS2001` (Reasoning & Aptitude - 3), `CB2001` (Design Thinking - 1), and `CB2002` (Engineering Design & Innovation - 1).
+- **System Documentation Suite Synchronization**: Synchronized all 10 repository markdown documents (`SYLLABUS.md`, `PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `API.md`, `STYLEGUIDE.md`, `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the authentic syllabus.
 
 ---
 
