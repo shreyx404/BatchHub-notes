@@ -11,7 +11,7 @@
 | **Phase 5** | BatchHub Admin Sync & Batch Integration | 🟡 **In Progress** | 50% |
 
 > ⚡ **Golden Operating Rule**:  
-> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
+> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
 
 ---
 
@@ -39,6 +39,18 @@
   - [x] Callout box suite: Key, Tip, Warning, Exam.
   - [x] Comparison table wrappers & formula containers.
   - [x] Print media query (`@media print`) for clean PDF generation.
+- [x] **System Documentation Suite (10-Document Standard)**
+  - [x] `PRD.md` — Product Requirements Document.
+  - [x] `ARCHITECTURE.md` — Technical architecture and data flows.
+  - [x] `API.md` — Manifest schema and BatchHub integration contract.
+  - [x] `AGENTS.md` — Contributor & Agent Operational Manual.
+  - [x] `SYLLABUS.md` — Academic curriculum & unit reference guide.
+  - [x] `STYLEGUIDE.md` — Visual design tokens, CSS variables & component library.
+  - [x] `TASKS.md` — Roadmap, milestones & task backlog.
+  - [x] `CONTRIBUTING.md` — Contributor guidelines & PR protocol.
+  - [x] `CHANGELOG.md` — Release history & semantic versioning tracker.
+  - [x] `README.md` — Public documentation and landing guide.
+  - [x] Continuous Documentation & Push rule enforced across all markdowns.
 
 ---
 

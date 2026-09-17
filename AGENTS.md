@@ -19,7 +19,7 @@
    - `pas`  — Probability and Statistics
    Do not introduce unauthorized subjects without an approved update to the PRD.
 4. **Mandatory Metadata Tags**: Every note HTML file MUST include the required `<meta>` tags in its `<head>` for manifest extraction.
-5. **Mandatory System Markdown Synchronization & Push**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.
+5. **Mandatory System Markdown Synchronization & Push**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.
 
 ---
 
@@ -45,9 +45,14 @@ BatchHub-notes/
 ├── index.html                    # Master index & portal with live search
 ├── notes.json                    # Auto-generated index of all notes
 ├── PRD.md                        # Product Requirements Document
-├── AGENTS.md                     # This operational manual
-├── TASKS.md                      # Roadmap, milestones & task backlog
 ├── ARCHITECTURE.md               # Technical architecture & data flows
+├── API.md                        # Manifest schema & integration contracts
+├── AGENTS.md                     # This operational manual
+├── SYLLABUS.md                   # Academic curriculum & unit reference guide
+├── STYLEGUIDE.md                 # Visual design system, CSS tokens & patterns
+├── TASKS.md                      # Roadmap, milestones & task backlog
+├── CONTRIBUTING.md               # Contributor guidelines & PR protocol
+├── CHANGELOG.md                  # Chronological release & revision history
 ├── README.md                     # Public documentation
 └── package.json                  # Scripts (npm run build)
 ```
@@ -162,6 +167,6 @@ Before completing any task or reporting back to the user:
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
 - [ ] Does `@media print` exist in the note CSS so students can export to PDF?
 - [ ] Are mobile responsive styles present (progress bar, sidebar drawer)?
-- [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) been modified and updated to reflect the latest changes?
+- [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) been modified and updated to reflect the latest changes?
 - [ ] Is `git status` clean and has the entire codebase been pushed to GitHub `main`?
 

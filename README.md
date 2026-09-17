@@ -25,20 +25,34 @@ BatchHub-notes/
 ├── index.html                     ← Standalone index portal with live search
 ├── notes.json                     ← Auto-generated manifest of all notes
 ├── PRD.md                         ← Product Requirements Document
-├── AGENTS.md                      # Agent & Contributor Operational Manual
-├── TASKS.md                       # Milestones, task checklist & roadmap
-├── ARCHITECTURE.md                # System architecture & integration flows
+├── ARCHITECTURE.md                ← System architecture & integration flows
+├── API.md                         ← Manifest schema & BatchHub integration contract
+├── AGENTS.md                      ← Agent & Contributor Operational Manual
+├── SYLLABUS.md                    ← Academic curriculum & unit reference guide
+├── STYLEGUIDE.md                  ← Visual design system, CSS tokens & editorial rules
+├── TASKS.md                       ← Roadmap, unit completion backlog & milestones
+├── CONTRIBUTING.md                ← Contributor guidelines & pull request protocol
+├── CHANGELOG.md                   ← Version history & release notes
+├── README.md                      ← Repository overview & public guide
 └── package.json                   ← Build script (npm run build)
 ```
 
 ---
 
-## 🚀 System Documentation
+## 🚀 System Documentation Suite
 
-- 📘 **[PRD.md](PRD.md)** — Detailed Product Requirements Document covering ecosystem fit, functional specifications, and design criteria.
-- 🤖 **[AGENTS.md](AGENTS.md)** — Operational manual, invariants, CSS tokens, and step-by-step instructions for AI agents and human contributors authoring new notes.
-- 📋 **[TASKS.md](TASKS.md)** — Complete project roadmap, unit-by-unit curriculum backlog, and enhancement tracker.
-- 🏛️ **[ARCHITECTURE.md](ARCHITECTURE.md)** — Architecture diagrams, data flow between BatchHub and GitHub Pages, and manifest extraction engine specs.
+| Document | Purpose & Contents |
+|---|---|
+| 📘 **[PRD.md](PRD.md)** | Product Requirements: Ecosystem fit, target personas, functional requirements, and NFRs. |
+| 🏛️ **[ARCHITECTURE.md](ARCHITECTURE.md)** | Technical Architecture: System data flow, GitHub Pages CDN, manifest parser, and security model. |
+| 🔌 **[API.md](API.md)** | Integration Contract: `notes.json` schema, URL patterns, iframe embedding, and BatchHub admin interfaces. |
+| 🤖 **[AGENTS.md](AGENTS.md)** | Agent Operating Manual: Operational rules, metadata protocols, CSS token dictionary, and verification checklists. |
+| 📚 **[SYLLABUS.md](SYLLABUS.md)** | Curriculum Ground Truth: Unit-by-unit syllabus, textbooks, derivations, and exam question weightage for all 5 subjects. |
+| 🎨 **[STYLEGUIDE.md](STYLEGUIDE.md)** | Visual & Editorial Guide: CSS variables, typography hierarchy, UI component palette (callouts, formulas, tables, diagrams). |
+| 📋 **[TASKS.md](TASKS.md)** | Roadmap & Backlog: Milestone status across Phases 1–5, curriculum unit completion tracker, and enhancements. |
+| 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)** | Contributor Protocol: Branching conventions, step-by-step authoring workflow, commit message standards. |
+| 📜 **[CHANGELOG.md](CHANGELOG.md)** | Release History: SemVer releases, additions, deprecations, and structural upgrades. |
+
 
 ---
 
@@ -116,7 +130,7 @@ The template includes predefined components with dark editorial styling:
 ### Step 4: Update Manifest, Sync System Markdowns & Push
 
 > ⚡ **Golden Operating Rule**:
-> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
+> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
 
 ```bash
 npm run build        # Synchronizes notes.json

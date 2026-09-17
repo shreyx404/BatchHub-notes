@@ -170,6 +170,6 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 ---
 
 ## 9. Operational Invariant & Maintenance Protocol
-- **Continuous Documentation Synchronization**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state.
+- **Continuous Documentation Synchronization**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state.
 - **Immediate Deployment**: Push the entire codebase to GitHub `main` immediately following verification to trigger the automated GitHub Pages deployment pipeline.
 
