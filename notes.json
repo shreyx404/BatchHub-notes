@@ -5,8 +5,8 @@
     "unit": "Unit 1",
     "title": "DCN Unit I — Complete Notes",
     "summary": "Complete introduction to Data Communication & Networks — covering data communication components, signal types, transmission modes, multiplexing, switching, and network topologies.",
-    "path": "notes/dcn/unit1-introduction.html",
-    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/unit1-introduction.html",
+    "path": "notes/dcn/DCNU1.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU1.html",
     "tags": [
       "Networking",
       "Data Communication",
@@ -21,8 +21,8 @@
     "unit": "Unit 2",
     "title": "Unit II — OSI Reference Model | DCN Notes",
     "summary": "Comprehensive guide to the OSI 7-Layer Reference Model — Physical, Data Link, Network, Transport, Session, Presentation, and Application layers with PDUs, protocols, and comparisons.",
-    "path": "notes/dcn/unit2-osi-model.html",
-    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/unit2-osi-model.html",
+    "path": "notes/dcn/DCNU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU2.html",
     "tags": [
       "Networking",
       "OSI",
