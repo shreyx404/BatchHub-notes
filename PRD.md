@@ -166,3 +166,10 @@ The repository mirrors the academic subjects configured in the BatchHub platform
 1. **Adoption**: 100% of curriculum units across 5 core subjects hosted and linked into BatchHub.
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
+
+---
+
+## 9. Operational Invariant & Maintenance Protocol
+- **Continuous Documentation Synchronization**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state.
+- **Immediate Deployment**: Push the entire codebase to GitHub `main` immediately following verification to trigger the automated GitHub Pages deployment pipeline.
+

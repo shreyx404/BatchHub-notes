@@ -113,12 +113,16 @@ The template includes predefined components with dark editorial styling:
 </div>
 ```
 
-### Step 4: Update Manifest & Push
+### Step 4: Update Manifest, Sync System Markdowns & Push
+
+> ⚡ **Golden Operating Rule**:
+> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
 
 ```bash
 npm run build        # Synchronizes notes.json
+# Update all system markdowns (TASKS.md, PRD.md, etc.)
 git add .
-git commit -m "feat(dcn): add Unit 3 notes"
+git commit -m "feat: your update description and system docs sync"
 git push origin main
 ```
 

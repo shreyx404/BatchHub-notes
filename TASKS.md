@@ -10,6 +10,9 @@
 | **Phase 4** | Portal & Note Reader Enhancements | ⚪ **Backlog** | 0% |
 | **Phase 5** | BatchHub Admin Sync & Batch Integration | 🟡 **In Progress** | 50% |
 
+> ⚡ **Golden Operating Rule**:  
+> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
+
 ---
 
 ## Phase 1: Core Foundation & Infrastructure ✅

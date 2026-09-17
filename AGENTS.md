@@ -19,6 +19,7 @@
    - `pas`  — Probability and Statistics
    Do not introduce unauthorized subjects without an approved update to the PRD.
 4. **Mandatory Metadata Tags**: Every note HTML file MUST include the required `<meta>` tags in its `<head>` for manifest extraction.
+5. **Mandatory System Markdown Synchronization & Push**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.
 
 ---
 
@@ -161,4 +162,6 @@ Before completing any task or reporting back to the user:
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
 - [ ] Does `@media print` exist in the note CSS so students can export to PDF?
 - [ ] Are mobile responsive styles present (progress bar, sidebar drawer)?
-- [ ] Is `git status` clean and pushed to `main`?
+- [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) been modified and updated to reflect the latest changes?
+- [ ] Is `git status` clean and has the entire codebase been pushed to GitHub `main`?
+

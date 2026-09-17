@@ -16,8 +16,14 @@
 |                                           v                             |
 |                                 +--------------------+                  |
 |                                 | Updated notes.json |                  |
+|                                 +---------+----------+                  |
+|                                           |                             |
+|                                           v                             |
 |                                 +--------------------+                  |
-+-------------------------------------------+-----------------------------+
+|                                 | Update System MDs  |                  |
+|                                 | (PRD, AGENTS, etc) |                  |
+|                                 +---------+----------+                  |
++-------------------------------------------|-----------------------------+
                                             |
                                             | git push origin main
                                             v
@@ -150,3 +156,16 @@ notes/
 1. **No Backend Exploits**: With no SQL databases, server engines, or Node runtimes in production, attack vectors like SQL injection, SSRF, or remote code execution are completely eliminated.
 2. **CSP Compatibility**: All assets are static; styles and scripts are minimal and strictly scoped.
 3. **Third-Party Dependency Shield**: Zero npm dependencies exist in the production artifact, mitigating supply-chain attacks.
+
+---
+
+## 6. System Lifecycle & Maintenance Invariant
+
+> **Operational Invariant**:
+> **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
+>
+> This guarantees that:
+> - Architectural documentation never drifts from the physical file structure.
+> - The live GitHub Pages deployment is continuously up to date with zero staging lag.
+> - Any agent or developer joining the codebase has accurate, verifiable system manuals.
+
