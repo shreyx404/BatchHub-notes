@@ -84,14 +84,19 @@
   - Automatically computes canonical URLs: `https://shreyx404.github.io/BatchHub-notes/<path>`.
   - Uses `navigator.clipboard.writeText()` with interactive animated toast notifications.
 
-### 2.3 Standalone Note Documents
-Each note is an independent, single-file HTML document requiring zero external script bundles:
-- **Head Assets**: Preconnected to Google Fonts (`IBM Plex Sans` & `IBM Plex Mono`).
+### 2.3 Standalone Note Documents & Responsive Architecture
+Each note is an independent, single-file HTML document requiring zero external runtime framework dependencies:
+- **Head Assets**: Preconnected typography (Google Fonts `IBM Plex Sans`, `IBM Plex Mono`, `Fraunces`, `Newsreader`).
 - **Internal Styles**: Self-contained CSS utilizing CSS variables for theme consistency.
-- **Progress Tracking**: Tiny vanilla JavaScript scroll listener updates the top progress bar.
-- **Active Heading Observer**: Computes bounding rects to highlight current section in the sidebar TOC.
-- **Mobile Drawer**: Toggleable sliding sidebar for smaller viewports.
-- **Print Styles**: `@media print` directives to convert dark mode to high-contrast ink-efficient monochrome layout.
+- **Reading Progress Tracking**: Tiny vanilla JavaScript scroll listener updates the fixed top progress bar (`#progressBar`).
+- **Active Section Highlighting**: IntersectionObserver or bounding-rect computation continuously tracks scroll position to highlight active sections in the TOC.
+- **Cross-Device Responsive Engine**:
+  - **Desktop (`> 1024px`)**: Fixed 260px sidebar TOC with spacious reading layout (`max-width: 1000px–1180px`).
+  - **Tablet (`641px – 1024px`)**: Adaptive layout with reduced padding and drawer or condensed navigation.
+  - **Mobile (`< 640px` down to `320px`)**: Floating hamburger trigger (`.menu-btn` / `.toc-toggle`), full off-canvas TOC drawer, and dark backdrop scrim (`.scrim`) with automatic dismissal on link clicks.
+  - **Universal Table & Math Blocks**: Tables and formula containers (`.fbox`, `.dmath`, `table`) utilize responsive horizontal scrolling (`display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;`), completely preventing horizontal page blowouts.
+  - **Fluid Headings**: Header typography uses CSS `clamp()` to scale down on 320px–375px screens without text clipping.
+- **Print Styles**: `@media print` directives to convert dark mode to high-contrast ink-efficient monochrome layout with clean page breaks.
 
 ---
 

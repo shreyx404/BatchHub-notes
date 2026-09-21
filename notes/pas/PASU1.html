@@ -211,13 +211,72 @@
             padding: 0 46px 90px
         }
 
+        /* Menu Button & Scrim for Mobile / Tablet */
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 200;
+            padding: 8px 14px;
+            background: var(--ink);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 11px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .scrim {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .scrim.on {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         @media(max-width:1080px) {
+            .menu-btn {
+                display: block;
+            }
+
             .toc {
-                display: none
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 290px;
+                max-width: calc(100vw - 44px);
+                background: var(--paper);
+                border-right: 1px solid var(--line2);
+                z-index: 100;
+                padding: 24px 18px 40px;
+                transform: translateX(-100%);
+                transition: transform 0.28s ease;
+                box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+                overflow-y: auto;
+            }
+
+            .toc.open {
+                transform: translateX(0);
             }
 
             .wrap {
-                padding: 0 20px 70px
+                padding: 56px 20px 70px;
             }
         }
 
@@ -428,6 +487,15 @@
             font-size: 14px
         }
 
+        @media (max-width: 768px) {
+            table {
+                display: block;
+                max-width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
         th {
             font: 650 10.5px/1.5 sans-serif;
             text-transform: uppercase;
@@ -487,6 +555,36 @@
         }
 
         @media(max-width:640px) {
+            .wrap {
+                padding: 52px 16px 60px;
+            }
+
+            .cover {
+                padding: 40px 0 24px;
+            }
+
+            .cover h1 {
+                font-size: clamp(28px, 7vw, 42px);
+            }
+
+            .cover .sub {
+                font-size: 16px;
+            }
+
+            .part {
+                padding: 24px 20px 20px;
+                margin: 40px 0 6px;
+            }
+
+            .part h2 {
+                font-size: 22px;
+            }
+
+            pre {
+                padding: 12px 14px;
+                font-size: 12.5px;
+            }
+
             dl.terms {
                 grid-template-columns: 1fr
             }
@@ -690,7 +788,9 @@
             .toc,
             #toTop,
             #progress,
-            .mobiletoc {
+            .mobiletoc,
+            .menu-btn,
+            .scrim {
                 display: none !important
             }
 
@@ -720,6 +820,8 @@
 
 <body>
     <div id="progress"></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open contents">☰ contents</button>
+    <div class="scrim" id="scrim"></div>
     <button id="toTop" aria-label="Back to top">↑</button>
 
     <div class="layout">
@@ -4859,6 +4961,23 @@
                     clone.textContent = a.textContent;
                     mt.appendChild(clone);
                 });
+            }
+
+            // mobile drawer toggle
+            var menuBtn = document.getElementById('menuBtn');
+            var tocEl = document.getElementById('toc');
+            var scrimEl = document.getElementById('scrim');
+            function closeToc() {
+                if (tocEl) tocEl.classList.remove('open');
+                if (scrimEl) scrimEl.classList.remove('on');
+            }
+            if (menuBtn && tocEl && scrimEl) {
+                menuBtn.addEventListener('click', function () {
+                    tocEl.classList.toggle('open');
+                    scrimEl.classList.toggle('on');
+                });
+                scrimEl.addEventListener('click', closeToc);
+                links.forEach(function (l) { l.addEventListener('click', closeToc); });
             }
 
             // printing: auto-expand every Q&A block

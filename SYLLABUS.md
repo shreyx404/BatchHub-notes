@@ -24,7 +24,7 @@
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 5 published across DCN, OOP, and PAS).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 5 published units across DCN, OOP, and PAS; all 5 verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 

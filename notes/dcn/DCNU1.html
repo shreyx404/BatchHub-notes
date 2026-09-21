@@ -238,6 +238,25 @@
       }
     }
 
+    @media(max-width:640px) {
+      .inner {
+        padding: 56px 16px 50px;
+      }
+      .title {
+        font-size: clamp(1.75rem, 6.5vw, 2.4rem);
+      }
+      .lede {
+        font-size: 1rem;
+      }
+      .masthead {
+        padding-top: 60px;
+        padding-bottom: 32px;
+      }
+      .meta {
+        gap: 8px 20px;
+      }
+    }
+
     /* ---------- masthead ---------- */
     .masthead {
       padding-top: 84px;
@@ -463,14 +482,17 @@
       border: 1px solid var(--hair);
       background: #fff;
       padding: 26px 26px 16px;
-      margin: 30px 0
+      margin: 30px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .fig svg {
       width: 100%;
       height: auto;
       display: block;
-      overflow: visible
+      overflow: visible;
+      min-width: 280px;
     }
 
     .figcap {
@@ -658,6 +680,7 @@
     /* ---------- tables ---------- */
     .tw {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin: 28px 0
     }
 
@@ -666,6 +689,15 @@
       border-collapse: collapse;
       font-size: .88rem;
       line-height: 1.6
+    }
+
+    @media(max-width:768px) {
+      table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
     }
 
     th {

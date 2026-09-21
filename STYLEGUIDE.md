@@ -197,7 +197,43 @@ Always nest tables inside `<div class="table-wrap">` to guarantee mobile horizon
 
 ---
 
-## 5. Print Optimization (`@media print`)
+## 5. Cross-Device Responsive Standards & Breakpoints
+
+All notes MUST render cleanly across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **PC/Laptop** (>1024px) viewports with zero horizontal overflow.
+
+### 5.1 Breakpoint System
+- **Desktop / Laptop (`> 1024px`)**: Fixed sidebar TOC with active-section tracking, spacious content column (`max-width: 1000px–1180px`), multi-column comparison tables and diagrams.
+- **Tablet (`768px – 1024px`)**: Reduced layout padding, collapsible or condensed TOC drawer, adaptive two-column grids.
+- **Mobile (`< 768px` down to `320px`)**:
+  - Floating TOC drawer button (`.menu-btn` / `.toc-toggle`) with full-viewport off-canvas drawer and backdrop scrim overlay (`.scrim`).
+  - Fluid typography using `clamp(min, preferred, max)` on `h1` and `h2` to prevent word clipping.
+  - Universal table horizontal scrolling container (`overflow-x: auto; -webkit-overflow-scrolling: touch;`).
+  - Touch target accessibility: Minimum 40–44px tap area on interactive controls.
+  - Safe area insets: `padding-top: max(14px, env(safe-area-inset-top));`.
+
+### 5.2 Universal Responsive Table Rule
+To prevent multi-column tables from blowing out the mobile viewport, every table must support responsive horizontal scrolling:
+```css
+.table-wrap, .tw, .tblwrap, .tblw {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 20px 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+```
+
+---
+
+## 6. Print Optimization (`@media print`)
 
 Every note MUST include this exact print style block so students can cleanly export high-resolution PDFs or print physical cheat-sheets:
 
@@ -221,7 +257,7 @@ Every note MUST include this exact print style block so students can cleanly exp
 
 ---
 
-## 6. Editorial Guidelines & Voice
+## 7. Editorial Guidelines & Voice
 
 1. **High Signal-to-Noise Ratio**: Cut conversational padding. Begin sections directly with definitions, bullet points, and architecture diagrams.
 2. **Bold Key Terms**: Always emphasize the primary term on first mention (`<strong>...</strong>`).
@@ -231,7 +267,7 @@ Every note MUST include this exact print style block so students can cleanly exp
 
 ---
 
-## 7. Operational Rule for All Contributors & Agents
+## 8. Operational Rule for All Contributors & Agents
 
 > ⚡ **Mandatory Synchronization Invariant**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**

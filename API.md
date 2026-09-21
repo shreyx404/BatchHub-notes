@@ -269,6 +269,8 @@ When BatchHub embeds notes directly inside the portal interface:
 </iframe>
 ```
 
+All notes automatically adapt their viewport within the iframe: on viewports or iframe containers `< 768px`, the TOC cleanly collapses into the floating drawer with backdrop scrim, and data tables scroll smoothly without causing iframe-level horizontal scrollbars.
+
 ### 5.1 Security Headers
 - **X-Frame-Options**: GitHub Pages serves static files with open framing headers (`ALLOWALL`), allowing seamless embedding on `https://batch-hub-red.vercel.app`.
 - **CORS**: Cross-Origin Resource Sharing is enabled for static JSON endpoints on GitHub Pages, permitting `fetch('https://shreyx404.github.io/BatchHub-notes/notes.json')` from client-side React components in BatchHub without proxying.

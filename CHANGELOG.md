@@ -17,6 +17,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
 - KaTeX mathematical formula rendering engine.
 
+## [1.6.0] - 2026-09-21
+
+### Added
+- **Unified Cross-Device Responsive Architecture**:
+  - Engineered off-canvas sliding TOC drawers with floating toggle triggers (`#menuBtn` / `.menu-btn`) and dark backdrop scrim overlays (`#scrim`) across `notes/oop/OOPU1.html`, `notes/pas/PASU1.html`, and `notes/pas/PASU2.html`, ensuring seamless table of contents navigation on mobile and tablet screens.
+  - Added reading progress bar indicator (`#progressBar`) with high-frequency scroll listeners to `notes/oop/OOPU1.html`.
+  - Added tablet breakpoints (`@media (max-width: 1024px)`) and small mobile optimizations (`@media (max-width: 480px)` and `<640px>`) to `templates/note-template.html` and note pages.
+- **Universal Responsive Table & Math Block Scroll Containers**:
+  - Implemented responsive horizontal table scrolling (`table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }`) preventing horizontal viewport blowouts across multi-column data tables in `OOPU1`, `PASU1`, `PASU2`, `DCNU1`, and `DCNU2`.
+  - Added touch-friendly scrolling to formula blocks (`.fbox`, `.dmath`, `.tw`, `.tblwrap`, `pre`).
+
+### Changed
+- **Typography & Mobile Touch Refinements**:
+  - Replaced oversized fixed headings with fluid typography (`clamp()`) across all notes to prevent text clipping and excessive line wrapping on 320px–375px screens.
+  - Set `font-size: 16px` on `index.html` `.search-input` for mobile devices to prevent unwanted iOS Safari viewport auto-zoom.
+  - Expanded interactive button touch targets (`.btn`, `.pill`, `.menu-btn`) to ensure minimum 40–44px comfortable touch accessibility.
+- **System Documentation & Manifest**:
+  - Verified manifest with 5 notes (22.7% curriculum completion).
+  - Synchronized all 10 system markdowns to establish responsive multi-viewport design invariants.
+
 ---
 
 ## [1.5.0] - 2026-09-21

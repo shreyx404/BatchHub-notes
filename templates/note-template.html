@@ -387,9 +387,25 @@
     letter-spacing: 0.06em;
   }
 
+  .scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .scrim.on {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   /* ─── PRINT ─── */
   @media print {
-    .sidebar, .toc-toggle, .progress-bar { display: none !important; }
+    .sidebar, .toc-toggle, .progress-bar, .scrim { display: none !important; }
     .main { margin-left: 0; padding: 20px; max-width: 100%; }
     body { background: #fff; color: #111; font-size: 12px; }
     h1, h2, h3, h4, strong { color: #000; }
@@ -402,13 +418,27 @@
     footer { display: none; }
   }
 
+  /* ─── TABLET ─── */
+  @media (max-width: 1024px) {
+    .main { padding: 48px 40px; }
+  }
+
   /* ─── MOBILE ─── */
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
     .toc-toggle { display: flex; }
-    .main { margin-left: 0; padding: 60px 20px 40px; }
-    .hero h1 { font-size: 26px; }
+    .main { margin-left: 0; padding: 64px 24px 40px; }
+    .hero h1 { font-size: clamp(24px, 5.5vw, 32px); }
+  }
+
+  @media (max-width: 480px) {
+    .main { padding: 60px 16px 36px; }
+    .hero-info { flex-wrap: wrap; gap: 10px 16px; }
+    .sidebar { width: calc(100vw - 44px); max-width: 290px; }
+    h2 { font-size: 20px; }
+    .callout { padding: 14px 16px; }
+    pre { padding: 14px 16px; }
   }
 </style>
 </head>
@@ -417,8 +447,9 @@
 <!-- Reading Progress -->
 <div class="progress-bar" id="progressBar"></div>
 
-<!-- Mobile TOC Toggle -->
+<!-- Mobile TOC Toggle & Scrim -->
 <button class="toc-toggle" id="tocToggle" aria-label="Toggle Table of Contents">☰</button>
+<div class="scrim" id="scrim"></div>
 
 <!-- ═══════════ SIDEBAR TOC ═══════════ -->
 <nav class="sidebar" id="sidebar">
@@ -535,13 +566,23 @@ window.addEventListener('scroll', () => {
   document.getElementById('progressBar').style.width = Math.min(pct, 100) + '%';
 });
 
-// ── Mobile TOC toggle ──
-document.getElementById('tocToggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
-});
-document.querySelector('.main').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.remove('open');
-});
+// ── Mobile TOC toggle & scrim ──
+const tocToggle = document.getElementById('tocToggle');
+const sidebar = document.getElementById('sidebar');
+const scrim = document.getElementById('scrim');
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  if (scrim) scrim.classList.remove('on');
+}
+if (tocToggle) {
+  tocToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    if (scrim) scrim.classList.toggle('on');
+  });
+}
+if (scrim) scrim.addEventListener('click', closeSidebar);
+document.querySelector('.main').addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar a').forEach(a => a.addEventListener('click', closeSidebar));
 
 // ── Active TOC highlighting ──
 (function () {

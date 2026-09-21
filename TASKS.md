@@ -6,12 +6,12 @@
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | 🟡 **In Progress** | **50%** (2/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **11.1%** (2/18 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements | ⚪ **Backlog** | 0% |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **16.7%** (3/18 Units) |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 40% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 50% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **4 / 22 Units** (18.2%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **5 / 22 Units** (22.7%).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -148,8 +148,9 @@
 
 ---
 
-## Phase 4: Reader & Portal Enhancements ⚪
+## Phase 4: Reader & Portal Enhancements 🟡
 
+- [x] **Cross-Device Responsive Architecture & Mobile Optimization Overhaul**: Engineered off-canvas sliding TOC drawers with trigger buttons and dark scrim backdrop across notes (`OOPU1`, `PASU1`, `PASU2`, template), added tablet breakpoints, universal responsive table and math formula scroll containers, fluid `clamp()` typography, and mobile touch usability enhancements.
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
 - [ ] **In-Note Keyword Search**: Quick `Ctrl+K` or search bar within long-form notes.
 - [ ] **Dark / Light Mode Toggle**: Optional light theme toggle for high-glare environments.

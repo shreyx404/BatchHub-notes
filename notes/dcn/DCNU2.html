@@ -434,6 +434,7 @@
     /* ---------- tables ---------- */
     .tblwrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin: 20px 0 28px
     }
 
@@ -441,6 +442,15 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 15px
+    }
+
+    @media (max-width: 768px) {
+      table.tbl {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
     }
 
     table.tbl th {
@@ -1532,9 +1542,15 @@
         align-items: center;
         gap: 8px;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
         background: var(--paper);
         border-bottom: 1px solid var(--line);
-        padding: 10px 0
+        padding: 10px 16px
+      }
+
+      .toc::-webkit-scrollbar {
+        display: none
       }
 
       .toc-h {
@@ -1594,6 +1610,39 @@
 
       .mnem {
         grid-template-columns: 1fr
+      }
+    }
+
+    @media (max-width: 640px) {
+      .mast {
+        padding: 36px 16px 0;
+      }
+
+      .layout {
+        padding: 0 16px;
+      }
+
+      .mast h1 {
+        font-size: clamp(28px, 8vw, 54px);
+        margin: 20px 0 12px;
+      }
+
+      .mast-stats span {
+        padding: 8px 12px 8px 0;
+        margin-right: 12px;
+        font-size: 9px;
+      }
+
+      .mast-act {
+        padding: 10px 0 24px;
+      }
+
+      .tblwrap {
+        margin: 14px 0 20px;
+      }
+
+      .es {
+        margin-bottom: 6px;
       }
     }
 

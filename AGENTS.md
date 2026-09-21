@@ -165,10 +165,12 @@ git push origin main
 ## 5. Verification Checklist for Agents
 
 Before completing any task or reporting back to the user:
-- [ ] Has `node scripts/generate-manifest.js` been run?
-- [ ] Does `notes.json` contain the note with valid `id`, `subject`, `unit`, `title`, `path`, and `url`?
+- [ ] Has `node scripts/generate-manifest.js` (or `npm run build`) been run?
+- [ ] Does `notes.json` contain every note with valid `id`, `subject`, `unit`, `title`, `path`, and `url`?
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
-- [ ] Does `@media print` exist in the note CSS so students can export to PDF?
-- [ ] Are mobile responsive styles present (progress bar, sidebar drawer)?
+- [ ] Does `@media print` exist in the note CSS so students can cleanly export to PDF?
+- [ ] Are mobile and tablet responsive styles present (reading progress bar, off-canvas TOC drawer with trigger button and backdrop scrim)?
+- [ ] Are all data tables and formula blocks responsive (`display: block; max-width: 100%; overflow-x: auto;`) with zero horizontal page blowout on 320px–375px screens?
+- [ ] Have font sizes been verified with fluid `clamp()` to prevent heading overflow on small mobile displays?
 - [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) been modified and updated to reflect the latest changes?
 - [ ] Is `git status` clean and has the entire codebase been pushed to GitHub `main`?

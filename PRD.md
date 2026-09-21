@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.4.0  
+**Version**: 1.6.0  
 
 ---
 
@@ -134,18 +134,22 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 - Generates `notes.json` formatted with consistent indentation and sorted by subject and unit.
 - Zero external npm runtime dependencies (uses Node.js built-in `fs` and `path`).
 
-### FR-3: Standardized Editorial Note Template (`templates/note-template.html`)
-- **Reading Progress Bar**: Subtle golden accent bar fixed to top viewport edge showing percentage scrolled.
-- **Sticky / Collapsible Table of Contents (TOC)**:
-  - Desktop: Fixed sidebar (260px) with smooth scroll tracking and active link indicator.
-  - Mobile: Collapsible drawer with touch toggle button.
+### FR-3: Standardized Editorial Note Template & Responsive Architecture (`templates/note-template.html`)
+- **Reading Progress Bar**: Subtle accent bar fixed to top viewport edge showing percentage scrolled.
+- **Cross-Device Table of Contents (TOC)**:
+  - Desktop (>1024px): Fixed sidebar (260px) with smooth scroll tracking and active link indicator.
+  - Tablet (641px–1024px): Optimized layout margins with adaptive sidebar or drawer mode.
+  - Mobile (<640px down to 320px): Floating toggle button (`.menu-btn` / `.toc-toggle`) with full off-canvas drawer and backdrop scrim overlay (`.scrim`). Automatically closes when links or backdrop are clicked.
+- **Universal Responsive Table & Math Blocks**:
+  - All data comparison tables, frequency distributions, and formula blocks wrapped or styled with `display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;` to eliminate horizontal page scroll blowouts on small screens.
+- **Fluid Typography**: Uses `clamp()` for responsive headings to prevent text clipping and excessive wrapping on narrow mobile screens.
+- **Mobile Touch Usability**: Ensures min 40–44px touch targets on all buttons and pills; search inputs enforce `font-size: 16px` on mobile to eliminate iOS Safari viewport auto-zooming.
 - **Callout Box System**:
   - `callout key`: Core concepts & definitions (Warm gold theme)
   - `callout tip`: Practical study tips & shortcuts (Emerald green theme)
   - `callout warning`: Common traps & misconceptions (Amber orange theme)
   - `callout exam`: High-frequency exam questions & marks weightage (Indigo theme)
 - **Technical Typography**: IBM Plex Sans (body) + IBM Plex Mono (code, metadata, formulas, tables).
-- **Responsive Elements**: Horizontal scroll wrappers for comparison tables, formatted formulas, flexbox diagrams.
 - **Print Optimization (`@media print`)**: Automatically strips sidebar, toggle buttons, and progress bar. Inverts colors to high-contrast monochrome with clean page breaks for physical printing and PDF export.
 
 ### FR-4: CI/CD Pipeline (`.github/workflows/deploy.yml`)

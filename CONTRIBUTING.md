@@ -114,8 +114,10 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) stand
 Before submitting your pull request or committing to `main`:
 
 - [ ] Does the note contain all mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`)?
-- [ ] Does `npm run build` run without errors and produce valid JSON in `notes.json`?
-- [ ] Does the sidebar TOC link correctly to all section anchors (`#section-1`, `#section-2`, etc.)?
+- [ ] Does `npm run build` (or `node scripts/generate-manifest.js`) run cleanly and produce valid JSON in `notes.json`?
+- [ ] Has the note been verified across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **Desktop** viewports?
+- [ ] Does the mobile floating TOC drawer (`.menu-btn`) and backdrop scrim (`.scrim`) open and close smoothly without horizontal layout shifts?
+- [ ] Are all data tables and formula blocks responsive (`overflow-x: auto; -webkit-overflow-scrolling: touch;`) with zero horizontal page blowout on narrow screens?
 - [ ] Does `@media print` render cleanly in Print Preview without background fills or clipped tables?
 - [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) been updated?
 - [ ] Is `git status` clean and ready for push?

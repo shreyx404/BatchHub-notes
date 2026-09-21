@@ -389,12 +389,21 @@
   .footer a:hover { color: var(--warm); }
 
   /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .search-input {
+      font-size: 16px; /* Prevents iOS Safari auto-zoom on input focus */
+    }
+  }
+
   @media (max-width: 640px) {
-    .container { padding: 0 18px; }
-    .header { padding: 36px 0 32px; }
-    .header h1 { font-size: 28px; }
-    .notes-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px; }
+    .header { padding: 36px 0 28px; }
+    .header h1 { font-size: clamp(24px, 7vw, 32px); }
+    .notes-grid { grid-template-columns: 1fr; gap: 16px; }
+    .note-card { padding: 20px; }
     .card-actions { flex-direction: column; }
+    .btn { min-height: 40px; }
+    .pill { min-height: 32px; padding: 6px 14px; }
     .footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 </style>

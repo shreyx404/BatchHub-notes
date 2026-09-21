@@ -291,7 +291,10 @@
       border: 1px solid var(--line);
       padding: 18px 20px 12px;
       margin: 18px 0;
-      text-align: center
+      text-align: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
 
     .dmath {
@@ -698,21 +701,105 @@
       text-decoration: none
     }
 
+    /* Menu button & scrim */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 200;
+      padding: 8px 14px;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .scrim.on {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Responsive table scrolling */
+    @media (max-width: 768px) {
+      table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
     @media(max-width:960px) {
       .layout {
-        display: block
+        display: block;
+      }
+
+      .menu-btn {
+        display: block;
       }
 
       aside {
-        position: static;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-        padding: 22px 20px
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        max-width: calc(100vw - 44px);
+        height: 100vh;
+        background: var(--paper);
+        border-right: 1px solid var(--line);
+        border-bottom: none;
+        z-index: 100;
+        padding: 26px 18px 40px;
+        transform: translateX(-100%);
+        transition: transform 0.28s ease;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+        overflow-y: auto;
+      }
+
+      aside.open {
+        transform: translateX(0);
       }
 
       main {
-        padding: 36px 20px 60px
+        padding: 56px 22px 60px;
+      }
+    }
+
+    @media(max-width:640px) {
+      main {
+        padding: 52px 16px 50px;
+      }
+
+      h1 {
+        font-size: clamp(28px, 6.8vw, 42px);
+      }
+
+      .sheet,
+      .check {
+        grid-template-columns: 1fr !important;
+      }
+
+      .dek {
+        font-size: 16px;
       }
     }
 
@@ -720,8 +807,10 @@
 
       #progress,
       aside,
-      .btns {
-        display: none
+      .btns,
+      .menu-btn,
+      .scrim {
+        display: none !important;
       }
 
       .layout {
@@ -750,6 +839,8 @@
 
 <body>
   <div id="progress"></div>
+  <button class="menu-btn" id="menuBtn" aria-label="Open contents">☰ contents</button>
+  <div class="scrim" id="scrim"></div>
   <div class="layout">
 
     <!-- ============ SIDEBAR ============ -->
@@ -4187,6 +4278,23 @@
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { links.forEach(l => l.classList.toggle('act', l.getAttribute('href') === '#' + e.target.id)); } }) }, { rootMargin: '-15% 0px -75% 0px' });
       secs.forEach(s => io.observe(s));
+    }
+
+    // mobile drawer toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const aside = document.querySelector('aside');
+    const scrim = document.getElementById('scrim');
+    function closeAside() {
+      if (aside) aside.classList.remove('open');
+      if (scrim) scrim.classList.remove('on');
+    }
+    if (menuBtn && aside && scrim) {
+      menuBtn.addEventListener('click', () => {
+        aside.classList.toggle('open');
+        scrim.classList.toggle('on');
+      });
+      scrim.addEventListener('click', closeAside);
+      links.forEach(l => l.addEventListener('click', closeAside));
     }
   </script>
 </body>

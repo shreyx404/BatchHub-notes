@@ -1,6 +1,6 @@
 # BatchHub Notes Archive
 
-Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)** — deployed automatically to GitHub Pages.
+Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)** — deployed automatically to GitHub Pages. Engineered for pure distraction-free reading with seamless responsive design across Mobile, Tablet, and Desktop devices.
 
 **Live Archive**: [https://shreyx404.github.io/BatchHub-notes/](https://shreyx404.github.io/BatchHub-notes/)  
 **Main Portal**: [https://batch-hub-red.vercel.app/notes](https://batch-hub-red.vercel.app/notes)  
