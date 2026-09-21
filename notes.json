@@ -3,8 +3,8 @@
     "id": "dcn-unit1",
     "subject": "DCN",
     "unit": "Unit 1",
-    "title": "DCN Unit I — Complete Notes",
-    "summary": "Complete introduction to Data Communication & Networks — covering data communication components, signal types, transmission modes, multiplexing, switching, and network topologies.",
+    "title": "DCN · Unit I — Examination Notes",
+    "summary": "Complete examination notes on Data Communication & Networking Unit 1 — covering communication components, transmission modes, signals, error detection (VRC, LRC, Checksum, CRC stepper), network topologies, and IEEE 802 standards.",
     "path": "notes/dcn/DCNU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU1.html",
     "tags": [
@@ -12,23 +12,61 @@
       "Data Communication",
       "Fundamentals",
       "Signals",
-      "Transmission"
+      "Transmission",
+      "CRC",
+      "Error Detection",
+      "Topologies",
+      "IEEE 802"
     ]
   },
   {
     "id": "dcn-unit2",
     "subject": "DCN",
     "unit": "Unit 2",
-    "title": "Unit II — OSI Reference Model | DCN Notes",
-    "summary": "Comprehensive guide to the OSI 7-Layer Reference Model — Physical, Data Link, Network, Transport, Session, Presentation, and Application layers with PDUs, protocols, and comparisons.",
+    "title": "Unit II — The OSI Reference Model · DCN Examination Notes",
+    "summary": "Comprehensive examination notes on the OSI 7-Layer Reference Model — layer functions, PDUs, protocols, interactive layer explorer, encapsulation stepper, and design comparisons.",
     "path": "notes/dcn/DCNU2.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU2.html",
     "tags": [
       "Networking",
       "OSI",
+      "Reference Model",
+      "7 Layers",
+      "Encapsulation",
       "Protocols",
-      "Layers",
-      "Reference Model"
+      "Physical",
+      "Data Link",
+      "Network",
+      "Transport",
+      "Session",
+      "Presentation",
+      "Application"
+    ]
+  },
+  {
+    "id": "oop-unit1",
+    "subject": "OOP",
+    "unit": "Unit 1",
+    "title": "Object Oriented Programming — Complete Notes",
+    "summary": "Complete lecture notes for CB2006 Unit 1 covering Object Oriented Programming in C++: OOP foundations, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.",
+    "path": "notes/oop/OOPU1.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/oop/OOPU1.html",
+    "tags": [
+      "OOP",
+      "C++",
+      "Classes",
+      "Objects",
+      "Constructors",
+      "Destructors",
+      "Memory Map",
+      "Friend Functions",
+      "Function Overloading",
+      "Operator Overloading",
+      "Inheritance",
+      "Polymorphism",
+      "Virtual Functions",
+      "Templates",
+      "File Handling"
     ]
   },
   {
@@ -36,7 +74,7 @@
     "subject": "PAS",
     "unit": "Unit 1",
     "title": "MM0501 · Unit I — Complete Study Notes · Data, Visualization, Central Tendency & Dispersion",
-    "summary": "Complete study notes for MM0501 Unit 1 covering Descriptive Statistics: data classification, visualization pipelines, measures of central tendency, and dispersion metrics.",
+    "summary": "Complete study notes for MM0501 Unit 1 covering Descriptive Statistics: data classification, visualization pipelines, measures of central tendency, dispersion metrics, box plots, and skewness.",
     "path": "notes/pas/PASU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU1.html",
     "tags": [
@@ -50,7 +88,10 @@
       "Median",
       "Mode",
       "Variance",
-      "Standard Deviation"
+      "Standard Deviation",
+      "Box Plot",
+      "Skewness",
+      "Kurtosis"
     ]
   },
   {

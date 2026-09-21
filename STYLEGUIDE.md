@@ -2,7 +2,7 @@
 
 > **Scope**: This document defines the visual design system, CSS variable tokens, UI widget patterns, and editorial tone guidelines for all academic notes hosted in `BatchHub-notes`.
 >
-> **Goal**: Ensure 100% visual and structural cohesion across all 22 curriculum notes (FDS: 6, DCN: 4, BIOT: 4, OOP: 4, PAS: 4; currently published: 4/22 across DCN & PAS), whether authored by humans or AI agents.
+> **Goal**: Ensure 100% visual and structural cohesion across all 22 curriculum notes (FDS: 6, DCN: 4, BIOT: 4, OOP: 4, PAS: 4; currently published: 5/22 across DCN, OOP & PAS), whether authored by humans or AI agents.
 
 ---
 

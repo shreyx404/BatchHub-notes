@@ -103,10 +103,11 @@
   - [ ] Adjacency matrix/list, BFS, DFS, Warshall’s transitive closure, topological sorting.
   - [ ] Networking, social graphs, and attack path modelling case studies.
 
-### 2. Object Oriented Programming (OOP — CB2006) — `notes/oop/` (4 Units)
-- [ ] Unit 1: Introduction to OOP [C++] (`OOPU1.html`)
-  - [ ] OOP fundamentals vs C, I/O streams, dynamic memory (`new`/`delete`), classes & objects.
-  - [ ] Access specifiers, `this` pointer, constructors/destructors, static members, friend functions, overloading.
+### 2. Object Oriented Programming (OOP — CB2006) — `notes/oop/` (4 Units) 🟡
+- [x] **Unit 1: Introduction to OOP [C++]** (`OOPU1.html`) ✅
+  - [x] OOP fundamentals vs C, I/O streams, dynamic memory (`new`/`delete`), classes & objects.
+  - [x] Access specifiers, `this` pointer, constructors/destructors, static members, friend functions, overloading.
+  - [x] Complete 13-chapter lecture suite: const/control structures, memory map, inheritance, virtual functions, templates, and file handling.
 - [ ] Unit 2: OOP Principles [C++ & STL] (`OOPU2.html`)
   - [ ] Inheritance types, base/derived constructors, upcasting/downcasting, virtual functions.
   - [ ] Polymorphism, pure virtual, virtual base class, file handling, templates, STL containers & iterators.

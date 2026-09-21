@@ -13,9 +13,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ingestion of DCN Units 3 and 4 (`CB2004` IP addressing & TCP/IP Model).
 - Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
 - Initial units for Fundamentals of Data Structures (`notes/fds/` — `CB2003`).
-- Initial units for Object Oriented Programming (`notes/oop/` — `CB2006`).
+- Ingestion of OOP Units 2, 3, and 4 (`notes/oop/` — `CB2006`).
 - Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
 - KaTeX mathematical formula rendering engine.
+
+---
+
+## [1.5.0] - 2026-09-21
+
+### Added
+- **Object Oriented Programming (OOP — CB2006) Unit Ingestion**:
+  - `notes/oop/OOPU1.html`: Unit 1 — Introduction to OOP with C++ covering 13 comprehensive lecture chapters: foundations of OOP paradigm, C++ syntax fundamentals, const qualifiers & control structures, constructors & member initializers, destructors & copy constructors, the memory map (stack, heap, code, data), friend functions & classes, function overloading, operator overloading, inheritance hierarchies, polymorphism & virtual functions (vtable/vptr), function & class templates, and file handling streams.
+  - Added print styles (`@media print`) for clean PDF export and relative back-link (`../../index.html`) to master portal.
+  - Attached standard metadata tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`).
+
+### Changed
+- **Major Interactive Overhauls & Content Revamps**:
+  - `notes/dcn/DCNU1.html`: Unit 1 Examination Notes overhauled with worked CRC stepper, interactive calculation tools, 17 flip-cards for rapid revision, comprehensive tables, and attached standard manifest metadata tags and sidebar back-links.
+  - `notes/dcn/DCNU2.html`: Unit 2 OSI Reference Model notes enhanced with interactive 7-layer explorer, animated encapsulation stepper, protocol breakdown tables, print support, and attached standard manifest metadata tags and sidebar back-links.
+  - `notes/pas/PASU1.html`: Unit 1 Descriptive Statistics expanded with complete visualization pipelines, interactive self-test Q&As, print formatting, and attached standard manifest metadata tags and sidebar back-links.
+- **Manifest & System Synchronization**:
+  - Recompiled `notes.json` via `npm run build` tracking 5 published notes across DCN, OOP, and PAS (22.7% curriculum completion).
+  - Synchronized all 10 system markdowns to reflect the updated note inventory and latest state.
 
 ---
 

@@ -47,7 +47,7 @@
          v                       v
 +--------------------+  +-------------------------------------------------+
 | Master Portal      |  | Standalone Note Pages                           |
-| (index.html)       |  | (notes/dcn/DCNU1.html, notes/pas/PASU1.html, etc)|
+| (index.html)       |  | (notes/dcn/DCNU1.html, notes/oop/OOPU1.html, etc)|
 | - Live search      |  | - Sticky Sidebar TOC                            |
 | - Filter pills     |  | - Reading progress indicator                    |
 | - Copy Link utility|  | - Print-optimized stylesheet                    |
@@ -157,7 +157,7 @@ notes/
 | `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units | Pure HTML5/CSS3 |
 | `notes/pas/` | `MM0501` | Probability and Statistics | 4 Units | Pure HTML5/CSS3 |
 
-Total Academic Note Scope: **22 Units** (Current: 4 published across DCN & PAS).
+Total Academic Note Scope: **22 Units** (Current: 5 published across DCN, OOP & PAS).
 
 ---
 

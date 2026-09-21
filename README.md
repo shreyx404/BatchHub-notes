@@ -20,6 +20,7 @@ BatchHub-notes/
 │   │   └── DCNU2.html             ← Unit 2: OSI 7-Layer Reference Model
 │   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units)
 │   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
+│   │   └── OOPU1.html             ← Unit 1: Introduction to OOP with C++
 │   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units)
 │       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
 │       └── PASU2.html             ← Unit 2: Probability Basics & Distributions
@@ -67,10 +68,10 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 | **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | 0/6 Units |
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
 | **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
-| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
+| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 1/4 Units (25%) |
 | **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
  
-**Total Academic Scope**: **22 Units** (4 published, 18 planned).
+**Total Academic Scope**: **22 Units** (5 published, 17 planned).
 
 ---
 

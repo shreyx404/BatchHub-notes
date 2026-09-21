@@ -37,6 +37,7 @@ BatchHub-notes/
 │   │   └── DCNU2.html            # Unit 2 Notes (Published)
 │   ├── fds/                      # Fundamentals of Data Structures (CB2003 - 6 Units)
 │   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units)
+│   │   └── OOPU1.html            # Unit 1 Notes (Published)
 │   └── pas/                      # Probability and Statistics (MM0501 - 4 Units)
 │       ├── PASU1.html            # Unit 1 Notes (Published)
 │       └── PASU2.html            # Unit 2 Notes (Published)

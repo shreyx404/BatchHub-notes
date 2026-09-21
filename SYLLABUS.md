@@ -17,14 +17,14 @@
 | **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | In Backlog (0/6) |
 | **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
 | **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | In Backlog (0/4) |
-| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | In Backlog (0/4) |
-| **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | In Backlog (0/4) |
+| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 25% (1/4) |
+| **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
 | **S7 (RAD)**| `HS2001` | — | Reasoning and Aptitude Development - 3 | 1 / 0 / 0 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (FDS: 6, DCN: 4, BIOT: 4, OOP: 4, PAS: 4).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 5 published across DCN, OOP, and PAS).
 
 ---
 
@@ -222,7 +222,7 @@
 #### Unit Breakdown & Scope (4 Units)
 
 ##### SECTION I: C++ Programming
-1. **Unit 1: Introduction to OOP** (7 Hours) — `OOPU1.html`
+1. **Unit 1: Introduction to OOP** (7 Hours) — `OOPU1.html` *(Published)*
    - *Concepts*: Fundamentals of OOP paradigm. Introduction to Programming and C++, Differences between C and C++. Variables, Data Types, and Operators. Control Structures, Loops, and Iteration. Functions and Modular Programming. Basics of Console Input and Output streams (`cin`, `cout`). Dynamic Memory Allocation (`new`, `delete`). Introduction to Classes and Objects, Creation and Destruction of Objects. Data Members, Member Functions, Access Specifiers (`private`, `protected`, `public`). `this` Pointer. Constructors (default, parameterized, copy) and Destructors. Static Class Members and Static Member Functions. Friend Classes and Friend Functions. Function Overloading and Operator Overloading.
 
 2. **Unit 2: OOP Principles** (7 Hours) — `OOPU2.html`

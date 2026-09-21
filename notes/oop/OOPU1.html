@@ -1,0 +1,3771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="note-id" content="oop-unit1">
+<meta name="note-subject" content="OOP">
+<meta name="note-unit" content="Unit 1">
+<meta name="note-tags" content="OOP, C++, Classes, Objects, Constructors, Destructors, Memory Map, Friend Functions, Function Overloading, Operator Overloading, Inheritance, Polymorphism, Virtual Functions, Templates, File Handling">
+<meta name="note-summary" content="Complete lecture notes for CB2006 Unit 1 covering Object Oriented Programming in C++: OOP foundations, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.">
+<title>Object Oriented Programming — Complete Notes</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --fg:#111111;
+    --muted:#6a6a6a;
+    --faint:#9a9a9a;
+    --line:#e3e3e3;
+    --soft:#f6f6f6;
+    --soft2:#eeeeee;
+    --code:#f5f5f5;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    display:grid;
+    grid-template-columns:250px minmax(0,1fr);
+    gap:56px;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px 140px;
+  }
+
+  header.top{
+    max-width:1180px;
+    margin:0 auto;
+    padding:64px 32px 32px;
+  }
+  header.top h1{
+    font-size:2.1rem;
+    letter-spacing:-0.025em;
+    margin:0 0 8px;
+    font-weight:700;
+  }
+  header.top p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.95rem;
+  }
+  header.top .rule{
+    height:1px;background:var(--line);margin:28px 0 0;
+  }
+
+  /* ---------- TOC ---------- */
+  nav.toc{
+    position:sticky;
+    top:28px;
+    align-self:start;
+    max-height:calc(100vh - 56px);
+    overflow-y:auto;
+    font-size:13.4px;
+    padding-right:8px;
+  }
+  nav.toc h2{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--faint);
+    margin:0 0 12px;
+    font-weight:600;
+    border:none;
+    padding:0;
+  }
+  nav.toc a{
+    display:block;
+    color:var(--muted);
+    text-decoration:none;
+    padding:3px 0 3px 11px;
+    border-left:2px solid transparent;
+    line-height:1.45;
+    transition:color .12s, border-color .12s;
+  }
+  nav.toc a:hover{color:var(--fg);border-left-color:#111;}
+  nav.toc a.sub{padding-left:24px;font-size:12.6px;color:var(--faint);}
+
+  /* ---------- headings ---------- */
+  main{min-width:0;}
+  h2.ch{
+    font-size:1.55rem;
+    letter-spacing:-0.02em;
+    margin:72px 0 6px;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+    font-weight:700;
+  }
+  h2.ch:first-of-type{margin-top:8px;border-top:none;padding-top:0;}
+  h2.ch .num{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--faint);
+    margin-right:12px;
+    vertical-align:2px;
+  }
+  h3{
+    font-size:1.12rem;
+    margin:40px 0 8px;
+    font-weight:650;
+    letter-spacing:-0.01em;
+  }
+  h4{
+    font-size:0.97rem;
+    margin:26px 0 6px;
+    font-weight:650;
+    color:#222;
+  }
+  p{margin:12px 0;}
+  ul,ol{margin:12px 0;padding-left:22px;}
+  li{margin:5px 0;}
+  li > ul, li > ol{margin:5px 0;}
+
+  /* ---------- code ---------- */
+  pre{
+    background:var(--code);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:15px 18px;
+    overflow-x:auto;
+    font-size:13.2px;
+    line-height:1.62;
+    margin:18px 0;
+  }
+  pre code{background:none;padding:0;border:none;font-size:inherit;}
+  code{
+    font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    background:var(--soft2);
+    padding:1.5px 5px;
+    border-radius:3px;
+    font-size:0.87em;
+  }
+
+  /* ---------- tables ---------- */
+  table{
+    border-collapse:collapse;
+    width:100%;
+    margin:20px 0;
+    font-size:14.2px;
+  }
+  th,td{
+    border:1px solid var(--line);
+    padding:9px 13px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{background:var(--soft2);font-weight:650;font-size:13.4px;}
+  td code{font-size:0.85em;}
+
+  /* ---------- callouts ---------- */
+  .note, .warn, .key{
+    border-left:3px solid #111;
+    background:var(--soft);
+    padding:13px 18px;
+    margin:20px 0;
+    border-radius:0 5px 5px 0;
+    font-size:14.6px;
+  }
+  .note .lbl, .warn .lbl, .key .lbl{
+    display:block;
+    font-size:10.6px;
+    text-transform:uppercase;
+    letter-spacing:0.13em;
+    font-weight:700;
+    color:var(--muted);
+    margin-bottom:5px;
+  }
+  .warn{border-left-style:double;border-left-width:5px;}
+  .key{border-left-width:5px;}
+
+  /* ---------- figures ---------- */
+  figure{
+    margin:26px 0;
+    padding:18px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:#fcfcfc;
+  }
+  figure svg{display:block;width:100%;height:auto;}
+  figcaption{
+    font-size:12.8px;
+    color:var(--muted);
+    margin-top:12px;
+    text-align:center;
+    font-style:italic;
+  }
+
+  /* ---------- misc ---------- */
+  hr{border:none;border-top:1px solid var(--line);margin:44px 0;}
+  .lead{font-size:16.6px;color:#333;}
+  .small{font-size:13.6px;color:var(--muted);}
+  .kv{font-size:14.4px;margin:8px 0;}
+  .kv b{font-weight:650;}
+
+  @media (max-width:900px){
+    .wrap{grid-template-columns:1fr;gap:0;padding:0 22px 100px;}
+    header.top{padding:44px 22px 24px;}
+    nav.toc{
+      position:static;max-height:none;overflow:visible;
+      margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--line);
+    }
+    h2.ch{margin-top:52px;}
+  }
+
+  @media print {
+    nav.toc, header.top .rule { display: none !important; }
+    .wrap { display: block !important; padding: 0 !important; }
+    header.top { padding: 20px 0 !important; }
+    h2.ch { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Object Oriented Programming</h1>
+  <p>Complete lecture notes · C++ · Vishwakarma Institute of Technology, Pune</p>
+  <div class="rule"></div>
+</header>
+
+<div class="wrap">
+
+<!-- ================= TOC ================= -->
+<nav class="toc">
+  <a href="../../index.html" class="back-link" style="display:inline-block;margin-bottom:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">← Notes Hub</a>
+  <h2>Contents</h2>
+  <a href="#ch1">1 · Foundations of OOP</a>
+  <a href="#ch2">2 · C++ Fundamentals</a>
+  <a href="#ch3">3 · const &amp; Control Structures</a>
+  <a href="#ch4">4 · Constructors</a>
+  <a href="#ch5">5 · Destructor &amp; Copy Constructor</a>
+  <a href="#ch6">6 · The Memory Map</a>
+  <a href="#ch7">7 · Friend Functions &amp; Classes</a>
+  <a href="#ch8">8 · Function Overloading</a>
+  <a href="#ch9">9 · Operator Overloading</a>
+  <a href="#ch10">10 · Inheritance</a>
+  <a href="#ch11">11 · Polymorphism &amp; Virtual Functions</a>
+  <a href="#ch12">12 · Templates</a>
+  <a href="#ch13">13 · File Handling</a>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 1 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch1"><span class="num">01</span>Foundations of Object-Oriented Programming</h2>
+
+<p class="lead">Object-Oriented Programming (OOP) organises a program as a collection of <b>objects</b> — self-contained units that bundle <i>data</i> (state) together with the <i>operations</i> (behaviour) that act on that data — instead of a sequence of procedures operating on shared global data.</p>
+
+<h3>1.1 Why OOP?</h3>
+<p>Procedural programming expresses programs as a collection of procedures (subroutines). As programs grow, the data becomes globally visible and any procedure can corrupt it. OOP solves this by:</p>
+<ul>
+  <li><b>Bundling</b> data and behaviour into one unit (the class).</li>
+  <li><b>Restricting</b> access to the internal data, exposing only a controlled interface.</li>
+  <li><b>Reusing</b> existing code through inheritance.</li>
+  <li><b>Generalising</b> behaviour through polymorphism.</li>
+</ul>
+
+<h3>1.2 The Pillars of OOP</h3>
+
+<figure>
+<svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <!-- four boxes -->
+  <rect x="20" y="20" width="170" height="88" rx="6" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="105" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Abstraction</text>
+  <text x="105" y="78" text-anchor="middle" font-size="11.5" fill="#555">Show what, hide how</text>
+
+  <rect x="210" y="20" width="170" height="88" rx="6" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="295" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Encapsulation</text>
+  <text x="295" y="78" text-anchor="middle" font-size="11.5" fill="#555">Data + methods bound</text>
+
+  <rect x="400" y="20" width="170" height="88" rx="6" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="485" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Inheritance</text>
+  <text x="485" y="78" text-anchor="middle" font-size="11.5" fill="#555">Reuse &amp; extend</text>
+
+  <rect x="590" y="20" width="150" height="88" rx="6" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="665" y="55" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Polymorphism</text>
+  <text x="665" y="78" text-anchor="middle" font-size="11.5" fill="#555">One name, many forms</text>
+
+  <!-- base bar -->
+  <rect x="150" y="170" width="460" height="58" rx="6" fill="#111"/>
+  <text x="380" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">CLASS &#160;&#8594;&#160; OBJECT</text>
+  <text x="380" y="215" text-anchor="middle" font-size="11.5" fill="#ccc">blueprint &#8594; instance</text>
+
+  <line x1="105" y1="110" x2="230" y2="168" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="295" y1="110" x2="320" y2="168" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="485" y1="110" x2="450" y2="168" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="665" y1="110" x2="540" y2="168" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+</svg>
+<figcaption>The four pillars of OOP rest on the class/object foundation.</figcaption>
+</figure>
+
+<h4>Abstraction</h4>
+<p>Abstraction means exposing only the <i>essential</i> features of an entity while hiding the underlying complexity. A <code>Car</code> class exposes <code>accelerate()</code> and <code>brake()</code>; it does not expose the fuel-injection timing. In C++, abstraction is achieved through classes with public interfaces and private implementations.</p>
+
+<h4>Encapsulation</h4>
+<p>Encapsulation is the <i>packaging</i> of data and the functions that manipulate that data into a single unit, and the <i>protection</i> of that data from outside interference. In C++ this is done with access specifiers: <code>private</code>, <code>protected</code>, <code>public</code>.</p>
+
+<h4>Information Hiding</h4>
+<ul>
+  <li>The <b>interface</b> to a class is the list of public data members and methods.</li>
+  <li>The interface defines the behaviour of the class to the outside world (other classes and functions).</li>
+  <li>The <b>implementation</b> of the class does not matter outside the class — only the interface does.</li>
+  <li>Consequence: you can change the implementation freely, as long as the interface stays the same. You can use other people's classes without fear.</li>
+</ul>
+
+<h4>Inheritance</h4>
+<p>It is possible to <b>extend</b> existing classes without seeing or modifying them. You add whatever new behaviour you want. Example: you have a class <code>Student</code>; you create a new class <code>GoodStudent</code>. Most behaviour and attributes are the same, but a few are specialised.</p>
+
+<h4>Polymorphism</h4>
+<p>The ability of different objects to respond to the <b>same message</b> in different ways. Sending <code>cout &lt;&lt; x</code> to an <code>int</code>, a <code>double</code>, and a user-defined <code>Poly</code> object invokes three different implementations behind one syntax.</p>
+
+<h3>1.3 Objects</h3>
+<p>An <b>object</b> is any entity that has <i>state</i> and <i>behaviour</i>. It can be physical (chair, pen, table, keyboard, bike) or logical. An object is an <b>instance of a class</b>. It occupies memory, has an address, and can communicate with other objects without knowing the details of their data or code — only the type of message accepted and the type of response returned.</p>
+
+<p><b>Example:</b> a dog is an object because it has states (colour, name, breed) and behaviours (wagging the tail, barking, eating).</p>
+
+<figure>
+<svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect x="30" y="20" width="640" height="42" rx="5" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <circle cx="58" cy="41" r="14" fill="#111"/>
+  <text x="58" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">A</text>
+  <text x="86" y="38" font-size="14" font-weight="700" fill="#111">State</text>
+  <text x="86" y="55" font-size="12" fill="#555">represents the data (value) of an object — e.g. colour, name, breed</text>
+
+  <rect x="30" y="74" width="640" height="42" rx="5" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <circle cx="58" cy="95" r="14" fill="#111"/>
+  <text x="58" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">B</text>
+  <text x="86" y="92" font-size="14" font-weight="700" fill="#111">Behaviour</text>
+  <text x="86" y="109" font-size="12" fill="#555">represents the functionality — e.g. deposit, withdraw, bark, eat</text>
+
+  <rect x="30" y="128" width="640" height="42" rx="5" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <circle cx="58" cy="149" r="14" fill="#111"/>
+  <text x="58" y="154" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">C</text>
+  <text x="86" y="146" font-size="14" font-weight="700" fill="#111">Identity</text>
+  <text x="86" y="163" font-size="12" fill="#555">a unique ID, used internally (e.g. by the JVM) to identify each object</text>
+</svg>
+<figcaption>The three characteristics of an object: state, behaviour, identity.</figcaption>
+</figure>
+
+<h3>1.4 Classes</h3>
+<ul>
+  <li>A class is a <b>blueprint</b> or template from which individual objects are created.</li>
+  <li>A class is a group of objects that share common properties.</li>
+  <li>A class does <b>not</b> consume memory (it is a logical entity).</li>
+  <li>Defining a class does <b>not</b> create an object.</li>
+</ul>
+
+<p>In C++, a class is an <b>object type</b>. When you write the definition of a class, you are defining the attributes and behaviour of a <i>new type</i>:</p>
+<ul>
+  <li><b>Attributes</b> are data members.</li>
+  <li><b>Behaviour</b> is defined by methods (member functions).</li>
+</ul>
+
+<h4>Creating an object (Instantiation)</h4>
+<pre><code>Student s1;              // stack object
+Student s2(101, "Riya"); // parameterised constructor
+Student *s3 = new Student(); // heap object</code></pre>
+
+<h3>1.5 Class vs Object — The Complete Comparison</h3>
+
+<table>
+  <thead>
+    <tr><th style="width:38px">#</th><th>Object</th><th>Class</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>An object is an <b>instance</b> of a class.</td><td>A class is a <b>blueprint / template</b> from which objects are created.</td></tr>
+    <tr><td>2</td><td>A real-world entity — pen, laptop, mobile, bed, keyboard, mouse, chair.</td><td>A group of similar objects.</td></tr>
+    <tr><td>3</td><td>A <b>physical</b> entity.</td><td>A <b>logical</b> entity.</td></tr>
+    <tr><td>4</td><td>Created mainly through the <code>new</code> keyword, e.g. <code>Student s1 = new Student();</code></td><td>Declared using the <code>class</code> keyword, e.g. <code>class Student { }</code></td></tr>
+    <tr><td>5</td><td>Created many times as per requirement.</td><td>Declared once.</td></tr>
+    <tr><td>6</td><td>Allocates memory when it is created.</td><td>Does not allocate memory when it is created.</td></tr>
+    <tr><td>7</td><td>Many ways to create: <code>new</code>, <code>newInstance()</code>, <code>clone()</code>, factory method, deserialization.</td><td>Only one way to define: the <code>class</code> keyword.</td></tr>
+  </tbody>
+</table>
+
+<div class="key">
+  <span class="lbl">Exam Point</span>
+  A class is a <i>type</i>; an object is a <i>variable of that type</i>. Defining a class costs no memory; creating an object does.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 2 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch2"><span class="num">02</span>C++ Fundamentals</h2>
+
+<h3>2.1 Structure of a C++ Program</h3>
+<p>A C++ program is a collection of <b>definitions and declarations</b>:</p>
+<ul>
+  <li>data type definitions</li>
+  <li>global data declarations</li>
+  <li>function definitions (subroutines)</li>
+  <li>class definitions</li>
+  <li>a special function called <code>main()</code> — where the action starts</li>
+</ul>
+
+<h4>Procedural vs Object-Oriented</h4>
+<table>
+  <thead><tr><th>Procedural</th><th>Object-Oriented</th></tr></thead>
+  <tbody>
+    <tr><td>Programs expressed as a collection of <b>procedures</b> (subroutines).</td><td>Programs expressed as a collection of <b>object types</b> (classes).</td></tr>
+    <tr><td colspan="2" style="text-align:center"><b>C++ is both.</b> We start procedurally and build up to object orientation.</td></tr>
+  </tbody>
+</table>
+
+<h4>Hello, World (C style)</h4>
+<pre><code>#include &lt;stdio.h&gt;
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}</code></pre>
+
+<h4>Hello, World (C++ style)</h4>
+<pre><code>// Hello World program — comment
+#include &lt;iostream.h&gt;      // allows access to an I/O library
+
+int main() {               // starts definition of special function main()
+    cout &lt;&lt; "Hello World\n";   // output (print) a string
+    return 0;                  // program returns a status code (0 means OK)
+}</code></pre>
+
+<h3>2.2 Comments</h3>
+<p>Comments contain text that is <b>not</b> converted to machine language — they exist only for humans.</p>
+<ul>
+  <li>Everything after <code>//</code> (to the end of the line) is ignored by the compiler.</li>
+  <li>Everything between <code>/*</code> and <code>*/</code> is ignored.</li>
+</ul>
+<pre><code>// priya's Homework #1
+// This program is awesome!
+#include &lt;iostream.h&gt;
+
+/* This program computes the
+   value of a very precise number */
+int main() {
+    cout &lt;&lt; 1.00000000000000000000001;
+}</code></pre>
+
+<h3>2.3 The Preprocessor</h3>
+<p>Lines that start with <code>#</code> are special instructions to a <b>preprocessor</b>. The C++ compiler automatically invokes the preprocessor; you do not need to run it yourself.</p>
+
+<figure>
+<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="20" y="120" width="150" height="56" rx="5" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="95" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="#111">C++ Program</text>
+  <text x="95" y="162" text-anchor="middle" font-size="11" fill="#555">(.cpp source)</text>
+
+  <ellipse cx="270" cy="148" rx="82" ry="34" fill="#fff" stroke="#111" stroke-width="1.3"/>
+  <text x="270" y="144" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">C++</text>
+  <text x="270" y="160" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Preprocessor</text>
+
+  <rect x="400" y="120" width="150" height="56" rx="5" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="475" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Temporary file</text>
+  <text x="475" y="159" text-anchor="middle" font-size="11" fill="#555">(expanded C++ program)</text>
+
+  <ellipse cx="650" cy="148" rx="78" ry="34" fill="#fff" stroke="#111" stroke-width="1.3"/>
+  <text x="650" y="144" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">C++</text>
+  <text x="650" y="160" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Compiler</text>
+
+  <rect x="560" y="30" width="180" height="50" rx="5" fill="#111"/>
+  <text x="650" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Executable</text>
+  <text x="650" y="68" text-anchor="middle" font-size="11" fill="#bbb">Program</text>
+
+  <line x1="170" y1="148" x2="184" y2="148" stroke="#111" stroke-width="1.4" marker-end="url(#ar2)"/>
+  <line x1="352" y1="148" x2="396" y2="148" stroke="#111" stroke-width="1.4" marker-end="url(#ar2)"/>
+  <line x1="550" y1="148" x2="568" y2="148" stroke="#111" stroke-width="1.4" marker-end="url(#ar2)"/>
+  <line x1="650" y1="114" x2="650" y2="84" stroke="#111" stroke-width="1.4" marker-end="url(#ar2)"/>
+</svg>
+<figcaption>The preprocessor expands directives first; the compiler then translates the expanded source.</figcaption>
+</figure>
+
+<h4>Includes</h4>
+<p>The statement <code>#include &lt;iostream.h&gt;</code> inserts the contents of the file <code>iostream.h</code> inside your file <i>before</i> the compiler starts. These files contain definitions that let your program use the functions and classes of the standard C++ library.</p>
+<p>You can include your own files: <code>#include "myfile.h"</code> — note the quotes for user headers.</p>
+
+<h4>Common includes</h4>
+<table>
+  <thead><tr><th>Header</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>iostream.h</code></td><td>Basic I/O</td></tr>
+    <tr><td><code>iomanip.h</code></td><td>I/O manipulation</td></tr>
+    <tr><td><code>stdlib.h</code></td><td>Standard library</td></tr>
+    <tr><td><code>time.h</code></td><td>Time and date support</td></tr>
+    <tr><td><code>string.h</code></td><td>C-string operations</td></tr>
+    <tr><td><code>fstream.h</code></td><td>File streams</td></tr>
+  </tbody>
+</table>
+
+<h4>#define (macro) example</h4>
+<pre><code>#define square(a) (a * a)
+
+y = square(x);        // becomes  y = (x * x);
+z = square(y*x);      // becomes  z = (y*x * y*x);</code></pre>
+
+<div class="warn">
+  <span class="lbl">Caution</span>
+  Macros are pure textual substitution. <code>square(y*x)</code> expands to <code>(y*x * y*x)</code>, which is <i>not</i> the same as <code>(y*x)*(y*x)</code> in general. Always parenthesise macro arguments.
+</div>
+
+<h3>2.4 Variables</h3>
+<pre><code>int integer1, integer2, sum;</code></pre>
+<ul>
+  <li>Variables are just <b>names for locations in memory</b>.</li>
+  <li>In C++ <b>all variables must have a type</b> (not all languages require this).</li>
+  <li>In C++ <b>all variables must be declared before they can be used</b>.</li>
+</ul>
+
+<p>Declaration syntax:</p>
+<pre><code>type var_name;</code></pre>
+
+<p>Built-in types include: <code>int</code>, <code>char</code>, <code>float</code>, <code>double</code>, <code>bool</code>. You can also create new types (classes).</p>
+
+<h4>Variable naming rules</h4>
+<ul>
+  <li>Made up of letters, digits and underscore.</li>
+  <li>Must start with a non-digit.</li>
+  <li>Cannot contain whitespace or special characters like <code>!</code>, <code>#</code>, <code>%</code>.</li>
+  <li>Reserved words (C++ keywords such as <code>int</code>) cannot be used as names.</li>
+  <li><b>Case sensitive</b> — <code>foo</code> is not the same name as <code>Foo</code>.</li>
+  <li>Can be any length.</li>
+  <li>Good variable names tell the reader what the variable is used for.</li>
+</ul>
+
+<h3>2.5 Literals (Constants)</h3>
+<p>Literals are fixed values used by a program:</p>
+<pre><code>22        3.14159     0x2A       false      "Hi Dave"      'c'</code></pre>
+<p>You can initialise a variable in the declaration by assigning it a value:</p>
+<pre><code>int foo = 17;
+double PI = 3.14159;
+char newline = '\n';</code></pre>
+
+<h3>2.6 Expressions</h3>
+<p>C++ expressions express computation. Expressions include <b>operations</b> and the <b>operands</b> on which the operations are applied. Operands can be variables, literals, or function calls.</p>
+
+<h4>Mathematical operators</h4>
+<pre><code>+   -   *   /   %</code></pre>
+<p>Operators have <b>rules of precedence and associativity</b> that control how expressions are evaluated.</p>
+
+<div class="note">
+  <span class="lbl">Question</span>
+  What is the value of <code>2 / 3 / 4 + 5</code>?<br>
+  <b>Answer:</b> You can't tell unless you know the rules.
+</div>
+
+<h4>Associativity</h4>
+<p>The associativity of an operator controls the order of evaluation of expressions involving the <i>same</i> operator. Example: <code>3 / 4 / 5</code>.</p>
+<ul>
+  <li><b>Left-to-right:</b> the leftmost operator is applied first.</li>
+  <li><b>Right-to-left:</b> the rightmost operator is applied first.</li>
+</ul>
+
+<h4>Precedence</h4>
+<p>Precedence controls the order of evaluation of <i>different</i> operators. A high precedence means an operator is applied before any lower-precedence operator. Operators with the same precedence are evaluated left-to-right in C++.</p>
+
+<h4>C++ math operator rules</h4>
+<table>
+  <thead><tr><th>Operator</th><th>Associativity</th><th>Precedence</th></tr></thead>
+  <tbody>
+    <tr><td><code>()</code></td><td>left to right</td><td>high</td></tr>
+    <tr><td><code>* / %</code></td><td>left to right</td><td>middle</td></tr>
+    <tr><td><code>+ -</code></td><td>left to right</td><td>low</td></tr>
+  </tbody>
+</table>
+
+<p><b>Now evaluate:</b></p>
+<pre><code>2 / 3 / 4 + 5          // ((2/3)/4) + 5 = 0 + 5 = 5   (integer division!)
+(7 * 3 / 4 - 2) * 5    // ((21/4) - 2) * 5 = (5 - 2) * 5 = 15</code></pre>
+
+<h3>2.7 Relational and Equality Operators</h3>
+<p>Used to compare values.</p>
+<table>
+  <thead><tr><th>Relational</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>&gt;</code></td><td>Greater than</td></tr>
+    <tr><td><code>&gt;=</code></td><td>Greater than or equal</td></tr>
+    <tr><td><code>&lt;</code></td><td>Less than</td></tr>
+    <tr><td><code>&lt;=</code></td><td>Less than or equal</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>Equality</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>==</code></td><td>Equal to</td></tr>
+    <tr><td><code>!=</code></td><td>Not equal to</td></tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Relational operators have <b>very low</b> precedence and associate left-to-right.</li>
+  <li>Equality operators have <b>very-very low</b> precedence and associate left-to-right.</li>
+</ul>
+
+<pre><code>17 &lt; x
+pi == 3.14
+age != 21
+x + 1 &gt;= 4*y - z</code></pre>
+
+<h3>2.8 The Assignment Operator</h3>
+<p>The assignment operator <code>=</code> assigns a value to a variable.</p>
+<pre><code>x = 13 - y;</code></pre>
+<ul>
+  <li>Assignment has <b>very low</b> precedence and associates <b>right-to-left</b>.</li>
+  <li>Because of right-to-left associativity, you can chain assignments:</li>
+</ul>
+<pre><code>x = y = z + 15;   // z+15 is assigned to y, then y is assigned to x</code></pre>
+
+<h4>Full operator precedence ladder (lowest to highest)</h4>
+<table>
+  <thead><tr><th>Level</th><th>Operators</th><th>Precedence</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>( )</code></td><td>Highest (applied first)</td></tr>
+    <tr><td>2</td><td><code>&lt; &lt;= &gt; &gt;=</code></td><td>Relational</td></tr>
+    <tr><td>3</td><td><code>== !=</code></td><td>Equality</td></tr>
+    <tr><td>4</td><td><code>=</code></td><td>Lowest (applied last)</td></tr>
+  </tbody>
+</table>
+
+<h3>2.9 Complete Example Programs</h3>
+
+<h4>Integer addition</h4>
+<pre><code>// C++ Addition of integers
+#include &lt;iostream.h&gt;
+
+int main() {
+    int integer1, integer2, sum;
+
+    cout &lt;&lt; "Enter first integer\n";
+    cin  &gt;&gt; integer1;
+    cout &lt;&lt; "Enter second integer\n";
+    cin  &gt;&gt; integer2;
+
+    sum = integer1 + integer2;
+    cout &lt;&lt; "Sum is " &lt;&lt; sum &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+<h4>Fahrenheit to Celsius</h4>
+<pre><code>#include &lt;iostream.h&gt;
+
+int main() {
+    double fahr, celcius;
+
+    cout &lt;&lt; "Enter Temperature in Fahrenheit\n";
+    cin  &gt;&gt; fahr;
+
+    celcius = (fahr - 32.0) * 5 / 9;
+
+    cout &lt;&lt; fahr &lt;&lt; " fahrenheit is "
+         &lt;&lt; celcius &lt;&lt; " Celcius" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 3 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch3"><span class="num">03</span><code>const</code> and Control Structures</h2>
+
+<h3>3.1 The <code>const</code> Modifier</h3>
+<p>You can add the <code>const</code> modifier to a variable declaration to tell the compiler that the value <b>cannot be changed</b>.</p>
+
+<pre><code>const double factor = 5.0 / 9.0;
+const double offset = 32.0;
+
+celcius = (fahr - offset) * factor;</code></pre>
+
+<h4>What if you try to change a <code>const</code>?</h4>
+<pre><code>const int p1 = 100;
+...
+p1 = 21;   // Error: l-value specifies const object</code></pre>
+
+<h4>Why use <code>const</code>?</h4>
+<ul>
+  <li>It tells the compiler that a variable should never be changed.</li>
+  <li>You already <i>know</i> the variable should never be changed — but let the compiler save you from yourself, because you might forget.</li>
+</ul>
+
+<h3>3.2 Integer vs Floating-Point Math</h3>
+<ul>
+  <li>If <b>either operand</b> is floating point, a floating-point operation is done (result is floating point).</li>
+  <li>If <b>both operands</b> are integer, the result is an integer — including integer division (truncation).</li>
+</ul>
+
+<div class="note">
+  <span class="lbl">Operator Quiz</span>
+<pre style="margin:8px 0 0"><code>const int five = 5;
+int   i = 7;
+float x = 7.0;
+
+cout &lt;&lt; five + i/2 &lt;&lt; endl;   // 5 + 3   = 8   (integer division)
+cout &lt;&lt; five + x/2 &lt;&lt; endl;   // 5 + 3.5 = 8.5 (float division)</code></pre>
+</div>
+
+<h3>3.3 Control Structures</h3>
+<p>Unless something special happens, a program executes sequentially. When we want something special to happen, we use a <b>control structure</b>. Control structures provide two basic functions: <b>selection</b> and <b>repetition</b>.</p>
+
+<h3>3.4 Selection</h3>
+<p>A selection control structure chooses among alternative courses of action. There must be some <b>condition</b> that determines whether or not an action occurs.</p>
+<p>C++ selection structures: <code>if</code>, <code>if/else</code>, <code>switch</code>.</p>
+
+<h4>The <code>if</code> statement</h4>
+<pre><code>if (condition)
+    action;</code></pre>
+
+<h4>Conditions</h4>
+<p>The condition used in an <code>if</code> is a Boolean value — either true or false. In C++:</p>
+<ul>
+  <li>the value <code>0</code> is <b>false</b></li>
+  <li><b>anything else</b> is <b>true</b></li>
+</ul>
+
+<pre><code>if (1)      cout &lt;&lt; "I am true!\n";    // prints
+if (1 - 1)  cout &lt;&lt; "I am false!\n";   // does not print</code></pre>
+
+<p>Typically a condition is built using relational and equality operators. These operators have the values <code>true</code> (1) and <code>false</code> (0). So <code>x == x</code> has the value true, and <code>7 &lt;= 3</code> has the value false.</p>
+
+<pre><code>if (foo)              cout &lt;&lt; "foo is not zero\n";
+if (grade &gt;= 90)      lettergrade = 'A';
+if (lettergrade == 'F') cout &lt;&lt; "The system has failed you\n";</code></pre>
+
+<div class="warn">
+  <span class="lbl">Common Mistake</span>
+  It is easy to mix up the assignment operator <code>=</code> with the equality operator <code>==</code>.
+<pre style="margin:8px 0 0"><code>if (grade = 100)   // ASSIGNMENT — always true (100 is non-zero)!
+    cout &lt;&lt; "your grade is perfect!\n";</code></pre>
+  This assigns 100 to <code>grade</code> and then tests <code>100</code>, which is true.
+</div>
+
+<h4>Compound statements</h4>
+<p>Inside an <code>if</code> you can put a single statement or a <b>compound statement</b>. A compound statement starts with <code>{</code>, ends with <code>}</code>, and can contain a sequence of statements (or control structures).</p>
+<pre><code>if (grade &gt;= 90) {
+    cout &lt;&lt; "Nice job - you get an A\n";
+    acnt = acnt + 1;
+}</code></pre>
+
+<h4>A word about style</h4>
+<p>C++ does not care about whitespace (including newlines), so you can arrange your code in many ways. There are a couple of often-used styles. All that is important is that the code is <b>easy to understand and change</b>.</p>
+
+<pre><code>if (foo &gt; 10) { x = y + 100; cout &lt;&lt; x; }
+
+if (foo &gt; 10)
+{
+    x = y + 100;
+    cout &lt;&lt; x;
+}
+
+if(foo&gt;10){x=y+100;cout&lt;&lt;x;}</code></pre>
+
+<h4><code>if / else</code></h4>
+<pre><code>if (condition)
+    action_if_true
+else
+    action_if_false</code></pre>
+
+<pre><code>if (grade &gt;= 90)
+    lettergrade = 'A';
+else
+    lettergrade = 'F';</code></pre>
+
+<h4><code>else if</code> ladder</h4>
+<pre><code>if (grade &gt;= 99)      lettergrade = 'A';
+else if (grade &gt;= 98) lettergrade = 'B';
+else if (grade &gt;= 97) lettergrade = 'C';
+else if (grade &gt;= 96) lettergrade = 'D';
+else                  lettergrade = 'F';</code></pre>
+
+<h3>3.5 Repetition Control Structures</h3>
+<p>Repetition structures allow us to repeat a sequence of statements. C++ supports <code>while</code>, <code>for</code>, and <code>do/while</code>.</p>
+
+<h4>The <code>while</code> loop</h4>
+<figure>
+<svg viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <polygon points="200,20 280,70 200,120 120,70" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="200" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">condition?</text>
+
+  <rect x="120" y="150" width="160" height="46" rx="5" fill="#111"/>
+  <text x="200" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">loop body</text>
+
+  <line x1="200" y1="120" x2="200" y2="148" stroke="#111" stroke-width="1.3" marker-end="url(#ar3)"/>
+  <text x="215" y="138" font-size="11" fill="#111">true</text>
+
+  <path d="M120,173 L50,173 L50,70 L118,70" fill="none" stroke="#111" stroke-width="1.3" marker-end="url(#ar3)"/>
+  <text x="30" y="125" font-size="11" fill="#111">loop</text>
+
+  <line x1="280" y1="70" x2="380" y2="70" stroke="#111" stroke-width="1.3" marker-end="url(#ar3)"/>
+  <text x="310" y="60" font-size="11" fill="#111">false</text>
+  <text x="392" y="74" font-size="12" fill="#111" font-weight="600">Loop terminates</text>
+</svg>
+<figcaption><code>while</code> loop: condition is tested <i>before</i> the body executes.</figcaption>
+</figure>
+
+<pre><code>while (condition)
+    do_something;</code></pre>
+
+<div class="warn">
+  <span class="lbl">While Danger</span>
+  The body of the loop <b>must</b> change something that affects the condition. If not, the loop could never end.
+</div>
+
+<pre><code>int i = 1;
+// while loop from 1 to 5
+while (i &lt;= 5) {
+    cout &lt;&lt; i &lt;&lt; " ";
+    i++;
+}</code></pre>
+
+<h4>Increment and decrement operators</h4>
+<pre><code>i++;   // same as  i = i + 1;
+i--;   // same as  i = i - 1;</code></pre>
+
+<h4>Special assignment operators</h4>
+<pre><code>i += 17;   // same as  i = i + 17;
+
+// also available:
+-=    *=    /=    %=</code></pre>
+
+<h4>The <code>do / while</code> loop</h4>
+<figure>
+<svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar4" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="130" y="20" width="180" height="46" rx="5" fill="#111"/>
+  <text x="220" y="48" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">loop body</text>
+
+  <polygon points="220,110 300,160 220,210 140,160" fill="#f4f4f4" stroke="#111" stroke-width="1.3"/>
+  <text x="220" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">condition?</text>
+
+  <line x1="220" y1="66" x2="220" y2="108" stroke="#111" stroke-width="1.3" marker-end="url(#ar4)"/>
+
+  <path d="M140,160 L60,160 L60,43 L128,43" fill="none" stroke="#111" stroke-width="1.3" marker-end="url(#ar4)"/>
+  <text x="40" y="105" font-size="11" fill="#111">true</text>
+
+  <line x1="300" y1="160" x2="400" y2="160" stroke="#111" stroke-width="1.3" marker-end="url(#ar4)"/>
+  <text x="322" y="150" font-size="11" fill="#111">false</text>
+  <text x="412" y="164" font-size="12" fill="#111" font-weight="600">terminates</text>
+</svg>
+<figcaption><code>do/while</code>: condition is tested <i>after</i> the body — the body always runs at least once.</figcaption>
+</figure>
+
+<pre><code>do
+    statement;
+while (condition);</code></pre>
+
+<pre><code>i = 1;
+do
+    cout &lt;&lt; "i is " &lt;&lt; i++ &lt;&lt; endl;
+while (i &lt;= 10);</code></pre>
+
+<h4>The <code>for</code> loop</h4>
+<pre><code>for (initialization; condition; update)
+    do_something;</code></pre>
+
+<ul>
+  <li><b>initialization</b> — a statement executed at the beginning of the loop (and never again).</li>
+  <li>The <b>body</b> is executed as long as the <b>condition</b> is true.</li>
+  <li>The <b>update</b> statement is executed each time the body has been executed (and before the condition is checked again).</li>
+</ul>
+
+<pre><code>for (i = 1; i &lt; 10; i++)
+    cout &lt;&lt; "i is " &lt;&lt; i &lt;&lt; endl;
+
+for (i = 10; i &gt;= 0; i--)
+    cout &lt;&lt; "i is " &lt;&lt; i &lt;&lt; endl;</code></pre>
+
+<p>You can leave the initialization, condition or update statements blank. <b>If the condition is blank, the loop never ends.</b></p>
+<pre><code>for (i = 0; ; i++)     // infinite loop
+    cout &lt;&lt; i &lt;&lt; endl;</code></pre>
+
+<h4>Odd/even example</h4>
+<pre><code>for (i = 1; i &lt; 100; i++) {
+    cout &lt;&lt; "Checking " &lt;&lt; i &lt;&lt; endl;
+    if (i % 2)
+        cout &lt;&lt; i &lt;&lt; " is odd" &lt;&lt; endl;
+    else
+        cout &lt;&lt; i &lt;&lt; " is even" &lt;&lt; endl;
+}</code></pre>
+
+<h3>3.6 Complex Conditions</h3>
+<p>You can build complex conditions involving more than one relational or equality operator using the logical operators:</p>
+<ul>
+  <li><code>&amp;&amp;</code> — AND</li>
+  <li><code>||</code> — OR</li>
+  <li><code>!</code> — NOT (unary)</li>
+</ul>
+
+<h4>The <code>&amp;&amp;</code> operator</h4>
+<p><code>&amp;&amp;</code> is a boolean operator, so the value of an expression is true or false.</p>
+<pre><code>(cond1 &amp;&amp; cond2)   is true only if BOTH cond1 and cond2 are true.</code></pre>
+
+<pre><code>lettergrade = 'A';
+cutoff = 90;
+while ((grade &lt; cutoff) &amp;&amp; (lettergrade != 'F')) {
+    lettergrade++;
+    cutoff -= 10;
+}</code></pre>
+
+<h4>The <code>||</code> operator</h4>
+<p><code>||</code> is a boolean operator. <code>(cond1 || cond2)</code> is true if <b>either</b> cond1 or cond2 is true.</p>
+
+<pre><code>if ((test1 == 0) || (test2 == 0))
+    cout &lt;&lt; "You missed a test!\n";
+
+if ((hw1 == 0) || (hw2 == 0))
+    cout &lt;&lt; "You missed a homework!\n";</code></pre>
+
+<h4>The <code>!</code> operator</h4>
+<p>The <code>!</code> operator is a <b>unary</b> boolean operator — it has only one operand. It negates its operand. <code>(!condition)</code> is true only when condition is false.</p>
+
+<pre><code>bool done = false;
+int i = 1;
+
+while (!done) {
+    cout &lt;&lt; "i is " &lt;&lt; i &lt;&lt; endl;
+    i++;
+    if (i == 100) done = true;
+}</code></pre>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 4 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch4"><span class="num">04</span>Constructors</h2>
+
+<h3>4.1 The Problem: Zero Initialisation</h3>
+<p>Consider a class with private data members and no constructor:</p>
+
+<pre><code>class rectangle {
+  private:
+    float height;
+    float width;
+    int   xpos;
+    int   ypos;
+};
+
+void main() {
+    rectangle rc1;
+    rectangle rc2;
+    rectangle rc3;
+    rectangle rc4;
+}</code></pre>
+
+<p>Every object is created, but its data members contain <b>garbage</b>. If we add an <code>init()</code> function, the programmer must remember to call it for every object:</p>
+
+<pre><code>class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+  public:
+    void init();
+};
+
+void rectangle::init() {
+    height = 10;  width = 20;
+    xpos   = 0;   ypos  = 0;
+}
+
+void main() {
+    rectangle rc1;
+    rc1.init();        // easy to forget!
+}</code></pre>
+
+<div class="note">
+  <span class="lbl">Motivation</span>
+  If a normal member function is defined for zero initialisation, we would need to invoke it for <i>each object separately</i> — very inconvenient and error-prone. The constructor solves this: initialisation happens <b>automatically</b> at the moment of creation.
+</div>
+
+<h3>4.2 The Constructor</h3>
+<pre><code>class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+  public:
+    rectangle();       // constructor
+    void draw();       // draw member function
+};
+
+rectangle::rectangle() {
+    height = 10;  width = 20;
+    xpos   = 0;   ypos  = 0;
+}
+
+void main() {
+    rectangle rc1;     // constructor runs automatically
+}</code></pre>
+
+<h4>What is a constructor?</h4>
+<ul>
+  <li>A <b>special member function</b> that initialises the objects of its class.</li>
+  <li>Invoked <b>whenever an object of its class is created</b>.</li>
+  <li>It is called a constructor because it <i>constructs</i> the values of the data members of the class.</li>
+</ul>
+
+<p>A constructor has:</p>
+<ol>
+  <li>the <b>same name as the class</b> itself</li>
+  <li><b>no return type</b></li>
+</ol>
+
+<div class="key">
+  <span class="lbl">Guarantee</span>
+  When the class contains a constructor, an object created by the class will be initialised <b>automatically</b>. <code>rectangle rc;</code> not only creates the object <code>rc</code> but also initialises its data members to the given values. There is no need to write any statement to invoke the constructor.
+</div>
+
+<h3>4.3 Special Characteristics of Constructors</h3>
+<ul>
+  <li>They should be declared in the <b>public</b> section.</li>
+  <li>They do <b>not</b> have return types — not even <code>void</code> — and therefore cannot return values.</li>
+  <li>They <b>cannot be inherited</b>, though a derived class can call a base class constructor.</li>
+  <li>They <b>can have default arguments</b>.</li>
+  <li>Constructors <b>cannot be virtual</b>.</li>
+  <li>We <b>cannot refer to their addresses</b>.</li>
+</ul>
+
+<h3>4.4 Types of Constructor</h3>
+<figure>
+<svg viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect x="250" y="10" width="200" height="42" rx="6" fill="#111"/>
+  <text x="350" y="37" text-anchor="middle" font-size="13.5" font-weight="700" fill="#fff">Constructors</text>
+
+  <line x1="300" y1="52" x2="120" y2="88" stroke="#111" stroke-width="1.2"/>
+  <line x1="350" y1="52" x2="350" y2="88" stroke="#111" stroke-width="1.2"/>
+  <line x1="400" y1="52" x2="580" y2="88" stroke="#111" stroke-width="1.2"/>
+
+  <rect x="30" y="88" width="180" height="26" rx="4" fill="#f4f4f4" stroke="#111"/>
+  <text x="120" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#111">Default constructor</text>
+
+  <rect x="260" y="88" width="180" height="26" rx="4" fill="#f4f4f4" stroke="#111"/>
+  <text x="350" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#111">Parameterised</text>
+
+  <rect x="490" y="88" width="180" height="26" rx="4" fill="#f4f4f4" stroke="#111"/>
+  <text x="580" y="106" text-anchor="middle" font-size="11.5" font-weight="600" fill="#111">Copy constructor</text>
+</svg>
+<figcaption>The three constructor types covered in the course.</figcaption>
+</figure>
+
+<h3>4.5 Default Constructor</h3>
+<p>The default constructor is the constructor that takes <b>no arguments</b>. It has no parameters, but a programmer can write initialisation statements inside it.</p>
+<p>A default constructor is very important for initialising object members. Even if we do not define a constructor explicitly, the compiler automatically provides a default constructor implicitly.</p>
+
+<div class="note">
+  <span class="lbl">Notation</span>
+  The default constructor for class <code>A</code> is written <code>A::A()</code>.
+</div>
+
+<h3>4.6 Parameterised Constructors</h3>
+<p>A default constructor has no parameters, but programmers can add and use parameters within a constructor if required. This helps assign initial values to an object <b>at the time of creation</b>.</p>
+
+<pre><code>class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+  public:
+    rectangle(float, float);            // 2-arg constructor
+    rectangle(float, float, int, int);  // 4-arg constructor
+};
+
+rectangle::rectangle(float h, float w) {
+    height = h;  width = w;
+    xpos   = 0;  ypos  = 0;
+}
+
+rectangle::rectangle(float h, float w, int x, int y) {
+    height = h;  width = w;
+    xpos   = x;  ypos  = y;
+}
+
+void main() {
+    rectangle rc1(30.0, 25.0);
+    rectangle rc2(5.5, 9.0);
+    rectangle rc3(10.0, 20.0, 100, 150);
+    rectangle rc4;                       // needs a default constructor
+}</code></pre>
+
+<h4>Implicit vs explicit call</h4>
+<pre><code>void main() {
+    rectangle rc(3.0, 2.0);              // implicit call
+    rectangle rc1 = rectangle(3.0, 2.0); // explicit call
+}</code></pre>
+
+<h3>4.7 Overloading Constructors</h3>
+<p>You can have <b>more than one constructor</b> in a class, as long as each has a different list of arguments.</p>
+
+<pre><code>class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+  public:
+    rectangle(float, float);  // constructor
+    rectangle();              // another constructor
+    void draw();
+};
+
+rectangle::rectangle() {
+    height = 10;  width = 10;
+    xpos   = 0;   ypos  = 0;
+}
+
+void main() {
+    rectangle rc1(3.0, 2.0);
+    rectangle rc2();
+    rc1.draw();
+    rc2.draw();
+}</code></pre>
+
+<div class="warn">
+  <span class="lbl">Watch Out</span>
+  <code>rectangle rc2();</code> is parsed as a <b>function declaration</b> (the "most vexing parse"), not an object creation. Write <code>rectangle rc2;</code> to create an object with the default constructor.
+</div>
+
+<h3>4.8 Composition — Objects as Members of Classes</h3>
+<p>A class may have objects of other classes as members.</p>
+
+<pre><code>class properties {
+  private:
+    int color;
+    int line;
+  public:
+    properties(int, int);   // constructor
+};
+
+properties::properties(int c, int l) {
+    color = c;
+    line  = l;
+}
+
+class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+    properties pr;          // another object as a member
+  public:
+    rectangle(float, float, int, int);
+    void draw();
+};
+
+// Member initialiser list: pr is constructed BEFORE the body runs
+rectangle::rectangle(float h, float w, int c, int l) : pr(c, l) {
+    height = h;  width = w;
+    xpos   = 0;  ypos  = 0;
+}
+
+void main() {
+    rectangle rc(3.0, 2.0, 1, 3);
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Order Rule</span>
+  Members are constructed in the order they are <b>declared</b> in the class, not in the order they appear in the member initialiser list. Here <code>pr</code> is constructed before the constructor body runs.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 5 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch5"><span class="num">05</span>Destructor, Copy Constructor &amp; Shallow vs Deep Copy</h2>
+
+<h3>5.1 Dynamic Constructor</h3>
+<p>When allocation of memory is done dynamically using the dynamic memory allocator <code>new</code> inside a constructor, it is known as a <b>dynamic constructor</b>. Using this, we can dynamically initialise the objects.</p>
+
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class dyncons {
+    int *p;
+  public:
+    dyncons() {                 // default dynamic constructor
+        p = new int;
+        *p = 10;
+    }
+    dyncons(int v) {            // parameterised dynamic constructor
+        p = new int;
+        *p = v;
+    }
+    int display() { return *p; }
+};
+
+int main() {
+    dyncons dc1;
+    dyncons dc2(199);
+    cout &lt;&lt; "The value of object dc1's p is:" &lt;&lt; dc1.display();
+    cout &lt;&lt; "\nThe value of object dc2's p is:" &lt;&lt; dc2.display();
+    return 0;
+}
+
+/* OUTPUT
+   The value of object dc1's p is: 10
+   The value of object dc2's p is: 199  */</code></pre>
+
+<h3>5.2 What is a Destructor?</h3>
+<ul>
+  <li>A member function that <b>deletes an object</b>.</li>
+  <li>Called <b>automatically</b> when the object goes out of scope:
+    <ol>
+      <li>the function ends</li>
+      <li>the program ends</li>
+      <li>a block containing temporary variables ends</li>
+      <li>a <code>delete</code> operator is called</li>
+    </ol>
+  </li>
+</ul>
+
+<p>A destructor has:</p>
+<ol>
+  <li>the same name as the class but preceded by a tilde (<code>~</code>)</li>
+  <li><b>no arguments</b> and returns <b>no value</b></li>
+</ol>
+
+<pre><code>class string {
+  private:
+    char *s;
+    int   size;
+  public:
+    string(char *);    // constructor
+    ~string();         // destructor
+};
+
+string::string(char *c) {
+    size = strlen(c);
+    s = new char[size + 1];
+    strcpy(s, c);
+}
+
+string::~string() {
+    delete [] s;       // release the heap memory
+}</code></pre>
+
+<h4>Comments on destructors</h4>
+<ul>
+  <li>If you do not specify a destructor, the compiler generates a default destructor for you.</li>
+  <li>When a class contains a pointer to memory you allocate, it is <b>your responsibility</b> to release the memory before the class instance is destroyed.</li>
+</ul>
+
+<h3>5.3 Copy Constructor</h3>
+<p>A member function that initialises an object using another object of the <b>same class</b>.</p>
+
+<p>General prototype:</p>
+<pre><code>class_name (const class_name &amp;);</code></pre>
+
+<pre><code>class rectangle {
+  private:
+    float height, width;
+    int   xpos, ypos;
+  public:
+    rectangle(float, float);          // constructor
+    rectangle(const rectangle &amp;);    // copy constructor
+    void draw();
+};
+
+rectangle::rectangle(const rectangle &amp;old_rc) {
+    height = old_rc.height;
+    width  = old_rc.width;
+    xpos   = old_rc.xpos;
+    ypos   = old_rc.ypos;
+}
+
+void main() {
+    rectangle rc1(3.0, 2.0);   // use constructor
+    rectangle rc2(rc1);        // use copy constructor
+    rectangle rc3 = rc1;       // alternative syntax for copy constructor
+}</code></pre>
+
+<h3>5.4 Why Copy Constructors Matter — Shallow vs Deep Copy</h3>
+
+<div class="key">
+  <span class="lbl">Key Rule</span>
+  In the absence of a copy constructor, the C++ compiler builds a <b>default copy constructor</b> for each class, which performs a <b>memberwise (bitwise) copy</b> between objects. Default copy constructors work fine <b>unless the class contains pointer data members</b>.
+</div>
+
+<h4>The problem — a broken class</h4>
+<pre><code>#include &lt;iostream.h&gt;
+#include &lt;string.h&gt;
+
+class string {
+  private:
+    char *s;
+    int   size;
+  public:
+    void print();
+    void copy(char *);
+};
+
+void string::print() { cout &lt;&lt; s &lt;&lt; endl; }
+void string::copy(char *c) { strcpy(s, c); }
+
+void main() {
+    string str1("George");
+    string str2 = str1;   // DEFAULT copy constructor — bitwise copy
+
+    str1.print();         // George
+    str2.print();         // George
+
+    str2.copy("Mary");    // writes through the SHARED pointer
+
+    str1.print();         // Mary  <-- NOT what we wanted!
+    str2.print();         // Mary
+}</code></pre>
+
+<figure>
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <!-- left: before -->
+  <text x="175" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Shallow Copy — before</text>
+  <rect x="60" y="40" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="90" y="60" text-anchor="middle" font-size="12" fill="#111">str1</text>
+  <rect x="220" y="40" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="250" y="60" text-anchor="middle" font-size="12" fill="#111">str2</text>
+
+  <ellipse cx="155" cy="150" rx="72" ry="42" fill="#e8e8e8" stroke="#111" stroke-width="1.3"/>
+  <text x="155" y="156" text-anchor="middle" font-size="13" fill="#111">George</text>
+
+  <line x1="90" y1="70" x2="130" y2="112" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="250" y1="70" x2="182" y2="112" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+
+  <text x="175" y="232" text-anchor="middle" font-size="11.5" fill="#555">Both pointers point to the SAME heap memory</text>
+
+  <!-- divider -->
+  <line x1="370" y1="20" x2="370" y2="250" stroke="#ddd" stroke-width="1"/>
+
+  <!-- right: after -->
+  <text x="540" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#111">After str2.copy("Mary")</text>
+  <rect x="430" y="40" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="460" y="60" text-anchor="middle" font-size="12" fill="#111">str1</text>
+  <rect x="590" y="40" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="620" y="60" text-anchor="middle" font-size="12" fill="#111">str2</text>
+
+  <ellipse cx="525" cy="150" rx="70" ry="42" fill="#d0d0d0" stroke="#111" stroke-width="1.3"/>
+  <text x="525" y="156" text-anchor="middle" font-size="13" fill="#111">Mary</text>
+
+  <line x1="460" y1="70" x2="500" y2="112" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="620" y1="70" x2="552" y2="112" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+
+  <text x="540" y="232" text-anchor="middle" font-size="11.5" fill="#555">str1 changed too — the bug!</text>
+</svg>
+<figcaption>Shallow copy duplicates the pointer, not the data behind it.</figcaption>
+</figure>
+
+<h4>Consequences of shallow copy</h4>
+<ul>
+  <li><code>str2</code> uses the <b>same piece of allocated memory</b> that <code>str1</code> is using, instead of allocating its own.</li>
+  <li>If a destructor is written, the <b>same memory will be freed twice</b> when <code>str1</code> and <code>str2</code> are destroyed — a <b>double free</b> error.</li>
+  <li>Changing one object changes the other — not the desired outcome.</li>
+</ul>
+
+<h4>The fix — deep copy constructor</h4>
+<pre><code>class string {
+  private:
+    char *s;
+    int   size;
+  public:
+    string(char *);                 // constructor
+    ~string();                      // destructor
+    string(const string &amp;);        // copy constructor
+    void print();
+    void copy(char *);
+};
+
+string::string(const string &amp;old_str) {
+    size = old_str.size;
+    s = new char[size + 1];         // allocate a NEW buffer
+    strcpy(s, old_str.s);           // copy the CONTENT
+}
+
+void main() {
+    string str1("George");
+    string str2 = str1;
+
+    str1.print();   // George
+    str2.print();   // George
+
+    str2.copy("Mary");
+
+    str1.print();   // George   <-- correct!
+    str2.print();   // Mary
+}</code></pre>
+
+<figure>
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <text x="350" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Deep Copy — independent buffers</text>
+
+  <rect x="60" y="50" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="90" y="70" text-anchor="middle" font-size="12" fill="#111">str1</text>
+  <rect x="230" y="50" width="60" height="30" fill="#f4f4f4" stroke="#111"/>
+  <text x="260" y="70" text-anchor="middle" font-size="12" fill="#111">str2</text>
+
+  <ellipse cx="110" cy="155" rx="62" ry="36" fill="#e8e8e8" stroke="#111" stroke-width="1.3"/>
+  <text x="110" y="160" text-anchor="middle" font-size="12.5" fill="#111">George</text>
+
+  <ellipse cx="310" cy="155" rx="62" ry="36" fill="#d0d0d0" stroke="#111" stroke-width="1.3"/>
+  <text x="310" y="160" text-anchor="middle" font-size="12.5" fill="#111">Mary</text>
+
+  <line x1="90" y1="80" x2="100" y2="118" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+  <line x1="260" y1="80" x2="296" y2="118" stroke="#111" stroke-width="1.2" marker-end="url(#ar1)"/>
+
+  <text x="520" y="120" font-size="11.5" fill="#555">Each object owns</text>
+  <text x="520" y="138" font-size="11.5" fill="#555">its own memory.</text>
+</svg>
+<figcaption>Deep copy allocates fresh memory and copies the contents.</figcaption>
+</figure>
+
+<div class="note">
+  <span class="lbl">Note</span>
+  The same correct behaviour can be obtained by <b>overloading the assignment operator</b> <code>operator=</code>. This is often called the <b>Rule of Three</b>: if you need a destructor, a copy constructor, or a copy assignment operator, you probably need all three.
+</div>
+
+<h3>5.5 Object Lifecycle Order</h3>
+<p>When a derived-class object is created:</p>
+<ol>
+  <li>Space is allocated (on the stack or heap) for the <b>full object</b> — enough for inherited base members plus derived members.</li>
+  <li>The <b>base class constructor</b> is called to initialise the inherited members.</li>
+  <li>The <b>derived class constructor</b> is then called to initialise the added members.</li>
+  <li>The derived-class object is now usable.</li>
+</ol>
+
+<p>When the object is destroyed:</p>
+<ol start="5">
+  <li>The <b>derived class destructor</b> is called first.</li>
+  <li>Then the <b>base class destructor</b> is called.</li>
+  <li>Finally the allocated space for the full object is reclaimed.</li>
+</ol>
+
+<div class="key">
+  <span class="lbl">Remember</span>
+  Construction flows <b>base &#8594; derived</b>.<br>
+  Destruction flows <b>derived &#8594; base</b>.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 6 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch6"><span class="num">06</span>The C/C++ Memory Map</h2>
+
+<h3>6.1 Program Segments</h3>
+<p>The memory a program uses is divided into several areas, called <b>segments</b>:</p>
+
+<figure>
+<svg viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect x="90" y="20"  width="300" height="66" fill="#f7f7f7" stroke="#111" stroke-width="1.3"/>
+  <text x="240" y="50" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Heap</text>
+  <text x="240" y="70" text-anchor="middle" font-size="11" fill="#555">dynamically allocated (new)</text>
+
+  <rect x="90" y="90"  width="300" height="66" fill="#eeeeee" stroke="#111" stroke-width="1.3"/>
+  <text x="240" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Stack</text>
+  <text x="240" y="140" text-anchor="middle" font-size="11" fill="#555">locals, parameters, return addresses</text>
+
+  <rect x="90" y="160" width="300" height="66" fill="#e2e2e2" stroke="#111" stroke-width="1.3"/>
+  <text x="240" y="190" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Global / Static</text>
+  <text x="240" y="210" text-anchor="middle" font-size="11" fill="#555">bss + data segments</text>
+
+  <rect x="90" y="230" width="300" height="66" fill="#d5d5d5" stroke="#111" stroke-width="1.3"/>
+  <text x="240" y="260" text-anchor="middle" font-size="15" font-weight="700" fill="#111">Program Code</text>
+  <text x="240" y="280" text-anchor="middle" font-size="11" fill="#555">read-only text segment</text>
+
+  <text x="58" y="60"  font-size="11" fill="#111" font-weight="600">high</text>
+  <text x="58" y="300" font-size="11" fill="#111" font-weight="600">low</text>
+  <line x1="72" y1="40" x2="72" y2="300" stroke="#111" stroke-width="1" marker-end="url(#ar1)"/>
+</svg>
+<figcaption>The segments of a running C/C++ program.</figcaption>
+</figure>
+
+<table>
+  <thead><tr><th>Segment</th><th>Contents</th></tr></thead>
+  <tbody>
+    <tr><td><b>Code segment</b> (text segment)</td><td>Where the compiled program sits in memory. Typically <b>read-only</b>.</td></tr>
+    <tr><td><b>bss segment</b> (uninitialised data)</td><td>Zero-initialised global and static variables.</td></tr>
+    <tr><td><b>Data segment</b> (initialised data)</td><td>Initialised global and static variables.</td></tr>
+    <tr><td><b>Call stack</b></td><td>Function parameters, local variables, and other function-related information.</td></tr>
+    <tr><td><b>Heap</b> (free store)</td><td>Dynamically allocated variables.</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <span class="lbl">BSS</span>
+  <b>bss</b> is used by many compilers and linkers for the portion of an object file or executable containing statically allocated variables that are <i>not explicitly initialised</i> to any value. It is often referred to as the "bss section" or "bss segment".
+</div>
+
+<h3>6.2 The Heap Segment</h3>
+<ul>
+  <li>Keeps track of memory used for <b>dynamic memory allocation</b>.</li>
+  <li>In C++, when you use the <code>new</code> operator to allocate memory, that memory is allocated in the application's heap segment.</li>
+  <li>When a dynamically allocated variable is deleted, the memory is <b>returned</b> to the heap and can then be reassigned as future allocation requests are received.</li>
+</ul>
+
+<pre><code>int *p = new int(42);   // p points into the heap
+delete p;               // memory returned to the heap</code></pre>
+
+<h3>6.3 The Call Stack Segment</h3>
+<ul>
+  <li>Holds the memory used for the call stack.</li>
+  <li>When the application starts, <code>main()</code> is pushed onto the call stack by the operating system. The program then begins executing.</li>
+  <li>When a function call is encountered, the function is <b>pushed</b> onto the call stack. When the current function ends, that function is <b>popped</b> off the call stack.</li>
+  <li>By looking at the functions pushed on the call stack, we can see all the functions that were called to get to the current point of execution.</li>
+</ul>
+
+<pre><code>int display(int x) {
+    // b
+    return x;
+}   // display is popped off the call stack here
+
+int main() {
+    // a
+    display(5);   // display is pushed on the call stack here
+    // c
+    return 0;
+}</code></pre>
+
+<figure>
+<svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <!-- step 1 -->
+  <rect x="20" y="30" width="120" height="34" fill="#111"/>
+  <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">main()</text>
+  <text x="80" y="86" text-anchor="middle" font-size="11" fill="#555">at //a</text>
+
+  <!-- arrow -->
+  <line x1="150" y1="47" x2="190" y2="47" stroke="#111" stroke-width="1.4" marker-end="url(#ar5)"/>
+
+  <!-- step 2 -->
+  <rect x="200" y="14" width="120" height="34" fill="#f4f4f4" stroke="#111"/>
+  <text x="260" y="36" text-anchor="middle" font-size="12" font-weight="700" fill="#111">display(5)</text>
+  <rect x="200" y="52" width="120" height="34" fill="#111"/>
+  <text x="260" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">main()</text>
+  <text x="260" y="106" text-anchor="middle" font-size="11" fill="#555">at //b</text>
+
+  <!-- arrow -->
+  <line x1="330" y1="47" x2="370" y2="47" stroke="#111" stroke-width="1.4" marker-end="url(#ar5)"/>
+
+  <!-- step 3 -->
+  <rect x="380" y="52" width="120" height="34" fill="#111"/>
+  <text x="440" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">main()</text>
+  <text x="440" y="106" text-anchor="middle" font-size="11" fill="#555">at //c</text>
+
+  <text x="260" y="160" text-anchor="middle" font-size="11.5" fill="#555">push → execute → pop</text>
+  <text x="260" y="182" text-anchor="middle" font-size="11.5" fill="#555">The stack grows and shrinks as functions are entered and left.</text>
+</svg>
+<figcaption>Call stack behaviour during a nested call.</figcaption>
+</figure>
+
+<h3>6.4 Stack Overflow</h3>
+<ul>
+  <li>The stack has a <b>limited size</b> and can only hold a limited amount of information. On Windows the default stack size is about <b>1 MB</b>; on some Unix machines it can be as large as <b>8 MB</b>.</li>
+  <li>If the program tries to put too much information on the stack, <b>stack overflow</b> results.</li>
+  <li>Stack overflow happens when all the memory in the stack has been allocated — further allocations begin overflowing into other sections of memory.</li>
+  <li>It is generally the result of allocating too many variables on the stack, and/or making too many nested function calls.</li>
+  <li>On modern operating systems, overflowing the stack generally causes the OS to issue an <b>access violation</b> and terminate the program.</li>
+</ul>
+
+<h4>Example 1 — huge local array</h4>
+<pre><code>#include &lt;iostream&gt;
+
+int main() {
+    int stack[10000000];       // ~40 MB array on a ~1 MB stack
+    std::cout &lt;&lt; "hi";
+    return 0;
+}</code></pre>
+<p>This program tries to allocate a huge array on the stack. Because the stack is not large enough, the array allocation overflows into memory the program is not allowed to use.</p>
+
+<h4>Example 2 — infinite recursion</h4>
+<pre><code>void display() { display(); }
+
+int main() {
+    display();
+    return 0;
+}</code></pre>
+<p>A stack frame is pushed every time <code>display()</code> is called. Since <code>display()</code> calls itself infinitely, the stack eventually runs out of memory.</p>
+
+<h3>6.5 Memory Allocation for Objects</h3>
+
+<pre><code>class book {
+    string title;
+    int    price;
+    void getdata();
+    void putdata();
+};
+
+int main() {
+    book book1, book2, book3;
+    int  i;
+    return 1;
+}</code></pre>
+
+<figure>
+<svg viewBox="0 0 620 280" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <!-- shared member functions -->
+  <rect x="90" y="20" width="150" height="46" rx="4" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <text x="165" y="48" text-anchor="middle" font-size="12.5" fill="#111">getdata()</text>
+
+  <rect x="380" y="20" width="150" height="46" rx="4" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <text x="455" y="48" text-anchor="middle" font-size="12.5" fill="#111">putdata()</text>
+
+  <text x="310" y="18" text-anchor="middle" font-size="11" fill="#555">ONE copy, shared by all objects</text>
+
+  <!-- objects -->
+  <rect x="40"  y="170" width="150" height="52" fill="#e6e6e6" stroke="#111" stroke-width="1.2"/>
+  <line x1="115" y1="170" x2="115" y2="222" stroke="#111"/>
+  <text x="77"  y="200" text-anchor="middle" font-size="12" fill="#111">title</text>
+  <text x="152" y="200" text-anchor="middle" font-size="12" fill="#111">price</text>
+  <text x="115" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="#111">book1</text>
+
+  <rect x="235" y="170" width="150" height="52" fill="#e6e6e6" stroke="#111" stroke-width="1.2"/>
+  <line x1="310" y1="170" x2="310" y2="222" stroke="#111"/>
+  <text x="272" y="200" text-anchor="middle" font-size="12" fill="#111">title</text>
+  <text x="347" y="200" text-anchor="middle" font-size="12" fill="#111">price</text>
+  <text x="310" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="#111">book2</text>
+
+  <rect x="430" y="170" width="150" height="52" fill="#e6e6e6" stroke="#111" stroke-width="1.2"/>
+  <line x1="505" y1="170" x2="505" y2="222" stroke="#111"/>
+  <text x="467" y="200" text-anchor="middle" font-size="12" fill="#111">title</text>
+  <text x="542" y="200" text-anchor="middle" font-size="12" fill="#111">price</text>
+  <text x="505" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="#111">book3</text>
+
+  <!-- links -->
+  <line x1="120" y1="170" x2="150" y2="68" stroke="#111" stroke-width="1"/>
+  <line x1="180" y1="170" x2="200" y2="68" stroke="#111" stroke-width="1"/>
+  <line x1="320" y1="170" x2="180" y2="68" stroke="#111" stroke-width="1"/>
+  <line x1="370" y1="170" x2="420" y2="68" stroke="#111" stroke-width="1"/>
+  <line x1="510" y1="170" x2="210" y2="68" stroke="#111" stroke-width="1"/>
+  <line x1="560" y1="170" x2="450" y2="68" stroke="#111" stroke-width="1"/>
+</svg>
+<figcaption>Each object has its own copy of data members; member functions are shared.</figcaption>
+</figure>
+
+<h4>Key rules</h4>
+<ul>
+  <li>Before using a member of a class, it is necessary to allocate the required memory space to that member.</li>
+  <li>Data members and member functions are allocated <b>differently</b>, even though both belong to the same class.</li>
+  <li>Memory for <b>data members</b> is allocated only when an <b>object</b> is declared — not when the data members are declared inside the class.</li>
+  <li>Since a single data member can have different values for different objects at the same time, <b>every object has an individual copy of all the data members</b>.</li>
+  <li>Memory for <b>member functions</b> is allocated only <b>once</b>, when the class is defined. There is a <b>single copy of each member function</b>, shared among all objects.</li>
+</ul>
+
+<h4>Where does an object live?</h4>
+<ul>
+  <li>If <code>Book</code> has members that are allocated only on the stack, then the whole object is on the stack.</li>
+  <li><b>But</b> <code>Book</code> may have pointer members and <code>Book</code>'s constructor may allocate memory for them on the heap.</li>
+  <li>Then some members are on the heap, some on the stack.</li>
+</ul>
+
+<pre><code>class book {
+    string  title;
+    int     price;
+    string *publisher;   // pointer member — may point to heap memory
+    void getdata();
+    void putdata();
+};
+
+int main() {
+    book book1, book2, book3;   // book1/2/3 on stack,
+                                // publisher targets possibly on heap
+    return 1;
+}</code></pre>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 7 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch7"><span class="num">07</span>Friend Functions and Friend Classes</h2>
+
+<h3>7.1 Motivation</h3>
+<p>Normally, private members cannot be accessed from outside the class. That is, a non-member function cannot access the private data of the class. However, there could be a situation where we would like <b>two classes to share a particular function</b>. In such situations C++ allows the common function to be made <b>friendly</b> with both classes, thereby allowing the function to access the private data of these classes. Such a function need not be a member of these classes.</p>
+
+<h3>7.2 Syntax</h3>
+<pre><code>class ABC {
+    int p;
+  public:
+    void display();
+    friend void xyz(void);   // declaration
+};
+
+class A1 {
+    ...
+  public:
+    ...
+    friend void xyz(void);
+};
+
+class A2 {
+    ...
+  public:
+    ...
+    friend void xyz(void);
+};</code></pre>
+
+<p>The function is then defined elsewhere as a normal C++ function:</p>
+<pre><code>void xyz() {
+    // can now access private members of ABC, A1, A2
+}</code></pre>
+
+<h3>7.3 Rules for Friend Functions</h3>
+<ul>
+  <li>The function declaration should be preceded by the keyword <code>friend</code>.</li>
+  <li>The function is <b>defined elsewhere</b> in the program like a normal C++ function.</li>
+  <li>The function definition does <b>not</b> use either the keyword <code>friend</code> or the scope operator <code>::</code>.</li>
+  <li>The function can be declared as a friend in <b>any number of classes</b>.</li>
+</ul>
+
+<h3>7.4 Characteristics of Friend Functions</h3>
+<ul>
+  <li>It is <b>not in the scope</b> of the class to which it has been declared as friend.</li>
+  <li>Since it is not in the scope of the class, it <b>cannot be called using the object</b> of that class.</li>
+  <li>It can be invoked like a normal function <b>without the help of any object</b>.</li>
+  <li>It can be declared in the <b>public or private</b> part without affecting its meaning.</li>
+  <li>Unlike a member function, it <b>cannot access member names directly</b>; it has to use an object name and the dot membership operator with each member name (e.g. <code>A.x</code>).</li>
+  <li>Usually, it has <b>objects as arguments</b>.</li>
+</ul>
+
+<h3>7.5 Cautions on Friendship</h3>
+<ol>
+  <li>Friends should be used only for a <b>limited purpose</b>. If too many functions or external classes are declared as friends of a class with protected or private data, it <b>lessens the value of encapsulation</b> of separate classes in object-oriented programming.</li>
+  <li>Friendship is <b>not mutual</b>. If class A is a friend of B, then B does not automatically become a friend of A.</li>
+  <li>Friendship is <b>not inherited</b>.</li>
+  <li>The concept of friends is <b>not there in Java</b>.</li>
+</ol>
+
+<h3>7.6 Ways to Declare a Friend</h3>
+<p>A friend function can be:</p>
+<ul>
+  <li>(a) a <b>global function</b></li>
+  <li>(b) a <b>method of another class</b></li>
+</ul>
+
+<h3>7.7 Global Friend — Example 1 (mean)</h3>
+<pre><code>class sample {
+    int a, b;
+  public:
+    void set() { a = 25; b = 55; }
+    friend int mean(sample);
+};
+
+int mean(sample s) {
+    return (s.a + s.b) / 2;    // accesses private members
+}
+
+int main() {
+    sample s;
+    s.set();
+    cout &lt;&lt; mean(s) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+<h3>7.8 Global Friend — Example 2 (max of two classes)</h3>
+<pre><code>class abc;    // forward declaration
+
+class xyz {
+    int x;
+  public:
+    void setx(int px) { x = px; }
+    friend int max(xyz, abc);
+};
+
+class abc {
+    int a;
+  public:
+    void seta(int pa) { a = pa; }
+    friend int max(xyz, abc);
+};
+
+int max(xyz x1, abc a1) {
+    if (x1.x &gt; a1.a) return x1.x;
+    else              return a1.a;
+}
+
+void main() {
+    xyz xx;
+    abc aa;
+    xx.setx(100);
+    aa.seta(1000);
+    cout &lt;&lt; max(xx, aa);
+}</code></pre>
+
+<h3>7.9 Global Friend — Example 3 (swap between two classes)</h3>
+<pre><code>class abc;
+
+class xyz {
+    int x;
+  public:
+    void set(int p) { x = p; }
+    void show()     { cout &lt;&lt; x &lt;&lt; endl; }
+    friend void swap(xyz &amp;, abc &amp;);
+};
+
+class abc {
+    int a;
+  public:
+    void set(int p) { a = p; }
+    void show()     { cout &lt;&lt; a &lt;&lt; endl; }
+    friend void swap(xyz &amp;, abc &amp;);
+};
+
+void swap(xyz &amp;xx, abc &amp;aa) {
+    int temp;
+    temp = xx.x;
+    xx.x = aa.a;
+    aa.a = temp;
+    cout &lt;&lt; xx.x &lt;&lt; aa.a &lt;&lt; endl;
+}
+
+void main() {
+    xyz x1;
+    abc a1;
+    a1.set(100);
+    x1.set(500);
+
+    cout &lt;&lt; "Before swap" &lt;&lt; endl;
+    x1.show();   // 500
+    a1.show();   // 100
+
+    cout &lt;&lt; "After swap" &lt;&lt; endl;
+    swap(x1, a1);
+
+    cout &lt;&lt; "From main" &lt;&lt; endl;
+    x1.show();   // 100
+    a1.show();   // 500
+}</code></pre>
+
+<h3>7.10 Friend as a Member Function of Another Class</h3>
+<p>Member functions of one class can be friend functions of another class. In such cases they are defined using the scope resolution operator, as shown:</p>
+
+<pre><code>class X {
+  public:
+    int fun1();
+};
+
+class Y {
+  public:
+    friend int X::fun1();   // a member of X is a friend of Y
+};</code></pre>
+
+<h4>Full example</h4>
+<pre><code>class B;   // forward declaration
+
+class A {
+  public:
+    void showB(B &amp;);
+};
+
+class B {
+  private:
+    int br;
+  public:
+    B() { br = 0; }
+    friend void A::showB(B &amp; x);
+};
+
+void A::showB(B &amp; x) {
+    // showB() is a friend of B, so it can access B's private members
+    cout &lt;&lt; "B::br = " &lt;&lt; x.br;
+}
+
+int main() {
+    A a;
+    B x;
+    a.showB(x);
+    return 0;
+}</code></pre>
+
+<h3>7.11 Friend Class</h3>
+<p>We can also declare <b>all the member functions of one class</b> as friend functions of another class. In such cases, the class is called a <b>friend class</b>.</p>
+
+<pre><code>class Z {
+  public:
+    friend class X;    // all of X's members are friends of Z
+};</code></pre>
+
+<h4>Full example</h4>
+<pre><code>class XYZ {
+  private:
+    char ch  = 'A';
+    int  num = 11;
+  public:
+    friend class ABC;
+};
+
+class ABC {
+  public:
+    void disp(XYZ obj) {
+        cout &lt;&lt; obj.ch  &lt;&lt; endl;
+        cout &lt;&lt; obj.num &lt;&lt; endl;
+    }
+};
+
+int main() {
+    ABC obj;
+    XYZ obj2;
+    obj.disp(obj2);   // ABC is a friend of XYZ → can access private members
+    return 0;
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Summary</span>
+  <b>Friend function</b> &#8594; one function gets access.<br>
+  <b>Friend class</b> &#8594; every member function of another class gets access.<br>
+  Friendship is a one-way, non-inherited, non-mutual grant of access.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 8 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch8"><span class="num">08</span>Function Overloading</h2>
+
+<h3>8.1 Definition</h3>
+<p>Two or more functions can share the same name as long as either the <b>type</b> of their arguments differ, or the <b>number</b> of their arguments differs — or both. This reduces the complexity of a program by allowing related operations to be referred to by the same name.</p>
+
+<h3>8.2 Overloading by Differing Data Type of Argument</h3>
+<pre><code>// Declarations
+int    add(int a, int b);
+int    add(int a, int b, int c);
+double add(double x, double y);
+double add(int p, double q);
+double add(double p, int q);
+
+// Function calls
+cout &lt;&lt; add(5, 10);        // prototype 1
+cout &lt;&lt; add(15, 10.0);     // prototype 4
+cout &lt;&lt; add(12.5, 7.5);    // prototype 3
+cout &lt;&lt; add(15, 10, 5);    // prototype 2
+cout &lt;&lt; add(0.75, 5);      // prototype 5</code></pre>
+
+<h3>8.3 Overloading by Differing Number of Arguments</h3>
+<pre><code>void f1(int a)          { }
+void f1(int a, int b)   { }
+
+main() {
+    f1(10);
+    f1(10, 20);
+}</code></pre>
+
+<div class="warn">
+  <span class="lbl">Caution</span>
+  <b>Return type alone is not sufficient difference to allow function overloading.</b>
+<pre style="margin:8px 0 0"><code>int    f1(int a);
+double f1(int a);   // ILLEGAL — ambiguous</code></pre>
+  This fragment is incorrect because it is inherently ambiguous. The compiler has no way of knowing which version of <code>f1()</code> to call.
+</div>
+
+<h3>8.4 Resolution of Calls to Overloaded Functions</h3>
+<p>Calls to overloaded functions and operators are resolved by:</p>
+<ul>
+  <li><b>Finding all possible matches</b> based on passed arguments
+    <ul>
+      <li>may involve type promotion</li>
+      <li>may involve instantiating templates</li>
+    </ul>
+  </li>
+  <li><b>Finding the "best match"</b> among those possible matches.</li>
+</ul>
+
+<div class="note">
+  <span class="lbl">Signature</span>
+  The <b>signature does not include the return type</b>. Which might not help even if it did, since calls may ignore the result. So overloading cannot be resolved by return type alone. The compiler generates an error if the call cannot be resolved.
+</div>
+
+<h3>8.5 The Matching Algorithm (in order)</h3>
+<ol>
+  <li>The compiler first tries to find an <b>exact match</b> in which the number and types of actual arguments are the same, and uses that function.</li>
+  <li>If an exact match is not found, the compiler uses <b>integral promotions</b> on the actual arguments — such as <code>char</code> to <code>int</code>, <code>float</code> to <code>double</code> — to find the match.</li>
+  <li>When either of those fails, the compiler tries to use the <b>built-in conversions</b> on the actual arguments and then uses the function whose match is unique. If the conversion is possible to have multiple matches, the compiler generates an error message.</li>
+  <li>If all of the above fail, the compiler tries <b>user-defined conversions</b> in combination with integral promotions and built-in conversions to find the match.</li>
+  <li>Otherwise: <b>error</b>.</li>
+</ol>
+
+<h4>Ambiguity example</h4>
+<pre><code>long   square(long n);
+double square(double x);
+
+square(10);   // ERROR: int can convert to BOTH long and double</code></pre>
+
+<h4>Another example</h4>
+<pre><code>class A {
+  public:
+    int  add(int i, int j);
+    long add(long m, long n);
+};
+
+int main() {
+    int a = 7;
+    int b = 8;
+    int c = add(a, b);   // exact match: add(int, int)
+    return 0;
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Practice Problems</span>
+  1. Overload a constructor to implement a <code>Date</code> class.<br>
+  2. Overload <code>area()</code> and <code>volume()</code> to implement various shapes.
+</div>
+
+<h3>8.6 The <code>this</code> Pointer</h3>
+<p>Every non-static member function receives a hidden pointer called <code>this</code>, which points to the object on which the member function was invoked. It is how a member function knows <i>which</i> object's data members to use.</p>
+
+<pre><code>class Sample {
+    int m;
+  public:
+    Sample &amp;set(int m) {
+        this-&gt;m = m;   // disambiguates parameter from member
+        return *this;  // enables method chaining
+    }
+};</code></pre>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 9 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch9"><span class="num">09</span>Operator Overloading</h2>
+
+<h3>9.1 The Need</h3>
+<pre><code>int   i, j, k;      // integers
+float m, n, p;      // floats
+
+k = i + j;          // integer addition and assignment
+p = m + n;          // floating addition and assignment</code></pre>
+
+<p>The compiler overloads the <code>+</code> operator for built-in integer and float types by default. But what about user-defined types?</p>
+
+<pre><code>class Complex {
+  public:
+    int real, img;
+    void accept();
+    void display();
+};
+
+Complex c1, c2, c3;
+c3 = c1 + c2;      // does the compiler know how to add two Complex objects?</code></pre>
+
+<p>We want object operations to look like individual variable operations, using <b>operator functions</b>.</p>
+
+<h3>9.2 Definition</h3>
+<ul>
+  <li>A programmer can use some operator symbols to define <b>special member functions</b> of a class.</li>
+  <li>Provides convenient notation for object behaviours.</li>
+  <li>Uses traditional operators with user-defined objects.</li>
+  <li>A straightforward and natural way to extend C++.</li>
+  <li>Requires <b>great care</b>: when overloading is misused, the program becomes difficult to understand.</li>
+</ul>
+
+<h3>9.3 Restrictions on Operator Overloading</h3>
+
+<h4>Operators that can be overloaded</h4>
+<pre><code>+   -   *   /   %   ^   &amp;   |   ~   !   =   &lt;   &gt;
++=  -=  *=  /=  %=  ^=  &amp;=  |=  &lt;&lt;  &gt;&gt;  &gt;&gt;= &lt;&lt;=
+==  !=  &lt;=  &gt;=  &amp;&amp;  ||  ++  --  -&gt;*  -&gt;  []  ()
+new delete new[] delete[]</code></pre>
+
+<h4>Rules</h4>
+<ul>
+  <li><b>Arity (number of operands) cannot be changed.</b> Unary operators remain unary, binary operators remain binary.</li>
+  <li>Operators <code>&amp;</code>, <code>*</code>, <code>+</code> and <code>-</code> each have unary and binary versions. Unary and binary versions can be overloaded separately.</li>
+  <li><b>No new operators can be created</b> — use only existing operators.</li>
+  <li><b>Built-in types cannot be changed</b> — you cannot change how two integers are added.</li>
+</ul>
+
+<h3>9.4 Implementing Operator Overloading</h3>
+<p>Two ways:</p>
+<ul>
+  <li>Implemented as <b>member functions</b></li>
+  <li>Implemented as <b>non-member or friend functions</b> — the operator function may need to be declared as a friend if it requires access to protected or private data.</li>
+</ul>
+
+<h4>Translation rule</h4>
+<table>
+  <thead><tr><th>Expression</th><th>Translates into</th><th>When the function is defined…</th></tr></thead>
+  <tbody>
+    <tr><td><code>obj1 @ obj2</code></td><td><code>obj1.operator@(obj2)</code></td><td>inside the class of <code>obj1</code></td></tr>
+    <tr><td><code>obj1 @ obj2</code></td><td><code>operator@(obj1, obj2)</code></td><td>outside the class</td></tr>
+  </tbody>
+</table>
+
+<h4>Syntax</h4>
+<pre><code>operator@(argument-list)</code></pre>
+<p>Here <code>operator</code> is a function and <code>@</code> is one of the C++ operator symbols. Examples: <code>operator+</code>, <code>operator-</code>, <code>operator*</code>, <code>operator/</code>.</p>
+
+<h3>9.5 Rules for Operator Functions</h3>
+<ul>
+  <li>The <b>leftmost operand</b> must be an object (or reference to an object) of the class.</li>
+  <li>If the left operand is of a <b>different type</b>, the operator function must be a <b>non-member</b> function.</li>
+  <li>A non-member operator function must be a <b>friend</b> if private or protected members of that class are accessed directly.</li>
+</ul>
+
+<h3>9.6 Form 1 — Non-static Member Function (one argument)</h3>
+<pre><code>class distance {
+    int km, mt;
+  public:
+    distance operator+(distance &amp;);
+};
+
+distance a, b, c;
+c = a + b;            // c = a.operator+(b);
+
+distance distance::operator+(distance &amp;d) {
+    distance res;
+    res.mt = mt + d.mt;
+    res.km = km + d.km;
+    return res;
+}</code></pre>
+
+<h4>Subtraction variant</h4>
+<pre><code>class distance {
+    int km, mt;
+  public:
+    distance operator-(distance &amp;);
+};
+
+distance a, b, c;
+c = a - b;            // c = a.operator-(b);
+
+distance distance::operator-(distance &amp;d) {
+    distance res;
+    res.mt = mt - d.mt;
+    res.km = km - d.km;
+    return res;
+}</code></pre>
+
+<h3>9.7 Form 2 — Non-member Friend Function (two arguments)</h3>
+<pre><code>class distance {
+    int km, mt;
+  public:
+    friend distance operator-(distance &amp;, distance &amp;);
+};
+
+distance d3, d4, d5;
+d3 = d5 - d4;                    // d3 = operator-(d5, d4);
+
+distance operator-(distance &amp;d2, distance &amp;d1) {
+    distance res;
+    res.mt = d2.mt - d1.mt;
+    res.km = d2.km - d1.km;
+    return res;
+}</code></pre>
+
+<h4>Mixed-type friend operator (int × distance)</h4>
+<pre><code>class distance {
+    int km, mt;
+  public:
+    friend distance operator*(int, distance &amp;);
+};
+
+distance d4, d5;
+d5 = 2 * d4;                     // d5 = operator*(2, d4);
+
+distance operator*(int a, distance &amp;d) {
+    distance d1;
+    d1.km = a * d.km;
+    d1.mt = a * d.mt;
+    return d1;
+}</code></pre>
+
+<div class="note">
+  <span class="lbl">Why Friend Here?</span>
+  The leftmost operand is <code>int</code>, not a <code>distance</code> object. So the operator <b>cannot</b> be a member function of <code>distance</code>. It must be a non-member — and it needs <code>friend</code> access to reach the private <code>km</code> and <code>mt</code>.
+</div>
+
+<h3>9.8 Overloading Stream Insertion &amp; Stream Extraction</h3>
+
+<h4>Need</h4>
+<pre><code>class distance { int km, mt; };
+
+int main() {
+    distance d1;
+    cin  &gt;&gt; d1;
+    cout &lt;&lt; d1;
+}</code></pre>
+
+<p>C++ is able to input and output built-in data types using the stream extraction operator <code>&gt;&gt;</code> and the stream insertion operator <code>&lt;&lt;</code>. These operators can also be overloaded to perform input and output for user-defined types like an object.</p>
+
+<h4>Rules</h4>
+<ul>
+  <li>Overloaded <code>&lt;&lt;</code> and <code>&gt;&gt;</code> operators must have a left operand of type <code>ostream &amp;</code> and <code>istream &amp;</code> respectively.</li>
+  <li>They <b>must be non-member functions</b> — because the left operand is not an object of the class.</li>
+  <li>They <b>must be friend functions</b> if they access private data members.</li>
+</ul>
+
+<pre><code>class distance {
+    int km, mt;
+  public:
+    friend istream &amp;operator&gt;&gt;(istream &amp;, distance &amp;);
+    friend ostream &amp;operator&lt;&lt;(ostream &amp;, distance &amp;);
+};
+
+istream &amp;operator&gt;&gt;(istream &amp;din, distance &amp;d) {
+    din &gt;&gt; d.km;
+    din &gt;&gt; d.mt;
+    return din;
+}
+
+ostream &amp;operator&lt;&lt;(ostream &amp;dout, distance &amp;d) {
+    dout &lt;&lt; d.km &lt;&lt; "Km";
+    dout &lt;&lt; "+";
+    dout &lt;&lt; d.mt &lt;&lt; "m" &lt;&lt; endl;
+    return dout;
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Why return the stream?</span>
+  Returning <code>istream&amp;</code> / <code>ostream&amp;</code> allows <b>chaining</b>: <code>cin &gt;&gt; a &gt;&gt; b;</code> and <code>cout &lt;&lt; x &lt;&lt; y;</code>
+</div>
+
+<h3>9.9 Overloading Unary Operators</h3>
+<p>A unary operator operates on a <b>single</b> operand and returns a new value. Some unary operators are:</p>
+<ul>
+  <li><code>++</code> (increment)</li>
+  <li><code>--</code> (decrement)</li>
+  <li><code>-</code> (unary minus)</li>
+  <li><code>!</code> (NOT)</li>
+</ul>
+
+<p>For primitive types like <code>int</code> and <code>string</code>, these are already overloaded. Let us see how to overload a unary operator for a user-defined class.</p>
+
+<h4>Prefix vs postfix</h4>
+<p>The compiler distinguishes them by a <b>dummy <code>int</code> parameter</b> used only for postfix.</p>
+
+<pre><code>class Sample {
+    int m;
+  public:
+    Sample()      { m = 0; }
+    Sample(int x1){ m = x1; }
+
+    void   operator++();       // PREFIX  ++ function
+    Sample operator++(int);    // POSTFIX ++ function
+    void   operator=(Sample);
+    void   display();
+};</code></pre>
+
+<pre><code>// prefix ++ : increments and returns void here
+void Sample::operator++() {
+    m = m + 10;
+}
+
+// postfix ++ : accepts a dummy int, returns a copy
+Sample Sample::operator++(int x) {
+    m = m + 50;
+    return *this;   // returns current object
+}
+
+void Sample::operator=(Sample s) {
+    m = s.m;
+}
+
+void Sample::display() {
+    cout &lt;&lt; "m=" &lt;&lt; m &lt;&lt; endl;
+}</code></pre>
+
+<pre><code>int main() {
+    cout &lt;&lt; "Unary Operator Overloading" &lt;&lt; endl;
+
+    Sample s1(10);
+    s1.display();     // m=10
+
+    ++s1;             // prefix
+    s1.display();     // m=20
+
+    Sample s2(100);
+    s2.display();     // m=100
+
+    s2++;             // postfix
+    s2.display();     // m=150
+
+    s1 = s2;
+    s1.display();     // m=150
+
+    return 0;
+}</code></pre>
+
+<div class="note">
+  <span class="lbl">The Dummy int</span>
+  The <code>int</code> parameter passed to the postfix version is never used. It exists purely so the compiler can tell the prefix and postfix forms apart. Every non-static member function by default has a <code>this</code> pointer; the postfix function returns <code>*this</code>.
+</div>
+
+<h3>9.10 More About 'Friend'</h3>
+<ul>
+  <li>Friend declarations introduce <b>extra coupling</b> between classes.</li>
+  <li>Once an object is declared as a friend, it has access to <b>all non-public members</b> as if they were public.</li>
+  <li>Access is <b>unidirectional</b>: if B is a friend of A, B can access A's non-public members; A cannot access B's.</li>
+  <li>A friend function of a class is defined <b>outside</b> that class's scope.</li>
+  <li>The major use of friends is to provide more efficient access to data members, and to accommodate operator functions with easy access to private data members.</li>
+  <li>Friends can access everything, which <b>defeats data hiding</b> — use them carefully.</li>
+  <li>Friends have permission to change the internal state from outside the class. <b>Prefer member functions</b> instead of friends to change state.</li>
+</ul>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 10 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch10"><span class="num">10</span>Inheritance</h2>
+
+<h3>10.1 The Concept</h3>
+<p>Objects are often defined in terms of hierarchical classes with a <b>base class</b> and one or more levels of classes that inherit from the classes above them in the hierarchy.</p>
+
+<figure>
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar6" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="270" y="20" width="160" height="46" rx="4" fill="#111"/>
+  <text x="350" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">vehicle</text>
+
+  <rect x="110" y="120" width="140" height="42" rx="4" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <text x="180" y="146" text-anchor="middle" font-size="13" font-weight="700" fill="#111">2-W</text>
+
+  <rect x="450" y="120" width="140" height="42" rx="4" fill="#f4f4f4" stroke="#111" stroke-width="1.2"/>
+  <text x="520" y="146" text-anchor="middle" font-size="13" font-weight="700" fill="#111">4-W</text>
+
+  <line x1="300" y1="66" x2="200" y2="116" stroke="#111" stroke-width="1.3" marker-end="url(#ar6)"/>
+  <line x1="400" y1="66" x2="500" y2="116" stroke="#111" stroke-width="1.3" marker-end="url(#ar6)"/>
+
+  <rect x="30"  y="210" width="120" height="38" rx="4" fill="#e2e2e2" stroke="#111" stroke-width="1.2"/>
+  <text x="90"  y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Bike</text>
+
+  <rect x="175" y="210" width="120" height="38" rx="4" fill="#e2e2e2" stroke="#111" stroke-width="1.2"/>
+  <text x="235" y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Scooter</text>
+
+  <rect x="390" y="210" width="120" height="38" rx="4" fill="#e2e2e2" stroke="#111" stroke-width="1.2"/>
+  <text x="450" y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Bus</text>
+
+  <rect x="535" y="210" width="120" height="38" rx="4" fill="#e2e2e2" stroke="#111" stroke-width="1.2"/>
+  <text x="595" y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#111">Car</text>
+
+  <line x1="150" y1="162" x2="105" y2="206" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+  <line x1="205" y1="162" x2="225" y2="206" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+  <line x1="490" y1="162" x2="460" y2="206" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+  <line x1="545" y1="162" x2="585" y2="206" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+</svg>
+<figcaption>A vehicle class hierarchy — each level inherits from the level above.</figcaption>
+</figure>
+
+<ul>
+  <li>Each level <b>inherits the members of the above level</b>.</li>
+  <li><code>Vehicle</code> is the <b>base class</b>. <code>2-W</code> and <code>4-W</code> are derived from <code>Vehicle</code>.</li>
+  <li><code>Bike</code>, <code>Scooter</code> are derived from <code>2-W</code>; <code>Bus</code>, <code>Car</code> from <code>4-W</code>.</li>
+</ul>
+
+<h3>10.2 Defining a Class Hierarchy</h3>
+<p><b>Syntax:</b></p>
+<pre><code>class DerivedClassName : access-level BaseClassName
+{
+    // members
+};</code></pre>
+<ul>
+  <li><b>access-level</b> specifies the type of derivation — <code>private</code> by default, or <code>public</code>, or <code>protected</code>.</li>
+  <li>Any class can serve as a base class.</li>
+  <li>Thus a derived class can also be a base class (multilevel inheritance).</li>
+</ul>
+
+<h3>10.3 Access Control in Inheritance</h3>
+
+<figure>
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <!-- Public -->
+  <text x="20" y="24" font-size="13" font-weight="700" fill="#111">public</text>
+  <rect x="20" y="34" width="220" height="80" fill="#f7f7f7" stroke="#111" stroke-width="1.2"/>
+  <text x="130" y="56" text-anchor="middle" font-size="11" fill="#555">base (B)</text>
+  <text x="130" y="78" text-anchor="middle" font-size="12" fill="#111">public</text>
+  <text x="130" y="96" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="130" y="112" text-anchor="middle" font-size="12" fill="#111">private</text>
+
+  <line x1="240" y1="74" x2="280" y2="74" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+
+  <rect x="280" y="34" width="220" height="80" fill="#eeeeee" stroke="#111" stroke-width="1.2"/>
+  <text x="390" y="56" text-anchor="middle" font-size="11" fill="#555">derived (A)</text>
+  <text x="390" y="78" text-anchor="middle" font-size="12" fill="#111">public</text>
+  <text x="390" y="96" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="390" y="112" text-anchor="middle" font-size="12" fill="#555">inaccessible</text>
+
+  <!-- Protected -->
+  <text x="20" y="160" font-size="13" font-weight="700" fill="#111">protected</text>
+  <rect x="20" y="170" width="220" height="80" fill="#f7f7f7" stroke="#111" stroke-width="1.2"/>
+  <text x="130" y="192" text-anchor="middle" font-size="11" fill="#555">base (B)</text>
+  <text x="130" y="214" text-anchor="middle" font-size="12" fill="#111">public</text>
+  <text x="130" y="232" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="130" y="248" text-anchor="middle" font-size="12" fill="#111">private</text>
+
+  <line x1="240" y1="210" x2="280" y2="210" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+
+  <rect x="280" y="170" width="220" height="80" fill="#eeeeee" stroke="#111" stroke-width="1.2"/>
+  <text x="390" y="192" text-anchor="middle" font-size="11" fill="#555">derived (A)</text>
+  <text x="390" y="214" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="390" y="232" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="390" y="248" text-anchor="middle" font-size="12" fill="#555">inaccessible</text>
+
+  <!-- Private -->
+  <text x="530" y="24" font-size="13" font-weight="700" fill="#111">private</text>
+  <rect x="530" y="34" width="210" height="80" fill="#f7f7f7" stroke="#111" stroke-width="1.2"/>
+  <text x="635" y="56" text-anchor="middle" font-size="11" fill="#555">base (B)</text>
+  <text x="635" y="78" text-anchor="middle" font-size="12" fill="#111">public</text>
+  <text x="635" y="96" text-anchor="middle" font-size="12" fill="#111">protected</text>
+  <text x="635" y="112" text-anchor="middle" font-size="12" fill="#111">private</text>
+
+  <line x1="635" y1="120" x2="635" y2="160" stroke="#111" stroke-width="1.2" marker-end="url(#ar6)"/>
+
+  <rect x="530" y="160" width="210" height="80" fill="#eeeeee" stroke="#111" stroke-width="1.2"/>
+  <text x="635" y="182" text-anchor="middle" font-size="11" fill="#555">derived (A)</text>
+  <text x="635" y="204" text-anchor="middle" font-size="12" fill="#111">private</text>
+  <text x="635" y="222" text-anchor="middle" font-size="12" fill="#111">private</text>
+  <text x="635" y="240" text-anchor="middle" font-size="12" fill="#555">inaccessible</text>
+</svg>
+<figcaption>How base-class access specifiers map into the derived class.</figcaption>
+</figure>
+
+<h4>Public inheritance</h4>
+<pre><code>class A : public B
+// Class A inherits the members of Class B
+// with NO CHANGE in the access specifier of the inherited members</code></pre>
+<table>
+  <thead><tr><th>Base (B)</th><th>Derived (A)</th></tr></thead>
+  <tbody>
+    <tr><td>public</td><td>public</td></tr>
+    <tr><td>protected</td><td>protected</td></tr>
+    <tr><td>private</td><td>inherited but not accessible</td></tr>
+  </tbody>
+</table>
+
+<h4>Protected inheritance</h4>
+<pre><code>class A : protected B
+// Class A inherits the members of Class B
+// with public members "promoted" to protected
+// but no other changes</code></pre>
+<table>
+  <thead><tr><th>Base (B)</th><th>Derived (A)</th></tr></thead>
+  <tbody>
+    <tr><td>public</td><td>protected</td></tr>
+    <tr><td>protected</td><td>protected</td></tr>
+    <tr><td>private</td><td>inherited but not accessible</td></tr>
+  </tbody>
+</table>
+
+<h4>Private inheritance</h4>
+<pre><code>class A : private B
+// Class A inherits the members of Class B
+// with public and protected members "promoted" to private</code></pre>
+<table>
+  <thead><tr><th>Base (B)</th><th>Derived (A)</th></tr></thead>
+  <tbody>
+    <tr><td>public</td><td>private</td></tr>
+    <tr><td>protected</td><td>private</td></tr>
+    <tr><td>private</td><td>inherited but not accessible</td></tr>
+  </tbody>
+</table>
+
+<div class="key">
+  <span class="lbl">Memory Aid</span>
+  The resulting access level is the <b>more restrictive</b> of (base member access, inheritance access).<br>
+  <code>private &gt; protected &gt; public</code> in restrictiveness.
+</div>
+
+<h3>10.4 Access Control in the Derived Class — An Example</h3>
+
+<pre><code>class Person {
+  protected:
+    int x, y;
+  public:
+    void set(int a, int b);
+  private:
+    int z;
+};
+
+class daughter : public Person {
+  private:
+    double a;
+  public:
+    void foo();
+};
+
+void daughter::foo() {
+    x = y = 20;              // OK — protected members are accessible
+    set(5, 10);              // OK — public method
+    cout &lt;&lt; "value of a " &lt;&lt; a &lt;&lt; endl;
+    z = 100;                 // ERROR — z is a private member of Person
+}</code></pre>
+
+<p>So <code>daughter</code> can access <b>3 of the 4</b> inherited members: <code>x</code>, <code>y</code>, and <code>set()</code> — but not <code>z</code>.</p>
+
+<h3>10.5 The "Is-A" Relationship</h3>
+<ul>
+  <li>Public inheritance models an <b>"Is-A"</b> or <b>"Is-Type-Of"</b> relationship.
+    <ul>
+      <li>Rectangle <i>is a</i> shape</li>
+      <li>Orange <i>is a</i> fruit</li>
+      <li>Manager <i>is an</i> employee</li>
+      <li>Rectangle <i>is a</i> Polygon</li>
+      <li>Circle <i>is an</i> Ellipse</li>
+    </ul>
+  </li>
+  <li>Use inheritance <b>only</b> when you mean such a relationship in your program.</li>
+</ul>
+
+<h3>10.6 What Exactly Is Inherited?</h3>
+<ul>
+  <li>In principle, <b>every member</b> of a base class is inherited by a derived class — with different access permission.</li>
+  <li>Technically, in C++ the object of a derived class <b>contains a portion for the base class(es)</b>.</li>
+  <li><b>Exceptions</b> — things that are <i>not</i> inherited:
+    <ul>
+      <li>Constructors and destructors</li>
+      <li>The assignment operator <code>=()</code></li>
+      <li>And so on…</li>
+    </ul>
+    These are class-specific.
+  </li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect x="120" y="20" width="220" height="120" rx="6" fill="#e2e2e2" stroke="#111" stroke-width="1.3"/>
+  <text x="230" y="44" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Person (base part)</text>
+  <line x1="140" y1="58" x2="320" y2="58" stroke="#aaa"/>
+  <text x="230" y="80" text-anchor="middle" font-size="12" fill="#333">x</text>
+  <text x="230" y="100" text-anchor="middle" font-size="12" fill="#333">y</text>
+  <text x="230" y="120" text-anchor="middle" font-size="12" fill="#333">z</text>
+
+  <rect x="120" y="140" width="220" height="46" rx="6" fill="#f0f0f0" stroke="#111" stroke-width="1.3"/>
+  <text x="230" y="166" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Daughter (derived part)</text>
+  <text x="230" y="182" text-anchor="middle" font-size="12" fill="#333">a</text>
+
+  <text x="380" y="100" font-size="11.5" fill="#555">A derived object</text>
+  <text x="380" y="118" font-size="11.5" fill="#555">physically contains</text>
+  <text x="380" y="136" font-size="11.5" fill="#555">its base subobject.</text>
+</svg>
+<figcaption>Object layout: base subobject + derived members.</figcaption>
+</figure>
+
+<h3>10.7 Types of Inheritance</h3>
+<p>There are five different inheritances supported in C++:</p>
+<ol>
+  <li>Simple / Single</li>
+  <li>Multilevel</li>
+  <li>Hierarchical</li>
+  <li>Multiple</li>
+  <li>Hybrid</li>
+</ol>
+
+<figure>
+<svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar7" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <!-- Single -->
+  <text x="20" y="20" font-size="12.5" font-weight="700" fill="#111">Single</text>
+  <rect x="20" y="30" width="130" height="34" fill="#111"/>
+  <text x="85" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text>
+  <line x1="85" y1="64" x2="85" y2="88" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="20" y="90" width="130" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="85" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
+
+  <!-- Multilevel -->
+  <text x="200" y="20" font-size="12.5" font-weight="700" fill="#111">Multilevel</text>
+  <rect x="200" y="30" width="130" height="34" fill="#111"/>
+  <text x="265" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text>
+  <line x1="265" y1="64" x2="265" y2="88" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="200" y="90" width="130" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="265" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
+  <line x1="265" y1="124" x2="265" y2="148" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="200" y="150" width="130" height="34" fill="#d0d0d0" stroke="#111" stroke-width="1.2"/>
+  <text x="265" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#111">C</text>
+
+  <!-- Hierarchical -->
+  <text x="400" y="20" font-size="12.5" font-weight="700" fill="#111">Hierarchical</text>
+  <rect x="400" y="30" width="140" height="34" fill="#111"/>
+  <text x="470" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text>
+  <line x1="440" y1="64" x2="425" y2="88" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <line x1="500" y1="64" x2="515" y2="88" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="380" y="90" width="110" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="435" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
+  <rect x="510" y="90" width="110" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="565" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">C</text>
+
+  <!-- Multiple -->
+  <text x="20" y="240" font-size="12.5" font-weight="700" fill="#111">Multiple</text>
+  <rect x="20" y="250" width="120" height="34" fill="#111"/>
+  <text x="80" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">A</text>
+  <rect x="180" y="250" width="120" height="34" fill="#111"/>
+  <text x="240" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">B</text>
+  <line x1="80" y1="284" x2="140" y2="318" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <line x1="240" y1="284" x2="180" y2="318" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="100" y="320" width="120" height="34" fill="#d0d0d0" stroke="#111" stroke-width="1.2"/>
+  <text x="160" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="#111">C</text>
+
+  <!-- Hybrid / Diamond -->
+  <text x="400" y="240" font-size="12.5" font-weight="700" fill="#111">Hybrid (Diamond)</text>
+  <rect x="440" y="250" width="120" height="34" fill="#111"/>
+  <text x="500" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">D</text>
+  <line x1="465" y1="284" x2="425" y2="318" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <line x1="535" y1="284" x2="575" y2="318" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="380" y="320" width="100" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="430" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="#111">A</text>
+  <rect x="520" y="320" width="100" height="34" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="570" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
+  <line x1="430" y1="354" x2="480" y2="388" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <line x1="570" y1="354" x2="520" y2="388" stroke="#111" stroke-width="1.2" marker-end="url(#ar7)"/>
+  <rect x="440" y="390" width="120" height="34" fill="#d0d0d0" stroke="#111" stroke-width="1.2"/>
+  <text x="500" y="412" text-anchor="middle" font-size="12" font-weight="700" fill="#111">C</text>
+
+  <!-- legend -->
+  <text x="20" y="470" font-size="11.5" fill="#555">Each diagram shows an arrow pointing from the derived class to the base class.</text>
+</svg>
+<figcaption>The five inheritance types supported in C++.</figcaption>
+</figure>
+
+<h3>10.8 Constructor Rules for Derived Classes</h3>
+
+<div class="key">
+  <span class="lbl">Rule</span>
+  The <b>default constructor and the destructor of the base class are always called</b> when a new object of a derived class is created or destroyed.
+</div>
+
+<pre><code>class A {
+  public:
+    A()      { cout &lt;&lt; "A:default"   &lt;&lt; endl; }
+    A(int a) { cout &lt;&lt; "A:parameter" &lt;&lt; endl; }
+};
+
+class B : public A {
+  public:
+    B(int a) { cout &lt;&lt; "B" &lt;&lt; endl; }
+};
+
+B test(1);
+// OUTPUT:
+// A:default
+// B</code></pre>
+
+<p>You can also specify a constructor of the base class <b>other than the default constructor</b>:</p>
+
+<pre><code>DerivedClassCon(derivedClass args)
+    : BaseClassCon(baseClass args)
+{
+    // derived constructor body
+}
+
+class C : public A {
+  public:
+    C(int a) : A(a) { cout &lt;&lt; "C" &lt;&lt; endl; }
+};
+
+C test(1);
+// OUTPUT:
+// A:parameter
+// C</code></pre>
+
+<h4>Summary of order — multiple inheritance</h4>
+<table>
+  <thead><tr><th>Event</th><th>Order</th></tr></thead>
+  <tbody>
+    <tr><td>Constructor call</td><td>Base classes in the <b>order of inheritance</b>, then the derived class's constructor</td></tr>
+    <tr><td>Destructor call</td><td>Derived first, then base classes in <b>reverse order</b></td></tr>
+  </tbody>
+</table>
+
+<pre><code>Class C  (Base 2)   ┐
+Class B  (Base 1)   ├── Class A (Derived)
+                    ┘
+
+Order of constructor call:
+  1. C()
+  2. B()
+  3. A()
+
+Order of destructor call:
+  1. ~A()
+  2. ~B()
+  3. ~C()</code></pre>
+
+<h3>10.9 Method Overriding</h3>
+<p>A derived class can <b>override</b> methods defined in its parent class. With overriding:</p>
+<ul>
+  <li>the method in the subclass has the <b>identical signature</b> to the method in the base class.</li>
+  <li>a subclass implements its <b>own version</b> of a base class method.</li>
+</ul>
+
+<pre><code>class A {
+  protected:
+    int x, y;
+  public:
+    void print() { cout &lt;&lt; "From A" &lt;&lt; endl; }
+};
+
+class B : public A {
+  public:
+    void print() { cout &lt;&lt; "From B" &lt;&lt; endl; }   // overrides A::print
+};</code></pre>
+
+<h4>Static method binding</h4>
+<p>Which method gets called is decided at <b>compile time</b> based on the type of the object (or pointer/reference).</p>
+
+<pre><code>class Point {
+  protected:
+    int x, y;
+  public:
+    void set(int a, int b) { x = a; y = b; }
+    void foo();
+    void print();
+};
+
+Point A;
+A.set(30, 50);    // from base class Point
+A.print();        // from base class Point
+
+class Circle : public Point {
+  private:
+    double r;
+  public:
+    void set(int a, int b, double c) {
+        Point::set(a, b);   // call the base version explicitly
+        r = c;
+    }
+    void print();
+};
+
+Circle C;
+C.set(10, 10, 100);   // from class Circle
+C.foo();              // from base class Point
+C.print();            // from class Circle</code></pre>
+
+<h3>10.10 The Diamond Problem &amp; Virtual Base Classes</h3>
+
+<p>Consider this hierarchy:</p>
+
+<pre><code>class D { public: int i; };
+class A : public D { public: int j; };
+class B : public D { public: int k; };
+class C : public A, public B { public: int v; };
+
+void main() {
+    C ob;
+    ob.i = 10;    // AMBIGUOUS! Which D::i?
+    ob.j = 20;
+    ob.k = 30;
+}</code></pre>
+
+<figure>
+<svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar8" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="200" y="20" width="140" height="38" rx="4" fill="#111"/>
+  <text x="270" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">D</text>
+
+  <rect x="60"  y="130" width="140" height="38" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="130" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#111">A</text>
+  <rect x="340" y="130" width="140" height="38" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="410" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#111">B</text>
+
+  <line x1="230" y1="58" x2="160" y2="126" stroke="#111" stroke-width="1.3" marker-end="url(#ar8)"/>
+  <line x1="310" y1="58" x2="380" y2="126" stroke="#111" stroke-width="1.3" marker-end="url(#ar8)"/>
+
+  <rect x="200" y="240" width="140" height="38" rx="4" fill="#d0d0d0" stroke="#111" stroke-width="1.2"/>
+  <text x="270" y="265" text-anchor="middle" font-size="13" font-weight="700" fill="#111">C</text>
+
+  <line x1="150" y1="168" x2="230" y2="236" stroke="#111" stroke-width="1.3" marker-end="url(#ar8)"/>
+  <line x1="390" y1="168" x2="310" y2="236" stroke="#111" stroke-width="1.3" marker-end="url(#ar8)"/>
+
+  <text x="480" y="100" font-size="11" fill="#555">Two copies of D</text>
+  <text x="480" y="118" font-size="11" fill="#555">inside C → ambiguous</text>
+</svg>
+<figcaption>The diamond problem: <code>C</code> inherits <code>D</code> twice.</figcaption>
+</figure>
+
+<h4>The solution — <code>virtual</code> base classes</h4>
+<pre><code>class D { public: int i; };
+
+class A : virtual public D { public: int j; };
+class B : virtual public D { public: int k; };
+class C : public A, public B { public: int v; };</code></pre>
+
+<p>Now <code>C</code> contains only <b>one</b> copy of <code>D</code>, and <code>ob.i = 10;</code> is unambiguous.</p>
+
+<h4>Full example — Person / Faculty / Student / TA</h4>
+
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Person {
+  public:
+    Person(int x) { cout &lt;&lt; "Person::Person(int) called" &lt;&lt; endl; }
+    Person()      { cout &lt;&lt; "Person::Person() called"    &lt;&lt; endl; }
+};
+
+class Faculty : virtual public Person {
+  public:
+    Faculty(int x) : Person(x) {
+        cout &lt;&lt; "Faculty::Faculty(int) called" &lt;&lt; endl;
+    }
+};
+
+class Student : virtual public Person {
+  public:
+    Student(int x) : Person(x) {
+        cout &lt;&lt; "Student::Student(int) called" &lt;&lt; endl;
+    }
+};
+
+class TA : public Faculty, public Student {
+  public:
+    TA(int x) : Student(x), Faculty(x), Person(x) {
+        cout &lt;&lt; "TA::TA(int) called" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    TA ta1(30);
+}</code></pre>
+
+<p><b>Output:</b></p>
+<pre><code>Person::Person(int) called
+Faculty::Faculty(int) called
+Student::Student(int) called
+TA::TA(int) called</code></pre>
+
+<div class="key">
+  <span class="lbl">Why the order?</span>
+  When a class has a virtual base, the <b>virtual base is constructed first</b>. Then non-virtual bases are constructed in declaration order (<code>Faculty</code> then <code>Student</code>), and finally the most-derived class (<code>TA</code>).<br><br>
+  Also, when a virtual base exists, <b>the most-derived class is responsible for calling the virtual base's constructor</b> — which is why <code>TA</code> writes <code>Person(x)</code> in its initialiser list.
+</div>
+
+<div class="note">
+  <span class="lbl">Without virtual</span>
+  Without <code>virtual</code>, the constructor and destructor of <code>Person</code> would be called <b>twice</b> for a single <code>TA</code> object, and <code>ta1</code> would have two copies of all members of <code>Person</code>, causing ambiguities.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 11 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch11"><span class="num">11</span>Polymorphism, Virtual Functions &amp; Abstract Classes</h2>
+
+<h3>11.1 Definition</h3>
+<p>Polymorphism is the specific implementation of a single message, which is sent from one object to another object, including many different objects, which are related to the base object by an <b>"is-a"</b> relationship.</p>
+
+<figure>
+<svg viewBox="0 0 620 260" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar9" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="210" y="20" width="200" height="60" rx="4" fill="#111"/>
+  <text x="310" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">ANIMAL</text>
+  <text x="310" y="66" text-anchor="middle" font-size="12" fill="#ccc">move()</text>
+
+  <line x1="270" y1="80" x2="120" y2="136" stroke="#111" stroke-width="1.3" marker-end="url(#ar9)"/>
+  <line x1="310" y1="80" x2="310" y2="136" stroke="#111" stroke-width="1.3" marker-end="url(#ar9)"/>
+  <line x1="350" y1="80" x2="500" y2="136" stroke="#111" stroke-width="1.3" marker-end="url(#ar9)"/>
+
+  <rect x="40" y="140" width="150" height="60" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="115" y="164" text-anchor="middle" font-size="13" font-weight="700" fill="#111">FISH</text>
+  <text x="115" y="184" text-anchor="middle" font-size="11.5" fill="#444">move()</text>
+
+  <rect x="235" y="140" width="150" height="60" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="310" y="164" text-anchor="middle" font-size="13" font-weight="700" fill="#111">FROG</text>
+  <text x="310" y="184" text-anchor="middle" font-size="11.5" fill="#444">move()</text>
+
+  <rect x="425" y="140" width="150" height="60" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="500" y="164" text-anchor="middle" font-size="13" font-weight="700" fill="#111">TIGER</text>
+  <text x="500" y="184" text-anchor="middle" font-size="11.5" fill="#444">move()</text>
+
+  <text x="115" y="228" text-anchor="middle" font-size="11.5" fill="#555">By swimming</text>
+  <text x="310" y="228" text-anchor="middle" font-size="11.5" fill="#555">By jumping</text>
+  <text x="500" y="228" text-anchor="middle" font-size="11.5" fill="#555">By walking</text>
+</svg>
+<figcaption>One message, many behaviours.</figcaption>
+</figure>
+
+<h3>11.2 Types of Polymorphism</h3>
+
+<figure>
+<svg viewBox="0 0 620 130" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect x="200" y="10" width="220" height="40" rx="5" fill="#111"/>
+  <text x="310" y="36" text-anchor="middle" font-size="13.5" font-weight="700" fill="#fff">Polymorphism</text>
+
+  <line x1="250" y1="50" x2="140" y2="90" stroke="#111" stroke-width="1.2"/>
+  <line x1="370" y1="50" x2="480" y2="90" stroke="#111" stroke-width="1.2"/>
+
+  <rect x="20" y="90" width="240" height="34" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="140" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Static / Compile Time</text>
+
+  <rect x="360" y="90" width="240" height="34" rx="4" fill="#e8e8e8" stroke="#111" stroke-width="1.2"/>
+  <text x="480" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Dynamic / Run Time</text>
+</svg>
+<figcaption>Static polymorphism is resolved at compile time; dynamic at run time.</figcaption>
+</figure>
+
+<ul>
+  <li><b>Static (compile-time) polymorphism</b> — achieved through function overloading, operator overloading, and templates.</li>
+  <li><b>Dynamic (run-time) polymorphism</b> — achieved through virtual functions and inheritance.</li>
+</ul>
+
+<h3>11.3 Static Polymorphism</h3>
+
+<pre><code>class vehicle {
+  public:
+    void stop() { cout &lt;&lt; "Vehicle is stopped\n"; }
+};
+
+class wheel_2 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "2 wheeler is stopped\n"; }
+};
+
+class wheel_4 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "4 wheeler is stopped\n"; }
+};
+
+void main() {
+    wheel_2 v1;
+    v1.stop();         // calls wheel_2::stop()
+
+    wheel_4 v2;
+    v2.stop();         // calls wheel_4::stop()
+
+    vehicle *p;
+    p = &amp;v1;
+    p-&gt;stop();         // calls vehicle::stop()  <-- static binding!
+}</code></pre>
+
+<p><b>Output:</b></p>
+<pre><code>2 wheeler is stopped
+4 wheeler is stopped
+Vehicle is stopped</code></pre>
+
+<p>In static polymorphism, the function is invoked by the <b>type of the object</b> (or pointer). So <code>v1</code> calls <code>wheel_2::stop()</code>, <code>v2</code> calls <code>wheel_4::stop()</code>, and <code>p</code> calls <code>vehicle::stop()</code> — because at compile time the compiler knows the binding.</p>
+
+<h3>11.4 Dynamic Object Creation — Assignment Rules</h3>
+
+<p><b>Rule:</b> Expected &lt;= Provided. A base-class pointer can point to a derived-class object, but not vice versa.</p>
+
+<table>
+  <thead><tr><th>Statement</th><th>Valid?</th></tr></thead>
+  <tbody>
+    <tr><td><code>Vehicle *v = new vehicle();</code></td><td>✔</td></tr>
+    <tr><td><code>wheel_2 *vt = new wheel_2();</code></td><td>✔</td></tr>
+    <tr><td><code>wheel_4 *vf = new wheel_4();</code></td><td>✔</td></tr>
+    <tr><td><code>Vehicle *v2 = new wheel_2();</code></td><td>✔</td></tr>
+    <tr><td><code>Vehicle *v4 = new wheel_4();</code></td><td>✔</td></tr>
+    <tr><td><code>wheel_2 *v1 = new vehicle();</code></td><td>✘</td></tr>
+    <tr><td><code>wheel_4 *v3 = new vehicle();</code></td><td>✘</td></tr>
+    <tr><td><code>wheel_2 *v5 = new wheel_4();</code></td><td>✘</td></tr>
+    <tr><td><code>wheel_4 *v6 = new wheel_2();</code></td><td>✘</td></tr>
+  </tbody>
+</table>
+
+<h3>11.5 The Problem with Pointers — Dynamic Polymorphism</h3>
+
+<pre><code>class vehicle {
+  public:
+    void stop() { cout &lt;&lt; "Vehicle is stopped\n"; }
+};
+
+class wheel_2 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "2 wheeler is stopped\n"; }
+};
+
+class wheel_4 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "4 wheeler is stopped\n"; }
+};
+
+void main() {
+    vehicle *v[2];
+    wheel_2 p1;
+    wheel_4 p2;
+    Vehicle p3;
+
+    v[0] = &amp;p1;
+    v[1] = &amp;p2;
+    v[2] = &amp;p3;
+
+    for (int i = 0; i &lt; 2; i++) {
+        v[i]-&gt;stop();
+    }
+}</code></pre>
+
+<p><b>Output:</b></p>
+<pre><code>Vehicle is stopped
+Vehicle is stopped
+Vehicle is stopped</code></pre>
+
+<div class="warn">
+  <span class="lbl">Why?</span>
+  The function call is determined by the <b>type of the pointer</b>, not the type of the object. The pointer is of type <code>vehicle*</code>, so <code>vehicle::stop()</code> is called every time.
+</div>
+
+<h3>11.6 Virtual Functions</h3>
+<p>The solution is the <code>virtual</code> keyword.</p>
+
+<ol>
+  <li>Prefix the <code>virtual</code> keyword in the function <b>declaration</b>.</li>
+  <li>No change in the function <b>definition</b>. A virtual function of the base class can be redefined in a child class.</li>
+  <li>No change in the function <b>call</b>.</li>
+</ol>
+
+<pre><code>class vehicle {
+  public:
+    virtual void stop() { cout &lt;&lt; "Vehicle is stopped\n"; }
+};
+
+class wheel_2 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "2 wheeler is stopped\n"; }
+};
+
+class wheel_4 : public vehicle {
+  public:
+    void stop() { cout &lt;&lt; "4 wheeler is stopped\n"; }
+};
+
+void main() {
+    vehicle *v = new wheel_2;
+    v-&gt;stop();    // calls wheel_2::stop()  <-- dynamic dispatch
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Key Rule</span>
+  A virtual function call is determined by the <b>type of object pointed to</b> by the pointer — not by the type of the pointer.
+</div>
+
+<h3>11.7 Properties of Virtual Functions</h3>
+<ul>
+  <li>Used to support polymorphism with <b>pointers and references</b>.</li>
+  <li>Declared <code>virtual</code> in a <b>base class</b>.</li>
+  <li>Can be <b>overridden</b> in a derived class.</li>
+  <li>Overriding only happens when <b>signatures are the same</b>. Otherwise it just <b>overloads</b> the function or operator name.</li>
+  <li>Ensures the derived class function definition is resolved <b>dynamically</b>.</li>
+  <li>E.g. ensures that destructors farther down the hierarchy get called (virtual destructors).</li>
+</ul>
+
+<h3>11.8 Pure Virtual Functions</h3>
+
+<div class="note">
+  <span class="lbl">Motivating Question</span>
+  Does a <i>vehicle</i> exist? Show me just a vehicle — no answer. In reality, objects of vehicle's derived classes exist, and not objects of the <code>vehicle</code> class itself. So who will invoke <code>vehicle::stop()</code>? Nobody.
+</div>
+
+<p>So why write the <code>stop()</code> method in the <code>vehicle</code> class? There is no need. But if we remove it from the base class, it will be removed from all the derived classes. We can't remove it, as we require <code>stop()</code> in all the derived classes. However, each derived class has its <b>own</b> implementation of <code>stop()</code>. So we do not require an implementation of <code>stop()</code> in the base class.</p>
+
+<p><b>Solution:</b> just <i>declare</i> the <code>stop()</code> method in the base class so it will be available to all derived classes — but do not define it:</p>
+
+<pre><code>class vehicle {
+  public:
+    virtual void stop() = 0;   // pure virtual function
+};</code></pre>
+
+<h3>11.9 Abstract Classes</h3>
+<ul>
+  <li>A class that contains <b>at least one pure virtual method</b> becomes an <b>abstract class</b>.</li>
+  <li>Abstract classes <b>cannot be instantiated</b> — we cannot create objects from abstract classes.</li>
+  <li>However, we <b>can create pointers to</b> the abstract class, and these pointers can be used to point to objects of concrete classes.</li>
+</ul>
+
+<pre><code>Vehicle  V1;      // ILLEGAL — abstract class
+Vehicle *v2;      // LEGAL   — pointer to abstract class</code></pre>
+
+<ul>
+  <li>Derived classes <b>must implement ALL pure virtual methods</b>.</li>
+  <li>If a derived class does not override a pure virtual method, it will <b>itself become abstract</b>.</li>
+</ul>
+
+<h3>11.10 Benefits of Polymorphism</h3>
+<ul>
+  <li>By treating objects belonging to the same inheritance hierarchy similarly, the resulting code is <b>elegant and easier to understand</b>.</li>
+  <li>Reduces lines of code and avoids multiple <code>switch/case</code> statements for different types.</li>
+  <li>Allows client programs to be written based only on the <b>abstract interfaces</b> (pure virtual functions) of the objects which will be manipulated.</li>
+  <li>Future extensions in the form of new types of objects are <b>easy</b> — as long as the new objects conform to the original interface.</li>
+  <li>For such additions or deletions of classes in the same hierarchy, application code is <b>not affected in a major way</b>.</li>
+</ul>
+
+<h3>11.11 Cost of Polymorphism</h3>
+<ul>
+  <li>Virtual functions based on run-time polymorphism <b>slow down performance a little</b>, since they involve automatic type checking at run time for function resolution.</li>
+  <li>So use virtual functions for specific run-time behaviour, not everywhere.</li>
+</ul>
+
+<div class="key">
+  <span class="lbl">Assignment</span>
+  Implement the following Employee example:
+<pre style="margin:8px 0 0"><code>class Employee {
+  public:
+    virtual int computeSalary() = 0;
+};
+
+class Clerk : public Employee {
+  public:
+    int computeSalary() { /* ... */ }
+};
+
+class Manager : public Employee {
+  public:
+    int computeSalary() { /* ... */ }
+};</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 12 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch12"><span class="num">12</span>Templates</h2>
+
+<h3>12.1 The Need for Function Templates</h3>
+<p>Suppose you need to swap values of different types. Without templates you write:</p>
+
+<pre><code>void Swap(int &amp;a, int &amp;b)       { int c;    c = a; a = b; b = c; }
+void Swap(float &amp;a, float &amp;b)   { float c;  c = a; a = b; b = c; }
+void Swap(double &amp;a, double &amp;b) { double c; c = a; a = b; b = c; }
+
+int main() {
+    int   x = 10, y = 20;
+    float p = 20.5, q = 10.5;
+    Swap(x, y);
+    Swap(p, q);
+    return 0;
+}</code></pre>
+
+<p>We have written three versions of <code>Swap()</code>. If we need to swap <code>char</code>, <code>short int</code>, <code>long</code>… we would need even more. And if such a function contained 500 lines of code, writing a separate version for each data type would be unacceptable.</p>
+
+<h3>12.2 Function Template Syntax</h3>
+
+<figure>
+<svg viewBox="0 0 620 150" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <text x="20" y="40" font-size="13" fill="#111" font-weight="700">template</text>
+  <text x="20" y="60" font-size="11" fill="#555">keyword</text>
+  <text x="110" y="40" font-size="13" fill="#111">&lt;class T&gt;</text>
+  <text x="110" y="60" font-size="11" fill="#555">"anything would do" — the generic type</text>
+
+  <text x="20" y="100" font-size="13" fill="#111">returntype functionname(argument of type T)</text>
+  <text x="20" y="120" font-size="13" fill="#111">{</text>
+  <text x="40" y="138" font-size="12.5" fill="#555">// body of function, using type T wherever appropriate</text>
+  <text x="20" y="156" font-size="13" fill="#111">}</text>
+</svg>
+<figcaption>Anatomy of a function template.</figcaption>
+</figure>
+
+<pre><code>template &lt;class T&gt;
+void Swap(T &amp;a, T &amp;b) {
+    T c;
+    c = a;  a = b;  b = c;
+}
+
+int main() {
+    int   x = 10, y = 20;
+    float p = 20.5, q = 10.5;
+    Swap(x, y);    // T = int
+    Swap(p, q);    // T = float
+    return 0;
+}</code></pre>
+
+<h3>12.3 Function Templates with Multiple Parameters</h3>
+<pre><code>template &lt;class T1, class T2&gt;
+returntype functionname(argument of type T1, T2) {
+    // body of function with types T1, T2
+}</code></pre>
+
+<pre><code>template &lt;class T1, class T2&gt;
+void display(T1 x, T2 y) {
+    cout &lt;&lt; x &lt;&lt; " " &lt;&lt; y &lt;&lt; endl;
+}
+
+int main() {
+    display(2008, "SEIT");   // T1 = int,    T2 = const char*
+    display(60.5, 1234);     // T1 = double, T2 = int
+}</code></pre>
+
+<h3>12.4 Overloading Template Functions</h3>
+<p>A template function may be overloaded either by another template function or by an ordinary function of the same name. In such cases, overloading is resolved as follows:</p>
+<ol>
+  <li>Call an ordinary function that has an <b>exact match</b>.</li>
+  <li>Call the template function that could be created with an <b>exact match</b>.</li>
+  <li>Try normal overloading resolution to ordinary functions and call the one that matches.</li>
+</ol>
+
+<pre><code>template &lt;class T&gt;
+void display(T x) { cout &lt;&lt; "Template display " &lt;&lt; x &lt;&lt; endl; }
+
+void display(int x) { cout &lt;&lt; "Explicit display " &lt;&lt; x &lt;&lt; endl; }
+
+int main() {
+    display("SEIT");   // Template display SEIT
+    display(1234);     // Explicit display 1234   (non-template preferred)
+    return 0;
+}</code></pre>
+
+<h3>12.5 The Need for Class Templates</h3>
+
+<p>Consider a class that adds two integers:</p>
+<pre><code>class sum {
+    int a, b;
+  public:
+    sum(int x, int y) { a = x; b = y; }
+    void add() { int c; c = a + b; cout &lt;&lt; c; }
+};
+
+int main() {
+    sum s1(10, 20);
+    s1.add();
+    return 0;
+}
+// Output: 30</code></pre>
+
+<p>To add two floats, we must rewrite the entire class:</p>
+<pre><code>class sum {
+    float a, b;
+  public:
+    sum(float x, float y) { a = x; b = y; }
+    void add() { float c; c = a + b; cout &lt;&lt; c; }
+};
+
+int main() {
+    sum s1(10.5, 20.5);
+    s1.add();
+    return 0;
+}
+// Output: 31</code></pre>
+
+<p>Now if I want to add two <code>long</code> values, I have to redefine the entire class — and the same is true for every other type of data.</p>
+
+<p><b>Idea:</b> define a <code>sum</code> class with the data type as a <b>parameter</b>, and use this class to create a new <code>sum</code> object of any data type instead of defining a new class every time. The template mechanism enables us to achieve this goal.</p>
+
+<h3>12.6 Class Template Syntax</h3>
+
+<figure>
+<svg viewBox="0 0 620 130" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <text x="20" y="35" font-size="13" fill="#111" font-weight="700">template</text>
+  <text x="20" y="52" font-size="11" fill="#555">keyword</text>
+  <text x="105" y="35" font-size="13" fill="#111">&lt;class T&gt;</text>
+  <text x="105" y="52" font-size="11" fill="#555">"anything would do"</text>
+
+  <text x="20" y="80" font-size="13" fill="#111">class classname</text>
+  <text x="20" y="100" font-size="13" fill="#111">{</text>
+  <text x="40" y="118" font-size="12.5" fill="#555">// class member specification</text>
+  <text x="40" y="136" font-size="12.5" fill="#555">// with anonymous type T wherever appropriate</text>
+  <text x="20" y="154" font-size="13" fill="#111">};</text>
+</svg>
+<figcaption>Anatomy of a class template.</figcaption>
+</figure>
+
+<p>A class created from a class template is called a <b>template class</b>. The syntax for defining an object of a template class is:</p>
+<pre><code>Classname&lt;type&gt; objectname(argumentlist);</code></pre>
+
+<h3>12.7 Class Template Example</h3>
+<pre><code>template &lt;class T&gt;
+class sum {
+    T a, b;
+  public:
+    sum(T x, T y) { a = x; b = y; }
+    void add() { T c; c = a + b; cout &lt;&lt; c; }
+};
+
+int main() {
+    sum&lt;int&gt;   A1(10, 10);     A1.add();   // 30
+    sum&lt;float&gt; A2(10.5, 10.3); A2.add();   // 20.8
+    return 0;
+}</code></pre>
+
+<h3>12.8 Class Template with Multiple Parameters</h3>
+<p>We can use more than one generic data type in a class template. They are declared as a comma-separated list within the template specification.</p>
+
+<pre><code>template &lt;class T1, class T2&gt;
+class classname {
+    // body of the class with types T1, T2 wherever appropriate
+};</code></pre>
+
+<h4>Example</h4>
+<pre><code>template &lt;class T1, class T2&gt;
+class Test {
+    T1 a;
+    T2 b;
+  public:
+    Test(T1 x, T2 y) { a = x; b = y; }
+    void show() { cout &lt;&lt; a &lt;&lt; " and " &lt;&lt; b &lt;&lt; endl; }
+};
+
+int main() {
+    Test&lt;float, int&gt;  ts1(1.25, 125);
+    Test&lt;int, char&gt;   ts2(100, 'S');
+
+    ts1.show();   // 1.25 and 125
+    ts2.show();   // 100 and S
+    return 0;
+}</code></pre>
+
+<h3>12.9 Member Function Templates</h3>
+<p>Normally, we declare functions inside the class and define them outside the class. Member functions of a template class are themselves parameterised by the type argument, and therefore these functions must be defined by function templates.</p>
+
+<p><b>Syntax:</b></p>
+<pre><code>template &lt;class T&gt;
+returntype classname&lt;T&gt; :: functionname(arglist) {
+    // function body
+}</code></pre>
+
+<h4>Example</h4>
+<pre><code>template &lt;class T&gt;
+class sum {
+    T a, b;
+  public:
+    sum(T x, T y);
+    void add();
+};
+
+template &lt;class T&gt;
+sum&lt;T&gt;::sum(T x, T y) {
+    a = x;  b = y;
+}
+
+template &lt;class T&gt;
+void sum&lt;T&gt;::add() {
+    T c;
+    c = a + b;
+    cout &lt;&lt; c;
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">Assignments</span>
+  1. Write a function template to swap variables of type <code>char</code>, <code>complex</code>, etc.<br>
+  2. Design a template class <code>QUEUE</code> with relevant data members. Implement member functions to add an element and delete an element. Test this class for <code>int</code> and <code>char</code> elements.<br>
+  3. Write a template class <code>STACK</code> to handle all stack operations.
+</div>
+
+<!-- ============================================================ -->
+<!-- CHAPTER 13 -->
+<!-- ============================================================ -->
+<h2 class="ch" id="ch13"><span class="num">13</span>File Handling</h2>
+
+<h3>13.1 Files and Data Communication</h3>
+<ul>
+  <li>A <b>file</b> is a collection of related data stored in a particular area on the disk.</li>
+  <li>Programs can be designed to perform read and write operations on these files.</li>
+  <li>A program involves either or both of the following kinds of data communication:
+    <ul>
+      <li>Data transfer between the <b>console unit</b> and the program.</li>
+      <li>Data transfer between the program and a <b>disk file</b>.</li>
+    </ul>
+  </li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar10" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect x="180" y="20" width="340" height="70" rx="4" fill="#e0e0e0" stroke="#111" stroke-width="1.2"/>
+  <text x="350" y="44" text-anchor="middle" font-size="13" font-weight="700" fill="#111">External memory</text>
+  <rect x="240" y="54" width="40" height="26" fill="#fff" stroke="#111"/>
+  <rect x="330" y="54" width="40" height="26" fill="#fff" stroke="#111"/>
+  <rect x="420" y="54" width="40" height="26" fill="#fff" stroke="#111"/>
+  <text x="350" y="100" text-anchor="middle" font-size="11.5" fill="#555">Data files</text>
+
+  <rect x="180" y="130" width="340" height="70" rx="4" fill="#f2f2f2" stroke="#111" stroke-width="1.2"/>
+  <text x="350" y="156" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Internal memory</text>
+  <rect x="230" y="166" width="240" height="26" fill="#c8c8c8" stroke="#111"/>
+  <text x="350" y="185" text-anchor="middle" font-size="11.5" fill="#111">Program + Data</text>
+
+  <rect x="260" y="230" width="180" height="34" rx="4" fill="#f2f2f2" stroke="#111"/>
+  <text x="350" y="252" text-anchor="middle" font-size="12" fill="#111">Screen</text>
+  <rect x="260" y="278" width="180" height="34" rx="4" fill="#f2f2f2" stroke="#111"/>
+  <text x="350" y="300" text-anchor="middle" font-size="12" fill="#111">Keyboard</text>
+
+  <line x1="180" y1="55" x2="130" y2="55" stroke="#111" stroke-width="1.1"/>
+  <line x1="130" y1="55" x2="130" y2="165" stroke="#111" stroke-width="1.1"/>
+  <line x1="130" y1="165" x2="176" y2="165" stroke="#111" stroke-width="1.1" marker-end="url(#ar10)"/>
+  <text x="20" y="115" font-size="11" fill="#555">Write data</text>
+  <text x="20" y="130" font-size="11" fill="#555">to files</text>
+
+  <line x1="520" y1="75" x2="580" y2="75" stroke="#111" stroke-width="1.1"/>
+  <line x1="580" y1="75" x2="580" y2="165" stroke="#111" stroke-width="1.1"/>
+  <line x1="580" y1="165" x2="524" y2="165" stroke="#111" stroke-width="1.1" marker-end="url(#ar10)"/>
+  <text x="600" y="115" font-size="11" fill="#555">Read data</text>
+  <text x="600" y="130" font-size="11" fill="#555">from files</text>
+
+  <line x1="350" y1="200" x2="350" y2="226" stroke="#111" stroke-width="1.1" marker-end="url(#ar10)"/>
+  <line x1="350" y1="264" x2="350" y2="274" stroke="#111" stroke-width="1.1" marker-end="url(#ar10)"/>
+  <text x="600" y="200" font-size="11" fill="#555">Program-console</text>
+  <text x="600" y="216" font-size="11" fill="#555">interaction</text>
+</svg>
+<figcaption>Console–program–file interaction.</figcaption>
+</figure>
+
+<figure>
+<svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar11" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <text x="340" y="18" text-anchor="middle" font-size="12" fill="#555">Input stream</text>
+  <rect x="180" y="26" width="320" height="34" fill="#e8e8e8" stroke="#111"/>
+  <line x1="200" y1="26" x2="200" y2="60" stroke="#111"/>
+  <line x1="240" y1="26" x2="240" y2="60" stroke="#111"/>
+  <line x1="280" y1="26" x2="280" y2="60" stroke="#111"/>
+  <line x1="320" y1="26" x2="320" y2="60" stroke="#111"/>
+  <line x1="360" y1="26" x2="360" y2="60" stroke="#111"/>
+  <line x1="400" y1="26" x2="400" y2="60" stroke="#111"/>
+  <line x1="440" y1="26" x2="440" y2="60" stroke="#111"/>
+
+  <rect x="60" y="60" width="120" height="46" rx="4" fill="#f2f2f2" stroke="#111"/>
+  <text x="120" y="88" text-anchor="middle" font-size="12" fill="#111">Disk Files</text>
+
+  <rect x="500" y="60" width="120" height="46" rx="4" fill="#f2f2f2" stroke="#111"/>
+  <text x="560" y="88" text-anchor="middle" font-size="12" fill="#111">Program</text>
+
+  <line x1="180" y1="43" x2="140" y2="58" stroke="#111" stroke-width="1.1" marker-end="url(#ar11)"/>
+  <line x1="180" y1="43" x2="140" y2="30" stroke="#111" stroke-width="1.1"/>
+  <text x="20" y="55" font-size="11" fill="#555">Read data</text>
+  <text x="20" y="70" font-size="11" fill="#555">Data input</text>
+
+  <text x="340" y="112" text-anchor="middle" font-size="12" fill="#555">Output stream</text>
+  <rect x="180" y="120" width="320" height="34" fill="#e0e0e0" stroke="#111"/>
+  <line x1="200" y1="120" x2="200" y2="154" stroke="#111"/>
+  <line x1="240" y1="120" x2="240" y2="154" stroke="#111"/>
+  <line x1="280" y1="120" x2="280" y2="154" stroke="#111"/>
+  <line x1="320" y1="120" x2="320" y2="154" stroke="#111"/>
+  <line x1="360" y1="120" x2="360" y2="154" stroke="#111"/>
+  <line x1="400" y1="120" x2="400" y2="154" stroke="#111"/>
+  <line x1="440" y1="120" x2="440" y2="154" stroke="#111"/>
+
+  <line x1="180" y1="137" x2="140" y2="106" stroke="#111" stroke-width="1.1"/>
+  <text x="20" y="140" font-size="11" fill="#555">Write data</text>
+  <line x1="500" y1="106" x2="500" y2="118" stroke="#111" stroke-width="1.1" marker-end="url(#ar11)"/>
+  <text x="600" y="130" font-size="11" fill="#555">Data output</text>
+</svg>
+<figcaption>Reading and writing through input/output streams.</figcaption>
+</figure>
+
+<h3>13.2 C++ Stream Classes for Files</h3>
+
+<figure>
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar12" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#111"/>
+    </marker>
+  </defs>
+  <!-- ios -->
+  <rect x="300" y="10" width="140" height="36" rx="3" fill="#111"/>
+  <text x="370" y="33" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">ios</text>
+
+  <!-- second row -->
+  <rect x="60"  y="80" width="130" height="34" rx="3" fill="#ececec" stroke="#111" stroke-width="1.1"/>
+  <text x="125" y="102" text-anchor="middle" font-size="12" fill="#111">istream</text>
+
+  <rect x="300" y="80" width="140" height="34" rx="3" fill="#d0d0d0" stroke="#111" stroke-width="1.1"/>
+  <text x="370" y="102" text-anchor="middle" font-size="12" fill="#111">streambuf</text>
+
+  <rect x="580" y="80" width="130" height="34" rx="3" fill="#ececec" stroke="#111" stroke-width="1.1"/>
+  <text x="645" y="102" text-anchor="middle" font-size="12" fill="#111">ostream</text>
+
+  <line x1="340" y1="46" x2="200" y2="78" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="370" y1="46" x2="370" y2="78" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="400" y1="46" x2="560" y2="78" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+
+  <!-- third row -->
+  <rect x="180" y="150" width="120" height="34" rx="3" fill="#ececec" stroke="#111" stroke-width="1.1"/>
+  <text x="240" y="172" text-anchor="middle" font-size="11.5" fill="#111">istream_withassign</text>
+
+  <rect x="330" y="150" width="140" height="34" rx="3" fill="#d0d0d0" stroke="#111" stroke-width="1.1"/>
+  <text x="400" y="172" text-anchor="middle" font-size="12" fill="#111">iostream</text>
+
+  <rect x="540" y="150" width="150" height="34" rx="3" fill="#ececec" stroke="#111" stroke-width="1.1"/>
+  <text x="615" y="172" text-anchor="middle" font-size="11.5" fill="#111">ostream_withassign</text>
+
+  <line x1="125" y1="114" x2="200" y2="148" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="370" y1="114" x2="390" y2="148" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="645" y1="114" x2="620" y2="148" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+
+  <!-- fourth row -->
+  <rect x="100" y="230" width="120" height="34" rx="3" fill="#f6f6f6" stroke="#111" stroke-width="1.1"/>
+  <text x="160" y="252" text-anchor="middle" font-size="12" fill="#111">ifstream</text>
+
+  <rect x="330" y="230" width="120" height="34" rx="3" fill="#f6f6f6" stroke="#111" stroke-width="1.1"/>
+  <text x="390" y="252" text-anchor="middle" font-size="12" fill="#111">fstream</text>
+
+  <rect x="560" y="230" width="120" height="34" rx="3" fill="#f6f6f6" stroke="#111" stroke-width="1.1"/>
+  <text x="620" y="252" text-anchor="middle" font-size="12" fill="#111">ofstream</text>
+
+  <rect x="560" y="290" width="120" height="34" rx="3" fill="#f6f6f6" stroke="#111" stroke-width="1.1"/>
+  <text x="620" y="312" text-anchor="middle" font-size="12" fill="#111">filebuf</text>
+
+  <line x1="240" y1="184" x2="180" y2="228" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="400" y1="184" x2="390" y2="228" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+  <line x1="615" y1="184" x2="620" y2="228" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+
+  <!-- fstreambase -->
+  <rect x="300" y="288" width="160" height="34" rx="3" fill="#ececec" stroke="#111" stroke-width="1.1"/>
+  <text x="380" y="310" text-anchor="middle" font-size="12" fill="#111">fstreambase</text>
+  <line x1="380" y1="288" x2="390" y2="266" stroke="#111" stroke-width="1.1" marker-end="url(#ar12)"/>
+</svg>
+<figcaption>The C++ file stream class hierarchy (from <code>iostream.h</code> and <code>fstream.h</code>).</figcaption>
+</figure>
+
+<h4>Details of the file stream classes</h4>
+<table>
+  <thead><tr><th>Class</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>filebuf</code></td>
+      <td>Sets the file buffers to read and write. Contains the <code>Openprot</code> constant used in the <code>open()</code> of filestream classes. Also contains <code>close()</code> and <code>open()</code> as members.</td>
+    </tr>
+    <tr>
+      <td><code>fstreambase</code></td>
+      <td>Provides operations common to the file stream. Serves as a base for <code>fstream</code>, <code>ifstream</code> and <code>ofstream</code>. Contains <code>open()</code> and <code>close()</code> functions.</td>
+    </tr>
+    <tr>
+      <td><code>ifstream</code></td>
+      <td>Provides input operations. Contains <code>open()</code> with default input mode. Inherits <code>get()</code>, <code>getline()</code>, <code>read()</code>, <code>seekg()</code> and <code>tellg()</code> functions from <code>istream</code>.</td>
+    </tr>
+    <tr>
+      <td><code>ofstream</code></td>
+      <td>Provides output operations. Contains <code>open()</code> with default output mode. Inherits <code>put()</code>, <code>seekp()</code>, <code>tellp()</code> and <code>write()</code> functions of <code>ostream</code>.</td>
+    </tr>
+    <tr>
+      <td><code>fstream</code></td>
+      <td>Provides support for simultaneous input and output operations. Contains <code>open()</code> with default input mode. Inherits all the functions from the <code>istream</code> and <code>ostream</code> classes through <code>iostream</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>13.3 Opening and Closing a File</h3>
+<p>A file can be opened using two ways:</p>
+<ol>
+  <li>Using the <b>constructor function</b> of the class.</li>
+  <li>Using the member function <b><code>open()</code></b> of the class.</li>
+</ol>
+
+<h4>Method 1 — Using the constructor</h4>
+<ul>
+  <li>The filename is used to initialise the file stream object.</li>
+  <li>Create a filestream object to manage the stream using the appropriate class: <code>ofstream</code> for output, <code>ifstream</code> for input.</li>
+  <li>Initialise the file object with the desired filename.</li>
+</ul>
+
+<pre><code>ofstream outfile("results");   // output only
+ifstream infile("data");       // input only</code></pre>
+
+<p>The first statement creates <code>outfile</code> as an <code>ofstream</code> object that manages the output stream. This opens the file <code>results</code> and attaches it to the output stream <code>outfile</code>. The second declares <code>infile</code> as an <code>ifstream</code> object and attaches it to the file <code>data</code> for reading input.</p>
+
+<pre><code>outfile &lt;&lt; "TOTAL";
+outfile &lt;&lt; sum;
+
+infile &gt;&gt; number;
+infile &gt;&gt; string;</code></pre>
+
+<p>We can use the same file for reading and writing data — but we must close it in between:</p>
+<pre><code>ofstream outfile("salary");
+outfile.close();
+
+ifstream infile("salary");
+infile.close();</code></pre>
+
+<h4>Method 2 — Using the <code>open()</code> method</h4>
+<p>The function <code>open()</code> can be used to open <b>multiple files</b> that use the same stream object.</p>
+
+<pre><code>Filestream-class streamobject;
+streamobject.open("filename");
+
+// example
+ofstream outfile;
+outfile.open("data1");
+outfile.close();
+outfile.open("data2");
+outfile.close();</code></pre>
+
+<h3>13.4 Detecting End of File</h3>
+<p>Detection of the end-of-file condition is necessary for preventing any further attempt to read data from the file.</p>
+
+<pre><code>while (fin) {
+    // ...
+}</code></pre>
+
+<p>An <code>ifstream</code> object such as <code>fin</code> returns a value 0 if any error occurs in the file operation, including the end-of-file condition. Thus the <code>while</code> loop terminates when <code>fin</code> returns 0 on reaching the end-of-file condition.</p>
+
+<p>Another approach:</p>
+<pre><code>if (fin1.eof() != 0) {
+    exit(1);
+}</code></pre>
+
+<p><code>eof()</code> is a member function of the <code>ios</code> class. It returns a <b>non-zero</b> value if the EOF condition is encountered, and a <b>zero</b> otherwise.</p>
+
+<h3>13.5 File Modes</h3>
+<p>The <code>ifstream</code> and <code>ofstream</code> constructors and the <code>open()</code> function can take <b>two arguments</b> — the second one specifying the file mode:</p>
+
+<pre><code>stream-object.open("filename", mode);</code></pre>
+
+<table>
+  <thead><tr><th>Parameter</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>ios::app</code></td><td>Append to the end of file</td></tr>
+    <tr><td><code>ios::ate</code></td><td>Go to the end of file on opening</td></tr>
+    <tr><td><code>ios::binary</code></td><td>Binary file</td></tr>
+    <tr><td><code>ios::in</code></td><td>Open file for reading only</td></tr>
+    <tr><td><code>ios::nocreate</code></td><td>Open fails if the file does not exist</td></tr>
+    <tr><td><code>ios::noreplace</code></td><td>Open fails if file already exists</td></tr>
+    <tr><td><code>ios::out</code></td><td>Open file for writing only</td></tr>
+    <tr><td><code>ios::trunc</code></td><td>Delete the contents of file if it exists</td></tr>
+  </tbody>
+</table>
+
+<h3>13.6 File Pointers</h3>
+<p>Each file has two associated pointers known as <b>file pointers</b>:</p>
+<ol>
+  <li><b>input (get) pointer</b></li>
+  <li><b>output (put) pointer</b></li>
+</ol>
+<p>These pointers are used to move through the files while reading and writing. The input pointer is used for reading the contents of a given file location and the output pointer is used to write to a given location. Each time an input or output operation takes place, the appropriate pointer is automatically advanced.</p>
+
+<h4>Default actions of pointers</h4>
+<ul>
+  <li>If the file is opened in <b>read-only</b> mode, the input pointer is automatically set at the beginning so that we can read the file from the start.</li>
+  <li>When the file is opened in <b>write-only</b> mode, the existing contents are deleted and the output pointer is set at the beginning.</li>
+  <li>In case the file is opened in <b>append</b> mode, this moves the output pointer to the end of the file.</li>
+</ul>
+
+<h4>Manipulation functions</h4>
+<table>
+  <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>seekg()</code></td><td>Moves input pointer to a specified location</td></tr>
+    <tr><td><code>seekp()</code></td><td>Moves output pointer to a specified location</td></tr>
+    <tr><td><code>tellg()</code></td><td>Gives the current position of the get pointer</td></tr>
+    <tr><td><code>tellp()</code></td><td>Gives the current position of the put pointer</td></tr>
+  </tbody>
+</table>
+
+<h4>Examples</h4>
+<pre><code>infile.seekg(10);   // moves the file pointer to byte number 10
+                    // (bytes start at 0, so this is the 11th byte)
+
+ofstream fileout;
+fileout.open("hello", ios::app);
+int p = fileout.tellp();
+// the output pointer is moved to the end of "hello"
+// p now represents the number of bytes in the file</code></pre>
+
+<h4>Seek functions with two arguments</h4>
+<pre><code>seekg(offset, refposition)
+seekp(offset, refposition)</code></pre>
+
+<p>The <b>offset</b> parameter represents the number of bytes the file pointer is to be moved from the location specified by <b>refposition</b>. This parameter takes one of the following three constants defined in the <code>ios</code> class:</p>
+<ul>
+  <li><code>ios::beg</code> — start of the file</li>
+  <li><code>ios::cur</code> — current position of the pointer</li>
+  <li><code>ios::end</code> — end of the file</li>
+</ul>
+
+<table>
+  <thead><tr><th>Seek call</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>fout.seekg(0, ios::beg);</code></td><td>Go to start</td></tr>
+    <tr><td><code>fout.seekg(0, ios::cur);</code></td><td>Stay at current position</td></tr>
+    <tr><td><code>fout.seekg(0, ios::end);</code></td><td>Go to the end of file</td></tr>
+    <tr><td><code>fout.seekg(m, ios::beg);</code></td><td>Move to (m+1)th byte in the file</td></tr>
+    <tr><td><code>fout.seekg(m, ios::cur);</code></td><td>Go forward by m bytes from the current position</td></tr>
+    <tr><td><code>fout.seekg(-m, ios::cur);</code></td><td>Go backward by m bytes from the current position</td></tr>
+    <tr><td><code>fout.seekg(-m, ios::end);</code></td><td>Go backward by m bytes from the end</td></tr>
+  </tbody>
+</table>
+
+<h3>13.7 Sequential Input and Output Operations</h3>
+
+<h4>put() and get()</h4>
+<ul>
+  <li>The function <code>put()</code> writes a single character to the associated stream.</li>
+  <li>The function <code>get()</code> reads a single character from the associated stream.</li>
+</ul>
+
+<h4>read() and write()</h4>
+<ul>
+  <li>Unlike <code>get()</code> and <code>put()</code>, <code>read()</code> and <code>write()</code> handle the data in <b>binary form</b>.</li>
+  <li>Each function takes two arguments: the first is the address of a variable <code>v</code>, and the second is the length of that variable in bytes.</li>
+  <li>The address of the variable must be cast to type <code>char *</code>.</li>
+</ul>
+
+<pre><code>infile.read((char *)&amp;v, sizeof(v));
+outfile.write((char *)&amp;v, sizeof(v));</code></pre>
+
+<h3>13.8 Reading and Writing a Class Object</h3>
+<p>The binary input and output functions <code>read()</code> and <code>write()</code> handle the entire object as a single unit.</p>
+
+<pre><code>class weight {
+    int kg, gm;
+  public:
+    void read() {
+        cout &lt;&lt; "Enter weight";
+        cin  &gt;&gt; kg &gt;&gt; gm;
+    }
+    void write() {
+        cout &lt;&lt; "Weight is";
+        cout &lt;&lt; kg &lt;&lt; "+" &lt;&lt; gm;
+    }
+};
+
+void main() {
+    weight w1;
+    fstream file;
+
+    file.open("data1.dat", ios::in | ios::out);
+
+    w1.read();
+    file.write((char *)&amp;w1, sizeof(w1));
+
+    file.seekg(0);
+    file.read((char *)&amp;w1, sizeof(w1));
+
+    w1.write();
+    file.close();
+}</code></pre>
+
+<div class="key">
+  <span class="lbl">File Handling Cheat Sheet</span>
+  <ul style="margin:6px 0 0">
+    <li><b>Open for output:</b> <code>ofstream f("x.txt");</code></li>
+    <li><b>Open for input:</b> <code>ifstream f("x.txt");</code></li>
+    <li><b>Open both:</b> <code>fstream f("x.txt", ios::in | ios::out);</code></li>
+    <li><b>Append:</b> <code>ofstream f("x.txt", ios::app);</code></li>
+    <li><b>Check EOF:</b> <code>while (f) { ... }</code> or <code>f.eof()</code></li>
+    <li><b>Move read pointer:</b> <code>f.seekg(offset, ios::beg/cur/end);</code></li>
+    <li><b>Move write pointer:</b> <code>f.seekp(offset, ios::beg/cur/end);</code></li>
+    <li><b>Get positions:</b> <code>f.tellg()</code> / <code>f.tellp()</code></li>
+    <li><b>Binary I/O:</b> <code>f.read((char*)&amp;obj, sizeof(obj));</code> and <code>f.write((char*)&amp;obj, sizeof(obj));</code></li>
+    <li><b>Close:</b> <code>f.close();</code></li>
+  </ul>
+</div>
+
+<hr>
+
+<p class="small" style="text-align:center;color:#888;">
+  End of notes · Compiled from Lectures 1–18 · Object Oriented Programming with C++
+</p>
+
+</main>
+</div>
+
+</body>
+</html>
