@@ -6,12 +6,12 @@
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | 🟡 **In Progress** | **50%** (2/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ⚪ **Planned** | 0% (0/18 Units) |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **11.1%** (2/18 Units) |
 | **Phase 4** | Portal & Note Reader Enhancements | ⚪ **Backlog** | 0% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 50% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **2 / 22 Units** (9.1%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **4 / 22 Units** (18.2%).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -131,12 +131,12 @@
   - [ ] Privacy concerns, regulations, and security best practices (secure boot, isolation, FOTA).
 
 ### 4. Probability and Statistics (PAS — MM0501) — `notes/pas/` (4 Units)
-- [ ] Unit 1: Descriptive Statistics (`PASU1.html`)
-  - [ ] Qualitative/quantitative data, frequency distributions, visualizations (histograms, box plots).
-  - [ ] Measures of central tendency (mean, median, mode) and dispersion (variance, SD, CV).
-- [ ] Unit 2: Probability Basics and distributions (`PASU2.html`)
-  - [ ] Probability axioms, conditional probability, Bayes’ theorem, random variables (PMF, PDF, CDF).
-  - [ ] Expectation and variance. Discrete (Bernoulli, Binomial, Poisson) & Continuous (Uniform, Exponential).
+- [x] **Unit 1: Descriptive Statistics** (`PASU1.html`) ✅
+  - [x] Qualitative/quantitative data, frequency distributions, visualizations (histograms, box plots).
+  - [x] Measures of central tendency (mean, median, mode) and dispersion (variance, SD, CV).
+- [x] **Unit 2: Probability Basics and distributions** (`PASU2.html`) ✅
+  - [x] Probability axioms, conditional probability, Bayes’ theorem, random variables (PMF, PDF, CDF).
+  - [x] Expectation and variance. Discrete (Bernoulli, Binomial, Poisson) & Continuous (Uniform, Exponential).
 - [ ] Unit 3: Normal Distribution & Sampling Theory (`PASU3.html`)
   - [ ] Normal distribution properties, $Z$-scores, $P$-values, normal approximation to Binomial/Poisson.
   - [ ] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).

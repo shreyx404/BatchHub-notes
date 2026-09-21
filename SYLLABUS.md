@@ -280,17 +280,17 @@
 #### Unit Breakdown & Scope (4 Units)
 
 ##### SECTION I
-1. **Unit 1: Descriptive Statistics** (6 Hours) — `PASU1.html`
+1. **Unit 1: Descriptive Statistics** (6 Hours) — `PASU1.html` ✅ *Published*
    - *Concepts*: Types of data: Qualitative, Quantitative, Discrete, Continuous. Frequency distributions. Visualizations: Histograms, Bar charts, Box plots, Scatter plots. Measures of Central Tendency: Mean, Median, Mode. Measures of Dispersion: Variance, Standard Deviation, Range, Quartiles, Coefficient of Variation (CV).
 
-2. **Unit 2: Probability Basics and distributions** (8 Hours) — `PASU2.html`
+2. **Unit 2: Probability Basics and distributions** (8 Hours) — `PASU2.html` ✅ *Published*
    - *Concepts*: Basic probability rules: Axioms of probability, Complement rule, Addition rule. Conditional Probability & Independence of events, Multiplication rule. Bayes’ Theorem and its engineering diagnostic applications. Random Variables: Discrete and Continuous random variables. Probability Mass Function (PMF), Probability Density Function (PDF), Cumulative Distribution Function (CDF). Mathematical Expectation, Variance, and their algebraic properties. Discrete distributions: Bernoulli, Binomial ($B(n, p)$), Poisson ($\text{Pois}(\lambda)$). Continuous distributions: Uniform, Exponential. Applications in engineering and component reliability.
 
 ##### SECTION II
-3. **Unit 3: Normal Distribution & Sampling Theory** (6 Hours) — `PASU3.html`
+3. **Unit 3: Normal Distribution & Sampling Theory** (6 Hours) — `PASU3.html` 🟡 *Pending*
    - *Concepts*: Normal (Gaussian) Distribution: Standard normal distribution, $Z$-scores, Properties of the bell curve. Tests involving the Normal distribution, One-Tailed and Two-Tailed tests, $P$-value. Special applications of normal distribution (engineering tolerances, quality control). Normal approximation to Binomial and Poisson distributions. Sampling Theory: Random sampling, Sample mean, Sample variance. Sampling distribution of the sample mean. Standard Error (SE). Central Limit Theorem (CLT) — intuitive explanation, significance, and numerical applications.
 
-4. **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (8 Hours) — `PASU4.html`
+4. **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (8 Hours) — `PASU4.html` 🟡 *Pending*
    - *Concepts*:
      - **Estimation**: Point estimation, properties of good estimators (unbiasedness, consistency, efficiency). Interval estimation: Confidence Intervals for mean ($\sigma$ known and $\sigma$ unknown).
      - **Hypothesis Testing**: Null ($H_0$) and Alternative ($H_1$) hypotheses, Type I ($\alpha$) and Type II ($\beta$) errors, Level of significance. One-sample $Z$-test and $t$-test.

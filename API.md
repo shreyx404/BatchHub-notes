@@ -130,6 +130,52 @@ The central manifest is located at the root of the deployment:
       "Layers",
       "Reference Model"
     ]
+  },
+  {
+    "id": "pas-unit1",
+    "subject": "PAS",
+    "unit": "Unit 1",
+    "title": "MM0501 · Unit I — Complete Study Notes · Data, Visualization, Central Tendency & Dispersion",
+    "summary": "Complete study notes for MM0501 Unit 1 covering Descriptive Statistics: data classification, visualization pipelines, measures of central tendency, and dispersion metrics.",
+    "path": "notes/pas/PASU1.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU1.html",
+    "tags": [
+      "Probability",
+      "Statistics",
+      "Descriptive Statistics",
+      "Data Visualization",
+      "Central Tendency",
+      "Dispersion",
+      "Mean",
+      "Median",
+      "Mode",
+      "Variance",
+      "Standard Deviation"
+    ]
+  },
+  {
+    "id": "pas-unit2",
+    "subject": "PAS",
+    "unit": "Unit 2",
+    "title": "Unit II — Probability & Distributions · Deep Exam Notes",
+    "summary": "Comprehensive exam notes for MM0501 Unit 2 covering probability foundations, conditional probability, Bayes theorem, discrete and continuous random variables, and key distributions.",
+    "path": "notes/pas/PASU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU2.html",
+    "tags": [
+      "Probability",
+      "Distributions",
+      "Random Variables",
+      "PMF",
+      "PDF",
+      "CDF",
+      "Expectation",
+      "Variance",
+      "Binomial",
+      "Poisson",
+      "Uniform",
+      "Exponential",
+      "Bayes Theorem"
+    ]
   }
 ]
 ```

@@ -11,11 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Planned
 - Ingestion of DCN Units 3 and 4 (`CB2004` IP addressing & TCP/IP Model).
+- Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
 - Initial units for Fundamentals of Data Structures (`notes/fds/` — `CB2003`).
 - Initial units for Object Oriented Programming (`notes/oop/` — `CB2006`).
 - Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
-- Initial units for Probability and Statistics (`notes/pas/` — `MM0501`).
 - KaTeX mathematical formula rendering engine.
+
+---
+
+## [1.4.0] - 2026-09-21
+
+### Added
+- **Probability & Statistics (PAS — MM0501) Unit Ingestion**:
+  - `notes/pas/PASU1.html`: Unit 1 — Descriptive Statistics covering data classification (qualitative vs. quantitative, discrete vs. continuous), frequency distributions, data visualization pipeline (histograms, bar charts, box plots, scatter plots), measures of central tendency (mean, median, mode), and dispersion metrics (range, quartiles, variance, standard deviation, coefficient of variation).
+  - `notes/pas/PASU2.html`: Unit 2 — Probability & Distributions covering foundational probability axioms, conditional probability, multiplication theorem, Bayes' Theorem, discrete & continuous random variables, PMF/PDF/CDF definitions, expectation, variance, and distributions (Bernoulli, Binomial, Poisson, Uniform, Exponential).
+- **Metadata & Manifest Integration**:
+  - Attached standard metadata tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`) to both PAS notes.
+  - Added relative navigation back-links (`../../index.html`) to the master portal in note sidebars.
+  - Regenerated `notes.json` manifest via `npm run build`, bringing total published notes in the registry to 4 (18.2% curriculum completion).
+- **System Documentation Suite Synchronization**:
+  - Synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the published PAS notes and updated inventory counts.
 
 ---
 

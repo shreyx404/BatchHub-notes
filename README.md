@@ -21,6 +21,8 @@ BatchHub-notes/
 │   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units)
 │   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
 │   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units)
+│       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
+│       └── PASU2.html             ← Unit 2: Probability Basics & Distributions
 ├── templates/note-template.html   ← Reusable editorial note template
 ├── scripts/generate-manifest.js   ← Scans notes/ and compiles notes.json
 ├── index.html                     ← Standalone index portal with live search
@@ -66,9 +68,9 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
 | **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
 | **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
-| **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 0/4 Units |
-
-**Total Academic Scope**: **22 Units** (2 published, 20 planned).
+| **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
+ 
+**Total Academic Scope**: **22 Units** (4 published, 18 planned).
 
 ---
 

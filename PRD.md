@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.1.0  
+**Version**: 1.4.0  
 
 ---
 
@@ -90,8 +90,8 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 │  │ - Select Subject        │  │                                        │
 │  │ - Paste Note URL        │  │  ┌──────────────────────────────────┐  │
 │  │ - Instant publish       │──┼─►│ Standalone HTML Notes            │  │
-│  └─────────────────────────┘  │  │ - notes/dcn/DCNU1.html           │  │
-│                               │  │ - notes/dcn/DCNU2.html           │  │
+│  └─────────────────────────┘  │  │ - notes/dcn/DCNU1.html, DCNU2    │  │
+│                               │  │ - notes/pas/PASU1.html, PASU2    │  │
 │                               │  │ - Sticky TOC, Callouts, Print CSS│  │
 │                               │  └──────────────────────────────────┘  │
 └───────────────────────────────┴────────────────────────────────────────┘
@@ -175,7 +175,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 ---
 
 ## 8. Success Metrics & KPIs
-1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub.
+1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 4/22 units, 18.2% published across DCN and PAS).
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
 
