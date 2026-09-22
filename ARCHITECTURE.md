@@ -93,9 +93,10 @@ Each note is an independent, single-file HTML document requiring zero external r
 - **Cross-Device Responsive Engine**:
   - **Desktop (`> 1024px`)**: Fixed 260px sidebar TOC with spacious reading layout (`max-width: 1000px–1180px`).
   - **Tablet (`641px – 1024px`)**: Adaptive layout with reduced padding and drawer or condensed navigation.
-  - **Mobile (`< 640px` down to `320px`)**: Floating hamburger trigger (`.menu-btn` / `.toc-toggle`), full off-canvas TOC drawer, and dark backdrop scrim (`.scrim`) with automatic dismissal on link clicks.
-  - **Universal Table & Math Blocks**: Tables and formula containers (`.fbox`, `.dmath`, `table`) utilize responsive horizontal scrolling (`display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;`), completely preventing horizontal page blowouts.
-  - **Fluid Headings**: Header typography uses CSS `clamp()` to scale down on 320px–375px screens without text clipping.
+  - **Mobile (`< 640px` down to `320px`)**: Floating hamburger trigger (`.toc-trigger` / `.toc-toggle`), full off-canvas TOC drawer, close button (`#tocClose`), and dark backdrop scrim (`.toc-backdrop`) with automatic dismissal on link clicks.
+  - **Zero-Blowout Architecture**: Multi-column grids converted to `display: block` at `<=960px`; negative margins strictly banned on mobile containers; root safety constraints (`overflow-x: hidden; max-width: 100vw;`) on `html` and `body`.
+  - **Universal Table & Diagram Containers**: Tables and multi-unit diagrams (checkpoints, frame anatomy, pipelines) encapsulated in dedicated scroll containers (`.tblwrap`, `.tw`) with `-webkit-overflow-scrolling: touch;`, completely preventing horizontal page blowouts.
+  - **Fluid Headings**: Header typography uses CSS `clamp()` to scale down smoothly across 320px–500px screens without text clipping.
 - **Print Styles**: `@media print` directives to convert dark mode to high-contrast ink-efficient monochrome layout with clean page breaks.
 
 ---

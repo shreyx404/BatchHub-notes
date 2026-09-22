@@ -211,23 +211,20 @@ All notes MUST render cleanly across **Mobile** (320px–640px), **Tablet** (641
   - Touch target accessibility: Minimum 40–44px tap area on interactive controls.
   - Safe area insets: `padding-top: max(14px, env(safe-area-inset-top));`.
 
-### 5.2 Universal Responsive Table Rule
-To prevent multi-column tables from blowing out the mobile viewport, every table must support responsive horizontal scrolling:
+### 5.2 Zero-Blowout Horizontal Invariants
+To prevent horizontal page expansion and text truncation on small mobile screens:
+1. **Root Boundary**: Set `overflow-x: hidden; max-width: 100vw; width: 100%;` on `html` and `body` with `overflow-wrap: break-word`.
+2. **Block Layout on Mobile**: Convert `.layout` from multi-column CSS Grid to `display: block` at `<=960px` to prevent `1fr` minimum-content track blowout.
+3. **No Negative Margins**: NEVER apply negative margins (`margin: 14px -16px`) to tables or diagrams on mobile. Negative margins push content past the right edge when container padding fluctuates, causing a persistent 16px horizontal bleed.
+4. **Diagram & Table Encapsulation**: Wrap data tables and multi-unit diagrams (checkpoints, frame anatomy, pipelines) in dedicated `.table-wrap` or `.tw` scroll containers:
 ```css
-.table-wrap, .tw, .tblwrap, .tblw {
+.table-wrap, .tw, .tblwrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 20px 0;
+  margin: 18px 0 24px;
   max-width: 100%;
-}
-
-@media (max-width: 768px) {
-  table {
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+  width: 100%;
+  box-sizing: border-box;
 }
 ```
 

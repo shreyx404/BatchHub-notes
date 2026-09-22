@@ -31,21 +31,29 @@
       --mono: 'IBM Plex Mono', 'Courier New', monospace;
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0
     }
 
     html {
-      scroll-behavior: smooth
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      max-width: 100vw;
     }
 
     body {
       background: var(--paper);
       color: var(--ink2);
       font: 400 17px/1.66 var(--serif);
-      -webkit-font-smoothing: antialiased
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+      position: relative;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     ::selection {
@@ -223,6 +231,8 @@
 
     main {
       max-width: 790px;
+      min-width: 0;
+      width: 100%;
       padding-bottom: 40px
     }
 
@@ -435,22 +445,17 @@
     .tblwrap {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      margin: 20px 0 28px
+      margin: 20px 0 28px;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     table.tbl {
       width: 100%;
+      min-width: 500px;
       border-collapse: collapse;
       font-size: 15px
-    }
-
-    @media (max-width: 768px) {
-      table.tbl {
-        display: block;
-        max-width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
     }
 
     table.tbl th {
@@ -975,14 +980,22 @@
 
     /* ---------- anatomy / pipeline / subs ---------- */
     .tw {
-      overflow-x: auto
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .anat {
       display: flex;
-      min-width: 620px;
+      min-width: 480px;
       gap: 0;
       text-align: center
+    }
+
+    .ckpt-wrap {
+      min-width: 520px;
     }
 
     .ac {
@@ -1533,46 +1546,63 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      z-index: 90;
+      z-index: 1001;
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      border: 1px solid var(--ink);
+      border: 2px solid var(--ink);
       background: var(--paper);
       color: var(--ink);
-      font: 600 18px/1 var(--mono);
+      font: 600 20px/1 var(--mono);
       cursor: pointer;
-      box-shadow: 0 2px 12px rgba(0,0,0,.15);
-      transition: transform .2s, box-shadow .2s
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      transition: transform .2s, box-shadow .2s;
     }
 
     .toc-trigger:active {
-      transform: scale(.92)
+      transform: scale(.92);
     }
 
     .toc-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 89;
-      background: rgba(0,0,0,.35);
+      z-index: 999;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       opacity: 0;
-      transition: opacity .25s ease
+      transition: opacity .25s ease;
     }
 
     .toc-backdrop.show {
-      opacity: 1
+      opacity: 1;
     }
 
     .mob-back {
-      display: none
+      display: none;
     }
 
-    /* ---------- responsive · 960px ---------- */
-    @media (max-width:960px) {
+    /* ---------- responsive · 960px (tablets & mobile) ---------- */
+    @media (max-width: 960px) {
       .layout {
-        grid-template-columns: 1fr;
-        gap: 0
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+
+      main {
+        max-width: 100%;
+        width: 100%;
+        min-width: 0;
+        padding-bottom: 30px;
+      }
+
+      .mast {
+        padding: 36px 20px 0;
+        max-width: 100%;
       }
 
       /* off-canvas TOC drawer */
@@ -1582,460 +1612,454 @@
         left: 0;
         bottom: 0;
         width: 280px;
-        z-index: 100;
+        max-width: 84vw;
+        z-index: 1000;
         background: var(--paper);
         border-right: 1px solid var(--line);
-        padding: 24px 20px 40px;
+        padding: 24px 18px 40px;
         display: flex;
         flex-direction: column;
         gap: 0;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         transform: translateX(-100%);
-        transition: transform .28s ease
+        transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 4px 0 24px rgba(0,0,0,.15);
       }
 
       .toc.open {
-        transform: none
+        transform: translateX(0);
       }
 
       .toc-trigger {
         display: flex;
         align-items: center;
-        justify-content: center
+        justify-content: center;
       }
 
       .toc-backdrop.active {
-        display: block
+        display: block;
       }
 
       .toc a {
-        white-space: normal
+        white-space: normal;
+        padding: 6px 4px;
       }
 
       .mob-back {
-        display: inline-block;
-        font: 500 10px var(--mono);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font: 500 10.5px var(--mono);
         letter-spacing: .12em;
         text-transform: uppercase;
         color: var(--mute);
         text-decoration: none;
-        padding: 10px 16px;
+        padding: 8px 14px;
         border: 1px solid var(--line);
-        margin-bottom: 12px;
-        align-self: flex-start;
-        transition: background .2s, color .2s
+        margin-bottom: 16px;
+        background: var(--card);
+        border-radius: 3px;
+        transition: background .2s, color .2s;
       }
 
       .mob-back:hover {
         background: var(--ink);
-        color: var(--paper)
+        color: var(--paper);
       }
 
       section {
-        scroll-margin-top: 22px
+        scroll-margin-top: 22px;
       }
 
       .stack-wrap {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
 
       .encap-body {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
+        gap: 14px;
       }
 
       .es {
         display: inline-flex;
         width: auto;
         margin-right: 6px;
+        margin-bottom: 6px;
         border: 1px solid var(--line);
-        border-bottom: 1px solid var(--line)
+        border-bottom: 1px solid var(--line);
       }
 
       .ledger,
       .qa-grid {
         columns: 1;
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
 
       .quickfacts {
-        columns: 1
+        columns: 1;
       }
 
       .mnem {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
 
       .sd-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
 
       .sd-grid div:nth-child(odd) {
-        border-right: none
+        border-right: none;
       }
 
       .sd-grid div:nth-child(3) {
-        border-bottom: 1px solid var(--line)
+        border-bottom: 1px solid var(--line);
+      }
+
+      .lhead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .lwater {
+        font-size: clamp(36px, 10vw, 56px);
       }
     }
 
-    /* ---------- responsive · 640px ---------- */
+    /* ---------- responsive · 640px (smartphones) ---------- */
     @media (max-width: 640px) {
       .mast {
-        padding: 36px 16px 0
+        padding: 28px 16px 0;
       }
 
       .layout {
-        padding: 0 16px
+        padding: 0 16px;
       }
 
       .mast h1 {
-        font-size: clamp(28px, 8vw, 54px);
-        margin: 20px 0 12px
+        font-size: clamp(26px, 7.5vw, 42px);
+        margin: 18px 0 12px;
+        line-height: 1.1;
       }
 
       .mast-stats {
-        flex-wrap: wrap
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 0;
+        border-top: 2px solid var(--ink);
+        border-bottom: 1px solid var(--line);
       }
 
       .mast-stats span {
-        padding: 8px 12px 8px 0;
-        margin-right: 12px;
-        font-size: 9px
+        padding: 4px 8px;
+        margin: 0;
+        font-size: 9px;
+        border: 1px solid var(--line);
+        background: var(--paper2);
+        border-radius: 2px;
       }
 
       .mast-act {
-        padding: 10px 0 24px;
+        padding: 10px 0 20px;
         flex-direction: column;
-        align-items: flex-start
+        align-items: flex-start;
+        gap: 10px;
       }
 
       .tblwrap {
-        margin: 14px -16px 20px;
-        padding: 0 16px
+        margin: 16px 0 22px;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
       }
 
       table.tbl td:first-child {
-        white-space: normal
+        white-space: normal;
       }
 
       .figure {
-        padding: 14px 14px 12px;
-        margin: 22px -16px;
-        border-left: none;
-        border-right: none
+        padding: 14px 12px;
+        margin: 20px 0;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .fig-top {
         flex-direction: column;
-        gap: 4px
+        align-items: flex-start;
+        gap: 4px;
       }
 
-      .callout {
+      .callout,
+      .note {
         padding: 12px 14px;
-        margin: 18px 0
+        margin: 16px 0;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .pull {
-        padding: 16px 2px 18px;
-        margin: 20px 0
+        padding: 14px 0 16px;
+        margin: 18px 0;
+        max-width: 100%;
       }
 
       .pull p {
-        font-size: 18px
-      }
-
-      .note {
-        padding: 12px 14px;
-        margin: 18px 0
-      }
-
-      .es {
-        margin-bottom: 6px
+        font-size: 17px;
       }
 
       .enc-stage {
-        padding: 14px 12px 10px
+        padding: 12px 10px 10px;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .pdu-bar {
-        height: 52px
+        height: 50px;
+        max-width: 100%;
       }
 
       .cell b {
-        font-size: 10px
+        font-size: 10px;
       }
 
       .cell i {
-        font-size: 7px
+        font-size: 7.5px;
       }
 
       .cell.hdr {
-        flex: 0 0 48px
+        flex: 0 0 44px;
       }
 
       .cell.trl {
-        flex: 0 0 40px
+        flex: 0 0 36px;
       }
 
       .encap-ctrl {
-        gap: 6px
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .enc-step {
         font-size: 8.5px;
         width: 100%;
         text-align: center;
-        margin-top: 6px
+        margin-top: 6px;
       }
 
       section {
-        padding: 40px 0 6px
+        padding: 34px 0 6px;
       }
 
       h2 {
-        font-size: clamp(22px, 5.5vw, 30px)
+        font-size: clamp(22px, 5.5vw, 28px);
       }
 
       h3 {
         font-size: 17px;
-        margin: 26px 0 12px
-      }
-
-      .lhead {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px
-      }
-
-      .lwater {
-        font-size: clamp(40px, 12vw, 64px)
+        margin: 22px 0 10px;
       }
 
       details.q summary {
         padding: 11px 12px;
-        gap: 8px
+        gap: 8px;
       }
 
       details.q summary p {
-        font-size: 14.5px
+        font-size: 14.5px;
       }
 
       details.q .ans {
-        padding: 12px 12px 13px 12px
+        padding: 12px 12px 13px 12px;
       }
 
       .lead {
-        font-size: 17px
+        font-size: 16px;
       }
 
       .dropcap::first-letter {
-        font-size: 48px
+        font-size: 40px;
       }
 
       .sd h4 {
-        font-size: 22px
+        font-size: 20px;
       }
 
       .sd .role {
-        font-size: 14.5px
+        font-size: 14px;
       }
 
       .sd ul li {
-        font-size: 13.5px
-      }
-
-      .ckpt {
-        flex-wrap: wrap
-      }
-
-      .kc {
-        flex: 1 1 calc(33% - 4px);
-        height: 38px;
-        font-size: 9px
-      }
-
-      .ck-zone {
-        flex-wrap: wrap
-      }
-
-      .ck-zone span {
-        font-size: 8px
+        font-size: 13px;
       }
 
       .stepflow {
-        gap: 10px
+        gap: 10px;
       }
 
       .stw {
-        flex: 1 1 100%
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .pipe {
-        flex-direction: column
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
       }
 
       .pa {
-        flex: 0 0 28px;
-        transform: rotate(90deg)
+        flex: 0 0 24px;
+        transform: rotate(90deg);
+        margin: 4px auto;
       }
 
       .pc {
-        flex: 1 1 auto
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .tl li {
-        padding: 8px 0 8px 26px
+        padding: 8px 0 8px 24px;
       }
 
       .tl i {
-        width: 27px;
-        height: 20px;
-        font-size: 8.5px;
-        left: -14px
+        width: 24px;
+        height: 18px;
+        font-size: 8px;
+        left: -12px;
       }
 
       .tl b {
-        font-size: 11px
+        font-size: 11px;
       }
 
       footer {
-        margin-top: 44px;
-        padding: 20px 0 40px
+        margin-top: 36px;
+        padding: 20px 0 36px;
       }
 
       .colo {
-        font-size: 9.5px
-      }
-
-      .toc {
-        width: 260px
-      }
-
-      .toc-trigger {
-        bottom: 16px;
-        right: 16px;
-        width: 44px;
-        height: 44px;
-        font-size: 16px
+        font-size: 9.5px;
       }
 
       .bitstr {
-        font-size: 10px;
-        letter-spacing: .12em;
-        word-break: break-all
+        font-size: 9px;
+        letter-spacing: .06em;
+        word-break: break-all;
+        overflow-wrap: anywhere;
       }
 
       .anat {
-        min-width: 0
+        min-width: 440px;
       }
 
       .ac {
-        padding: 10px 6px
+        padding: 10px 6px;
       }
 
       .ac b {
-        font-size: 9px
+        font-size: 9px;
       }
 
       .ac span {
-        font-size: 11px
+        font-size: 11px;
       }
 
       .ac i {
-        font-size: 7.5px
+        font-size: 7.5px;
       }
     }
 
     /* ---------- responsive · 375px extra-small ---------- */
     @media (max-width: 375px) {
       .mast {
-        padding: 28px 12px 0
+        padding: 20px 12px 0;
       }
 
       .layout {
-        padding: 0 12px
+        padding: 0 12px;
       }
 
       .mast h1 {
-        font-size: clamp(24px, 7.5vw, 36px)
+        font-size: clamp(20px, 6.8vw, 30px);
       }
 
       body {
-        font-size: 15.5px
+        font-size: 15px;
       }
 
       .mast-stats span {
         font-size: 8px;
-        padding: 6px 8px 6px 0;
-        margin-right: 8px
+        padding: 3px 6px;
       }
 
       .figure {
         padding: 10px 10px 8px;
-        margin: 18px -12px
+        margin: 16px 0;
       }
 
-      .callout {
-        padding: 10px 12px
-      }
-
+      .callout,
       .note {
-        padding: 10px 12px
+        padding: 10px 12px;
       }
 
       .toc {
-        width: 240px;
-        padding: 20px 14px 30px
+        width: 250px;
+        max-width: 86vw;
+        padding: 20px 14px 30px;
       }
 
       .toc a {
-        font-size: 10.5px
+        font-size: 11px;
       }
 
       .enc-stage {
-        padding: 10px 8px 8px
+        padding: 10px 8px 8px;
       }
 
       .pdu-bar {
-        height: 44px
+        height: 44px;
       }
 
       .cell.hdr {
-        flex: 0 0 36px
+        flex: 0 0 34px;
       }
 
       .cell.trl {
-        flex: 0 0 32px
-      }
-
-      .kc {
-        flex: 1 1 calc(50% - 4px);
-        height: 34px;
-        font-size: 8px
+        flex: 0 0 28px;
       }
 
       .led i {
-        flex: 0 0 20px;
-        font-size: 10px
+        flex: 0 0 18px;
+        font-size: 9.5px;
       }
 
       .led b {
-        font-size: 14px
+        font-size: 13.5px;
       }
 
       .led p {
-        font-size: 13px
+        font-size: 12.5px;
       }
 
       .fnlist p {
-        padding-left: 1.2em;
-        text-indent: -1.2em;
-        font-size: 14.5px
+        padding-left: 1.1em;
+        text-indent: -1.1em;
+        font-size: 14px;
       }
 
       .quickfacts {
-        font-size: 11px
+        font-size: 10.5px;
       }
     }
 
@@ -2090,10 +2114,8 @@
   <button class="toc-trigger" id="tocTrigger" aria-label="Open table of contents">☰</button>
   <div class="toc-backdrop" id="tocBackdrop"></div>
 
-  <!-- mobile back link -->
-  <a href="../../index.html" class="mob-back">← Notes Hub</a>
-
   <header class="mast">
+    <a href="../../index.html" class="mob-back">← Notes Hub</a>
     <div class="mast-top">
       <span>BRACT's Vishwakarma Institute of Technology, Pune · Dept. of Computer Science (IoT &amp; Cybersecurity incl.
         Blockchain)</span>
@@ -2125,7 +2147,10 @@
 
     <!-- ==================== TOC ==================== -->
     <nav class="toc" aria-label="Contents">
-      <a href="../../index.html" class="back-link" style="display:inline-block;margin-bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);text-decoration:none;">← Notes Hub</a>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);">
+        <a href="../../index.html" class="back-link" style="display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);text-decoration:none;">← Notes Hub</a>
+        <button id="tocClose" aria-label="Close contents" style="background:transparent;border:none;font:600 16px var(--mono);color:var(--mute);cursor:pointer;padding:2px 6px;line-height:1;">✕</button>
+      </div>
       <div class="toc-h">Contents</div>
       <a href="#s1"><i>01</i>The OSI Model</a>
       <a href="#s2"><i>02</i>Layered Architecture</a>
@@ -2932,22 +2957,26 @@
         <div class="figure rv">
           <div class="fig-top"><b>FIG. 07</b><span>Checkpoints — why a 2-hour download doesn't restart from zero</span>
           </div>
-          <div class="ckpt">
-            <div class="kc done">1</div>
-            <div class="kc done">2</div>
-            <div class="kc done">3</div>
-            <div class="kc rs">4</div>
-            <div class="kc fail">5</div>
-            <div class="kc rs">6</div>
-            <div class="kc rs">7</div>
-            <div class="kc">8</div>
-            <div class="kc">9</div>
-            <div class="kc">10</div>
-          </div>
-          <div class="ck-zone">
-            <span>delivered — before CHK 1 · not resent</span>
-            <span>retransmitted from checkpoint 1</span>
-            <span>not yet sent</span>
+          <div class="tw">
+            <div class="ckpt-wrap">
+              <div class="ckpt">
+                <div class="kc done">1</div>
+                <div class="kc done">2</div>
+                <div class="kc done">3</div>
+                <div class="kc rs">4</div>
+                <div class="kc fail">5</div>
+                <div class="kc rs">6</div>
+                <div class="kc rs">7</div>
+                <div class="kc">8</div>
+                <div class="kc">9</div>
+                <div class="kc">10</div>
+              </div>
+              <div class="ck-zone">
+                <span>delivered — before CHK 1 · not resent</span>
+                <span>retransmitted from checkpoint 1</span>
+                <span>not yet sent</span>
+              </div>
+            </div>
           </div>
           <p class="ck-note">CHK 1 sits after unit ③, CHK 2 after unit ⑦. The link fails at ⑤ — the session does
             <em>not</em> restart from the beginning; it resumes from the last checkpoint, and only units ④–⑦ are
@@ -4116,6 +4145,7 @@
       var toc = document.querySelector('.toc');
       var trigger = document.getElementById('tocTrigger');
       var backdrop = document.getElementById('tocBackdrop');
+      var closeBtn = document.getElementById('tocClose');
       function open() {
         toc.classList.add('open');
         backdrop.classList.add('active');
@@ -4126,17 +4156,27 @@
         backdrop.classList.remove('show');
         setTimeout(function () { backdrop.classList.remove('active'); }, 260);
       }
-      trigger.addEventListener('click', function () {
-        toc.classList.contains('open') ? close() : open();
-      });
-      backdrop.addEventListener('click', close);
-      toc.addEventListener('click', function (e) {
-        if (e.target.tagName === 'A' && e.target.getAttribute('href').charAt(0) === '#') {
-          close();
-        }
-      });
+      if (trigger) {
+        trigger.addEventListener('click', function () {
+          toc.classList.contains('open') ? close() : open();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', close);
+      }
+      if (backdrop) {
+        backdrop.addEventListener('click', close);
+      }
+      if (toc) {
+        toc.addEventListener('click', function (e) {
+          var a = e.target.closest('a');
+          if (a && a.getAttribute('href') && a.getAttribute('href').charAt(0) === '#') {
+            close();
+          }
+        });
+      }
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && toc.classList.contains('open')) close();
+        if (e.key === 'Escape' && toc && toc.classList.contains('open')) close();
       });
     })();
 

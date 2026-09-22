@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
 - KaTeX mathematical formula rendering engine.
 
+## [1.6.2] - 2026-09-22
+
+### Fixed & Optimized
+- **Complete Elimination of Horizontal Blowout & Viewport Clipping** (`notes/dcn/DCNU2.html`):
+  - Added strict root safety boundaries to `html` and `body` (`overflow-x: hidden; max-width: 100vw; width: 100%; overflow-wrap: break-word;`) to permanently prevent rogue overflow.
+  - Converted `.layout` from CSS Grid to `display: block` at `max-width: 960px`, eliminating the automatic minimum-size track blowout caused by `1fr` (`minmax(auto, 1fr)`).
+  - Completely removed harmful negative margins (`-16px`, `-12px`) on `.tblwrap` and `.figure` that caused a persistent 16px rightward bleed and text truncation on 375px–500px mobile viewports.
+  - Re-architected `.mast-stats` from horizontal rigid borders into responsive wrapped pill badges that stack cleanly on mobile viewports.
+  - Encapsulated FIG. 07 (Checkpoints diagram) within `.tw` and `.ckpt-wrap` (`min-width: 520px`), preserving horizontal alignment between the 10 packet boxes and the 3 zone indicators with contained scrolling.
+  - Re-anchored FIG. 12 (Anatomy of a Frame) within `.tw` with optimized flex basis, allowing Header, Payload, and Trailer blocks to fit and scroll cleanly without viewport blowout.
+  - Added a prominent `✕` close button in the off-canvas TOC drawer header and improved link event delegation using `e.target.closest('a')`.
+  - Moved mobile `← Notes Hub` back link cleanly inside `.mast` for uniform alignment with masthead padding.
+  - Thoroughly validated with browser subagent across 360px, 390px, and 500px viewports, confirming zero horizontal overflow (`scrollWidth === innerWidth`).
+
 ## [1.6.1] - 2026-09-22
 
 ### Changed

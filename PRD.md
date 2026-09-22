@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.6.0  
+**Version**: 1.6.2  
 
 ---
 

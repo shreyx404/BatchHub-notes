@@ -150,7 +150,10 @@
 
 ## Phase 4: Reader & Portal Enhancements 🟡
 
-- [x] **Cross-Device Responsive Architecture & Mobile Optimization Overhaul**: Engineered off-canvas sliding TOC drawers with trigger buttons and dark scrim backdrop across notes (`OOPU1`, `PASU1`, `PASU2`, template), added tablet breakpoints, universal responsive table and math formula scroll containers, fluid `clamp()` typography, and mobile touch usability enhancements.
+- [x] **Cross-Device Responsive Architecture & Mobile Optimization Overhaul**:
+  - Engineered off-canvas sliding TOC drawers with trigger buttons and dark scrim backdrop across notes (`DCNU2`, `OOPU1`, `PASU1`, `PASU2`, and `templates/note-template.html`).
+  - Implemented 3-tier responsive breakpoints (960px, 640px, 375px) with `clamp()` typography and fluid layout conversions.
+  - Eliminated horizontal viewport blowouts across all tables, frame diagrams (`.anat`), checkpoints (`.ckpt`), and pipelines (`.pipe`) with strict zero-overflow verification (`scrollWidth === innerWidth` at 360px, 390px, and 500px).
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
 - [ ] **In-Note Keyword Search**: Quick `Ctrl+K` or search bar within long-form notes.
 - [ ] **Dark / Light Mode Toggle**: Optional light theme toggle for high-glare environments.
