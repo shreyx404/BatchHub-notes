@@ -17,6 +17,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
 - KaTeX mathematical formula rendering engine.
 
+## [1.6.1] - 2026-09-22
+
+### Changed
+- **DCNU2 Mobile Optimization Overhaul** (`notes/dcn/DCNU2.html`):
+  - Replaced horizontal-scroll TOC strip with a proper **off-canvas TOC drawer** with floating ☰ trigger button, dark backdrop scrim, and Escape key dismissal.
+  - Added **three responsive breakpoints** (960px, 640px, 375px) covering tablet, phone, and extra-small screens.
+  - Fixed **horizontal blowout** from `white-space: nowrap` on table first-column cells — now wraps naturally on mobile.
+  - Made `.sd-grid` (layer detail grid), `.anat` (frame anatomy), `.pipe` (presentation pipeline), `.stepflow` (step cards), `.ckpt` (checkpoints), and `.mnem` (mnemonic grid) **fully responsive with stacked layouts** on narrow screens.
+  - Reduced `padding` and `margin` on `.figure`, `.callout`, `.pull`, `.note`, `.enc-stage`, and `.details.q .ans` at mobile breakpoints to reclaim screen real estate.
+  - Made PDU bar cells (`.cell.hdr`, `.cell.trl`) progressively shrink at 640px and 375px to prevent overflow.
+  - Added `flex-wrap` to `.ckpt` and `.ck-zone` for proper checkpoint row wrapping on small screens.
+  - Made presentation pipeline arrows rotate 90° and stack vertically on mobile instead of horizontal overflow.
+  - Reduced heading sizes with `clamp()` and tightened section padding for compact mobile reading.
+  - Added mobile-visible **"← Notes Hub"** back link above the masthead.
+  - Bit-string display now uses `word-break: break-all` to prevent horizontal scroll.
+
+
 ## [1.6.0] - 2026-09-21
 
 ### Added

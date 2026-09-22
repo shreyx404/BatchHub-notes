@@ -1527,59 +1527,113 @@
       }
     }
 
-    /* ---------- responsive ---------- */
+    /* ---------- mobile TOC drawer ---------- */
+    .toc-trigger {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 90;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      color: var(--ink);
+      font: 600 18px/1 var(--mono);
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0,0,0,.15);
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .toc-trigger:active {
+      transform: scale(.92)
+    }
+
+    .toc-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 89;
+      background: rgba(0,0,0,.35);
+      opacity: 0;
+      transition: opacity .25s ease
+    }
+
+    .toc-backdrop.show {
+      opacity: 1
+    }
+
+    .mob-back {
+      display: none
+    }
+
+    /* ---------- responsive · 960px ---------- */
     @media (max-width:960px) {
       .layout {
         grid-template-columns: 1fr;
         gap: 0
       }
 
+      /* off-canvas TOC drawer */
       .toc {
-        position: sticky;
+        position: fixed;
         top: 0;
-        z-index: 60;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 100;
+        background: var(--paper);
+        border-right: 1px solid var(--line);
+        padding: 24px 20px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        transform: translateX(-100%);
+        transition: transform .28s ease
+      }
+
+      .toc.open {
+        transform: none
+      }
+
+      .toc-trigger {
         display: flex;
         align-items: center;
-        gap: 8px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        background: var(--paper);
-        border-bottom: 1px solid var(--line);
-        padding: 10px 16px
+        justify-content: center
       }
 
-      .toc::-webkit-scrollbar {
-        display: none
-      }
-
-      .toc-h {
-        display: none
+      .toc-backdrop.active {
+        display: block
       }
 
       .toc a {
-        flex: 0 0 auto;
-        white-space: nowrap;
+        white-space: normal
+      }
+
+      .mob-back {
+        display: inline-block;
+        font: 500 10px var(--mono);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--mute);
+        text-decoration: none;
+        padding: 10px 16px;
         border: 1px solid var(--line);
-        padding: 6px 11px
+        margin-bottom: 12px;
+        align-self: flex-start;
+        transition: background .2s, color .2s
       }
 
-      .toc a i {
-        border-color: transparent
-      }
-
-      .toc a.act {
+      .mob-back:hover {
         background: var(--ink);
         color: var(--paper)
       }
 
-      .toc a.act i {
-        background: transparent;
-        color: var(--paper)
-      }
-
       section {
-        scroll-margin-top: 66px
+        scroll-margin-top: 22px
       }
 
       .stack-wrap {
@@ -1611,38 +1665,377 @@
       .mnem {
         grid-template-columns: 1fr
       }
+
+      .sd-grid {
+        grid-template-columns: 1fr
+      }
+
+      .sd-grid div:nth-child(odd) {
+        border-right: none
+      }
+
+      .sd-grid div:nth-child(3) {
+        border-bottom: 1px solid var(--line)
+      }
     }
 
+    /* ---------- responsive · 640px ---------- */
     @media (max-width: 640px) {
       .mast {
-        padding: 36px 16px 0;
+        padding: 36px 16px 0
       }
 
       .layout {
-        padding: 0 16px;
+        padding: 0 16px
       }
 
       .mast h1 {
         font-size: clamp(28px, 8vw, 54px);
-        margin: 20px 0 12px;
+        margin: 20px 0 12px
+      }
+
+      .mast-stats {
+        flex-wrap: wrap
       }
 
       .mast-stats span {
         padding: 8px 12px 8px 0;
         margin-right: 12px;
-        font-size: 9px;
+        font-size: 9px
       }
 
       .mast-act {
         padding: 10px 0 24px;
+        flex-direction: column;
+        align-items: flex-start
       }
 
       .tblwrap {
-        margin: 14px 0 20px;
+        margin: 14px -16px 20px;
+        padding: 0 16px
+      }
+
+      table.tbl td:first-child {
+        white-space: normal
+      }
+
+      .figure {
+        padding: 14px 14px 12px;
+        margin: 22px -16px;
+        border-left: none;
+        border-right: none
+      }
+
+      .fig-top {
+        flex-direction: column;
+        gap: 4px
+      }
+
+      .callout {
+        padding: 12px 14px;
+        margin: 18px 0
+      }
+
+      .pull {
+        padding: 16px 2px 18px;
+        margin: 20px 0
+      }
+
+      .pull p {
+        font-size: 18px
+      }
+
+      .note {
+        padding: 12px 14px;
+        margin: 18px 0
       }
 
       .es {
-        margin-bottom: 6px;
+        margin-bottom: 6px
+      }
+
+      .enc-stage {
+        padding: 14px 12px 10px
+      }
+
+      .pdu-bar {
+        height: 52px
+      }
+
+      .cell b {
+        font-size: 10px
+      }
+
+      .cell i {
+        font-size: 7px
+      }
+
+      .cell.hdr {
+        flex: 0 0 48px
+      }
+
+      .cell.trl {
+        flex: 0 0 40px
+      }
+
+      .encap-ctrl {
+        gap: 6px
+      }
+
+      .enc-step {
+        font-size: 8.5px;
+        width: 100%;
+        text-align: center;
+        margin-top: 6px
+      }
+
+      section {
+        padding: 40px 0 6px
+      }
+
+      h2 {
+        font-size: clamp(22px, 5.5vw, 30px)
+      }
+
+      h3 {
+        font-size: 17px;
+        margin: 26px 0 12px
+      }
+
+      .lhead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px
+      }
+
+      .lwater {
+        font-size: clamp(40px, 12vw, 64px)
+      }
+
+      details.q summary {
+        padding: 11px 12px;
+        gap: 8px
+      }
+
+      details.q summary p {
+        font-size: 14.5px
+      }
+
+      details.q .ans {
+        padding: 12px 12px 13px 12px
+      }
+
+      .lead {
+        font-size: 17px
+      }
+
+      .dropcap::first-letter {
+        font-size: 48px
+      }
+
+      .sd h4 {
+        font-size: 22px
+      }
+
+      .sd .role {
+        font-size: 14.5px
+      }
+
+      .sd ul li {
+        font-size: 13.5px
+      }
+
+      .ckpt {
+        flex-wrap: wrap
+      }
+
+      .kc {
+        flex: 1 1 calc(33% - 4px);
+        height: 38px;
+        font-size: 9px
+      }
+
+      .ck-zone {
+        flex-wrap: wrap
+      }
+
+      .ck-zone span {
+        font-size: 8px
+      }
+
+      .stepflow {
+        gap: 10px
+      }
+
+      .stw {
+        flex: 1 1 100%
+      }
+
+      .pipe {
+        flex-direction: column
+      }
+
+      .pa {
+        flex: 0 0 28px;
+        transform: rotate(90deg)
+      }
+
+      .pc {
+        flex: 1 1 auto
+      }
+
+      .tl li {
+        padding: 8px 0 8px 26px
+      }
+
+      .tl i {
+        width: 27px;
+        height: 20px;
+        font-size: 8.5px;
+        left: -14px
+      }
+
+      .tl b {
+        font-size: 11px
+      }
+
+      footer {
+        margin-top: 44px;
+        padding: 20px 0 40px
+      }
+
+      .colo {
+        font-size: 9.5px
+      }
+
+      .toc {
+        width: 260px
+      }
+
+      .toc-trigger {
+        bottom: 16px;
+        right: 16px;
+        width: 44px;
+        height: 44px;
+        font-size: 16px
+      }
+
+      .bitstr {
+        font-size: 10px;
+        letter-spacing: .12em;
+        word-break: break-all
+      }
+
+      .anat {
+        min-width: 0
+      }
+
+      .ac {
+        padding: 10px 6px
+      }
+
+      .ac b {
+        font-size: 9px
+      }
+
+      .ac span {
+        font-size: 11px
+      }
+
+      .ac i {
+        font-size: 7.5px
+      }
+    }
+
+    /* ---------- responsive · 375px extra-small ---------- */
+    @media (max-width: 375px) {
+      .mast {
+        padding: 28px 12px 0
+      }
+
+      .layout {
+        padding: 0 12px
+      }
+
+      .mast h1 {
+        font-size: clamp(24px, 7.5vw, 36px)
+      }
+
+      body {
+        font-size: 15.5px
+      }
+
+      .mast-stats span {
+        font-size: 8px;
+        padding: 6px 8px 6px 0;
+        margin-right: 8px
+      }
+
+      .figure {
+        padding: 10px 10px 8px;
+        margin: 18px -12px
+      }
+
+      .callout {
+        padding: 10px 12px
+      }
+
+      .note {
+        padding: 10px 12px
+      }
+
+      .toc {
+        width: 240px;
+        padding: 20px 14px 30px
+      }
+
+      .toc a {
+        font-size: 10.5px
+      }
+
+      .enc-stage {
+        padding: 10px 8px 8px
+      }
+
+      .pdu-bar {
+        height: 44px
+      }
+
+      .cell.hdr {
+        flex: 0 0 36px
+      }
+
+      .cell.trl {
+        flex: 0 0 32px
+      }
+
+      .kc {
+        flex: 1 1 calc(50% - 4px);
+        height: 34px;
+        font-size: 8px
+      }
+
+      .led i {
+        flex: 0 0 20px;
+        font-size: 10px
+      }
+
+      .led b {
+        font-size: 14px
+      }
+
+      .led p {
+        font-size: 13px
+      }
+
+      .fnlist p {
+        padding-left: 1.2em;
+        text-indent: -1.2em;
+        font-size: 14.5px
+      }
+
+      .quickfacts {
+        font-size: 11px
       }
     }
 
@@ -1693,7 +2086,13 @@
 
   <div class="progress"><i id="pbar"></i></div>
 
-  <!-- ==================== MASTHEAD ==================== -->
+  <!-- mobile TOC drawer trigger -->
+  <button class="toc-trigger" id="tocTrigger" aria-label="Open table of contents">☰</button>
+  <div class="toc-backdrop" id="tocBackdrop"></div>
+
+  <!-- mobile back link -->
+  <a href="../../index.html" class="mob-back">← Notes Hub</a>
+
   <header class="mast">
     <div class="mast-top">
       <span>BRACT's Vishwakarma Institute of Technology, Pune · Dept. of Computer Science (IoT &amp; Cybersecurity incl.
@@ -3710,6 +4109,35 @@
         var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
         bar.style.width = (p * 100) + '%';
       }, { passive: true });
+    })();
+
+    /* ---------- mobile TOC drawer ---------- */
+    (function () {
+      var toc = document.querySelector('.toc');
+      var trigger = document.getElementById('tocTrigger');
+      var backdrop = document.getElementById('tocBackdrop');
+      function open() {
+        toc.classList.add('open');
+        backdrop.classList.add('active');
+        requestAnimationFrame(function () { backdrop.classList.add('show'); });
+      }
+      function close() {
+        toc.classList.remove('open');
+        backdrop.classList.remove('show');
+        setTimeout(function () { backdrop.classList.remove('active'); }, 260);
+      }
+      trigger.addEventListener('click', function () {
+        toc.classList.contains('open') ? close() : open();
+      });
+      backdrop.addEventListener('click', close);
+      toc.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A' && e.target.getAttribute('href').charAt(0) === '#') {
+          close();
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toc.classList.contains('open')) close();
+      });
     })();
 
     /* ---------- table of contents scroll-spy ---------- */
