@@ -15,10 +15,17 @@ BatchHub-notes/
 ├── .github/workflows/deploy.yml   ← Auto-deploy to GitHub Pages on push to main
 ├── notes/                         ← Subject folders (mirrors BatchHub database)
 │   ├── biot/                      ← Basics of IoT (CB2005 - 4 Units)
+│   │   ├── BIOTU1.html            ← Unit 1: Introduction to IoT & Architecture
+│   │   ├── BIOTU2.html            ← Unit 2: Microprocessor & Microcontroller (8085/8051)
+│   │   └── BIOTU3.html            ← Unit 3: IP based Protocols for IoT (6LoWPAN, RPL, MQTT)
 │   ├── dcn/                       ← Data Communication and Networking (CB2004 - 4 Units)
 │   │   ├── DCNU1.html             ← Unit 1: Data communication and its components
 │   │   └── DCNU2.html             ← Unit 2: OSI 7-Layer Reference Model
 │   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units)
+│   │   ├── FDSU1.html             ← Unit 1: Data Structures & Analysis of Algorithms
+│   │   ├── FDSU2.html             ← Unit 2: Arrays, Searching & Sorting Techniques
+│   │   ├── FDSU3.html             ← Unit 3: Linked Lists (SLL, DLL, CLL)
+│   │   └── FDSU4.html             ← Unit 4: Stacks and Queues
 │   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
 │   │   └── OOPU1.html             ← Unit 1: Introduction to OOP with C++
 │   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units)
@@ -65,13 +72,13 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 
 | Folder Code | Course Code | Full Course Title | Teaching Scheme | Credits | Scope | Notes Status |
 |---|---|---|---|---|---|---|
-| **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | 0/6 Units |
+| **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | 🟡 4/6 Units (66.7%) |
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
-| **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | 0/4 Units |
+| **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | 🟡 3/4 Units (75%) |
 | **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 1/4 Units (25%) |
 | **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
  
-**Total Academic Scope**: **22 Units** (5 published, 17 planned).
+**Total Academic Scope**: **22 Units** (12 published, 10 planned).
 
 ---
 

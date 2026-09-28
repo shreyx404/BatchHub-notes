@@ -14,9 +14,9 @@
 
 | Subject No. | Course Code | Subject Code (Folder) | Course Title | Teaching Scheme (Th/Lab/Tut) | Total Credits | Exam Pattern | Total Units | Notes Status |
 |---|---|---|---|---|---|---|---|---|
-| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | In Backlog (0/6) |
+| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | 🟡 66.7% (4/6) |
 | **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
-| **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | In Backlog (0/4) |
+| **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 75% (3/4) |
 | **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 25% (1/4) |
 | **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
@@ -24,7 +24,7 @@
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 5 published units across DCN, OOP, and PAS; all 5 verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 12 published units across BIOT, DCN, FDS, OOP, and PAS; all 12 verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 
@@ -55,19 +55,19 @@
 #### Unit Breakdown & Scope (6 Units)
 
 ##### SECTION I
-1. **Unit 1: Introduction to Data Structures and Complexity** (7 Hours) — `FDSU1.html`
+1. **Unit 1: Introduction to Data Structures and Complexity** (7 Hours) — `FDSU1.html` ✅ *Published*
    - *Concepts*: Abstract Data Types (ADTs), need of data structures, classification of data structures (primitive vs non-primitive, linear vs non-linear). Complexity analysis of algorithms using asymptotic notations: Big-O ($\mathcal{O}$), Big-$\Omega$, and Big-$\Theta$ notations. Time-space trade-off. Recursion basics and applications.
    - *Key Derivations/Problems*: Recurrence relation analysis, growth rates of functions.
 
-2. **Unit 2: Arrays and Searching & Sorting Techniques** (7 Hours) — `FDSU2.html`
+2. **Unit 2: Arrays and Searching & Sorting Techniques** (7 Hours) — `FDSU2.html` ✅ *Published*
    - *Concepts*: 1D and 2D arrays, address calculation, sparse matrix representation and transpose algorithms, strings and string manipulation, dynamic arrays. Linear search and binary search (iterative and recursive). Sorting algorithms: Bubble sort, Selection sort, Insertion sort, Merge sort, Quick sort. Comprehensive time & space complexity analysis of all techniques.
    - *Case Studies*: Sensor data buffering using arrays, Pattern matching in intrusion detection, or Analyzing large-scale array logs for anomalies.
 
-3. **Unit 3: Linked Lists** (7 Hours) — `FDSU3.html`
+3. **Unit 3: Linked Lists** (7 Hours) — `FDSU3.html` ✅ *Published*
    - *Concepts*: Memory fragmentation & pointer behavior, Singly linked list (SLL), Doubly linked list (DLL), Circular linked list (CLL). Core operations: insert (beginning, end, position), delete, traverse, search. Applications: polynomial representation and addition/multiplication, dynamic memory management allocation simulation.
 
 ##### SECTION II
-4. **Unit 4: Stacks and Queues** (7 Hours) — `FDSU4.html`
+4. **Unit 4: Stacks and Queues** (7 Hours) — `FDSU4.html` ✅ *Published*
    - *Concepts*: Stack ADT, array and linked implementation. Stack applications: expression evaluation (postfix/prefix), infix to postfix conversion, recursion using call stack. Queue ADT: operations, linear queue limitations, Circular queue, Priority queue, Double-Ended Queue (Deque). Applications of queues in real-world problems (CPU scheduling, print queues).
 
 5. **Unit 5: Trees** (7 Hours) — `FDSU5.html`
@@ -171,17 +171,17 @@
 #### Unit Breakdown & Scope (4 Units)
 
 ##### SECTION I
-1. **Unit 1: Introduction to IoT** (7 Hours) — `BIOTU1.html`
+1. **Unit 1: Introduction to IoT** (7 Hours) — `BIOTU1.html` ✅ *Published*
    - *Concepts*: Introduction, Definitions & Characteristics of IoT, History of IoT. IoT Architectures (3-layer, 5-layer, ITU-T reference architecture). Physical and Logical Design of IoT. Enabling Technologies in IoT (Sensors, Actuators, WSN, Cloud, Big Data). About "Things" in IoT, Identifiers in IoT (RFID, Barcode, IP, MAC). About the Internet in IoT. IoT Frameworks. Difference between IoT and M2M (Machine-to-Machine).
 
-2. **Unit 2: Introduction of Microprocessor & Microcontroller** (7 Hours) — `BIOTU2.html`
+2. **Unit 2: Introduction of Microprocessor & Microcontroller** (7 Hours) — `BIOTU2.html` ✅ *Published*
    - *Concepts*: Basics of Microprocessors, types and evolutionary timeline, block diagram and operational functioning. Evolution of microcontrollers, selection criteria for particular IoT applications. MCS-51 (8051) architecture, family devices and derivatives. 8051 Pin configuration, Port architecture (Ports 0, 1, 2, 3), memory organization (internal RAM/ROM, SFRs), external memory interfacing.
 
 ##### SECTION II
-3. **Unit 3: IP based Protocols for IoT** (7 Hours) — `BIOTU3.html`
+3. **Unit 3: IP based Protocols for IoT** (7 Hours) — `BIOTU3.html` ✅ *Published*
    - *Concepts*: Need for lightweight IP protocols in constrained nodes. IPv6 and 6LoWPAN (IPv6 over Low-Power Wireless Personal Area Networks - header compression, adaptation layer). RPL (Routing Protocol for Low-Power and Lossy Networks). Web services: REST architecture. Messaging protocols: AMQP (Advanced Message Queuing Protocol), CoAP (Constrained Application Protocol — REST over UDP), MQTT (Message Queuing Telemetry Transport — pub/sub, broker, QoS levels 0/1/2). Authorization and Access Control in IoT.
 
-4. **Unit 4: IoT Security and Privacy** (7 Hours) — `BIOTU4.html`
+4. **Unit 4: IoT Security and Privacy** (7 Hours) — `BIOTU4.html` 🟡 *Pending*
    - *Concepts*: Challenges and threats to IoT security (hardware vulnerabilities, unencrypted communications, botnets). Encryption and authentication techniques for constrained devices (AES, lightweight cryptography, PKI). Privacy concerns, user privacy rights, and regulatory frameworks. Best practices for securing IoT devices and deployments (secure boot, firmware updates, network isolation).
 
 #### Standard Lab Practicals

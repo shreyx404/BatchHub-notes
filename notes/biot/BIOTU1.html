@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="note-id" content="biot-unit1">
+<meta name="note-subject" content="BIOT">
+<meta name="note-unit" content="Unit 1">
+<meta name="note-tags" content="IoT, Fundamentals, Physical Design, Logical Design, Protocols, IoT Levels, RFID, M2M, WSN">
+<meta name="note-summary" content="Exam-ready notes on Fundamentals of IoT: definitions, characteristics, physical and logical design, protocol stacks, IoT levels 1-6, RFID deep dive, and M2M vs IoT comparison.">
+<title>IoT · Unit I — Fundamentals of IoT · Exam Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & TOKENS ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+:root{
+  --bg:#f7f7f4;--paper:#ffffff;--ink:#161513;--ink-soft:#48463f;--muted:#8b887f;
+  --line:#e4e2da;--line2:#cfccc0;--wash:#efeee8;--inv:#161513;--inv-ink:#faf9f5;
+  --serif:"Fraunces","Iowan Old Style",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --rad:12px;
+}
+html.dark{
+  --bg:#101010;--paper:#181817;--ink:#eae9e4;--ink-soft:#c6c4bc;--muted:#8a887f;
+  --line:#272622;--line2:#3b3a34;--wash:#201f1c;--inv:#eae9e4;--inv-ink:#141311;
+}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--inv-ink)}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+
+/* ============ TOP BAR ============ */
+.topbar{position:fixed;inset:0 0 auto 0;height:56px;z-index:70;display:flex;align-items:center;gap:.6rem;padding:0 .9rem;background:var(--bg);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.55rem;min-width:0}
+.logo{width:28px;height:28px;border-radius:8px;background:var(--inv);color:var(--inv-ink);display:grid;place-items:center;font:700 9px/1 var(--mono);letter-spacing:.5px;flex:none}
+.brand b{font:600 .82rem var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:none;font:500 .66rem var(--mono);color:var(--muted)}
+@media(min-width:680px){.brand small{display:inline}}
+.spacer{flex:1}
+.iconbtn{width:38px;height:38px;flex:none;border:1px solid var(--line2);background:var(--paper);color:var(--ink);border-radius:10px;display:grid;place-items:center;cursor:pointer}
+.iconbtn:active{transform:translateY(1px)}
+.iconbtn svg{width:18px;height:18px}
+#progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--ink);z-index:71}
+
+/* ============ TOC (drawer → sidebar) ============ */
+#scrim{position:fixed;inset:0;background:rgba(10,10,8,.42);opacity:0;pointer-events:none;transition:opacity .25s;z-index:55}
+#toc{position:fixed;top:0;left:0;bottom:0;width:min(85vw,330px);z-index:60;background:var(--paper);border-right:1px solid var(--line);padding:1.1rem 1rem 2.5rem;overflow-y:auto;transform:translateX(-103%);transition:transform .28s ease}
+body.toc-open #toc{transform:none}
+body.toc-open #scrim{opacity:1;pointer-events:auto}
+.toc-head{display:flex;justify-content:space-between;align-items:center;font:700 .95rem var(--serif);padding:.2rem .45rem .9rem;border-bottom:1px solid var(--line);margin-bottom:.8rem}
+.toc-part{font:600 .6rem var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:1rem .45rem .35rem}
+#toc a{display:flex;gap:.55rem;align-items:baseline;padding:.32rem .45rem;border-radius:7px;text-decoration:none;color:var(--ink-soft);font-size:.82rem;line-height:1.35;border-left:2px solid transparent}
+#toc a i{font:600 .62rem var(--mono);color:var(--muted);font-style:normal;min-width:1.5rem}
+#toc a.on{background:var(--wash);border-left-color:var(--ink);color:var(--ink);font-weight:600}
+#toc a:hover{color:var(--ink)}
+
+/* ============ SHELL / LAYOUT ============ */
+.shell{display:block}
+main{padding-top:56px}
+.wrap{max-width:860px;margin:0 auto;padding:0 1.15rem 3rem}
+@media(min-width:1100px){
+  .shell{display:grid;grid-template-columns:300px minmax(0,1fr)}
+  #toc{position:sticky;top:72px;align-self:start;height:calc(100vh - 88px);width:auto;transform:none;border-right:1px solid var(--line);background:transparent;z-index:1}
+  #menuBtn,#scrim,#tocClose{display:none}
+}
+
+/* ============ HERO ============ */
+.hero{padding:3rem 0 2.2rem;border-bottom:1px solid var(--line)}
+.kicker{font:600 .66rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 1rem}
+.hero h1{font:600 clamp(2.5rem,10vw,4.5rem)/.98 var(--serif);letter-spacing:-.01em;margin:0 0 1rem}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero-sub{max-width:36rem;color:var(--ink-soft);font-size:.95rem;margin:0 0 1.3rem}
+.specs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.6rem}
+.chip{border:1px solid var(--line2);border-radius:999px;padding:.3rem .75rem;font:500 .66rem var(--mono);color:var(--ink-soft)}
+.hero-art{margin:0;border:1px solid var(--line);border-radius:var(--rad);background:var(--paper);padding:1rem}
+.hero-art svg{display:block;width:100%;height:auto}
+@keyframes pp{0%,100%{opacity:.3}50%{opacity:1}}
+.hero-art .pulse{animation:pp 3.4s ease-in-out infinite}
+.hero-art .d2{animation-delay:1.1s}.hero-art .d3{animation-delay:2.2s}
+.srcmap{font:500 .64rem/1.7 var(--mono);color:var(--muted);margin-top:.9rem}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+
+/* ============ PART BANDS ============ */
+.part{margin:2.6rem 0 0;background:var(--inv);color:var(--inv-ink);border-radius:var(--rad);padding:1.4rem 1.3rem}
+.part .pn{font:700 .66rem var(--mono);letter-spacing:.18em}
+.part .pt{font:600 1.35rem/1.2 var(--serif);margin:.35rem 0 .3rem}
+.part .pd{font:500 .64rem/1.7 var(--mono);opacity:.72;margin:0}
+
+/* ============ CHAPTERS ============ */
+.ch{padding:2.6rem 0 2.3rem;border-bottom:1px solid var(--line);scroll-margin-top:72px}
+.chh{position:relative;margin-bottom:1.5rem}
+.chh::before{content:attr(data-num);position:absolute;right:0;top:-.7rem;font:700 3.6rem/1 var(--serif);color:var(--line);pointer-events:none}
+@media(min-width:640px){.chh::before{font-size:5.4rem}}
+.chh>*{position:relative;z-index:1}
+.chh .kick{font:600 .62rem var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.chh h2{font:600 clamp(1.5rem,4.8vw,2rem)/1.15 var(--serif);margin:0 0 .55rem;max-width:30ch}
+.chh .lede{color:var(--ink-soft);font-size:.92rem;max-width:44rem;margin:0}
+
+h3{font:600 1.05rem/1.3 var(--sans);margin:2rem 0 .7rem;display:flex;gap:.6rem;align-items:baseline}
+h3 .no{font:600 .66rem var(--mono);color:var(--muted);flex:none}
+h4{font:600 .9rem var(--sans);margin:1.4rem 0 .45rem}
+p{margin:.6rem 0}
+ul,ol{margin:.55rem 0;padding-left:1.25rem}
+li{margin:.32rem 0}
+li::marker{color:var(--muted)}
+strong{font-weight:600}
+dfn{font-style:italic;font-weight:600;border-bottom:1px dashed var(--muted)}
+code{font:500 .8em var(--mono);background:var(--wash);border:1px solid var(--line);border-radius:5px;padding:.08em .35em}
+
+/* ============ NOTE BOXES ============ */
+.bx{position:relative;border:1px solid var(--line2);border-radius:var(--rad);background:var(--paper);padding:1.05rem 1.1rem .85rem;margin:1.25rem 0}
+.btag{position:absolute;top:-9px;left:14px;background:var(--inv);color:var(--inv-ink);font:600 .56rem var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:.2rem .55rem;border-radius:5px}
+.def{border:1.5px solid var(--ink)}
+.def blockquote{margin:.15rem 0 0;padding:0;border:0;font:italic 400 .95rem/1.62 var(--serif)}
+.def cite{display:block;margin-top:.55rem;font:500 .66rem var(--mono);color:var(--muted);font-style:normal}
+.tip{border:1.5px dashed var(--ink)}
+.recap{background:var(--wash);border:1px solid var(--line)}
+.mnem{border:1.5px solid var(--ink);background:var(--inv);color:var(--inv-ink);padding:1.05rem 1.1rem .9rem}
+.mnem .btag{background:var(--bg);color:var(--ink)}
+.mnem p{margin:.2rem 0 0;font-size:.88rem}
+.mnem b{font-family:var(--mono);font-size:.8rem}
+
+/* ============ CARDS & GRIDS ============ */
+.cards{display:grid;gap:.7rem;margin:1rem 0}
+@media(min-width:640px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:980px){.g4{grid-template-columns:repeat(4,1fr)}}
+.card{border:1px solid var(--line);border-radius:var(--rad);background:var(--paper);padding:.95rem 1rem}
+.card .t{display:block;font:600 .74rem var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+.card p{font-size:.85rem;color:var(--ink-soft);margin:.22rem 0}
+.card .big{display:block;font:600 1.6rem var(--serif);line-height:1.1}
+.card .sub{font:500 .66rem var(--mono);color:var(--muted)}
+.card.inv{background:var(--inv);color:var(--inv-ink);border-color:var(--inv)}
+.card.inv p{color:var(--inv-ink);opacity:.85}
+.card.inv .sub{color:var(--inv-ink);opacity:.65}
+
+/* ============ TABLES ============ */
+.tbl{overflow-x:auto;margin:1.15rem 0;border:1px solid var(--line);border-radius:var(--rad);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.83rem;line-height:1.55}
+table.slender{min-width:0}
+th{background:var(--inv);color:var(--inv-ink);font:600 .6rem var(--mono);letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;white-space:nowrap}
+td{padding:.6rem .7rem;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-soft)}
+td:first-child{color:var(--ink);font-weight:600}
+tbody tr:nth-child(even){background:var(--wash)}
+.tbl .hint{font:500 .62rem var(--mono);color:var(--muted);padding:.35rem .7rem;border-top:1px dashed var(--line)}
+
+/* ============ PROTOCOL STACK VIZ ============ */
+.stack{border:1.5px solid var(--ink);border-radius:var(--rad);overflow:hidden;margin:1.25rem 0;background:var(--paper)}
+.layer{padding:.85rem 1rem .95rem;border-bottom:1px solid var(--line)}
+.layer:last-child{border-bottom:0}
+.layer .lt{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.layer b{font:700 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.layer span{font:500 .64rem var(--mono);color:var(--muted)}
+.plist{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.pill{border:1px solid var(--line2);background:var(--bg);border-radius:6px;padding:.14rem .5rem;font:500 .66rem var(--mono)}
+.layer.l4{background:var(--inv);color:var(--inv-ink)}
+.layer.l4 .pill{background:transparent;border-color:var(--inv-ink);opacity:.9}
+.layer.l4 span{color:var(--inv-ink);opacity:.7}
+.layer.l3,.layer.l1{background:var(--wash)}
+
+/* ============ FLOW DIAGRAMS ============ */
+.flow{display:flex;flex-direction:column;gap:.45rem;margin:1.15rem 0}
+.fnode{border:1.5px solid var(--ink);border-radius:10px;background:var(--paper);padding:.65rem .85rem;text-align:center}
+.fnode b{display:block;font:600 .68rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.fnode small{display:block;font:500 .64rem var(--mono);color:var(--muted);margin-top:.1rem}
+.fnode p{font-size:.74rem;color:var(--ink-soft);margin:.25rem 0 0}
+.farrow{text-align:center;font:700 1rem/1 var(--mono);color:var(--muted)}
+.farrow::after{content:"↓"}
+@media(min-width:640px){
+  .flow.h{flex-direction:row;align-items:stretch;gap:.4rem}
+  .flow.h .fnode{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .flow.h .farrow{align-self:center}
+  .flow.h .farrow::after{content:"→"}
+}
+.vsrc{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .2rem}
+.vnode{border:1.5px solid var(--ink);border-radius:10px;background:var(--inv);color:var(--inv-ink);padding:.7rem .9rem;text-align:center}
+.vnode b{display:block;font:600 .7rem var(--mono);letter-spacing:.08em}
+.vnode small{font:500 .62rem var(--mono);opacity:.75}
+
+/* ============ TIMELINE ============ */
+.tl{margin:1.4rem 0;padding-left:1.55rem;border-left:2px solid var(--ink)}
+.tli{position:relative;padding:0 0 1.35rem}
+.tli::before{content:"";position:absolute;left:calc(-1.55rem - 7px);top:.3rem;width:12px;height:12px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 3px var(--bg)}
+.tli.triv::before{background:var(--paper);border:2px solid var(--ink)}
+.tli .yr{display:inline-block;font:700 .68rem var(--mono);background:var(--inv);color:var(--inv-ink);padding:.14rem .5rem;border-radius:5px;letter-spacing:.06em}
+.tli.triv .yr{background:var(--paper);color:var(--ink);border:1.5px solid var(--ink)}
+.tli .tt{font:600 .92rem var(--sans);margin:.45rem 0 .15rem}
+.tli p{font-size:.84rem;color:var(--ink-soft);margin:.12rem 0}
+
+/* ============ STEPS ============ */
+.steps{list-style:none;counter-reset:st;padding:0;margin:1.1rem 0;display:grid;gap:.7rem}
+.steps li{counter-increment:st;position:relative;padding:.85rem .95rem .85rem 3.5rem;border:1px solid var(--line);border-radius:var(--rad);background:var(--paper);font-size:.85rem;color:var(--ink-soft)}
+.steps li::before{content:counter(st);position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:1.75rem;height:1.75rem;border-radius:8px;background:var(--inv);color:var(--inv-ink);display:grid;place-items:center;font:700 .78rem var(--mono)}
+.steps li b{color:var(--ink)}
+
+/* ============ FIGURES ============ */
+.fig{margin:1.3rem 0;border:1px solid var(--line);border-radius:var(--rad);background:var(--paper);padding:.9rem .9rem .7rem}
+.fig svg{display:block;width:100%;height:auto}
+.fig.wide{overflow-x:auto}
+.fig.wide svg{min-width:470px}
+.figcap{margin-top:.6rem;padding-top:.55rem;border-top:1px dashed var(--line);font:500 .66rem/1.6 var(--mono);color:var(--muted)}
+.figcap b{color:var(--ink-soft)}
+.fig .box{fill:var(--wash);stroke:var(--ink);stroke-width:1.5}
+.fig .boxi{fill:var(--inv);stroke:var(--ink);stroke-width:1.5}
+.fig .mini{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1}
+.fig .ln{stroke:var(--ink-soft);stroke-width:1.2;fill:none}
+.fig .arr{marker-end:url(#arr)}
+.fig .dash{stroke-dasharray:4 3}
+.fig text{font-family:var(--mono);fill:var(--ink)}
+.fig .sT{font-size:10px;font-weight:600}
+.fig .sS{font-size:7.5px;fill:var(--ink-soft)}
+.fig .sB{font-size:8px;fill:var(--ink-soft)}
+.fig .sM{font-size:7px;fill:var(--muted);letter-spacing:.4px}
+.fig .lgT{font-size:11.5px;font-weight:600}
+.fig .lgS{font-size:8.5px;fill:var(--ink-soft)}
+.fig .lgI{font-size:11px;font-weight:600;fill:var(--inv-ink)}
+.fig .lgJ{font-size:8px;fill:var(--inv-ink);opacity:.75}
+.fig .edge{stroke:var(--line2);stroke-width:1}
+.fig .nd{fill:var(--paper);stroke:var(--ink);stroke-width:1.4}
+.fig .ndh{fill:var(--ink)}
+
+/* ============ COMPARE ============ */
+.compare{display:grid;gap:.7rem;margin:1.15rem 0}
+@media(min-width:640px){.compare{grid-template-columns:1fr 1fr}}
+.cmp{border:1px solid var(--line);border-radius:var(--rad);padding:.95rem 1rem;background:var(--paper)}
+.cmp h5{margin:0 0 .45rem;font:700 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.cmp ul{margin:.15rem 0;padding-left:1.1rem;font-size:.84rem;color:var(--ink-soft)}
+
+/* ============ DETAILS / DEEP DIVES ============ */
+details.deep{border:1px solid var(--line);border-radius:var(--rad);background:var(--paper);margin:1.1rem 0;overflow:hidden}
+details.deep>summary{cursor:pointer;list-style:none;padding:.85rem 1rem;font:600 .76rem var(--mono);letter-spacing:.05em;display:flex;align-items:center;gap:.6rem;color:var(--ink-soft)}
+details.deep>summary::-webkit-details-marker{display:none}
+details.deep>summary::before{content:"+";width:1.3rem;height:1.3rem;border:1px solid var(--line2);border-radius:6px;display:grid;place-items:center;font:700 .8rem var(--mono);color:var(--ink);flex:none}
+details.deep[open]>summary::before{content:"–"}
+details.deep[open]>summary{border-bottom:1px dashed var(--line);color:var(--ink)}
+details.deep>.dbody{padding:.95rem 1rem 1rem;font-size:.88rem;color:var(--ink-soft)}
+
+/* ============ QUIZ ============ */
+.quiz{border:1.5px solid var(--ink);border-radius:var(--rad);background:var(--paper);padding:1rem;margin:1rem 0}
+.quiz .qq{font:600 .9rem/1.45 var(--sans);margin:0 0 .7rem}
+.q-opts{display:grid;gap:.45rem}
+.q-opt{border:1px solid var(--line2);background:var(--bg);border-radius:9px;padding:.55rem .8rem;font:500 .82rem var(--sans);color:var(--ink);text-align:left;cursor:pointer}
+.q-opt:hover{border-color:var(--ink)}
+.quiz.done .q-opt{cursor:default;opacity:.6}
+.q-opt.right{background:var(--inv);color:var(--inv-ink);border-color:var(--inv);opacity:1}
+.q-opt.wrong{border:1.5px dashed var(--ink);opacity:.85}
+.q-verdict{font:700 .64rem var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-top:.65rem;display:none}
+.quiz.done .q-verdict{display:block}
+.quiz.done .q-verdict.no{color:var(--muted)}
+.q-ex{display:none;margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--line);font-size:.8rem;color:var(--ink-soft)}
+.quiz.done .q-ex{display:block}
+
+/* ============ MISC ============ */
+#toTop{position:fixed;right:1rem;bottom:1rem;width:44px;height:44px;border-radius:50%;background:var(--inv);color:var(--inv-ink);border:0;display:grid;place-items:center;cursor:pointer;z-index:65;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;transform:translateY(8px)}
+#toTop.show{opacity:1;pointer-events:auto;transform:none}
+#toTop svg{width:18px;height:18px}
+footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);text-align:center}
+.closing{background:var(--inv);color:var(--inv-ink);border-radius:var(--rad);padding:1.6rem 1.3rem;margin:1.4rem 0}
+.closing p{font:italic 400 1.15rem/1.5 var(--serif);margin:0}
+.closing cite{display:block;margin-top:.7rem;font:500 .62rem var(--mono);opacity:.7;font-style:normal}
+@media print{
+  .topbar,#toc,#scrim,#toTop,.hero-art{display:none!important}
+  .shell{display:block}main{padding-top:0}
+  .ch{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== SVG SPRITE (shared symbols + arrowhead marker) ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="var(--ink-soft)"/>
+    </marker>
+    <symbol id="cloud" viewBox="0 0 100 62">
+      <g fill="currentColor">
+        <circle cx="28" cy="38" r="16"/><circle cx="52" cy="28" r="21"/><circle cx="74" cy="40" r="14"/>
+        <rect x="26" y="34" width="50" height="22" rx="8"/>
+      </g>
+    </symbol>
+    <symbol id="phone" viewBox="0 0 24 40">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="1" width="18" height="38" rx="4"/><line x1="9" y1="35" x2="15" y2="35"/>
+      </g>
+    </symbol>
+    <symbol id="person" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="6" r="3.5"/><path d="M4 22c1.5-6 5-8 8-8s6.5 2 8 8"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ====== TOP BAR ====== -->
+<header class="topbar">
+  <button class="iconbtn" id="menuBtn" aria-label="Open contents menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <div class="brand">
+    <span class="logo">IoT</span>
+    <b>Internet of Things</b>&nbsp;<small>· Unit 1 Fundamentals</small>
+  </div>
+  <div class="spacer"></div>
+  <button class="iconbtn" id="themeBtn" aria-label="Toggle light and dark theme">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+  </button>
+  <div id="progress" role="presentation"></div>
+</header>
+
+<div id="scrim" aria-hidden="true"></div>
+
+<div class="shell">
+
+<!-- ====== TABLE OF CONTENTS ====== -->
+<nav id="toc" aria-label="Table of contents">
+  <div class="toc-head">
+    <a href="../../index.html" class="back-link" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">← Notes Hub</a>
+    <button class="iconbtn" id="tocClose" aria-label="Close menu" style="width:32px;height:32px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="toc-part">Part A · Fundamentals</div>
+  <a href="#c1"><i>01</i>Definition of IoT</a>
+  <a href="#c2"><i>02</i>Characteristics of IoT</a>
+  <a href="#c3"><i>03</i>Physical design of IoT</a>
+  <a href="#c4"><i>04</i>Anatomy of an IoT device</a>
+  <a href="#c5"><i>05</i>The IoT protocol stack</a>
+  <a href="#c6"><i>06</i>Logical design of IoT</a>
+  <a href="#c7"><i>07</i>IoT levels and templates</a>
+  <a href="#c8"><i>08</i>RFID — deep dive</a>
+  <a href="#c9"><i>09</i>History and timeline</a>
+  <a href="#c10"><i>10</i>Things and identifiers</a>
+  <a href="#c11"><i>11</i>Frameworks and architectures</a>
+  <a href="#c12"><i>12</i>M2M and applications</a>
+  <div class="toc-part">Part B · The Bigger Picture</div>
+  <a href="#c13"><i>13</i>Why IoT — business case</a>
+  <a href="#c14"><i>14</i>Application scenarios</a>
+  <a href="#c15"><i>15</i>State of the art</a>
+  <a href="#c16"><i>16</i>Hype and driving forces</a>
+  <a href="#c17"><i>17</i>ABCD and research</a>
+  <a href="#c18"><i>18</i>Tools and case studies</a>
+  <a href="#c19"><i>19</i>WSN and network evolution</a>
+  <a href="#c20"><i>20</i>Markets and growth</a>
+  <a href="#c21"><i>21</i>Challenges and limitations</a>
+  <a href="#c22"><i>22</i>Future of IoT</a>
+  <a href="#c23"><i>23</i>Criticism and privacy</a>
+  <div class="toc-part">Part C · Exam Corner</div>
+  <a href="#c24"><i>24</i>Rapid revision vault</a>
+  <a href="#c25"><i>25</i>Expected exam questions</a>
+  <a href="#c26"><i>26</i>Self-check quiz</a>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="top">
+  <p class="kicker">Exam-grade revision notes · mobile-first · monochrome</p>
+  <h1>Internet <em>of Things</em></h1>
+  <p class="hero-sub">Unit 1 — Fundamentals, and the complete companion deck: definitions, physical and logical design, the full protocol stack, IoT levels, RFID, history, identifiers, M2M, state of the art, challenges, and the future. Everything you need, structured to score.</p>
+  <div class="specs">
+    <span class="chip">26 sections</span>
+    <span class="chip">9 schematic figures</span>
+    <span class="chip">16 tables</span>
+    <span class="chip">14 quiz questions</span>
+    <span class="chip">dark / light mode</span>
+  </div>
+  <figure class="hero-art">
+    <svg viewBox="0 0 640 300" role="img" aria-label="Abstract network of connected nodes representing the Internet of Things">
+      <g class="edge">
+        <line x1="320" y1="152" x2="110" y2="64"/><line x1="320" y1="152" x2="258" y2="74"/>
+        <line x1="320" y1="152" x2="416" y2="64"/><line x1="320" y1="152" x2="492" y2="148"/>
+        <line x1="320" y1="152" x2="208" y2="178"/><line x1="320" y1="152" x2="336" y2="252"/>
+        <line x1="320" y1="152" x2="170" y2="120"/><line x1="320" y1="152" x2="44" y2="150"/>
+        <line x1="110" y1="64" x2="258" y2="74"/><line x1="258" y1="74" x2="416" y2="64"/>
+        <line x1="416" y1="64" x2="560" y2="76"/><line x1="492" y1="148" x2="560" y2="76"/>
+        <line x1="492" y1="148" x2="452" y2="238"/><line x1="452" y1="238" x2="336" y2="252"/>
+        <line x1="336" y1="252" x2="208" y2="178"/><line x1="208" y1="178" x2="84" y2="222"/>
+        <line x1="84" y1="222" x2="44" y2="150"/><line x1="44" y1="150" x2="110" y2="64"/>
+        <line x1="492" y1="148" x2="556" y2="240"/><line x1="452" y1="238" x2="556" y2="240"/>
+      </g>
+      <circle class="nd pulse" cx="110" cy="64" r="9"/>
+      <circle class="nd" cx="208" cy="178" r="7"/>
+      <circle class="nd" cx="84" cy="222" r="6"/>
+      <circle class="nd" cx="258" cy="74" r="7"/>
+      <circle class="nd pulse d2" cx="416" cy="64" r="9"/>
+      <circle class="nd" cx="492" cy="148" r="13"/>
+      <circle class="nd" cx="452" cy="238" r="7"/>
+      <circle class="nd pulse d3" cx="336" cy="252" r="6"/>
+      <circle class="nd" cx="170" cy="120" r="5"/>
+      <circle class="nd" cx="560" cy="76" r="5"/>
+      <circle class="nd" cx="556" cy="240" r="7"/>
+      <circle class="nd" cx="44" cy="150" r="7"/>
+      <circle class="ndh" cx="320" cy="152" r="17"/>
+      <circle class="nd" cx="360" cy="44" r="4"/>
+      <line class="edge" x1="360" y1="44" x2="258" y2="74"/>
+      <line class="edge" x1="360" y1="44" x2="416" y2="64"/>
+    </svg>
+  </figure>
+  <p class="srcmap">Compiled from: <b>Unit 1 PPT</b> (definition · characteristics · physical and logical design · protocols · levels · RFID · history · identifiers · M2M) and the <b>IoT deck</b> (state of the art · applications · driving forces · challenges · future).<br>Use ☰ to jump between sections · tap + boxes for deep dives · quiz at the very end.</p>
+</section>
+
+<!-- ====== PART A ====== -->
+<section class="part" id="pa">
+  <span class="pn">PART A</span>
+  <p class="pt">Fundamentals of IoT</p>
+  <p class="pd">chapters 01–12 · definition → characteristics → physical and logical design → protocol stack → IoT levels → RFID → history → identifiers → frameworks → M2M</p>
+</section>
+
+<!-- ============ 01 DEFINITION ============ -->
+<section class="ch" id="c1">
+  <header class="chh" data-num="01">
+    <div class="kick">Part A · Chapter 01</div>
+    <h2>Definition of the Internet of Things</h2>
+    <p class="lede">Before anything else, an examiner wants the canonical definition — reproduced accurately, then unpacked phrase by phrase.</p>
+  </header>
+
+  <div class="bx def">
+    <span class="btag">Definition · memorise verbatim</span>
+    <blockquote>“A dynamic global network infrastructure with self-configuring capabilities based on standard and interoperable communication protocols where physical and virtual ‘things’ have identities, physical attributes and virtual personalities, use intelligent interfaces, are seamlessly integrated into the information network, and often communicate data associated with users and their environments.”
+    <cite>— ITU (International Telecommunication Union)</cite></blockquote>
+  </div>
+
+  <h3><span class="no">1.1</span>Unpacking the definition</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Phrase</th><th>What it actually tells you</th></tr></thead>
+    <tbody>
+      <tr><td>Dynamic global network infrastructure</td><td>A worldwide, constantly changing fabric of connected nodes — not a fixed, static network.</td></tr>
+      <tr><td>Self-configuring capabilities</td><td>Devices join, leave, discover services and set themselves up without manual administration.</td></tr>
+      <tr><td>Standard, interoperable protocols</td><td>Multi-vendor devices communicate through commonly agreed protocol stacks.</td></tr>
+      <tr><td>Things with identities, attributes, personalities</td><td>Every object — physical or virtual — is individually addressable and describable.</td></tr>
+      <tr><td>Intelligent interfaces</td><td>Smart front-ends (sensors, APIs, UIs) through which things connect and communicate.</td></tr>
+      <tr><td>Seamlessly integrated into the information network</td><td>Objects become first-class citizens of the Internet — invisibly woven in.</td></tr>
+      <tr><td>Communicate data about users and environments</td><td>Data is context-aware: user location, surroundings, status, events.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">1.2</span>Four alternative definitions (frequently asked)</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">Wikipedia</span><p>“The Internet of Things, also called <strong>The Internet of Objects</strong>, refers to a wireless network between objects; usually the network will be wireless and self-configuring, such as household appliances.”</p></div>
+    <div class="card"><span class="t">WSIS 2005</span><p>“By embedding short-range mobile transceivers into a wide array of additional gadgets and everyday items, enabling new forms of communication <strong>between people and things, and between things themselves</strong>.”</p></div>
+    <div class="card"><span class="t">IoT 2008 (Zurich)</span><p>“The term ‘Internet of Things’ has come to describe a number of technologies and research disciplines that <strong>enable the Internet to reach out into the real world</strong> of physical objects.”</p></div>
+    <div class="card"><span class="t">IoT in 2020</span><p>“Things having <strong>identities and virtual personalities</strong> operating in smart spaces using intelligent interfaces to connect and communicate within social, environmental and user contexts.”</p></div>
+  </div>
+
+  <h3><span class="no">1.3</span>The “Thing” and the connectivity shift</h3>
+  <p>The everyday hook: <em>“Ask Google: where are my keys? Where are my kids?”</em> When everyday objects become addressable and queryable, the Internet stops being a place you <em>visit</em> and becomes an environment you <em>inhabit</em>.</p>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>The driver of IoT connectivity in one line: <strong>“From any time, any place connectivity for <em>anyone</em>, we will now have connectivity for <em>anything</em>.”</strong> Quote it, then show the Ericsson numbers below to prove the shift quantitatively. A favourite short-answer question.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Year</th><th>Humans</th><th>Connected devices</th><th>Devices per human</th></tr></thead>
+    <tbody>
+      <tr><td>2003</td><td>6.3 billion</td><td>500 million</td><td>≈ 0.08</td></tr>
+      <tr><td>2011</td><td>7 billion</td><td>12.5 billion</td><td>≈ 1.8</td></tr>
+      <tr><td>2020</td><td>7.6 billion</td><td>50 billion</td><td>≈ 6.6</td></tr>
+    </tbody>
+  </table><div class="hint">Source: Ericsson — devices grow ~100× while population grows ~20%.</div></div>
+  <div class="bx recap"><span class="btag">Recall</span>
+    <ul><li>ITU definition: 7 key phrases — dynamic · self-configuring · interoperable · identities · intelligent interfaces · seamless integration · contextual data.</li>
+    <li>IoT = Internet of Objects; extends the Internet from people to <em>things</em>.</li>
+    <li>Ericsson: 500 M → 12.5 B → <strong>50 B devices</strong> (2003 → 2011 → 2020).</li></ul>
+  </div>
+</section>
+
+<!-- ============ 02 CHARACTERISTICS ============ -->
+<section class="ch" id="c2">
+  <header class="chh" data-num="02">
+    <div class="kick">Part A · Chapter 02</div>
+    <h2>Characteristics of IoT</h2>
+    <p class="lede">Six defining characteristics — a guaranteed exam question in some form. Learn the list, then one sentence of elaboration for each.</p>
+  </header>
+  <div class="cards g2">
+    <div class="card"><span class="t">01 · Dynamic and self-adapting</span><p>Devices adapt their behaviour to changing contexts and operating conditions — day/night, indoor/outdoor, motion, or the presence of other devices.</p></div>
+    <div class="card"><span class="t">02 · Self-configuring</span><p>Thousands of devices can join and leave the network: automatic discovery, autonomous setup, and even automatic software/firmware updates — without human administrators.</p></div>
+    <div class="card"><span class="t">03 · Interoperable protocols</span><p>Devices from different vendors speak through standard, interoperable communication protocols, enabling modularity of hardware and software.</p></div>
+    <div class="card"><span class="t">04 · Unique identity</span><p>Every thing has a unique identifier (e.g., an IP address or an EPC) — it is individually addressable, identifiable, and can be queried or controlled remotely.</p></div>
+    <div class="card"><span class="t">05 · Integrated into the information network</span><p>Things register themselves, describe their capabilities, and share data seamlessly with the network — enabling autonomic, system-level behaviour.</p></div>
+    <div class="card"><span class="t">06 · Communicates contextual data</span><p>Devices frequently communicate data associated with <strong>users and their environments</strong> — the source of both their value and their privacy risk.</p></div>
+  </div>
+  <div class="bx mnem"><span class="btag">Mnemonic</span>
+    <p><b>“D-S-I-U-I-C”</b> — <b>D</b>ynamic, <b>S</b>elf-configuring, <b>I</b>nteroperable, <b>U</b>nique identity, <b>I</b>ntegrated network, <b>C</b>ontextual data. Say it as a chain: “Dynamic Systems Interoperate; Unique Identities Communicate.”</p>
+  </div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>If asked for characteristics “with examples”: pair each with one — self-configuring → a new smart bulb joins the home Wi-Fi automatically; unique identity → every package has an EPC tag; interoperability → a ZigBee sensor’s data still reaches a cloud app over HTTP.</p>
+  </div>
+</section>
+
+<!-- ============ 03 PHYSICAL DESIGN ============ -->
+<section class="ch" id="c3">
+  <header class="chh" data-num="03">
+    <div class="kick">Part A · Chapter 03</div>
+    <h2>Physical design of IoT</h2>
+    <p class="lede">The physical design answers “what is actually built?” — it is defined by the <strong>Things (IoT devices)</strong> and the <strong>protocols</strong> that connect them.</p>
+  </header>
+
+  <h3><span class="no">3.1</span>What is a “Thing”?</h3>
+  <p>The “Things” in IoT usually refer to <strong>IoT devices</strong> which have <strong>unique identities</strong>, perform <strong>remote sensing and actuating</strong>, and have <strong>monitoring capabilities</strong>. An IoT device may consist of several interfaces for connections to other devices, both wired and wireless:</p>
+  <div class="cards g2">
+    <div class="card"><span class="t">I/O interfaces</span><p>For sensors (and actuators) — ADC, GPIO, I²C, SPI, PWM.</p></div>
+    <div class="card"><span class="t">Internet connectivity interfaces</span><p>WiFi, Ethernet, BLE, cellular modems.</p></div>
+    <div class="card"><span class="t">Memory and storage interfaces</span><p>RAM, flash, SD cards for buffering and local data.</p></div>
+    <div class="card"><span class="t">Audio/video interfaces</span><p>Microphones, cameras, codecs for rich media capture.</p></div>
+  </div>
+
+  <h3><span class="no">3.2</span>Four ways an IoT device handles data</h3>
+  <ol>
+    <li><strong>Exchange</strong> data with other connected devices and applications — directly or indirectly.</li>
+    <li><strong>Collect and process locally</strong> — data from other devices is processed on the device itself.</li>
+    <li><strong>Send to servers / cloud back-ends</strong> — centralized servers or cloud applications process the data.</li>
+    <li><strong>Hybrid</strong> — perform some tasks locally and others within the IoT infrastructure, based on <strong>temporal and space constraints</strong> (the essence of fog/edge computing).</li>
+  </ol>
+  <div class="bx recap"><span class="btag">Recall</span>
+    <p>Physical design = <strong>Things + Protocols</strong>. A Thing = unique identity + remote sensing/actuating + monitoring. Data handling: exchange · local · cloud · hybrid.</p>
+  </div>
+</section>
+
+<!-- ============ 04 DEVICE ANATOMY ============ -->
+<section class="ch" id="c4">
+  <header class="chh" data-num="04">
+    <div class="kick">Part A · Chapter 04</div>
+    <h2>Generic block diagram of an IoT device</h2>
+    <p class="lede">Every IoT device — from a smart bulb to an industrial controller — reduces to one architecture: a processing core surrounded by interface blocks.</p>
+  </header>
+  <figure class="fig wide">
+    <svg viewBox="0 0 480 330" role="img" aria-label="Generic block diagram of an IoT device">
+      <line class="ln" x1="80" y1="76" x2="196" y2="138"/>
+      <line class="ln" x1="240" y1="76" x2="240" y2="136"/>
+      <line class="ln" x1="400" y1="76" x2="284" y2="138"/>
+      <line class="ln" x1="130" y1="140" x2="162" y2="157"/>
+      <line class="ln" x1="350" y1="140" x2="318" y2="157"/>
+      <line class="ln" x1="80" y1="250" x2="188" y2="224"/>
+      <line class="ln" x1="240" y1="250" x2="240" y2="226"/>
+      <line class="ln" x1="400" y1="250" x2="292" y2="224"/>
+      <rect class="box" x="10" y="20" width="140" height="56" rx="8"/>
+      <text x="80" y="44" text-anchor="middle" class="lgT">SENSOR I/O</text>
+      <text x="80" y="62" text-anchor="middle" class="lgS">ADC · GPIO · I2C · SPI</text>
+      <rect class="box" x="170" y="20" width="140" height="56" rx="8"/>
+      <text x="240" y="44" text-anchor="middle" class="lgT">AUDIO / VIDEO</text>
+      <text x="240" y="62" text-anchor="middle" class="lgS">mic · camera · codec</text>
+      <rect class="box" x="330" y="20" width="140" height="56" rx="8"/>
+      <text x="400" y="44" text-anchor="middle" class="lgT">NETWORK IF</text>
+      <text x="400" y="62" text-anchor="middle" class="lgS">WiFi · BLE · Ethernet</text>
+      <rect class="box" x="10" y="112" width="120" height="56" rx="8"/>
+      <text x="70" y="134" text-anchor="middle" class="lgT">DEBUG / TEST</text>
+      <text x="70" y="152" text-anchor="middle" class="lgS">UART · JTAG · SWD</text>
+      <rect class="box" x="350" y="112" width="120" height="56" rx="8"/>
+      <text x="410" y="134" text-anchor="middle" class="lgT">RADIO / MODEM</text>
+      <text x="410" y="152" text-anchor="middle" class="lgS">cellular · LoRa</text>
+      <rect class="boxi" x="165" y="140" width="150" height="84" rx="8"/>
+      <line x1="180" y1="140" x2="180" y2="132" class="ln"/><line x1="200" y1="140" x2="200" y2="132" class="ln"/>
+      <line x1="220" y1="140" x2="220" y2="132" class="ln"/><line x1="240" y1="140" x2="240" y2="132" class="ln"/>
+      <line x1="260" y1="140" x2="260" y2="132" class="ln"/><line x1="280" y1="140" x2="280" y2="132" class="ln"/>
+      <line x1="180" y1="224" x2="180" y2="232" class="ln"/><line x1="200" y1="224" x2="200" y2="232" class="ln"/>
+      <line x1="220" y1="224" x2="220" y2="232" class="ln"/><line x1="240" y1="224" x2="240" y2="232" class="ln"/>
+      <line x1="260" y1="224" x2="260" y2="232" class="ln"/><line x1="280" y1="224" x2="280" y2="232" class="ln"/>
+      <text x="240" y="170" text-anchor="middle" class="lgI">PROCESSING UNIT</text>
+      <text x="240" y="188" text-anchor="middle" class="lgJ">MCU · SoC · FPGA</text>
+      <text x="240" y="204" text-anchor="middle" class="lgJ">firmware · RTOS</text>
+      <rect class="box" x="10" y="250" width="140" height="56" rx="8"/>
+      <text x="80" y="274" text-anchor="middle" class="lgT">ACTUATOR IF</text>
+      <text x="80" y="292" text-anchor="middle" class="lgS">PWM · DAC · relays</text>
+      <rect class="box" x="170" y="250" width="140" height="56" rx="8"/>
+      <text x="240" y="274" text-anchor="middle" class="lgT">POWER MGMT</text>
+      <text x="240" y="292" text-anchor="middle" class="lgS">battery · PMIC · charger</text>
+      <rect class="box" x="330" y="250" width="140" height="56" rx="8"/>
+      <text x="400" y="274" text-anchor="middle" class="lgT">MEMORY / STORAGE</text>
+      <text x="400" y="292" text-anchor="middle" class="lgS">RAM · Flash · SD</text>
+    </svg>
+    <figcaption class="figcap"><b>Fig. 1 — Generic block diagram of an IoT device (architecture).</b> On small screens, swipe horizontally inside the frame. The four interfaces your slides highlight: sensor I/O, internet connectivity, memory/storage, audio/video — plus power and debug, which every real board also carries.</figcaption>
+  </figure>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>In the exam, draw this figure, label the <strong>processing unit</strong> at the centre, and connect: <strong>I/O for sensors · internet connectivity · memory and storage · audio/video</strong>. Then state: “an IoT device may consist of several interfaces for connections to other devices, both wired and wireless.”</p>
+  </div>
+</section>
+
+<!-- ============ 05 PROTOCOL STACK ============ -->
+<section class="ch" id="c5">
+  <header class="chh" data-num="05">
+    <div class="kick">Part A · Chapter 05</div>
+    <h2>The IoT protocol stack</h2>
+    <p class="lede">IoT reuses the Internet’s layered philosophy: link → network → transport → application, with lightweight replacements where devices are tiny, slow, or battery-powered.</p>
+  </header>
+
+  <h3><span class="no">5.1</span>The four layers at a glance</h3>
+  <div class="stack">
+    <div class="layer l4"><div class="lt"><b>Application layer</b><span>what apps speak</span></div>
+      <div class="plist"><span class="pill">HTTP</span><span class="pill">CoAP</span><span class="pill">WebSocket</span><span class="pill">MQTT</span><span class="pill">XMPP</span><span class="pill">DDS</span><span class="pill">AMQP</span></div></div>
+    <div class="layer l3"><div class="lt"><b>Transport layer</b><span>end-to-end delivery</span></div>
+      <div class="plist"><span class="pill">TCP</span><span class="pill">UDP</span></div></div>
+    <div class="layer l2"><div class="lt"><b>Network / internet layer</b><span>addressing and routing</span></div>
+      <div class="plist"><span class="pill">IPv4</span><span class="pill">IPv6</span><span class="pill">6LoWPAN</span></div></div>
+    <div class="layer l1"><div class="lt"><b>Link layer</b><span>the physical hops</span></div>
+      <div class="plist"><span class="pill">802.3 Ethernet</span><span class="pill">802.11 WiFi</span><span class="pill">802.16 WiMAX</span><span class="pill">802.15.4 LR-WPAN</span><span class="pill">2G / 3G / 4G</span></div></div>
+  </div>
+
+  <h3><span class="no">5.2</span>Link layer — the physical hops</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Standard</th><th>Name</th><th>Domain / range</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>IEEE 802.3</td><td>Ethernet</td><td>Wired LAN</td><td>Reliable, high throughput, powered infrastructure.</td></tr>
+      <tr><td>IEEE 802.11</td><td>WiFi</td><td>Wireless LAN (~30–100 m)</td><td>High bandwidth; relatively power-hungry.</td></tr>
+      <tr><td>IEEE 802.16</td><td>WiMAX</td><td>Wireless metropolitan area</td><td>Long-range broadband wireless backhaul.</td></tr>
+      <tr><td>IEEE 802.15.4</td><td>LR-WPAN</td><td>Low-rate WPAN (~10–100 m)</td><td>Very low power; the radio beneath ZigBee and Thread; 6LoWPAN runs over it.</td></tr>
+      <tr><td>2G/3G/4G</td><td>Cellular</td><td>Wide area (km)</td><td>Nationwide mobility for M2M and fleet telemetry.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">5.3</span>Network layer — addressing and routing</h3>
+  <div class="cards g3">
+    <div class="card"><span class="t">IPv4</span><p>32-bit addresses → ~4.3 billion total. Exhausted long before 50-billion-device forecasts — the original motivation for IoT moving to IPv6.</p></div>
+    <div class="card"><span class="t">IPv6</span><p>128-bit addresses → ~3.4 × 10<sup>38</sup>. Every grain of sand on Earth could have billions of addresses — enough for every “thing”, forever.</p></div>
+    <div class="card"><span class="t">6LoWPAN</span><p>“IPv6 over Low-power Wireless Personal Area Networks.” An <strong>adaptation layer</strong> that squeezes IPv6 onto 802.15.4 radios via <strong>header compression</strong> and <strong>fragmentation</strong>; supports mesh forwarding.</p></div>
+  </div>
+
+  <h3><span class="no">5.4</span>Transport layer — TCP vs UDP</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Aspect</th><th>TCP</th><th>UDP</th></tr></thead>
+    <tbody>
+      <tr><td>Connection</td><td>Connection-oriented (handshake)</td><td>Connectionless datagrams</td></tr>
+      <tr><td>Reliability</td><td>Guaranteed, ordered delivery; retransmits</td><td>Best-effort — no retransmit</td></tr>
+      <tr><td>Overhead</td><td>Heavy (20–60 B headers, state)</td><td>Minimal (8 B header)</td></tr>
+      <tr><td>Latency</td><td>Higher</td><td>Low — fire and forget</td></tr>
+      <tr><td>Used by</td><td>HTTP, MQTT, AMQP, WebSocket, XMPP</td><td><strong>CoAP</strong>, DDS/RTPS, MQTT-SN</td></tr>
+      <tr><td>IoT fit</td><td>When every message must arrive</td><td>Constrained devices, live streams, periodic telemetry</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">5.5</span>Application layer — the seven protocols</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">HTTP — Hypertext Transfer Protocol</span><p><strong>TCP · request–response · REST.</strong> The web’s protocol; verbose headers make it heavy for constrained nodes, but universal for cloud APIs (HTTPS over TLS).</p></div>
+    <div class="card"><span class="t">CoAP — Constrained Application Protocol</span><p><strong>UDP · REST for tiny things.</strong> 4-byte binary header; GET/POST/PUT/DELETE; asynchronous exchanges; “Observe” option gives server-push; discovery via <code>/.well-known/core</code>. Designed for constrained devices and networks (RFC 7252).</p></div>
+    <div class="card"><span class="t">MQTT — Message Queuing Telemetry Transport</span><p><strong>TCP · publish–subscribe via a central broker.</strong> 2-byte fixed header; hierarchical topics (<code>home/room1/temp</code>); QoS 0/1/2; retained messages and Last-Will; the de-facto standard for telemetry up to the cloud.</p></div>
+    <div class="card"><span class="t">WebSocket</span><p><strong>TCP · full-duplex over a single connection.</strong> Begins as an HTTP “Upgrade” handshake, then stays open — ideal for low-latency push to dashboards and live monitors.</p></div>
+    <div class="card"><span class="t">XMPP — Extensible Messaging and Presence Protocol</span><p><strong>TCP · XML stanzas (formerly Jabber).</strong> Built for presence and instant messaging; addresses via JIDs (<code>user@domain/resource</code>); federated servers; strong for person-to-thing communication.</p></div>
+    <div class="card"><span class="t">DDS — Data Distribution Service</span><p><strong>Brokerless peer-to-peer publish–subscribe (over RTPS).</strong> Data-centric with rich QoS policies (deadline, liveliness, durability); built for real-time machine-to-machine flows — industrial IoT, robotics, autonomous vehicles.</p></div>
+    <div class="card"><span class="t">AMQP — Advanced Message Queuing Protocol</span><p><strong>TCP · store-and-forward queuing.</strong> Exchanges route messages to queues via bindings; transactions and guaranteed delivery; the enterprise backbone (finance, order pipelines) that IoT systems plug into.</p></div>
+    <div class="card inv"><span class="t">Master comparison</span><p>MQTT/AMQP = brokered pub-sub · DDS = brokerless pub-sub · HTTP/CoAP = request–response · WebSocket = full-duplex push · XMPP = XML presence. CoAP and DDS ride on UDP; the rest on TCP.</p></div>
+  </div>
+
+  <details class="deep">
+    <summary>Deep dive · MQTT QoS levels and why they matter</summary>
+    <div class="dbody">
+      <ul>
+        <li><strong>QoS 0 — at most once:</strong> fire and forget; no acknowledgement; duplicates impossible, loss possible.</li>
+        <li><strong>QoS 1 — at least once:</strong> sender retries until <code>PUBACK</code>; duplicates possible.</li>
+        <li><strong>QoS 2 — exactly once:</strong> a four-way handshake (<code>PUBREC</code> → <code>PUBREL</code> → <code>PUBCOMP</code>); costliest, safest.</li>
+        <li><strong>Retained messages:</strong> the broker keeps the last message per topic so new subscribers get an instant snapshot.</li>
+        <li><strong>Last Will and Testament:</strong> a message the broker publishes on the client’s behalf if it disconnects unexpectedly — how IoT systems detect dead devices.</li>
+        <li><strong>Ports:</strong> 1883 (plain), 8883 (TLS). <strong>MQTT-SN</strong> adapts MQTT for sensor networks over UDP/ZigBee.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="deep">
+    <summary>Deep dive · how CoAP stays tiny</summary>
+    <div class="dbody">
+      <p>CoAP compresses the REST model into a 4-byte binary header and pairs it with UDP. Reliability is recovered selectively through <strong>confirmable (CON)</strong> messages — retransmitted with exponential backoff — while <strong>non-confirmable (NON)</strong> messages are pure fire-and-forget. The <strong>Observe</strong> extension lets a client subscribe to a resource, giving push semantics without a broker; a built-in HTTP/CoAP proxy mapping lets constrained devices join the wider web.</p>
+    </div>
+  </details>
+
+  <h3><span class="no">5.6</span>One-table comparison (reproduce in exams)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Protocol</th><th>Transport</th><th>Pattern</th><th>Overhead</th><th>Sweet spot</th></tr></thead>
+    <tbody>
+      <tr><td>HTTP</td><td>TCP</td><td>Request–response</td><td>Heavy</td><td>Cloud APIs, web dashboards</td></tr>
+      <tr><td>CoAP</td><td>UDP</td><td>Request–response (REST-like)</td><td>Very light</td><td>Constrained devices, lossy links</td></tr>
+      <tr><td>MQTT</td><td>TCP</td><td>Publish–subscribe (broker)</td><td>Light</td><td>Telemetry, sensor-to-cloud</td></tr>
+      <tr><td>WebSocket</td><td>TCP</td><td>Full-duplex push</td><td>Light (after handshake)</td><td>Live UIs, real-time monitors</td></tr>
+      <tr><td>XMPP</td><td>TCP</td><td>Presence + messaging (XML)</td><td>Heavy (XML)</td><td>Chat-like person-to-thing</td></tr>
+      <tr><td>DDS</td><td>UDP / TCP</td><td>Publish–subscribe (brokerless)</td><td>Configurable</td><td>Real-time industrial M2M</td></tr>
+      <tr><td>AMQP</td><td>TCP</td><td>Queued store-and-forward</td><td>Moderate</td><td>Enterprise messaging backends</td></tr>
+    </tbody>
+  </table></div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>Memorise the transport pairs: <strong>MQTT→TCP 1883 · HTTP→TCP 80 · AMQP→TCP 5672 · CoAP→UDP</strong>. A classic MCQ: “which application-layer protocol runs over UDP?” → CoAP (and DDS).</p>
+  </div>
+</section>
+
+<!-- ============ 06 LOGICAL DESIGN ============ -->
+<section class="ch" id="c6">
+  <header class="chh" data-num="06">
+    <div class="kick">Part A · Chapter 06</div>
+    <h2>Logical design of IoT</h2>
+    <p class="lede">The logical design is the <em>abstract</em> representation of entities and processes — deliberately silent about low-level implementation details.</p>
+  </header>
+
+  <div class="bx def"><span class="btag">Definition</span>
+    <blockquote>“Logical design of an IoT system refers to an abstract representation of the entities and processes without going into the low-level specifics of the implementation.”
+    <cite>— Unit 1 syllabus formulation</cite></blockquote>
+  </div>
+  <p>An IoT system comprises a number of <strong>functional blocks</strong> that provide the system the capabilities for <strong>identification, sensing, actuation, communication and management</strong>. Textbooks decompose these into six blocks:</p>
+
+  <figure class="fig wide">
+    <svg viewBox="0 0 480 332" role="img" aria-label="Functional blocks of an IoT system">
+      <rect x="4" y="4" width="472" height="324" rx="12" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+      <text x="20" y="26" class="sB" letter-spacing="1">IOT SYSTEM — LOGICAL VIEW</text>
+      <rect class="box" x="20" y="44" width="136" height="118" rx="8"/>
+      <text x="32" y="68" class="lgT">DEVICE</text><line x1="32" y1="78" x2="144" y2="78" stroke="var(--line2)"/>
+      <text x="32" y="96" class="sB">· identification</text><text x="32" y="112" class="sB">· sensing</text>
+      <text x="32" y="128" class="sB">· actuation</text><text x="32" y="144" class="sB">· device I/O logic</text>
+      <rect class="box" x="172" y="44" width="136" height="118" rx="8"/>
+      <text x="184" y="68" class="lgT">COMMUNICATION</text><line x1="184" y1="78" x2="296" y2="78" stroke="var(--line2)"/>
+      <text x="184" y="96" class="sB">· connectivity</text><text x="184" y="112" class="sB">· protocol stacks</text>
+      <text x="184" y="128" class="sB">· data exchange</text><text x="184" y="144" class="sB">· wired + wireless</text>
+      <rect class="box" x="324" y="44" width="136" height="118" rx="8"/>
+      <text x="336" y="68" class="lgT">SERVICES</text><line x1="336" y1="78" x2="448" y2="78" stroke="var(--line2)"/>
+      <text x="336" y="96" class="sB">· monitoring</text><text x="336" y="112" class="sB">· control services</text>
+      <text x="336" y="128" class="sB">· data services</text><text x="336" y="144" class="sB">· composition</text>
+      <rect class="box" x="20" y="196" width="136" height="118" rx="8"/>
+      <text x="32" y="220" class="lgT">MANAGEMENT</text><line x1="32" y1="230" x2="144" y2="230" stroke="var(--line2)"/>
+      <text x="32" y="248" class="sB">· device mgmt</text><text x="32" y="264" class="sB">· data mgmt</text>
+      <text x="32" y="280" class="sB">· flow + session</text><text x="32" y="296" class="sB">· provisioning</text>
+      <rect class="box" x="172" y="196" width="136" height="118" rx="8"/>
+      <text x="184" y="220" class="lgT">SECURITY</text><line x1="184" y1="230" x2="296" y2="230" stroke="var(--line2)"/>
+      <text x="184" y="248" class="sB">· authentication</text><text x="184" y="264" class="sB">· authorization</text>
+      <text x="184" y="280" class="sB">· data security</text><text x="184" y="296" class="sB">· integrity + privacy</text>
+      <rect class="box" x="324" y="196" width="136" height="118" rx="8"/>
+      <text x="336" y="220" class="lgT">APPLICATION</text><line x1="336" y1="230" x2="448" y2="230" stroke="var(--line2)"/>
+      <text x="336" y="248" class="sB">· user interfaces</text><text x="336" y="264" class="sB">· application logic</text>
+      <text x="336" y="280" class="sB">· APIs</text><text x="336" y="296" class="sB">· analytics hooks</text>
+    </svg>
+    <figcaption class="figcap"><b>Fig. 2 — Functional blocks of logical design.</b> Together they deliver the five capabilities your slides name: identification, sensing, actuation, communication and management.</figcaption>
+  </figure>
+
+  <h3><span class="no">6.1</span>Communication APIs — the two patterns</h3>
+  <div class="compare">
+    <div class="cmp"><h5>Request–Response (sync)</h5>
+      <ul><li>Client asks, server answers — stateless conversations.</li><li>Used by <strong>HTTP</strong> and <strong>CoAP</strong>.</li><li>Simple to reason about; wasteful for frequent pushes.</li></ul></div>
+    <div class="cmp"><h5>Publish–Subscribe (async)</h5>
+      <ul><li>Producers publish to <em>topics</em>; subscribers receive what they care about — decoupled in time, space and identity.</li><li>Used by <strong>MQTT, AMQP</strong> (brokered) and <strong>DDS</strong> (brokerless).</li><li>Scales beautifully for telemetry fan-in/out.</li></ul></div>
+  </div>
+
+  <h3><span class="no">6.2</span>Technology roadmap — where IoT came from</h3>
+  <div class="flow h">
+    <div class="fnode"><b>1980s–90s</b><small>identification era</small><p>barcodes · first RFID tags</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>2000s</b><small>monitoring era</small><p>WSN · M2M telemetry</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>2010s</b><small>connectivity era</small><p>IoT · cloud · smartphones</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>2020s</b><small>intelligence era</small><p>AIoT · IoE · edge computing</p></div>
+  </div>
+  <div class="bx recap"><span class="btag">Recall</span>
+    <p>Logical design = abstraction, no implementation detail. Six blocks: Device · Communication · Services · Management · Security · Application. Two API patterns: request–response and publish–subscribe.</p>
+  </div>
+</section>
+
+<!-- ============ 07 IOT LEVELS ============ -->
+<section class="ch" id="c7">
+  <header class="chh" data-num="07">
+    <div class="kick">Part A · Chapter 07</div>
+    <h2>IoT levels and deployment templates</h2>
+    <p class="lede">Six canonical levels — reference designs (“deployment templates”) that scale from a lone local gadget to cloud-controlled fleets of nodes. Master the two axes: <strong>how many nodes</strong>, and <strong>who observes / who controls</strong>.</p>
+  </header>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Level</th><th>End nodes</th><th>Cloud storage</th><th>Cloud analysis</th><th>Remote role</th><th>Typical example</th></tr></thead>
+    <tbody>
+      <tr><td>Level 1</td><td>Single</td><td>✗ local only</td><td>✗</td><td>None — local monitor and control</td><td>Standalone home automation unit</td></tr>
+      <tr><td>Level 2</td><td>Single</td><td>✓</td><td>✗</td><td>Remote monitoring</td><td>Temperature logger</td></tr>
+      <tr><td>Level 3</td><td>Single</td><td>✓</td><td>✓</td><td>Observer</td><td>Noise / pollution monitor</td></tr>
+      <tr><td>Level 4</td><td>Single</td><td>✓</td><td>✓</td><td>Observer <strong>+</strong> controller</td><td>Smart irrigation, remote lighting</td></tr>
+      <tr><td>Level 5</td><td>Multiple</td><td>✓</td><td>✓</td><td>Observer</td><td>Multi-sensor environment monitoring</td></tr>
+      <tr><td>Level 6</td><td>Multiple</td><td>✓</td><td>✓</td><td>Observer <strong>+</strong> controller</td><td>Industrial automation, connected health</td></tr>
+    </tbody>
+  </table><div class="hint">Solid arrow = data ↑ · dashed arrow = control ↓ in the figures below.</div></div>
+
+  <div class="cards g2">
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 1 template">
+        <rect x="60" y="24" width="180" height="80" rx="10" class="box"/>
+        <rect x="74" y="44" width="42" height="22" rx="4" class="mini"/><text x="95" y="58" text-anchor="middle" class="sS">SENS</text>
+        <rect x="129" y="44" width="42" height="22" rx="4" class="mini"/><text x="150" y="58" text-anchor="middle" class="sS">MCU</text>
+        <rect x="184" y="44" width="42" height="22" rx="4" class="mini"/><text x="205" y="58" text-anchor="middle" class="sS">ACT</text>
+        <line x1="116" y1="55" x2="127" y2="55" class="ln arr"/><line x1="171" y1="55" x2="182" y2="55" class="ln arr"/>
+        <text x="150" y="88" text-anchor="middle" class="sM">local storage · monitoring · control</text>
+        <line x1="150" y1="104" x2="150" y2="122" class="ln arr"/>
+        <use href="#person" x="138" y="124" width="24" height="24" style="color:var(--ink)"/>
+        <text x="150" y="162" text-anchor="middle" class="sM">local user · no cloud · no remote access</text>
+        <rect x="208" y="6" width="86" height="16" rx="8" fill="none" stroke="var(--muted)" stroke-dasharray="3 3"/>
+        <text x="251" y="17" text-anchor="middle" class="sM">NO CLOUD</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 3 — Level 1:</b> single node, sensors → MCU → actuators; everything happens locally.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 2 template">
+        <rect x="10" y="86" width="86" height="48" rx="8" class="box"/>
+        <text x="53" y="107" text-anchor="middle" class="sT">NODE</text>
+        <text x="53" y="122" text-anchor="middle" class="sS">sensing + actuation</text>
+        <text x="172" y="56" text-anchor="middle" class="sT">CLOUD</text>
+        <use href="#cloud" x="118" y="62" width="108" height="66" style="color:var(--wash)"/>
+        <line x1="96" y1="106" x2="129" y2="104" class="ln arr"/>
+        <text x="104" y="94" class="sM">data</text>
+        <text x="172" y="146" text-anchor="middle" class="sM">stores device data</text>
+        <text x="150" y="164" text-anchor="middle" class="sM">single node · cloud storage · remote monitoring</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 4 — Level 2:</b> node cooperates with a cloud that stores its data; no analysis yet.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 3 template">
+        <rect x="10" y="86" width="86" height="48" rx="8" class="box"/>
+        <text x="53" y="107" text-anchor="middle" class="sT">NODE</text>
+        <text x="53" y="122" text-anchor="middle" class="sS">sensing + actuation</text>
+        <text x="172" y="56" text-anchor="middle" class="sT">CLOUD</text>
+        <use href="#cloud" x="118" y="62" width="108" height="66" style="color:var(--wash)"/>
+        <line x1="96" y1="106" x2="129" y2="104" class="ln arr"/><text x="104" y="94" class="sM">data</text>
+        <text x="172" y="146" text-anchor="middle" class="sM">stores + analyzes</text>
+        <line x1="218" y1="100" x2="249" y2="100" class="ln arr"/><text x="233" y="92" text-anchor="middle" class="sM">view</text>
+        <use href="#phone" x="252" y="82" width="22" height="36" style="color:var(--ink)"/>
+        <text x="263" y="134" text-anchor="middle" class="sM">OBSERVER</text>
+        <text x="150" y="164" text-anchor="middle" class="sM">single node · cloud analysis · observer</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 5 — Level 3:</b> cloud stores <em>and</em> analyzes; a user can observe results.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 4 template">
+        <rect x="10" y="86" width="86" height="48" rx="8" class="box"/>
+        <text x="53" y="107" text-anchor="middle" class="sT">NODE</text>
+        <text x="53" y="122" text-anchor="middle" class="sS">sensing + actuation</text>
+        <text x="172" y="56" text-anchor="middle" class="sT">CLOUD</text>
+        <use href="#cloud" x="118" y="62" width="108" height="66" style="color:var(--wash)"/>
+        <line x1="96" y1="102" x2="129" y2="100" class="ln arr"/><text x="104" y="92" class="sM">data</text>
+        <line x1="129" y1="118" x2="96" y2="120" class="ln dash arr"/><text x="106" y="136" class="sM">control</text>
+        <text x="172" y="146" text-anchor="middle" class="sM">stores + analyzes</text>
+        <line x1="218" y1="100" x2="249" y2="100" class="ln arr"/><text x="233" y="92" text-anchor="middle" class="sM">view</text>
+        <line x1="249" y1="114" x2="218" y2="114" class="ln dash arr"/><text x="233" y="130" text-anchor="middle" class="sM">cmd</text>
+        <use href="#phone" x="252" y="82" width="22" height="36" style="color:var(--ink)"/>
+        <text x="263" y="130" text-anchor="middle" class="sM">OBSERVER +</text><text x="263" y="140" text-anchor="middle" class="sM">CONTROLLER</text>
+        <text x="150" y="164" text-anchor="middle" class="sM">single node · cloud analysis · remote control</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 6 — Level 4:</b> the control loop closes — the cloud can send commands back to the node.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 5 template">
+        <rect x="10" y="20" width="86" height="34" rx="7" class="box"/><text x="53" y="41" text-anchor="middle" class="sS">NODE 1</text>
+        <rect x="10" y="62" width="86" height="34" rx="7" class="box"/><text x="53" y="83" text-anchor="middle" class="sS">NODE 2</text>
+        <rect x="10" y="104" width="86" height="34" rx="7" class="box"/><text x="53" y="125" text-anchor="middle" class="sS">NODE 3</text>
+        <text x="172" y="56" text-anchor="middle" class="sT">CLOUD</text>
+        <use href="#cloud" x="118" y="62" width="108" height="66" style="color:var(--wash)"/>
+        <line x1="96" y1="37" x2="127" y2="88" class="ln arr"/>
+        <line x1="96" y1="79" x2="131" y2="94" class="ln arr"/>
+        <line x1="96" y1="121" x2="127" y2="100" class="ln arr"/>
+        <text x="100" y="66" class="sM">data</text>
+        <text x="172" y="146" text-anchor="middle" class="sM">stores + analyzes</text>
+        <line x1="218" y1="100" x2="249" y2="100" class="ln arr"/><text x="233" y="92" text-anchor="middle" class="sM">view</text>
+        <use href="#phone" x="252" y="82" width="22" height="36" style="color:var(--ink)"/>
+        <text x="263" y="134" text-anchor="middle" class="sM">OBSERVER</text>
+        <text x="150" y="164" text-anchor="middle" class="sM">multiple nodes · analysis · observer only — no control</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 7 — Level 5:</b> several nodes feed one cloud; monitoring only across the group.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 300 170" role="img" aria-label="IoT Level 6 template">
+        <rect x="10" y="20" width="86" height="34" rx="7" class="box"/><text x="53" y="41" text-anchor="middle" class="sS">NODE 1</text>
+        <rect x="10" y="62" width="86" height="34" rx="7" class="box"/><text x="53" y="83" text-anchor="middle" class="sS">NODE 2</text>
+        <rect x="10" y="104" width="86" height="34" rx="7" class="box"/><text x="53" y="125" text-anchor="middle" class="sS">NODE 3</text>
+        <text x="172" y="56" text-anchor="middle" class="sT">CLOUD</text>
+        <use href="#cloud" x="118" y="62" width="108" height="66" style="color:var(--wash)"/>
+        <line x1="96" y1="37" x2="127" y2="88" class="ln arr"/>
+        <line x1="96" y1="79" x2="131" y2="94" class="ln arr"/>
+        <line x1="96" y1="121" x2="127" y2="100" class="ln arr"/>
+        <text x="100" y="66" class="sM">data</text>
+        <line x1="128" y1="112" x2="96" y2="96" class="ln dash arr"/><text x="100" y="118" class="sM">control</text>
+        <text x="172" y="146" text-anchor="middle" class="sM">stores + analyzes</text>
+        <line x1="218" y1="100" x2="249" y2="100" class="ln arr"/><text x="233" y="92" text-anchor="middle" class="sM">view</text>
+        <line x1="249" y1="114" x2="218" y2="114" class="ln dash arr"/><text x="233" y="130" text-anchor="middle" class="sM">cmd</text>
+        <use href="#phone" x="252" y="82" width="22" height="36" style="color:var(--ink)"/>
+        <text x="263" y="130" text-anchor="middle" class="sM">OBSERVER +</text><text x="263" y="140" text-anchor="middle" class="sM">CONTROLLER</text>
+        <text x="150" y="164" text-anchor="middle" class="sM">multiple nodes · analysis · remote control</text>
+      </svg>
+      <figcaption class="figcap"><b>Fig. 8 — Level 6:</b> control commands fan out from the cloud to the whole node group.</figcaption>
+    </figure>
+  </div>
+
+  <div class="bx mnem"><span class="btag">Mnemonic</span>
+    <p><b>Levels trick:</b> Level 1 = <b>no cloud</b> · Level 2 adds <b>cloud storage</b> · Level 3 adds <b>analysis + observer</b> · <b>even levels (4, 6) add the controller</b> · Levels 5–6 go <b>multi-node</b>. Chant: “1 alone, 2 stores, 3 sees, 4 commands, 5 gathers, 6 commands the fleet.”</p>
+  </div>
+</section>
+
+<!-- ============ 08 RFID ============ -->
+<section class="ch" id="c8">
+  <header class="chh" data-num="08">
+    <div class="kick">Part A · Chapter 08</div>
+    <h2>RFID — Radio Frequency Identification</h2>
+    <p class="lede">The original “identifying” enabling technology of IoT: contactless, line-of-sight-free identification of objects at a distance.</p>
+  </header>
+
+  <h3><span class="no">8.1</span>System anatomy</h3>
+  <figure class="fig wide">
+    <svg viewBox="0 0 480 300" role="img" aria-label="RFID system architecture">
+      <text x="250" y="58" text-anchor="middle" class="sM" letter-spacing="1">AIR INTERFACE</text>
+      <rect class="box" x="16" y="84" width="120" height="64" rx="8"/>
+      <text x="76" y="108" text-anchor="middle" class="lgT">RFID READER</text>
+      <text x="76" y="126" text-anchor="middle" class="lgS">interrogator</text>
+      <line class="ln" x1="136" y1="116" x2="150" y2="116"/>
+      <path class="ln" d="M150 92 a27 27 0 0 1 0 52"/>
+      <path class="ln" d="M158 86 a33 33 0 0 1 0 64"/>
+      <path class="ln" d="M166 80 a39 39 0 0 1 0 76"/>
+      <text x="168" y="74" class="sM">antenna</text>
+      <line class="ln arr" x1="205" y1="96" x2="296" y2="96"/>
+      <text x="250" y="86" text-anchor="middle" class="sS">RF field · energy + command</text>
+      <line class="ln dash arr" x1="296" y1="136" x2="205" y2="136"/>
+      <text x="250" y="154" text-anchor="middle" class="sS">backscatter reply · ID / EPC</text>
+      <rect class="box" x="300" y="84" width="120" height="64" rx="8"/>
+      <rect class="mini" x="316" y="102" width="26" height="26" rx="3"/>
+      <text x="352" y="112" class="lgT">TAG</text>
+      <text x="352" y="128" class="lgS">chip + antenna</text>
+      <line class="ln arr" x1="76" y1="148" x2="76" y2="204"/>
+      <text x="92" y="182" class="sM">network link</text>
+      <rect class="box" x="16" y="206" width="180" height="58" rx="8"/>
+      <text x="106" y="228" text-anchor="middle" class="lgT">BACKEND</text>
+      <text x="106" y="246" text-anchor="middle" class="lgS">middleware · database · apps</text>
+      <text x="240" y="288" text-anchor="middle" class="sM">passive tags harvest operating power from the reader's field</text>
+    </svg>
+    <figcaption class="figcap"><b>Fig. 9 — RFID system:</b> reader → antenna → air interface → tag (up: interrogation + energy; back: the tag’s reply). The reader forwards events to backend middleware, databases and applications.</figcaption>
+  </figure>
+
+  <h3><span class="no">8.2</span>Tag taxonomy — passive, semi-passive, active</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Property</th><th>Passive</th><th>Semi-passive (BAP)</th><th>Active</th></tr></thead>
+    <tbody>
+      <tr><td>Battery</td><td>None — powered by reader’s field</td><td>Battery powers chip only (not transmission)</td><td>Battery powers chip <em>and</em> transmitter</td></tr>
+      <tr><td>Communication</td><td>Backscatter / load modulation</td><td>Backscatter</td><td>Actively radiates (beacons or responds)</td></tr>
+      <tr><td>Typical range</td><td>cm–10 m (band dependent)</td><td>Longer than passive</td><td>Up to 100 m+</td></tr>
+      <tr><td>Size, cost, life</td><td>Smallest, cheapest, longest life</td><td>Moderate</td><td>Largest, costliest, battery-limited</td></tr>
+      <tr><td>Best for</td><td>Mass item-level tagging</td><td>High-value inventory</td><td>Tolling, RTLS, container tracking</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">8.3</span>Frequency bands — a favourite 5-mark table</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Band</th><th>Frequency</th><th>Range</th><th>Principle</th><th>Typical uses</th></tr></thead>
+    <tbody>
+      <tr><td>LF</td><td>125–134 kHz</td><td>≤ 10 cm–1 m</td><td>Inductive coupling (near-field, magnetic)</td><td>Animal tagging, access control, car immobilizers</td></tr>
+      <tr><td>HF</td><td>13.56 MHz</td><td>Up to ~1 m</td><td>Inductive coupling</td><td>NFC payments, smart cards, library books, e-passports</td></tr>
+      <tr><td>UHF</td><td>860–960 MHz</td><td>3–10 m (passive)</td><td>Backscatter (far-field, EM waves)</td><td>Supply chain, pallets, inventory, asset tracking</td></tr>
+      <tr><td>Microwave</td><td>2.4 GHz (and 5.8 GHz)</td><td>10–100 m</td><td>Active tags, radiating</td><td>Vehicle tolling (ETC), RTLS, container tracking</td></tr>
+    </tbody>
+  </table></div>
+
+  <details class="deep">
+    <summary>Deep dive · inductive coupling vs backscatter</summary>
+    <div class="dbody">
+      <p><strong>Inductive LF / HF tags</strong> live in the reader’s <em>near field</em>. The reader coil generates an alternating magnetic field; the tag coil, placed nearby, induces a current (Faraday’s law) — effectively a loose transformer. The tag talks back by varying the load on its coil (<strong>load modulation</strong>), which the reader senses.</p>
+      <p><strong>UHF tags</strong> operate in the <em>far field</em> of electromagnetic waves. The tag antenna captures the wave, rectifies it for power, and re-radiates a portion with its antenna impedance modulated — <strong>backscatter</strong> — encoding its ID onto the reflection. This is why UHF reaches metres while inductive systems reach centimetres.</p>
+      <p>Each tag carries a stored code — commonly the <strong>EPC (Electronic Product Code)</strong>, typically 96 bits encoding header, manager, object class and serial — which directory services (like the Object Naming Service) can resolve to richer data.</p>
+    </div>
+  </details>
+
+  <h3><span class="no">8.4</span>Applications (learn both lists)</h3>
+  <div class="compare">
+    <div class="cmp"><h5>Industrial tasks</h5>
+      <ul><li>Asset tracking</li><li>Inventory management</li><li>Controlling access to confined areas</li><li>Personnel tracking</li><li>Supply chain management</li><li>ID badging</li><li>Counterfeit forestalling (e.g., pharmaceuticals)</li></ul></div>
+    <div class="cmp"><h5>Everyday uses</h5>
+      <ul><li>Car keys that unlock the door</li><li>Automatic toll-booth payment</li><li>Building access systems</li><li>Payment cards, student IDs, passports</li><li>Wireless sensors and mesh networks</li></ul></div>
+  </div>
+
+  <h3><span class="no">8.5</span>RFID vs barcode</h3>
+  <div class="tbl"><table class="slender">
+    <thead><tr><th>Aspect</th><th>Barcode</th><th>RFID</th></tr></thead>
+    <tbody>
+      <tr><td>Line of sight</td><td>Required</td><td>Not required</td></tr>
+      <tr><td>Simultaneous reads</td><td>One at a time</td><td>Many tags at once (anti-collision)</td></tr>
+      <tr><td>Identity</td><td>Type-level (all items share code)</td><td>Item-level unique ID (EPC)</td></tr>
+      <tr><td>Rewritability</td><td>Fixed at print</td><td>Read/write memory possible</td></tr>
+      <tr><td>Cost</td><td>Near zero</td><td>Higher (falling every year)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 09 HISTORY ============ -->
+<section class="ch" id="c9">
+  <header class="chh" data-num="09">
+    <div class="kick">Part A · Chapter 09</div>
+    <h2>History and timeline of IoT</h2>
+    <p class="lede">Dates and names are pure exam currency. Learn the five headline milestones plus the two “pre-history” anecdotes.</p>
+  </header>
+  <div class="tl">
+    <div class="tli triv"><span class="yr">1982</span>
+      <div class="tt">The Carnegie Mellon Coke machine</div>
+      <p>The first ARPANET-connected appliance — students remotely checked whether drinks were cold. IoT before the name existed.</p></div>
+    <div class="tli triv"><span class="yr">1990</span>
+      <div class="tt">John Romkey’s Internet toaster</div>
+      <p>A toaster controllable over the Internet — the legendary demo of “connecting a thing”.</p></div>
+    <div class="tli"><span class="yr">1997</span>
+      <div class="tt">ITU Internet Reports series launched</div>
+      <p>The series begins under the title <em>“Challenges to the Network”</em>. Its seventh report — published in 2005 — becomes <em>“The Internet of Things”</em>.</p></div>
+    <div class="tli"><span class="yr">1999</span>
+      <div class="tt">Kevin Ashton coins “Internet of Things” · Auto-ID Center founded at MIT</div>
+      <p>Ashton used the phrase in a Procter and Gamble supply-chain presentation; the Auto-ID Center drove RFID-EPC research.</p></div>
+    <div class="tli"><span class="yr">2003</span>
+      <div class="tt">EPCglobal founded</div>
+      <p>The commercial successor to the Auto-ID Center (under GS1), standardizing the Electronic Product Code.</p></div>
+    <div class="tli"><span class="yr">2005</span>
+      <div class="tt">WSIS conference (Tunis) · ITU IoT report</div>
+      <p>Four important technologies of IoT proposed: <strong>RFID, sensor technology, smart technology, nanotechnology</strong>.</p></div>
+    <div class="tli"><span class="yr">2008</span>
+      <div class="tt">First International Conference on IoT — IoT 2008, Zurich</div>
+      <p>Also 2008–09: connected devices surpassed the human population (Cisco IBSG estimate).</p></div>
+  </div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>Common trap: the ITU <em>series</em> launched in 1997, but the report actually titled “The Internet of Things” is the 2005 seventh report, unveiled at WSIS. Read date questions twice.</p>
+  </div>
+</section>
+
+<!-- ============ 10 THINGS & IDENTIFIERS ============ -->
+<section class="ch" id="c10">
+  <header class="chh" data-num="10">
+    <div class="kick">Part A · Chapter 10</div>
+    <h2>Things in IoT and IoT identifiers</h2>
+    <p class="lede">Connecting billions of new objects raises fundamental questions — and demands a whole taxonomy of identifiers.</p>
+  </header>
+
+  <h3><span class="no">10.1</span>The eight questions of connecting objects</h3>
+  <ol>
+    <li>The <strong>connecting technology</strong> of the objects (radio? wire? how?).</li>
+    <li>The <strong>interoperability</strong> between objects.</li>
+    <li>The <strong>communication model</strong> of these connected objects.</li>
+    <li>Possible <strong>interaction with existing models</strong>, such as the Internet.</li>
+    <li>The choice of the <strong>transport model</strong>.</li>
+    <li>The <strong>addressing, identifying and naming</strong> of objects.</li>
+    <li>The <strong>security and privacy</strong> implications.</li>
+    <li>The <strong>economic impact</strong> and telecommunication value-chain evolution.</li>
+  </ol>
+
+  <h3><span class="no">10.2</span>Three classes of IoT identifiers</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Class</th><th>Uniquely identifies…</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td>Object IDs</td><td>Physical or virtual <strong>objects</strong></td><td>EPC, barcodes, ucode</td></tr>
+      <tr><td>Communication IDs</td><td><strong>Devices</strong> in the scope of communications with other devices, including internet-based communications</td><td>IP addresses, MAC addresses</td></tr>
+      <tr><td>Application IDs</td><td><strong>Applications and services</strong> used in the scope of IoT applications</td><td>Service identifiers, URIs, app keys</td></tr>
+    </tbody>
+  </table></div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>Be precise with the three classes — the examiner’s wording is exactly: Object IDs identify <em>physical or virtual objects</em>; Communication IDs identify <em>devices</em> for communication; Application IDs identify <em>applications and services</em>.</p>
+  </div>
+</section>
+
+<!-- ============ 11 FRAMEWORKS ============ -->
+<section class="ch" id="c11">
+  <header class="chh" data-num="11">
+    <div class="kick">Part A · Chapter 11</div>
+    <h2>IoT frameworks and reference architectures</h2>
+    <p class="lede">“IoT frameworks” means two things: layered reference models that organise the concepts, and platform frameworks that do the building for you.</p>
+  </header>
+
+  <h3><span class="no">11.1</span>The classic three-layer model</h3>
+  <div class="stack">
+    <div class="layer l4"><div class="lt"><b>Application layer</b><span>deliver value to users</span></div>
+      <div class="plist"><span class="pill">smart home apps</span><span class="pill">dashboards</span><span class="pill">services</span></div></div>
+    <div class="layer l3"><div class="lt"><b>Network layer</b><span>move the data</span></div>
+      <div class="plist"><span class="pill">WiFi · 3G/4G</span><span class="pill">LoRa</span><span class="pill">Ethernet</span><span class="pill">gateways</span></div></div>
+    <div class="layer l2"><div class="lt"><b>Perception layer</b><span>sense the world</span></div>
+      <div class="plist"><span class="pill">sensors</span><span class="pill">actuators</span><span class="pill">RFID tags</span><span class="pill">cameras</span></div></div>
+  </div>
+
+  <h3><span class="no">11.2</span>The seven-layer IoT World Forum reference model</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Layer</th><th>Name</th><th>Function</th></tr></thead>
+    <tbody>
+      <tr><td>7</td><td>Collaboration and processes</td><td>People and business processes cooperating via the data</td></tr>
+      <tr><td>6</td><td>Application</td><td>IoT applications built on the processed data</td></tr>
+      <tr><td>5</td><td>Data abstraction</td><td>Unified, consistent view of accumulated data</td></tr>
+      <tr><td>4</td><td>Data accumulation</td><td>Event-based storage; data shifts from “in motion” to “at rest”</td></tr>
+      <tr><td>3</td><td>Edge computing</td><td>Filtering, aggregation, local processing near the sources</td></tr>
+      <tr><td>2</td><td>Connectivity</td><td>Switching, routing, transport of events upward</td></tr>
+      <tr><td>1</td><td>Physical devices and controllers</td><td>Sensors, actuators, tags — the “things” themselves</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">11.3</span>Platform landscape (quick awareness)</h3>
+  <div class="cards g3">
+    <div class="card"><span class="t">Cloud platforms</span><p>AWS IoT Core · Azure IoT Hub · Google Cloud IoT · ThingSpeak.</p></div>
+    <div class="card"><span class="t">Open source</span><p>Eclipse Kura and Mosquitto · Node-RED · Kaa · Contiki / RIOT OS.</p></div>
+    <div class="card"><span class="t">Prototyping hardware</span><p>Arduino · Raspberry Pi · ESP8266 / ESP32 · BeagleBoard.</p></div>
+  </div>
+</section>
+
+<!-- ============ 12 M2M ============ -->
+<section class="ch" id="c12">
+  <header class="chh" data-num="12">
+    <div class="kick">Part A · Chapter 12</div>
+    <h2>M2M and IoT — applications by industry</h2>
+    <p class="lede">Machine-to-Machine communication is IoT’s direct ancestor — and still its industrial workhorse.</p>
+  </header>
+
+  <h3><span class="no">12.1</span>M2M vs IoT</h3>
+  <div class="compare">
+    <div class="cmp"><h5>M2M</h5>
+      <ul><li>Direct device-to-device (often point-to-point) links</li><li>Proprietary or cellular connectivity; device-centric</li><li>Limited scale; data often trapped in silos</li><li>Minimal interoperability, minimal analytics</li></ul></div>
+    <div class="cmp"><h5>IoT</h5>
+      <ul><li>IP-based, cloud-centric architecture</li><li>Interoperable standard protocols (MQTT, CoAP…)</li><li>Massive scale; data aggregated across systems</li><li>Analytics and services built on top of the data</li></ul></div>
+  </div>
+  <p><strong>Exam line:</strong> M2M is widely regarded as a subset and precursor of IoT — “IoT = M2M + IP + cloud + data analytics.”</p>
+
+  <h3><span class="no">12.2</span>M2M applications across industries (memorise the table)</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Industry</th><th>M2M applications</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Automotive</td><td>Passenger vehicle anti-theft and recovery, monitoring and maintenance, safety and control, entertainment.</td></tr>
+      <tr><td>2</td><td>Transportation</td><td>Fleet management, asset tracking, telematics, manufacturing and logistics.</td></tr>
+      <tr><td>3</td><td>Utilities / Energy</td><td>Smart metering, smart grid, electric line monitoring, gas / oil / water pipeline monitoring.</td></tr>
+      <tr><td>4</td><td>Security</td><td>Commercial and home security monitoring, surveillance, fire alarm, police and medical alert.</td></tr>
+      <tr><td>5</td><td>Financial / Retail</td><td>Point of sale (POS), ATM, kiosk, vending machines, digital signage, handheld terminals.</td></tr>
+      <tr><td>6</td><td>Health care</td><td>Remote monitoring of patients after surgery (e-health), remote diagnostics, medication reminders, tele-medicine.</td></tr>
+      <tr><td>7</td><td>Public safety</td><td>Highway, bridge and traffic management, homeland security, police, fire and emergency services.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ====== PART B ====== -->
+<section class="part" id="pb">
+  <span class="pn">PART B</span>
+  <p class="pt">The Bigger Picture</p>
+  <p class="pd">chapters 13–23 · why IoT matters · application scenarios · state of the art · driving forces · ABCD · tools and case studies · WSN · markets · challenges · future · criticism</p>
+</section>
+
+<!-- ============ 13 WHY IOT ============ -->
+<section class="ch" id="c13">
+  <header class="chh" data-num="13">
+    <div class="kick">Part B · Chapter 13</div>
+    <h2>Why IoT — drivers and the business case</h2>
+    <p class="lede">Why the world is wiring itself up: societal reasons, engineering reasons, and a very concrete profit motive.</p>
+  </header>
+
+  <h3><span class="no">13.1</span>Societal and technical reasons</h3>
+  <ul>
+    <li><strong>Dynamic control</strong> of industry and daily life.</li>
+    <li><strong>Resource efficiency</strong> — energy conservation; improved resource-utilization ratio.</li>
+    <li><strong>Better relationship between human beings and nature</strong>.</li>
+    <li><strong>Pollution and disaster avoidance</strong>.</li>
+    <li><strong>Forming an intellectual entity</strong> by integrating human society and physical systems (the “cyber-physical” vision).</li>
+    <li><strong>Universal transport and internetworking</strong>; improved accessibility and usability.</li>
+    <li>IoT <strong>acts as a technology integrator</strong> — a convergence point for sensing, communication, and computing.</li>
+  </ul>
+
+  <h3><span class="no">13.2</span>The business perspective</h3>
+  <div class="cards g3">
+    <div class="card inv"><span class="big">$100 → $600</span><span class="sub">a handset becomes a smart device</span><p>The driver of all this connectivity is the desire to <strong>add value</strong> to products and services.</p></div>
+    <div class="card"><span class="big">$613 B</span><span class="sub">Cisco · additional profit potential (50% of businesses)</span><p>Profit available to businesses using the Internet more deeply.</p></div>
+    <div class="card"><span class="big">$14.4 T</span><span class="sub">Cisco · net profit, coming two decades</span><p>The scale of value IoT-class connectivity is forecast to unlock.</p></div>
+  </div>
+
+  <h3><span class="no">13.3</span>The IoT value chain</h3>
+  <p>Data sources at the edge feed a shared network, which feeds vertical (per-industry) market solutions:</p>
+  <div class="vsrc">
+    <span class="chip">biosensors worn by people</span><span class="chip">equipment in public places</span><span class="chip">the home</span>
+    <span class="chip">regional offices</span><span class="chip">virtual environments</span><span class="chip">transportation vehicles</span>
+  </div>
+  <div class="flow h">
+    <div class="vnode"><b>NETWORK</b><small>transport + aggregation</small></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="vnode"><b>VERTICAL MARKET SOLUTIONS</b><small>per-industry applications</small></div>
+  </div>
+
+  <h3><span class="no">13.4</span>Why should <em>you</em> learn IoT?</h3>
+  <div class="cards g3">
+    <div class="card"><span class="t">Business trend</span><p>Every industry is becoming a connected-software business.</p></div>
+    <div class="card"><span class="t">Technology trend</span><p>IoT sits at the convergence of sensing, networking, cloud and AI.</p></div>
+    <div class="card"><span class="t">Growth</span><p>IoT services and applications are among the fastest-growing job and startup categories.</p></div>
+  </div>
+</section>
+
+<!-- ============ 14 SCENARIOS ============ -->
+<section class="ch" id="c14">
+  <header class="chh" data-num="14">
+    <div class="kick">Part B · Chapter 14</div>
+    <h2>Application scenarios</h2>
+    <p class="lede">Four canonical scenarios — home, shopping, health, transport — plus two real-world “IoT in the wild” examples.</p>
+  </header>
+
+  <h3><span class="no">14.1</span>Intelligent home</h3>
+  <p>Lighting, HVAC, security, entertainment and appliances are networked and automated — energy managed automatically, the home controllable remotely, routines that adapt to presence. The level-1-to-level-6 templates of Chapter 07 all find expression here.</p>
+
+  <h3><span class="no">14.2</span>Scenario: shopping — “the goods introduce themselves”</h3>
+  <ol class="steps">
+    <li><b>Entering the store</b> — scanners identify the RFID tags on the shopper’s clothing, enabling personalised services.</li>
+    <li><b>Browsing</b> — goods introduce themselves: their tags carry identity, provenance, price and details.</li>
+    <li><b>Picking up an item</b> — shelf readers detect the removal and tell staff to restock.</li>
+    <li><b>Checkout</b> — the credit card’s microchip communicates with the reader; payment happens without barcode scanning.</li>
+  </ol>
+
+  <h3><span class="no">14.3</span>Scenario: health care</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">Provider-side view</span><p>Real-time data collected from hospitals, wearable devices and home health monitors is fused to give care providers better, faster decisions (Sierra Wireless illustration).</p></div>
+    <div class="card"><span class="t">Remote bedside diagnostics</span><p>Monitoring of bedside diagnostics from anywhere — one concrete IoT application inside the care environment.</p></div>
+  </div>
+
+  <h3><span class="no">14.4</span>Scenario: transportation</h3>
+  <p>Telematics-heavy fleets: <strong>+200 variables monitored on each truck</strong> (fuel, engine, braking, location, driver behaviour) — with roughly <strong>5% market penetration</strong> when these slides were written, i.e., enormous headroom.</p>
+
+  <h3><span class="no">14.5</span>IoT in the wild — spotting the pattern</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">Sprinkles Cupcake ATM</span><p>A “confectionery 3D printer” — cupcake ATMs in Beverly Hills, Chicago, New York and Atlanta: an everyday vending experience rebuilt around connected, automated machinery.</p></div>
+    <div class="card"><span class="t">Heathrow Smart Loos</span><p>Terminal 2 bathrooms embed sensors that track movement and usage flow and alert maintenance crews automatically when something needs attention.</p></div>
+  </div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>When asked to “identify the similarities” between such examples, the answer pattern is always: <strong>everyday object + embedded sensing + network connectivity + automated backend response = IoT</strong>.</p>
+  </div>
+</section>
+
+<!-- ============ 15 STATE OF THE ART ============ -->
+<section class="ch" id="c15">
+  <header class="chh" data-num="15">
+    <div class="kick">Part B · Chapter 15</div>
+    <h2>State of the art — the four enabling technologies</h2>
+    <p class="lede">WSIS 2005’s four pillars, and the reason they form a chain: identify → sense → process → shrink.</p>
+  </header>
+
+  <div class="cards g2">
+    <div class="card"><span class="t">RFID</span><p><strong>To identify and track the data of things.</strong> Contactless, unique, item-level identity — the nervous system of supply chains.</p></div>
+    <div class="card"><span class="t">Sensor technology</span><p><strong>To collect and process the data to detect changes in the physical status of things</strong> — the bridge between physical and virtual worlds.</p></div>
+    <div class="card"><span class="t">Smart technology</span><p><strong>To enhance the power of the network by devolving processing capabilities to different parts of the network</strong> — intelligence pushed outward, toward the edge.</p></div>
+    <div class="card"><span class="t">Nano technology</span><p><strong>To make smaller and smaller things have the ability to connect and interact</strong> — connectivity at scales where “things” become nearly invisible.</p></div>
+  </div>
+  <div class="bx mnem"><span class="btag">Mnemonic</span>
+    <p><b>“Identify → Sense → Process → Shrink”</b> — RFID identifies, Sensors sense, Smart tech processes, Nanotech shrinks. The four pillars in the exact order of the data lifecycle.</p>
+  </div>
+
+  <h3><span class="no">15.1</span>Sensor technology — “the magic of IoT”</h3>
+  <ul>
+    <li>The ability to <strong>detect changes in the physical status of things</strong> is essential for recording changes in the environment.</li>
+    <li><strong>Wireless sensor technology</strong> bridges the gap between the physical and virtual worlds, enabling things to respond to changes in their physical environment.</li>
+    <li>Sensors collect data, <strong>generate information and raise awareness about context</strong>.</li>
+    <li>The sensor market spans: <strong>MEMS</strong>-based sensors, optical sensors, ambient light sensors, gesture sensors, proximity sensors, touch sensors, fingerprint sensors, and more.</li>
+  </ul>
+
+  <h3><span class="no">15.2</span>Who is building the state of the art</h3>
+  <div class="compare">
+    <div class="cmp"><h5>Research groups</h5>
+      <ul><li>MIT Auto-ID Lab and EPCglobal</li><li>Stanford University</li><li>Georgia Institute of Technology</li><li>Cambridge University</li><li>EPFL and ETH Zurich — Information and Communication Systems Research Group</li><li>Chemnitz University of Technology — VSR Group</li></ul></div>
+    <div class="cmp"><h5>Industry players</h5>
+      <ul><li>Nokia · SAP · IBM · Google</li><li>Ambient · Metro Group</li><li>Siemens · Sun</li><li>Cisco · GE</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ 16 HYPE & DRIVING FORCES ============ -->
+<section class="ch" id="c16">
+  <header class="chh" data-num="16">
+    <div class="kick">Part B · Chapter 16</div>
+    <h2>Hype vs fact — and the five driving forces</h2>
+    <p class="lede">IoT did not arrive from nowhere: five simultaneous technology curves made it cheap, small, connected and smart.</p>
+  </header>
+
+  <h3><span class="no">16.1</span>The hype ladder (as of the 2015 view)</h3>
+  <div class="tbl"><table class="slender">
+    <thead><tr><th>Year</th><th>Technologies in the hype spotlight</th></tr></thead>
+    <tbody>
+      <tr><td>2011</td><td>NFC payment · Internet TV</td></tr>
+      <tr><td>2012</td><td>BYOD · 3D printing</td></tr>
+      <tr><td>2013</td><td>Wearable UI · gamification · consumer 3D printing</td></tr>
+      <tr><td>2014</td><td>NLP · <strong>IoT</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Hype vs fact:</strong> hype inflates near-term expectations; the underlying curves (below) are what actually compound.</p>
+
+  <h3><span class="no">16.2</span>Driving force 1 — sensor technology: tiny, cheap, variety</h3>
+  <p>An accelerometer of <strong>4 mm diameter</strong>; a pulse sensor for about <strong>$25</strong>; force sensors resolving <strong>0.1–10 N</strong> — off-the-shelf from SparkFun and Adafruit. Sensing became a hobby, not a factory contract.</p>
+
+  <h3><span class="no">16.3</span>Driving force 2 — cheap miniature computers</h3>
+  <div class="tbl"><table class="slender">
+    <thead><tr><th colspan="2">ATtiny85 — a full computer for about a dollar (LilyTiny board)</th></tr></thead>
+    <tbody>
+      <tr><td>Flash</td><td>8 Kbytes</td></tr>
+      <tr><td>Pin count</td><td>8</td></tr>
+      <tr><td>Max operating frequency</td><td>20 MHz</td></tr>
+      <tr><td>CPU</td><td>8-bit AVR</td></tr>
+      <tr><td>Max I/O pins · ext. interrupts</td><td>6 · 6</td></tr>
+      <tr><td>SPI · I²C</td><td>1 · 1</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">16.4</span>Driving forces 3–5</h3>
+  <div class="cards g3">
+    <div class="card"><span class="t">Low-power connectivity</span><p><strong>Bluetooth Smart (4.0)</strong> runs up to <strong>2 years on a single coin-cell battery</strong> — radios that outlive the product cycle.</p></div>
+    <div class="card"><span class="t">Capable mobile devices</span><p>Quad-core 1.5 GHz · 128 GB storage · 3 GB RAM · 16 MP camera · 2160p@30fps video · WiFi, GPS, BLE — a sensor-rich gateway in every pocket.</p></div>
+    <div class="card"><span class="t">Power of the cloud</span><p>Elastic compute and storage plus analytics services — the back-end every device can rent instead of building.</p></div>
+  </div>
+  <div class="bx mnem"><span class="btag">Mnemonic</span>
+    <p><b>“Smart Circuits Love Mobile Clouds”</b> — <b>S</b>ensors · <b>C</b>omputers (cheap) · <b>L</b>ow-power connectivity · <b>M</b>obile devices · <b>C</b>loud.</p>
+  </div>
+</section>
+
+<!-- ============ 17 ABCD & RESEARCH ============ -->
+<section class="ch" id="c17">
+  <header class="chh" data-num="17">
+    <div class="kick">Part B · Chapter 17</div>
+    <h2>The ABCD of IoT — and the research landscape</h2>
+    <p class="lede">A one-word-each framework that happens to be its own mnemonic — plus the venues, industries and markets to cite in essays.</p>
+  </header>
+
+  <div class="cards g2">
+    <div class="card"><span class="t">A — Applications</span><p>Ubiquitous computing applications · cyber-physical systems (CPS) · smart and connected health.</p></div>
+    <div class="card"><span class="t">B — Big data analytics</span><p>Map-Reduce · frequent item-sets · similarity · clustering · dimension reduction · streaming data.</p></div>
+    <div class="card"><span class="t">C — Connectivity and communication</span><p>M2M · wireless sensor networks · IPv6 and 6LoWPAN · Bluetooth LE and ZigBee · WiFi and LTE.</p></div>
+    <div class="card"><span class="t">D — Devices that are smart</span><p>Mobile systems · sensor systems · wearables · energy harvesting.</p></div>
+  </div>
+
+  <h3><span class="no">17.1</span>Where IoT lives in the research community</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Community</th><th>Flagship venues</th></tr></thead>
+    <tbody>
+      <tr><td>Mobile systems</td><td>MobiSys · MobiCom</td></tr>
+      <tr><td>Sensor systems</td><td>SenSys · IPSN</td></tr>
+      <tr><td>Real-time systems</td><td>RTSS · RTAS</td></tr>
+      <tr><td>Human-computer interaction</td><td>CHI</td></tr>
+      <tr><td>Applications</td><td>UbiComp · PerCom</td></tr>
+      <tr><td>ML / data mining</td><td>ICML · KDD</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">17.2</span>Key industries and markets driving IoT</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">Key industries</span><p>Aerospace and defence · automotive · biotech and pharmaceutical · communications · education · electronics and semiconductors · energy production · financial services · industrial automation and machinery.</p></div>
+    <div class="card"><span class="t">Markets driving IoT</span><p>Smart cities · connected cars · smart meters · retail · wearables (healthcare and personal technology) · industrial IoT (M2M) · smart agriculture.</p></div>
+  </div>
+</section>
+
+<!-- ============ 18 TOOLS & CASE STUDIES ============ -->
+<section class="ch" id="c18">
+  <header class="chh" data-num="18">
+    <div class="kick">Part B · Chapter 18</div>
+    <h2>Tools and case studies</h2>
+    <p class="lede">From the free aggregation platform every maker starts on, to four worked engineering stories — including two with named machine-learning methods.</p>
+  </header>
+
+  <h3><span class="no">18.1</span>ThingSpeak</h3>
+  <div class="card" style="margin:1rem 0"><span class="t">Free online data aggregation platform</span>
+    <ul>
+      <li>Collects data from sensors — your “Things” — with <strong>instant visualization</strong>.</li>
+      <li>Popular with experimenters: <strong>more than 50,000 users</strong>; used by makers, education and prototyping engineers.</li>
+      <li><strong>Analyze:</strong> MATLAB integration runs scheduled MATLAB code on incoming data.</li>
+      <li><strong>Act:</strong> e.g., tweet a message when the backyard temperature reaches 32 degrees.</li>
+    </ul>
+  </div>
+
+  <h3><span class="no">18.2</span>Four worked examples</h3>
+  <div class="cards g2">
+    <div class="card"><span class="t">Weather monitoring</span><p><strong>Objective:</strong> measure, explore and discover weather patterns; provide a niche weather service. <strong>Solution:</strong> Arduino station with weather sensors + cloud-based aggregation and analysis.</p></div>
+    <div class="card"><span class="t">Traffic monitoring</span><p><strong>Objective:</strong> discover traffic patterns; provide live local traffic information. <strong>Solution:</strong> Raspberry Pi + webcam, with <strong>automated deployment of vision algorithms on the embedded sensor</strong> — analytics pushed to the edge node itself.</p></div>
+    <div class="card"><span class="t">BuildingIQ — predictive energy optimization</span><p><strong>Opportunity:</strong> real-time, cloud-based system helping commercial building owners cut HVAC energy. <strong>Data:</strong> 3–12 months from power meters, thermometers, pressure sensors + weather and energy cost — <strong>billions of data points</strong>. <strong>ML:</strong> SVM regression, Gaussian mixture models, k-means clustering. <strong>Optimization:</strong> multi-objective, constrained. <strong>Benefit:</strong> typical energy consumption reduced ~15%.</p></div>
+    <div class="card"><span class="t">iSonea — cloud and embedded analytics</span><p><strong>Opportunity:</strong> acoustic respiratory monitoring for wheeze detection and asthma management. <strong>Flow:</strong> captures 30 s of windpipe sound → processes locally to clean up and reduce ambient noise → spectral processing and pattern detection on the iSonea cloud server → feedback on the patient’s smartphone. <strong>Benefit:</strong> eliminates error-prone self-reporting and doctor visits.</p></div>
+  </div>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>BuildingIQ and iSonea together illustrate the <strong>edge-vs-cloud analytics spectrum</strong>: iSonea splits work between device (denoising) and cloud (pattern detection); BuildingIQ is cloud-centric machine learning. Quote the named algorithms — SVM regression, Gaussian mixtures, k-means — examiners reward specificity.</p>
+  </div>
+
+  <details class="deep">
+    <summary>Deep dive · model-based design and the toolchain</summary>
+    <div class="dbody">
+      <p>Real IoT systems blend <strong>different modelling approaches</strong>: physical modelling (schematics), block-diagram simulation (Simulink), embedded digital electronics (C++, Verilog), FPGA/IC integration, data-driven algorithm development (MATLAB), followed by implementation and <strong>V&amp;V — verification and validation</strong>.</p>
+      <p>Simulink models run directly on low-cost target hardware: <strong>Raspberry Pi, Gumstix Overo, PandaBoard, Arduino, LEGO MINDSTORMS NXT, BeagleBoard</strong> — a pick-and-place robot demo being the classic classroom example.</p>
+      <p>On languages: an IEEE Spectrum ranking used <strong>12 metrics</strong> (sources including Google, CareerBuilder and GitHub) to compare popularity — the lesson being “pick the right language for the task”, not the trendiest one.</p>
+      <p>Underneath it all, <strong>machine learning is everywhere</strong>: image recognition, speech recognition, stock prediction, medical diagnosis, data analytics, robotics — the “A” and “B” of IoT’s ABCD.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 19 WSN & NETWORK EVOLUTION ============ -->
+<section class="ch" id="c19">
+  <header class="chh" data-num="19">
+    <div class="kick">Part B · Chapter 19</div>
+    <h2>Wireless sensor networks and the evolving network</h2>
+    <p class="lede">The WSN is IoT’s oldest ancestor — and the network beneath it is being extended, expanded and enhanced simultaneously.</p>
+  </header>
+
+  <h3><span class="no">19.1</span>WSN architecture</h3>
+  <div class="flow h">
+    <div class="fnode"><b>SENSOR NODES</b><small>n1 … nN · low-power</small><p>one or more sensors each; may differ in type; actuators possible</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>SINK NODE</b><small>multi-hop collector</small><p>nodes relay data hop-by-hop toward the sink</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>GATEWAY</b><small>protocol bridge</small><p>lifts WSN traffic onto the Internet</p></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>CORE NETWORK</b><small>e.g., the Internet</small></div>
+    <div class="farrow" aria-hidden="true"></div>
+    <div class="fnode"><b>END-USER</b><small>computer services</small><p>storage, analysis, visualization, action</p></div>
+  </div>
+  <p><strong>Key points:</strong> WSNs typically run on <strong>low-power devices</strong>; each node carries one or more sensors of possibly different types (or actuators); data funnels through the sink and gateway into the core network for end-users and computer services.</p>
+
+  <h3><span class="no">19.2</span>How the networks are changing</h3>
+  <div class="cards g3">
+    <div class="card"><span class="t">Extensions</span><p>More nodes, more connections — IPv6 and 6LoWPAN letting the address space scale to billions.</p></div>
+    <div class="card"><span class="t">Expansions</span><p>Broadband everywhere — fat pipes for fat sensor data.</p></div>
+    <div class="card"><span class="t">Enhancements</span><p>Smart networks · data-centric and content-oriented networking · context-aware (autonomous) systems.</p></div>
+  </div>
+  <div class="bx def"><span class="btag">The one-line summary</span>
+    <blockquote>“Any TIME, any place + any THING — M2M, IoT: billions of interconnected devices, everybody connected.”
+    <cite>— the network-evolution slogan to memorise</cite></blockquote>
+  </div>
+
+  <h3><span class="no">19.3</span>People ↔ things, things ↔ things</h3>
+  <div class="compare">
+    <div class="cmp"><h5>People connecting to things</h5>
+      <ul><li>Motion sensors and ECG sensors stream to the Internet</li><li>A person queries or receives alerts from remote devices</li></ul></div>
+    <div class="cmp"><h5>Things connecting to things</h5>
+      <ul><li>Machines coordinate directly with machines</li><li>Complex, heterogeneous resources and networks interoperate</li></ul></div>
+  </div>
+  <p>Meanwhile, sensor devices became widely available as <strong>programmable devices and off-the-shelf gadgets</strong>, and ever more things connect: home and daily-life devices, business and public infrastructure, health-care equipment.</p>
+</section>
+
+<!-- ============ 20 MARKETS ============ -->
+<section class="ch" id="c20">
+  <header class="chh" data-num="20">
+    <div class="kick">Part B · Chapter 20</div>
+    <h2>Markets and growth — the numbers bank</h2>
+    <p class="lede">Every one of these figures is potential MCQ material. Learn the number, the source and the year together.</p>
+  </header>
+  <div class="cards g2">
+    <div class="card"><span class="big">30%</span><span class="sub">IoT growth, CAGR (multiple independent sources)</span></div>
+    <div class="card"><span class="big">$11.1 T</span><span class="sub">McKinsey 2015 — IoT market value by 2025</span></div>
+    <div class="card"><span class="big">40%</span><span class="sub">McKinsey — of total value that requires different IoT systems to work together</span></div>
+    <div class="card"><span class="big">2.2×</span><span class="sub">Nucleus Research 2016 — ROI of advanced analytics vs traditional BI customers</span></div>
+    <div class="card"><span class="big">9 mo</span><span class="sub">Nucleus Research — pilot within this window for a respectable payback period</span></div>
+    <div class="card"><span class="big">20 quintillion</span><span class="sub">bytes of data produced every day (≈10¹⁸, IBM)</span></div>
+    <div class="card"><span class="big">12% / yr</span><span class="sub">Frost and Sullivan 2011 — RFID growth: $3–4 B (2009) → ~$6.5–9 B by 2016</span></div>
+    <div class="card"><span class="big">80%</span><span class="sub">of EU households expected to have intelligent power meters by 2020</span></div>
+    <div class="card"><span class="big">$5.3 B</span><span class="sub">global building-energy-management market (2010), administered remotely via smartphone or PC</span></div>
+    <div class="card"><span class="big">$775 M</span><span class="sub">China’s 2012 fund for IoT — growing to $11 B by 2015; sector $116 B by 2015 (Xinhua)</span></div>
+  </div>
+  <p><strong>McKinsey’s sharp observation:</strong> most IoT data collected today <em>are not used</em>, and the data that are used are <em>not fully exploited</em>. Hence the two takeaways your slides underline: <strong>analytics is the key to extracting IoT value</strong>, and <strong>prototyping is hard</strong>.</p>
+  <p><strong>Data generation:</strong> the ~20 quintillion bytes/day span textual content — unstructured, semi-structured, structured — plus multimedia (images, video, audio), across enterprise systems, social media and sensors.</p>
+</section>
+
+<!-- ============ 21 CHALLENGES ============ -->
+<section class="ch" id="c21">
+  <header class="chh" data-num="21">
+    <div class="kick">Part B · Chapter 21</div>
+    <h2>Challenges and limitations of IoT</h2>
+    <p class="lede">Five “total” challenges, the engineering pain of building systems, four solution levers, and the honest limitations list.</p>
+  </header>
+
+  <h3><span class="no">21.1</span>The five total challenges of IoT</h3>
+  <ol>
+    <li><strong>Technological standardization</strong> remains fragmented in most areas.</li>
+    <li><strong>Managing and fostering rapid innovation</strong> is a challenge for governments.</li>
+    <li><strong>Privacy and security.</strong></li>
+    <li><strong>Absence of governance.</strong></li>
+    <li><strong>Vulnerability to internet attack.</strong></li>
+  </ol>
+  <div class="bx tip"><span class="btag">Exam tip</span>
+    <p>The headline challenge, stated exactly: <strong>“How to convince users that the IoT technology will protect their data and privacy when tracking.”</strong> Follow it with the four-pronged solution framework below.</p>
+  </div>
+
+  <h3><span class="no">21.2</span>Potential solutions — four levers</h3>
+  <div class="cards g4">
+    <div class="card"><span class="t">Legal and regulatory</span><p>Laws and compliance frameworks for data and devices.</p></div>
+    <div class="card"><span class="t">Technical control</span><p>Encryption, access control, secure architecture.</p></div>
+    <div class="card"><span class="t">Social ethic</span><p>Societal norms for what is acceptable to sense and share.</p></div>
+    <div class="card"><span class="t">Market self-regulation</span><p>Industry standards and trust marks driven by competition.</p></div>
+  </div>
+
+  <h3><span class="no">21.3</span>Solutions via education, information and legislation</h3>
+  <div class="compare">
+    <div class="cmp"><h5>Education and information</h5>
+      <ul><li>Capacity-building programs</li><li>Breadth and depth engines</li><li>Strategic communication plans</li><li>Framing opportunities vs threats of the IoT</li></ul></div>
+    <div class="cmp"><h5>Legislation</h5>
+      <ul><li>Two approaches: <strong>the real law</strong> and <strong>the cyberlaw</strong></li><li>Lack of legal instruments in five areas: privacy · intellectual property rights · security · data protection · cybercrime</li></ul></div>
+  </div>
+
+  <h3><span class="no">21.4</span>Engineering-side challenges (why building IoT is hard)</h3>
+  <div class="cards g2">
+    <div class="cmp"><h5>System complexity</h5>
+      <ul><li>Complex systems — hard to get started</li><li>No single-vendor end-to-end solutions</li><li>Lack of consolidation on industry standards</li></ul></div>
+    <div class="cmp"><h5>Skills and pipeline</h5>
+      <ul><li>Multiple expertise required: firmware · communications · web/IT · data science</li><li>Embedded development is challenging</li><li>Increasing algorithmic complexity</li></ul></div>
+    <div class="cmp"><h5>Data and cloud</h5>
+      <ul><li>Need connectivity to cloud resources</li><li>Streaming data management and storage</li><li>Complex analysis available as services</li></ul></div>
+    <div class="cmp"><h5>From result to action</h5>
+      <ul><li>Ability to turn analysis results into actions</li><li>Advanced analysis algorithms</li><li>Tools for deployment and connectivity</li></ul></div>
+  </div>
+
+  <h3><span class="no">21.5</span>Limitations of IoT (the honest list)</h3>
+  <ul>
+    <li>Applications in <strong>extreme situations are still untested</strong> — outer space, very hot or very cold environments.</li>
+    <li><strong>Standardization and interoperability</strong> remain unresolved.</li>
+    <li><strong>Legal instruments</strong> lag the technology.</li>
+    <li><strong>Technical limitations</strong> persist in some cases (power, range, density).</li>
+  </ul>
+  <div class="bx mnem"><span class="btag">Mnemonic</span>
+    <p><b>“S-P-G-V-I”</b> — <b>S</b>tandardization · <b>P</b>rivacy and security · <b>G</b>overnance absent · <b>V</b>ulnerability to attack · <b>I</b>nnovation management. Five total challenges, in slide order.</p>
+  </div>
+</section>
+
+<!-- ============ 22 FUTURE ============ -->
+<section class="ch" id="c22">
+  <header class="chh" data-num="22">
+    <div class="kick">Part B · Chapter 22</div>
+    <h2>Future of IoT</h2>
+    <p class="lede">Where the technology lands: six application domains, three core sectors, and the scale considerations that shape its design.</p>
+  </header>
+
+  <h3><span class="no">22.1</span>Application domains of the future</h3>
+  <div class="vsrc">
+    <span class="chip">traffic issues</span><span class="chip">production</span><span class="chip">daily life</span>
+    <span class="chip">logistics</span><span class="chip">retailing</span><span class="chip">resource and power control</span>
+  </div>
+
+  <h3><span class="no">22.2</span>Three core sectors</h3>
+  <div class="cards g3">
+    <div class="card inv"><span class="t">Enterprise (EIoT)</span><p class="big">9.1 B devices</p><span class="sub">≈ 40% of the total · by 2019 — the largest sector</span></div>
+    <div class="card"><span class="t">Home</span><p>Consumer smart-home and personal-device ecosystems.</p></div>
+    <div class="card"><span class="t">Government</span><p>Smart-city infrastructure, public safety, utilities.</p></div>
+  </div>
+
+  <h3><span class="no">22.3</span>Size considerations</h3>
+  <ul>
+    <li>The Internet of objects would encode <strong>50 to 100 trillion objects</strong> and be able to follow their movement.</li>
+    <li>Human beings in surveyed urban environments are each surrounded by <strong>1,000 to 5,000 trackable objects</strong>.</li>
+  </ul>
+
+  <h3><span class="no">22.4</span>Space considerations</h3>
+  <ul>
+    <li>Because IoT <strong>things can take actions on their own initiative</strong>, the human-centric mediation role is eliminated.</li>
+    <li>The <strong>time–space context</strong> that humans take for granted must therefore be given a central role in the information ecosystem.</li>
+    <li>Just as standards built the Internet and the Web, <strong>geospatial standards will play a key role</strong> in the Internet of Things.</li>
+  </ul>
+</section>
+
+<!-- ============ 23 CRITICISM ============ -->
+<section class="ch" id="c23">
+  <header class="chh" data-num="23">
+    <div class="kick">Part B · Chapter 23</div>
+    <h2>Criticism — privacy, autonomy and control</h2>
+    <p class="lede">The counter-argument every good essay needs: serious thinkers doubt the promise of ubiquitous computing.</p>
+  </header>
+  <div class="cards">
+    <div class="card"><span class="t">Peter-Paul Verbeek — philosophy of technology, Netherlands</span><p>Technology already <strong>influences our moral decision making</strong>, which in turn affects human <strong>agency, privacy and autonomy</strong>. He cautions against viewing technology merely as a human tool, and advocates considering it as an <strong>active agent</strong>.</p></div>
+    <div class="card"><span class="t">Justin Brookman — Center for Democracy and Technology</span><p>“There are some people in the commercial space who say, ‘Oh, big data — well, let’s collect everything, keep it around forever, we’ll pay for somebody to think about security later.’ The question is whether we want to have some sort of <strong>policy framework in place to limit that</strong>.”</p></div>
+    <div class="card"><span class="t">WIRED editorials</span><p>“What you’re about to lose is your privacy. Actually, it’s worse than that. You aren’t just going to lose your privacy — you’re going to have to watch the very <strong>concept of privacy be rewritten under your nose</strong>.”</p></div>
+  </div>
+  <div class="closing">
+    <p>“With IoT, you don’t need to go online — because your environment is already there, serving you.”</p>
+    <cite>The closing thought of the course — ambient computing, and the provocative claim that if we never need to “go online”, IoT could dissolve the very idea of being online.</cite>
+  </div>
+</section>
+
+<!-- ====== PART C ====== -->
+<section class="part" id="pc">
+  <span class="pn">PART C</span>
+  <p class="pt">Exam Corner</p>
+  <p class="pd">chapters 24–26 · rapid revision vault · expected questions with answer skeletons · self-check quiz</p>
+</section>
+
+<!-- ============ 24 RAPID REVISION ============ -->
+<section class="ch" id="c24">
+  <header class="chh" data-num="24">
+    <div class="kick">Part C · Chapter 24</div>
+    <h2>Rapid revision vault</h2>
+    <p class="lede">Read this chapter the night before and the morning of the exam. Everything else exists to explain these lines.</p>
+  </header>
+
+  <h3><span class="no">24.1</span>One-liners</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Term</th><th>One-line answer</th></tr></thead>
+    <tbody>
+      <tr><td>IoT (ITU)</td><td>Dynamic, self-configuring global network of uniquely identified physical/virtual things using intelligent interfaces, seamlessly integrated and communicating contextual data.</td></tr>
+      <tr><td>Physical design</td><td>Things + protocols — the concrete devices, interfaces and links.</td></tr>
+      <tr><td>Logical design</td><td>Abstract representation of entities and processes without low-level implementation specifics.</td></tr>
+      <tr><td>6LoWPAN</td><td>Adaptation layer squeezing IPv6 onto 802.15.4 via header compression and fragmentation.</td></tr>
+      <tr><td>CoAP</td><td>REST-style application protocol over UDP with a 4-byte header, for constrained devices.</td></tr>
+      <tr><td>MQTT</td><td>Lightweight brokered publish–subscribe over TCP; QoS 0/1/2; topics; retain; last-will.</td></tr>
+      <tr><td>DDS</td><td>Brokerless, data-centric, real-time publish–subscribe (RTPS).</td></tr>
+      <tr><td>AMQP</td><td>TCP, store-and-forward queuing with guaranteed delivery — enterprise backbone.</td></tr>
+      <tr><td>Deployment template</td><td>Reference design for an IoT level: node count, storage/analysis location, observer/controller roles.</td></tr>
+      <tr><td>RFID</td><td>Contactless identification via reader, antenna and tag (passive / semi-passive / active) at LF, HF, UHF or microwave bands.</td></tr>
+      <tr><td>EPC</td><td>Electronic Product Code — unique item-level identity stored on RFID tags.</td></tr>
+      <tr><td>Object / Communication / Application IDs</td><td>Identify objects · devices-for-communication · applications-and-services respectively.</td></tr>
+      <tr><td>M2M</td><td>Machine-to-machine communication — IoT’s precursor and industrial subset.</td></tr>
+      <tr><td>WSN</td><td>Low-power multi-hop sensor network: nodes → sink → gateway → core network → end-user services.</td></tr>
+      <tr><td>ThingSpeak</td><td>Free online data aggregation platform: collect, visualize, analyze (MATLAB), act; 50k+ users.</td></tr>
+      <tr><td>EIoT</td><td>Enterprise IoT — the largest of the three sectors (enterprise, home, government).</td></tr>
+      <tr><td>ABCD of IoT</td><td>Applications · Big-data analytics · Connectivity and communication · smart Devices.</td></tr>
+      <tr><td>Four enabling technologies</td><td>RFID (identify) · sensors (sense) · smart tech (process) · nanotech (shrink).</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="no">24.2</span>Numbers to remember</h3>
+  <div class="cards g3">
+    <div class="card"><span class="big">1999</span><span class="sub">Kevin Ashton coins “IoT” · MIT Auto-ID Center</span></div>
+    <div class="card"><span class="big">2008</span><span class="sub">IoT 2008, first Intl conference — Zurich</span></div>
+    <div class="card"><span class="big">50 B</span><span class="sub">devices forecast for 2020 (Ericsson)</span></div>
+    <div class="card"><span class="big">$11.1 T</span><span class="sub">IoT market by 2025 (McKinsey 2015)</span></div>
+    <div class="card"><span class="big">$14.4 T</span><span class="sub">Cisco — net profit over two decades</span></div>
+    <div class="card"><span class="big">$613 B</span><span class="sub">Cisco — additional profit potential (50% of businesses)</span></div>
+    <div class="card"><span class="big">9.1 B</span><span class="sub">EIoT devices ≈ 40% by 2019</span></div>
+    <div class="card"><span class="big">860–960</span><span class="sub">MHz — the UHF RFID band</span></div>
+    <div class="card"><span class="big">+200</span><span class="sub">variables monitored per truck (transport scenario)</span></div>
+  </div>
+
+  <h3><span class="no">24.3</span>Micro-comparisons</h3>
+  <div class="compare">
+    <div class="cmp"><h5>Passive vs active tags</h5><ul><li>Passive: reader-powered, cm–10 m, cheapest</li><li>Active: battery + transmitter, 100 m+, costliest</li></ul></div>
+    <div class="cmp"><h5>TCP vs UDP</h5><ul><li>TCP: reliable, ordered, heavier — HTTP/MQTT/AMQP</li><li>UDP: best-effort, 8 B header — CoAP/DDS</li></ul></div>
+    <div class="cmp"><h5>Inductive vs backscatter</h5><ul><li>LF/HF: near-field magnetic coupling</li><li>UHF: far-field EM backscatter — longer range</li></ul></div>
+    <div class="cmp"><h5>Brokered vs brokerless</h5><ul><li>MQTT/AMQP: central broker routes topics/queues</li><li>DDS: peer-to-peer RTPS, rich real-time QoS</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ 25 EXPECTED QUESTIONS ============ -->
+<section class="ch" id="c25">
+  <header class="chh" data-num="25">
+    <div class="kick">Part C · Chapter 25</div>
+    <h2>Expected exam questions</h2>
+    <p class="lede">Long-answer skeletons you can expand into full marks, plus the short-answer bank. Tap each to reveal the outline.</p>
+  </header>
+
+  <details class="deep"><summary>Q1 · Define IoT and explain its characteristics. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Reproduce the ITU definition verbatim (Ch. 01).</li>
+      <li>Unpack 3–4 key phrases (self-configuring, interoperable, identities, intelligent interfaces).</li>
+      <li>List all six characteristics with one example each (Ch. 02).</li>
+      <li>Close with the connectivity shift: anyone → anything, backed by Ericsson’s 500 M → 12.5 B → 50 B.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q2 · Explain the physical design and logical design of IoT with diagrams. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Physical = Things + protocols; a Thing has unique identity, remote sensing/actuating, monitoring (Ch. 03).</li>
+      <li>Draw the generic block diagram (Fig. 1); label sensor I/O, connectivity, memory/storage, audio-video.</li>
+      <li>The four data-handling modes: exchange · local · cloud · hybrid.</li>
+      <li>Logical = abstract representation; draw the six functional blocks (Fig. 2); name the five capabilities.</li>
+      <li>Mention the two communication APIs: request–response and publish–subscribe.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q3 · Describe the IoT protocol stack; compare any two application-layer protocols. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Draw the four layers with all protocols (Ch. 05 stack figure).</li>
+      <li>One line each for link-layer standards; explain IPv4/IPv6/6LoWPAN.</li>
+      <li>TCP vs UDP table.</li>
+      <li>Compare MQTT vs CoAP (transport, pattern, overhead, QoS, use case) — or HTTP vs MQTT.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q4 · Explain IoT levels 1–6 with deployment template diagrams. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Define deployment template; state the two axes (node count, observer/controller).</li>
+      <li>Reproduce the level table (Ch. 07), then draw at least Levels 1, 4 and 6 as figures.</li>
+      <li>Give one example system per level.</li>
+      <li>Underline: even levels add the controller; Levels 5–6 are multi-node.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q5 · Explain RFID: architecture, tag types, frequency bands and applications. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Draw Fig. 9 (reader, antenna, air interface, tag, backend).</li>
+      <li>Passive / semi-passive / active comparison table.</li>
+      <li>Frequency-band table (LF 125–134 kHz · HF 13.56 MHz · UHF 860–960 MHz · microwave 2.4 GHz) with coupling and range.</li>
+      <li>Both application lists (industrial + everyday).</li>
+      <li>Bonus: backscatter vs inductive coupling; RFID vs barcode.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q6 · Discuss the enabling technologies and state of the art of IoT. (8 marks)</summary>
+    <div class="dbody"><ol>
+      <li>The four pillars: RFID · sensors · smart tech · nanotech, each with its function (Ch. 15).</li>
+      <li>Sensor deep points: bridge physical–virtual, context awareness, MEMS market.</li>
+      <li>Research groups and industry players (one line).</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q7 · Differentiate M2M and IoT; list M2M application domains. (8 marks)</summary>
+    <div class="dbody"><ol>
+      <li>M2M: point-to-point, device-centric, silos. IoT: IP, cloud, interoperable, analytics (Ch. 12).</li>
+      <li>“M2M is a subset/precursor of IoT.”</li>
+      <li>Reproduce the 7-industry table with at least one application each.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q8 · Explain the challenges and limitations of IoT and suggest solutions. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>The five total challenges (S-P-G-V-I).</li>
+      <li>The headline privacy question; four solution levers.</li>
+      <li>Education and information; legislation — real law vs cyberlaw; five missing legal instruments.</li>
+      <li>Limitations: extreme environments untested, standards, legal, technical.</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q9 · Discuss the future of IoT. (8 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Six domains: traffic, production, daily life, logistics, retailing, resource/power control.</li>
+      <li>Three sectors; EIoT ≈ 40% / 9.1 B by 2019.</li>
+      <li>Size: 50–100 trillion objects; 1,000–5,000 trackable objects per urban human.</li>
+      <li>Space: autonomous action removes human mediation; geospatial standards key.</li>
+      <li>Criticism: Verbeek, Brookman, WIRED (Ch. 23).</li>
+    </ol></div>
+  </details>
+  <details class="deep"><summary>Q10 · Describe IoT application scenarios. (10 marks)</summary>
+    <div class="dbody"><ol>
+      <li>Smart home; the four-step shopping scenario; healthcare (two views); transportation (+200 variables, 5% penetration).</li>
+      <li>Fun examples: cupcake ATM, Heathrow smart loos — and the shared pattern.</li>
+    </ol></div>
+  </details>
+
+  <h3><span class="no">25.1</span>Short-answer bank (2–5 marks)</h3>
+  <ul>
+    <li>Why does IoT need 6LoWPAN? (IPv6 headers too large for 802.15.4 frames → compression and fragmentation.)</li>
+    <li>List the three QoS levels of MQTT.</li>
+    <li>Distinguish Object, Communication and Application identifiers.</li>
+    <li>What is ThingSpeak and who uses it?</li>
+    <li>Name the components of a WSN and trace data flow to the end-user.</li>
+    <li>What is the EPC and where is it stored?</li>
+    <li>What did Kevin Ashton contribute, and when?</li>
+    <li>State the four technologies proposed at WSIS 2005.</li>
+    <li>Reproduce Ericsson’s human/device numbers.</li>
+    <li>Expand the ABCD of IoT.</li>
+    <li>List the five total challenges of IoT.</li>
+    <li>What are EIoT’s size and share forecasts?</li>
+    <li>State any four limitations of IoT.</li>
+    <li>Summarize Verbeek’s critique in two sentences.</li>
+  </ul>
+</section>
+
+<!-- ============ 26 QUIZ ============ -->
+<section class="ch" id="c26">
+  <header class="chh" data-num="26">
+    <div class="kick">Part C · Chapter 26</div>
+    <h2>Self-check quiz</h2>
+    <p class="lede">Fourteen questions. Tap an option — the correct answer fills black and an explanation appears. No marks recorded, no excuses accepted.</p>
+  </header>
+
+  <div class="quiz"><p class="qq">1 · The term “Internet of Things” was coined by —</p>
+    <div class="q-opts">
+      <button class="q-opt">Mark Weiser</button>
+      <button class="q-opt" data-correct="1">Kevin Ashton</button>
+      <button class="q-opt">Vint Cerf</button>
+      <button class="q-opt">Tim Berners-Lee</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">In 1999, during a Procter and Gamble supply-chain presentation; he then co-founded MIT’s Auto-ID Center.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">2 · The first international conference on the Internet of Things (IoT 2008) was held in —</p>
+    <div class="q-opts">
+      <button class="q-opt">Geneva</button>
+      <button class="q-opt">Tokyo</button>
+      <button class="q-opt" data-correct="1">Zurich</button>
+      <button class="q-opt">Boston</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">IoT 2008, Zurich — also around when connected devices surpassed the human population.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">3 · In the IoT protocol stack, 6LoWPAN belongs to the —</p>
+    <div class="q-opts">
+      <button class="q-opt">Link layer</button>
+      <button class="q-opt" data-correct="1">Network layer</button>
+      <button class="q-opt">Transport layer</button>
+      <button class="q-opt">Application layer</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">It is the adaptation layer that carries IPv6 over 802.15.4 — a network-layer function.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">4 · CoAP is designed to run over —</p>
+    <div class="q-opts">
+      <button class="q-opt">TCP</button>
+      <button class="q-opt" data-correct="1">UDP</button>
+      <button class="q-opt">HTTP</button>
+      <button class="q-opt">Bluetooth only</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">UDP keeps the 4-byte-header protocol viable on constrained devices and lossy links.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">5 · Which protocol uses a central broker with publish–subscribe topics?</p>
+    <div class="q-opts">
+      <button class="q-opt">HTTP</button>
+      <button class="q-opt" data-correct="1">MQTT</button>
+      <button class="q-opt">WebSocket</button>
+      <button class="q-opt">CoAP</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">MQTT: lightweight pub/sub through a broker, with QoS 0/1/2 — the telemetry standard.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">6 · At IoT Level 6, the deployment template has —</p>
+    <div class="q-opts">
+      <button class="q-opt">One node, observer only</button>
+      <button class="q-opt">One node, observer and controller</button>
+      <button class="q-opt">Multiple nodes, observer only</button>
+      <button class="q-opt" data-correct="1">Multiple nodes, observer and controller</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">Level 6 = the full stack: many nodes, cloud storage and analysis, plus a remote observer-controller.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">7 · A passive RFID tag draws its operating power from —</p>
+    <div class="q-opts">
+      <button class="q-opt">An internal battery</button>
+      <button class="q-opt" data-correct="1">The reader’s RF field</button>
+      <button class="q-opt">A solar cell</button>
+      <button class="q-opt">The backend server</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">No battery at all — energy is harvested from the reader’s field (inductive coupling or backscatter).</p>
+  </div>
+
+  <div class="quiz"><p class="qq">8 · Passive UHF RFID operates around —</p>
+    <div class="q-opts">
+      <button class="q-opt">13.56 MHz</button>
+      <button class="q-opt">125 kHz</button>
+      <button class="q-opt" data-correct="1">860–960 MHz</button>
+      <button class="q-opt">24 GHz</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">860–960 MHz, far-field backscatter, 3–10 m — the supply-chain band. 13.56 MHz is HF/NFC; 125 kHz is LF.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">9 · Ericsson’s forecast for connected devices by 2020 was —</p>
+    <div class="q-opts">
+      <button class="q-opt">12.5 billion</button>
+      <button class="q-opt">25 billion</button>
+      <button class="q-opt" data-correct="1">50 billion</button>
+      <button class="q-opt">100 billion</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">50 B devices vs 7.6 B humans — roughly 6.6 devices per person. (12.5 B was the 2011 figure.)</p>
+  </div>
+
+  <div class="quiz"><p class="qq">10 · McKinsey (2015) estimated the IoT market value by 2025 at —</p>
+    <div class="q-opts">
+      <button class="q-opt">$1.1 trillion</button>
+      <button class="q-opt">$6.5 billion</button>
+      <button class="q-opt" data-correct="1">$11.1 trillion</button>
+      <button class="q-opt">$14.4 trillion</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">$11.1 T by 2025. ($14.4 T is Cisco’s two-decade net-profit figure — a classic distractor.)</p>
+  </div>
+
+  <div class="quiz"><p class="qq">11 · Which of these is NOT an IoT application-layer protocol?</p>
+    <div class="q-opts">
+      <button class="q-opt">MQTT</button>
+      <button class="q-opt">AMQP</button>
+      <button class="q-opt">DDS</button>
+      <button class="q-opt" data-correct="1">TCP</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">TCP lives at the transport layer, below all the others.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">12 · Object identifiers (Object IDs) are used to uniquely identify —</p>
+    <div class="q-opts">
+      <button class="q-opt">Running applications</button>
+      <button class="q-opt" data-correct="1">Physical or virtual objects</button>
+      <button class="q-opt">Communication links</button>
+      <button class="q-opt">Network routers</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">Object IDs → objects; Communication IDs → devices; Application IDs → applications and services.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">13 · DDS differs from MQTT mainly because DDS is —</p>
+    <div class="q-opts">
+      <button class="q-opt">XML-based</button>
+      <button class="q-opt" data-correct="1">Brokerless peer-to-peer</button>
+      <button class="q-opt">Restricted to WiFi</button>
+      <button class="q-opt">Request–response</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">DDS peers talk directly over RTPS with rich real-time QoS — no central broker in the path.</p>
+  </div>
+
+  <div class="quiz"><p class="qq">14 · The four enabling technologies highlighted at WSIS 2005 were —</p>
+    <div class="q-opts">
+      <button class="q-opt" data-correct="1">RFID, sensor tech, smart tech, nanotech</button>
+      <button class="q-opt">GPS, LTE, cloud, AI</button>
+      <button class="q-opt">Barcode, WiFi, big data, robotics</button>
+      <button class="q-opt">BLE, ZigBee, IPv6, HTTP</button>
+    </div>
+    <p class="q-verdict"></p>
+    <p class="q-ex">Identify → sense → process → shrink: the four pillars of the IoT state of the art.</p>
+  </div>
+
+  <div class="bx recap"><span class="btag">Final instruction</span>
+    <p>Scored 12+? You are ready. Below 10? Re-read Chapters 05, 07, 08 and 21 — they carry the heaviest question weight.</p>
+  </div>
+</section>
+
+<footer>
+  IoT · Unit 1 — Fundamentals · complete exam notes<br>
+  mobile-first · monochrome · works offline · print-friendly (deep dives auto-expand when printing)<br>
+  Good luck — go collect those marks.
+</footer>
+
+</div><!-- /wrap -->
+</main>
+</div><!-- /shell -->
+
+<button id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var body=document.body;
+
+  /* drawer */
+  $('#menuBtn').addEventListener('click',function(){body.classList.toggle('toc-open')});
+  $('#tocClose').addEventListener('click',function(){body.classList.remove('toc-open')});
+  $('#scrim').addEventListener('click',function(){body.classList.remove('toc-open')});
+  $('#toc').addEventListener('click',function(e){if(e.target.closest('a'))body.classList.remove('toc-open')});
+
+  /* theme */
+  var root=document.documentElement;
+  function setTheme(t){
+    root.classList.toggle('dark',t==='dark');
+    try{localStorage.setItem('iotnotes-theme',t)}catch(_){}}
+  var saved=null; try{saved=localStorage.getItem('iotnotes-theme')}catch(_){}
+  if(saved){setTheme(saved)}
+  else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){setTheme('dark')}
+  $('#themeBtn').addEventListener('click',function(){
+    setTheme(root.classList.contains('dark')?'light':'dark')});
+
+  /* progress + back-to-top */
+  var bar=$('#progress'), top=$('#toTop');
+  addEventListener('scroll',function(){
+    var h=root,max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+    top.classList.toggle('show',h.scrollTop>500);
+  },{passive:true});
+  top.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'})});
+
+  /* active TOC link */
+  var links=$$('#toc a[href^="#"]'),map={};
+  links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(l){l.classList.remove('on')});
+          var a=map[e.target.id]; if(a)a.classList.add('on');
+        }});
+    },{rootMargin:'-15% 0px -75% 0px'});
+    $$('section[id]').forEach(function(s){io.observe(s)});
+  }
+
+  /* quiz */
+  $$('.quiz').forEach(function(q){
+    var opts=q.querySelectorAll('.q-opt'),
+        verdict=q.querySelector('.q-verdict'),
+        ex=q.querySelector('.q-ex');
+    Array.prototype.forEach.call(opts,function(btn){
+      btn.addEventListener('click',function(){
+        if(q.classList.contains('done'))return;
+        q.classList.add('done');
+        Array.prototype.forEach.call(opts,function(o){
+          if(o.getAttribute('data-correct')==='1')o.classList.add('right')});
+        var ok=btn.getAttribute('data-correct')==='1';
+        if(!ok)btn.classList.add('wrong');
+        verdict.textContent=ok?'Correct — well remembered':'Not quite — review this one';
+        verdict.classList.toggle('no',!ok);
+        ex.hidden=false;
+      });
+    });
+  });
+
+  /* printing: expand all deep dives */
+  addEventListener('beforeprint',function(){
+    $$('details').forEach(function(d){d.open=true})});
+})();
+</script>
+</body>
+</html>

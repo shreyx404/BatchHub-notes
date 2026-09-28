@@ -1,0 +1,2394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="fds-unit4">
+<meta name="note-subject" content="FDS">
+<meta name="note-unit" content="Unit 4">
+<meta name="note-tags" content="Data Structures, Stacks, Queues, Postfix Evaluation, Infix to Postfix, Circular Queue, Deque, Priority Queue">
+<meta name="note-summary" content="Exam notes for FDS Unit 4 (CB2003) — Stacks & Queues: ADT operations, array and linked implementations, postfix/prefix conversions, circular queues, deques, and priority queues.">
+<title>FDS · Unit IV — Stacks &amp; Queues · Exam Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS — mobile-first base ============ */
+:root{
+  --paper:#FAFAF6; --paper-2:#F2F0E9; --ink:#161511; --ink-2:#57544C; --ink-3:#8B887D;
+  --line:#E4E2D9; --line-2:#C8C5B9; --code-bg:#191812; --code-hd:#24231C; --code-ink:#E7E5DA;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:78px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+b,strong{font-weight:600}
+p{margin:0 0 1.1em}
+a{color:inherit}
+ul,ol{padding-left:1.35em;margin:0 0 1.1em}
+li{margin:.35em 0}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+code{font:500 .84em var(--mono);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;white-space:nowrap}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ============ PROGRESS + CHIP NAV ============ */
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ink);z-index:90}
+.chipbar{position:sticky;top:0;z-index:80;background:rgba(250,250,246,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.chips{display:flex;gap:8px;overflow-x:auto;max-width:780px;margin:0 auto;padding:11px 20px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:600 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;border:1px solid var(--line-2);border-radius:999px;color:var(--ink-2);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.chip:hover,.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ============ HERO ============ */
+.hero{padding:60px 0 34px}
+.emblem{display:flex;align-items:center;gap:8px;margin-bottom:26px}
+.emblem i{display:block;border:1.5px solid var(--ink)}
+.e-col{display:flex;flex-direction:column;gap:4px}
+.e-col i{width:22px;height:9px;background:var(--ink)}
+.e-row{display:flex;gap:4px}
+.e-row i{width:9px;height:22px}
+.hero .kick{font:600 11px/1.6 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(42px,12vw,78px);line-height:.98;letter-spacing:-.02em;margin-bottom:22px}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero .sub{font-family:var(--serif);font-size:clamp(16px,4.4vw,19px);line-height:1.6;color:var(--ink-2);max-width:56ch}
+.meta{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font:500 11.5px/1.9 var(--mono);color:var(--ink-3)}
+.meta b{color:var(--ink-2);font-weight:600}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.stat{font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line-2);border-radius:999px;padding:7px 12px;color:var(--ink-2)}
+
+/* ============ SECTIONS ============ */
+.sec{padding:54px 0 6px}
+.kicker{font:600 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.kicker::after{content:"";flex:1;border-top:1px solid var(--line)}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(27px,7vw,40px);line-height:1.12;letter-spacing:-.01em;margin-bottom:18px}
+h3{font-family:var(--serif);font-weight:600;font-size:clamp(19px,5vw,24px);line-height:1.25;margin:38px 0 12px}
+h4{font:700 11.5px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;margin:30px 0 10px;color:var(--ink)}
+.lead{font-family:var(--serif);font-size:clamp(17px,4.6vw,19.5px);line-height:1.62;color:#3E3B33;margin-bottom:1.15em}
+.small{font-size:13.5px;color:var(--ink-2)}
+.tight li{margin:.28em 0}
+
+/* ============ PART DIVIDERS ============ */
+.part{position:relative;margin-top:78px;padding-top:26px;border-top:3px solid var(--ink)}
+.part .pnum{position:absolute;right:0;top:6px;font-family:var(--serif);font-style:italic;font-size:clamp(64px,18vw,104px);line-height:1;color:transparent;-webkit-text-stroke:1.3px var(--line-2);pointer-events:none;user-select:none}
+.part .plbl{font:600 11px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.part h2{font-size:clamp(34px,9vw,52px);margin-bottom:10px}
+.plead{font-family:var(--serif);font-size:clamp(16px,4.4vw,19px);font-style:italic;color:var(--ink-2);max-width:54ch}
+
+/* ============ TOC ============ */
+.toc{border:1px solid var(--line-2);border-radius:12px;padding:8px;margin:26px 0 8px}
+.toc .toc-h{font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding:10px 12px 8px}
+.toc-grid{display:grid}
+.toc a{display:flex;gap:12px;align-items:baseline;padding:9px 12px;text-decoration:none;color:var(--ink-2);font-size:14px;border-bottom:1px solid var(--line)}
+.toc-grid > a:last-child{border-bottom:none}
+.toc a:hover{color:var(--ink);background:var(--paper-2)}
+.toc a b{font:600 10.5px var(--mono);color:var(--ink-3);min-width:24px}
+
+/* ============ BOXES ============ */
+.def{border:1px solid var(--line-2);border-left:4px solid var(--ink);background:var(--paper-2);border-radius:0 10px 10px 0;padding:16px 18px;margin:22px 0}
+.def .lbl{font:700 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.def p:last-child{margin-bottom:0}
+.exam{border:1.5px dashed var(--ink-3);border-radius:10px;padding:14px 16px;margin:22px 0;font-size:14.5px;line-height:1.65}
+.exam .lbl{font:700 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin-bottom:7px;display:block}
+.exam p:last-child,.exam ul:last-child,.exam ol:last-child{margin-bottom:0}
+.keymath{border:1px solid var(--line-2);border-radius:10px;padding:16px;margin:20px 0;text-align:center;font:600 15px/1.7 var(--mono);background:var(--paper)}
+.keymath small{display:block;font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:6px}
+
+/* ============ TABLES ============ */
+.tscroll{overflow-x:auto;margin:18px 0;border:1px solid var(--line-2);border-radius:10px;-webkit-overflow-scrolling:touch}
+table.tb{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55}
+.tscroll.wide .tb{min-width:560px}
+.tb th{background:var(--ink);color:var(--paper);font:600 10px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.1em;text-align:left;padding:10px 13px;white-space:nowrap}
+.tb td{padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+.tb tr:last-child td{border-bottom:none}
+.tb td.m{font:500 12px/1.7 var(--mono)}
+.tb td b{font-family:var(--mono);font-size:12px}
+.tb tr.hl td{background:var(--paper-2)}
+@media(max-width:640px){.tscroll.wide::before{content:"\2194 \00a0 swipe to view the full table";display:block;font:600 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding:8px 13px 0}}
+
+/* ============ CODE ============ */
+.codefig{margin:22px 0;border-radius:12px;overflow:hidden;border:1px solid #2A2921}
+.codefig figcaption{background:var(--code-hd);color:#9B978A;font:600 10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;padding:10px 16px;display:flex;justify-content:space-between;gap:10px}
+pre.code{background:var(--code-bg);color:var(--code-ink);padding:16px 18px;overflow-x:auto;font:400 12.5px/1.72 var(--mono);tab-size:4}
+pre.code .c{color:#84816F;font-style:italic}
+pre.code .k{color:#FFFFFF;font-weight:600}
+pre.code .s{color:#CFCBB9}
+pre.code .n{color:#B4B1A0}
+@media(min-width:900px){pre.code{font-size:13px}}
+
+/* ============ FIGURES / DIAGRAMS ============ */
+.fig{border:1px solid var(--line-2);border-radius:12px;padding:18px 14px 14px;margin:22px 0;overflow-x:auto}
+.figcap{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font:400 12px/1.7 var(--mono);color:var(--ink-2)}
+.figcap b{color:var(--ink);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:10px}
+.cells{display:flex;justify-content:center}
+.qcol{display:flex;flex-direction:column;align-items:center;margin-left:-1.5px}
+.qcol:first-child{margin-left:0}
+.cell{width:clamp(38px,10.5vw,52px);height:clamp(36px,9.5vw,46px);border:1.5px solid var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font:600 clamp(12px,3.6vw,15px)/1 var(--mono);background:var(--paper);color:var(--ink)}
+.cell.f{background:var(--ink);color:var(--paper)}
+.cell.hatch{background:repeating-linear-gradient(45deg,transparent 0 5px,#E9E7DE 5px 10px);color:var(--ink-3);border-color:var(--line-2)}
+.cell.mini{width:clamp(32px,8.5vw,40px);height:clamp(30px,8vw,38px);font-size:11.5px}
+.ptrT{height:26px;font:700 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);display:flex;align-items:flex-end;justify-content:center;white-space:nowrap;padding-bottom:3px}
+.ptrB{height:22px;font:700 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);display:flex;align-items:flex-start;justify-content:center;white-space:nowrap;padding-top:3px}
+.idx{font:500 9.5px var(--mono);color:var(--ink-3);margin-top:5px;height:14px}
+.vstack{display:flex;flex-direction:column;max-width:210px;margin:0 auto}
+.vtag{font:700 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-align:center;margin-bottom:8px}
+.plate{width:100%;border:1.5px solid var(--ink);margin-top:-1.5px;padding:9px 12px;text-align:center;font:500 13px var(--mono);background:var(--paper);border-radius:4px}
+.plate:first-of-type{margin-top:0}
+.plate.f{background:var(--ink);color:var(--paper)}
+.vfoot{font:500 10.5px var(--mono);color:var(--ink-3);text-align:center;margin-top:10px}
+.ba{display:grid;gap:14px;margin:18px 0}
+.step{border:1px solid var(--line-2);border-radius:10px;padding:14px}
+.slbl{font:700 9.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;display:block}
+.step .pseudo{font:500 12px/1.8 var(--mono);color:var(--ink-2);margin-top:12px;text-align:center}
+@media(min-width:640px){.ba{grid-template-columns:1fr 1fr}}
+.ll{display:flex;align-items:center;gap:7px;overflow-x:auto;padding:6px 2px;justify-content:flex-start}
+.ll .llptr,.ll .lnul{font:700 10px var(--mono);letter-spacing:.06em;white-space:nowrap;color:var(--ink-2)}
+.ll .lnk{font:600 13px var(--mono);color:var(--ink-3)}
+.node{display:flex;border:1.5px solid var(--ink);border-radius:5px;overflow:hidden;background:var(--paper);flex:0 0 auto}
+.node b{min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;font:600 13px var(--mono);border-right:1.5px solid var(--ink)}
+.node i{min-width:22px;display:flex;align-items:center;justify-content:center;font:700 9px var(--mono);color:var(--ink-3);font-style:normal}
+.node.hot b{background:var(--ink);color:var(--paper)}
+.ring{position:relative;width:290px;height:290px;margin:12px auto;flex:none}
+.ring.small{width:212px;height:212px}
+.ring .core{position:absolute;inset:52px;border:1.5px dashed var(--line-2);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font:500 10.5px/1.65 var(--mono);color:var(--ink-2);padding:16px}
+.ring.small .core{inset:38px;font-size:9px;padding:10px}
+.rcell{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--a)) translate(var(--r,100px)) rotate(calc(var(--a) * -1));min-width:36px;padding:4px 6px;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);font:600 12px/1.25 var(--mono);text-align:center;color:var(--ink)}
+.ring.small .rcell{--r:74px;min-width:30px;font-size:10.5px;padding:3px 5px}
+.rcell.f{background:var(--ink);color:var(--paper)}
+.rcell small{display:block;font:500 8.5px var(--mono);opacity:.62;letter-spacing:.05em;margin-top:1px}
+.rcell em{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);font:700 8.5px var(--mono);font-style:normal;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:var(--ink-2)}
+.rcell em.up{top:auto;bottom:calc(100% + 6px)}
+.frames{max-width:330px;margin:0 auto;display:flex;flex-direction:column}
+.frame{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1.5px solid var(--ink);margin-top:-1.5px;padding:9px 14px;background:var(--paper);font:500 12.5px var(--mono)}
+.frame:first-child{border-radius:9px 9px 0 0;margin-top:0}
+.frame:last-child{border-radius:0 0 9px 9px}
+.frame .fn{font-weight:600}
+.frame .rv{opacity:.72;font-size:11px;text-align:right}
+ul.tree,ul.tree ul{list-style:none;margin:0;padding:0;display:flex;justify-content:center}
+ul.tree ul{padding-top:18px;position:relative}
+ul.tree li{display:flex;flex-direction:column;align-items:center;padding:18px 6px 0;position:relative}
+ul.tree li::before,ul.tree li::after{content:"";position:absolute;top:0;right:50%;border-top:1.5px solid var(--line-2);width:50%;height:18px}
+ul.tree li::after{right:auto;left:50%;border-left:1.5px solid var(--line-2)}
+ul.tree li:only-child::after,ul.tree li:only-child::before{display:none}
+ul.tree li:only-child{padding-top:0}
+ul.tree li:first-child::before{border:0}
+ul.tree li:last-child::after{border:0}
+ul.tree li:last-child::before{border-right:1.5px solid var(--line-2)}
+ul.tree li:only-child ul::before{display:none}
+ul.tree ul::before{content:"";position:absolute;top:0;left:50%;border-left:1.5px solid var(--line-2);width:0;height:18px}
+ul.tree>li{padding-top:0}
+ul.tree>li::before,ul.tree>li::after{display:none}
+.tnode{border:1.5px solid var(--ink);border-radius:6px;padding:4px 10px;font:600 clamp(10px,2.8vw,12px)/1.3 var(--mono);background:var(--paper);position:relative;z-index:1;white-space:nowrap}
+.tnode.hot{background:var(--ink);color:var(--paper)}
+.trio{display:grid;gap:10px;margin:20px 0}
+.tcard{border:1px solid var(--line-2);border-radius:10px;padding:16px 12px;text-align:center}
+.tcard .tl{font:700 9.5px var(--mono);letter-spacing:.16em;color:var(--ink-3)}
+.tcard .tex{font:600 clamp(18px,5.5vw,22px) var(--mono);margin:10px 0 8px}
+.tcard .tex b{border-bottom:3px solid var(--ink);font-weight:700}
+.tcard p{font-size:12.5px;color:var(--ink-2);margin:0}
+@media(min-width:700px){.trio{grid-template-columns:repeat(3,1fr)}}
+.er{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
+.pcard{border:1.5px solid var(--ink);border-radius:9px;padding:10px 16px;font:600 16px var(--mono);text-align:center;background:var(--paper)}
+.pcard small{display:block;font:500 9.5px var(--mono);color:var(--ink-2);margin-top:3px;letter-spacing:.1em;text-transform:uppercase}
+.pcard.next{background:var(--ink);color:var(--paper)}
+.pcard.next small{color:var(--paper);opacity:.7}
+.dq .drow{display:flex;justify-content:space-between;gap:10px;font:700 10px var(--mono);letter-spacing:.05em;padding:8px 2px;color:var(--ink)}
+.dq .dlabels{display:flex;justify-content:space-between;font:700 9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);padding:8px 4px 0}
+.rl-row{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border:1px dashed var(--line-2);border-radius:10px;margin:8px 0}
+.rl-row .rn{font:700 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+.rl-row .rnote{font:500 11px var(--mono);color:var(--ink-3)}
+.bt{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:8px 0;justify-content:flex-start}
+.bt .bstep{border:1.5px solid var(--ink);border-radius:7px;padding:8px 12px;font:600 11.5px var(--mono);white-space:nowrap;background:var(--paper)}
+.bt .bstep.dead{border-style:dashed;border-color:var(--ink-3);color:var(--ink-3)}
+.bt .arr{font:600 12px var(--mono);color:var(--ink-3);flex:0 0 auto}
+.btr{font:500 11px var(--mono);color:var(--ink-2);text-align:center;margin-top:10px}
+.qstrip{display:flex;justify-content:center;margin-top:14px}
+.qstrip .cell{margin-left:-1.5px}
+.qstrip .cell:first-child{margin-left:0}
+
+/* ============ DEMOS ============ */
+.demo{border:2px solid var(--ink);border-radius:14px;margin:26px 0;overflow:hidden;background:var(--paper)}
+.demo-h{background:var(--ink);color:var(--paper);padding:11px 16px;font:700 10.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;display:flex;justify-content:space-between;gap:10px}
+.demo-h span:last-child{color:#8f8c80}
+.demo-b{padding:16px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.btn{background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:10px 16px;border-radius:7px;cursor:pointer;transition:transform .06s}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.din{font:500 13px var(--mono);border:1.5px solid var(--line-2);padding:9px 12px;border-radius:7px;width:100px;background:var(--paper);color:var(--ink)}
+.din.wide{flex:1 1 180px;width:auto;min-width:0}
+.dmsg{font:500 11.5px/1.7 var(--mono);min-height:22px;color:var(--ink-2);margin-top:10px}
+.dread{display:flex;flex-wrap:wrap;gap:6px 16px;font:500 11.5px var(--mono);color:var(--ink-2);margin-top:12px}
+.dread b{color:var(--ink);font-weight:600}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.preset{font:600 9.5px var(--mono);border:1px solid var(--line-2);border-radius:999px;padding:6px 11px;background:transparent;color:var(--ink-2);cursor:pointer;letter-spacing:.04em}
+.preset:hover{border-color:var(--ink);color:var(--ink)}
+.sv-rows{margin:4px 0}
+.sv-row{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.sv-tag{width:44px;font:700 9.5px var(--mono);letter-spacing:.1em;text-align:right;color:var(--ink-3)}
+.sv-row.is-top .sv-tag{color:var(--ink)}
+.sv-cell{flex:0 0 128px;height:38px;border:1.5px solid var(--ink);border-radius:5px;display:flex;align-items:center;justify-content:center;font:600 14px var(--mono);background:var(--paper)}
+.sv-row.is-top .sv-cell{border-width:2px}
+.sv-cell.f{background:var(--ink);color:var(--paper)}
+.sv-idx{font:500 10.5px var(--mono);color:var(--ink-3)}
+.ex-result{border:1.5px solid var(--ink);border-radius:9px;padding:12px 16px;margin:12px 0;font:600 13px/1.6 var(--mono);background:var(--paper-2)}
+.ex-result .rl{font:700 9px var(--mono);letter-spacing:.2em;color:var(--ink-3);display:block;margin-bottom:4px}
+.dlab{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block}
+
+/* ============ Q&A ============ */
+details.qa{border:1px solid var(--line-2);border-radius:10px;margin:10px 0;background:var(--paper)}
+details.qa summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;font-size:14.5px;line-height:1.6}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:"+";font:700 14px/1.4 var(--mono);min-width:16px;color:var(--ink-3)}
+details.qa[open] summary::before{content:"\2013"}
+details.qa[open] summary{border-bottom:1px dashed var(--line-2)}
+details.qa .ans{padding:12px 16px 16px 44px;font-size:14px;line-height:1.7}
+details.qa .ans p:last-child,.details.qa .ans ul:last-child{margin-bottom:0}
+.ans .m{font:500 12.5px/1.8 var(--mono);background:var(--paper-2);border-radius:7px;padding:10px 14px;margin:8px 0;overflow-x:auto}
+
+/* ============ FOOTER / MISC ============ */
+footer{margin-top:80px;border-top:3px solid var(--ink);padding:34px 0 60px}
+footer .f1{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink-2)}
+footer .f2{font:500 11px/2 var(--mono);color:var(--ink-3);margin-top:12px}
+.refs li{font-size:13px;color:var(--ink-2);margin:.6em 0;line-height:1.6}
+.grid2{display:grid;gap:14px}
+@media(min-width:700px){.grid2{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.wrap{max-width:780px;padding:0 32px}}
+@media print{.chipbar,.progress,.demo{display:none!important}body{font-size:12px}.fig,.codefig,.tscroll{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="chipbar" aria-label="Section navigation">
+  <div class="chips">
+    <a class="chip" href="../../index.html">← Notes Hub</a>
+    <a class="chip" href="#s-over">Overview</a>
+    <a class="chip" href="#s-stackadt">Stacks</a>
+    <a class="chip" href="#s-expr">Expressions</a>
+    <a class="chip" href="#s-rec">Recursion</a>
+    <a class="chip" href="#s-qadt">Queues</a>
+    <a class="chip" href="#s-circ">Circular</a>
+    <a class="chip" href="#s-pq">Priority</a>
+    <a class="chip" href="#s-deq">Deque</a>
+    <a class="chip" href="#s-apps">Applications</a>
+    <a class="chip" href="#s-cmp">Compare</a>
+    <a class="chip" href="#s-prac">Practice</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <a href="../../index.html" class="back-link" style="display:inline-block;margin-bottom:14px;font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;">← Notes Hub</a>
+  <div class="emblem" aria-hidden="true">
+    <div class="e-col"><i></i><i></i><i></i></div>
+    <div class="e-row"><i></i><i></i><i></i></div>
+  </div>
+  <div class="kick">Unit IV &middot; Fundamentals of Data Structures &middot; CB2003</div>
+  <h1>Stacks <em>&amp;</em><br>Queues</h1>
+  <p class="sub">Complete examination notes — the Stack and Queue ADTs, array and linked implementations, infix &harr; prefix &harr; postfix conversion and evaluation, the run-time stack and recursion, the circular queue, priority queues, deques, and the real-world systems built on all of them.</p>
+  <div class="stats">
+    <span class="stat">25 sections</span><span class="stat">25 figures</span><span class="stat">3 interactive sims</span><span class="stat">30+ practice Q&amp;As</span>
+  </div>
+  <div class="meta">
+    <b>Instructor</b> — Manisha Mali &middot; manisha.mali@vit.edu<br>
+    <b>Institute</b> — BRACT's Vishwakarma Institute of Technology, Pune-48<br>
+    <b>Department</b> — CSE (IoT &amp; Cyber Security incl. Blockchain Technology)<br>
+    <b>Sources</b> — Unit IV Stacks.pdf &middot; Unit IV Queues.pdf &middot; Unit4_1 Stack &middot; Unit4_2 Stack Applications &middot; Unit4_3 Queues
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-h">Contents</div>
+    <div class="toc-grid">
+      <a href="#s-over"><b>01</b> Unit at a glance</a>
+      <a href="#s-lists"><b>02</b> From lists to restricted lists</a>
+      <a href="#s-stackadt"><b>03</b> The Stack ADT</a>
+      <a href="#s-stackimpl"><b>04</b> Stack · array implementation</a>
+      <a href="#s-stackll"><b>05</b> Stack · linked implementation</a>
+      <a href="#s-multi"><b>06</b> Implicit / explicit · multistacks</a>
+      <a href="#s-stackapps"><b>07</b> Where stacks appear</a>
+      <a href="#s-expr"><b>08</b> Notations &amp; precedence</a>
+      <a href="#s-inpost"><b>09</b> Infix &rarr; postfix</a>
+      <a href="#s-inpre"><b>10</b> Infix &rarr; prefix</a>
+      <a href="#s-eval"><b>11</b> Evaluating postfix &amp; prefix</a>
+      <a href="#s-apps2"><b>12</b> Parentheses · undo · backtracking</a>
+      <a href="#s-rec"><b>13</b> Run-time stack &amp; recursion</a>
+      <a href="#s-qadt"><b>14</b> The Queue ADT</a>
+      <a href="#s-qimpl"><b>15</b> Queue · array implementation</a>
+      <a href="#s-false"><b>16</b> The false-overflow problem</a>
+      <a href="#s-circ"><b>17</b> Circular queues</a>
+      <a href="#s-qll"><b>18</b> Linked queue &amp; multiqueues</a>
+      <a href="#s-pq"><b>19</b> Priority queues</a>
+      <a href="#s-deq"><b>20</b> Deques</a>
+      <a href="#s-apps"><b>21</b> Queue applications</a>
+      <a href="#s-cmp"><b>22</b> Stack vs queue · complexity</a>
+      <a href="#s-sum"><b>23</b> Unit summary</a>
+      <a href="#s-prac"><b>24</b> Practice &amp; self-check</a>
+      <a href="#s-ref"><b>25</b> References</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= 01 OVERVIEW ================= -->
+<section class="sec" id="s-over">
+  <div class="kicker">&sect; 01 &middot; Orientation</div>
+  <h2>Unit at a glance</h2>
+  <p class="lead">Stacks and queues are not new data structures — they are the general List ADT with access deliberately restricted. That restriction is the entire point: it produces the LIFO and FIFO disciplines, guarantees O(1) operations, and powers everything from expression evaluation to CPU scheduling.</p>
+  <h4>Agenda</h4>
+  <ul class="tight">
+    <li><b>Stacks</b> — the ADT, array implementation, applications</li>
+    <li><b>Expression evaluation</b> — infix, prefix, and postfix</li>
+    <li><b>The run-time stack</b> and recursion</li>
+    <li><b>Queues</b> — the ADT, array implementation, the circular queue</li>
+    <li><b>Priority queues</b> and <b>deques</b></li>
+    <li><b>Real-world queue applications</b>, unit summary, self-check questions</li>
+  </ul>
+  <h4>Learning objectives — by the end of this unit you can</h4>
+  <ul class="tight">
+    <li>Define the Stack and Queue ADTs in terms of their core operations</li>
+    <li>Implement stacks and queues using C++ arrays, including the circular queue</li>
+    <li>Convert infix expressions to postfix and evaluate postfix expressions using a stack</li>
+    <li>Explain how the run-time stack supports function calls and recursion</li>
+    <li>Compare priority queues and deques with the standard FIFO queue</li>
+    <li>Identify real-world systems that rely on stack or queue behaviour</li>
+  </ul>
+</section>
+
+<!-- ================= 02 RESTRICTED LISTS ================= -->
+<section class="sec" id="s-lists">
+  <div class="kicker">&sect; 02 &middot; Foundations</div>
+  <h2>From lists to restricted lists</h2>
+  <p>Aho, Hopcroft &amp; Ullman introduce stacks and queues as <b>special cases of the general List ADT</b> — the same INSERT / DELETE operations, but restricted to fixed positions. This one idea organises the whole unit:</p>
+
+  <div class="fig">
+    <div class="rl-row">
+      <span class="rn">List</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">A</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">B</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">C</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">D</div><div class="idx"></div></div>
+      </div>
+      <span class="rnote">insert / delete at <b>any</b> position &uarr;&darr;</span>
+    </div>
+    <div class="rl-row">
+      <span class="rn">Stack</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">A</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">B</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">C</div><div class="idx"></div></div>
+        <div class="qcol"><div class="ptrT">top &darr;</div><div class="cell mini f">D</div><div class="idx"></div></div>
+      </div>
+      <span class="rnote">insert / delete at the <b>TOP</b> only</span>
+    </div>
+    <div class="rl-row">
+      <span class="rn">Queue</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell mini f">A</div><div class="idx"></div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">B</div><div class="idx"></div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">C</div><div class="idx"></div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell mini">D</div><div class="idx"></div><div class="ptrB">rear &uarr;</div></div>
+      </div>
+      <span class="rnote">insert at <b>REAR</b>, delete at <b>FRONT</b></span>
+    </div>
+    <div class="figcap"><b>Fig. 01</b> — The same four elements under three disciplines. A stack is a one-ended list (LIFO); a queue is a two-ended, opposite-directions list (FIFO).</div>
+  </div>
+
+  <div class="exam">
+    <span class="lbl">Exam note</span>
+    <p>If an exam question asks <i>“how do a stack and a queue relate to the List ADT?”</i> — answer: <b>both are restricted Lists</b>; insertion and deletion are limited to fixed ends. The difference is entirely in <i>which</i> ends: a stack uses one end for both operations; a queue uses opposite ends.</p>
+  </div>
+</section>
+
+<!-- ================= PART I ================= -->
+<div class="part">
+  <div class="pnum" aria-hidden="true">I</div>
+  <div class="plbl">Part One</div>
+  <h2>Stacks</h2>
+  <p class="plead">LIFO — Last-In, First-Out. One end, one top, five operations, everything O(1).</p>
+</div>
+
+<!-- ================= 03 STACK ADT ================= -->
+<section class="sec" id="s-stackadt">
+  <div class="kicker">&sect; 03 &middot; Part I</div>
+  <h2>The Stack ADT</h2>
+
+  <div class="def">
+    <div class="lbl">Definition</div>
+    <p>A <b>stack</b> is a special kind of list in which all insertions and deletions happen at one end, called the <b>TOP</b>. It is also known as a <b>pushdown list</b> or a <b>LIFO (Last-In, First-Out) list</b>.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="fig" style="margin:0">
+      <div class="vtag">&uarr; TOP — insert &amp; delete here</div>
+      <div class="vstack">
+        <div class="plate f">Plate 3</div>
+        <div class="plate">Plate 2</div>
+        <div class="plate">Plate 1</div>
+      </div>
+      <div class="vfoot">bottom — unreachable until everything above it is removed</div>
+      <div class="figcap"><b>Fig. 02</b> — The plate stack: only the top plate can be lifted off or added to; the most recently placed book comes off first.</div>
+    </div>
+    <div class="fig" style="margin:0">
+      <div class="vtag">&uarr; top = 2</div>
+      <div class="vstack">
+        <div class="plate f">5</div>
+        <div class="plate">20</div>
+        <div class="plate">10</div>
+      </div>
+      <div class="vfoot">S.elements[0 .. maxlength−1] &middot; S.top = index of top</div>
+      <div class="figcap"><b>Fig. 03</b> — Array picture of the same abstract stack: a value plus one integer index is the whole representation.</div>
+    </div>
+  </div>
+
+  <h4>The five operations (Aho, Hopcroft &amp; Ullman)</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Operation</th><th>Effect</th></tr>
+    <tr><td class="m"><b>MAKENULL(S)</b></td><td>Makes S an empty stack</td></tr>
+    <tr><td class="m"><b>PUSH(x, S)</b></td><td>Inserts element x at the top of S</td></tr>
+    <tr><td class="m"><b>TOP(S)</b></td><td>Returns the element at the top of S</td></tr>
+    <tr><td class="m"><b>POP(S)</b></td><td>Deletes the top element of S</td></tr>
+    <tr><td class="m"><b>EMPTY(S)</b></td><td>Returns true iff S has no elements</td></tr>
+  </table></div>
+  <p class="small">Note what is <i>absent</i>: no position is ever named or searched. Every operation touches only the top — that is why everything is O(1).</p>
+
+  <h4>Characteristics</h4>
+  <ul class="tight">
+    <li>Data can only be <b>placed on the top</b> of the stack.</li>
+    <li>Data can only be <b>removed from the top</b> of the stack.</li>
+    <li>Data can only be removed from the bottom if it is the <b>only</b> item on the stack.</li>
+    <li>Data cannot be removed from the middle without first removing all items above it.</li>
+  </ul>
+
+  <h4>Formal ADT specification</h4>
+  <figure class="codefig">
+    <figcaption><span>ADT specification</span><span>pre / post conditions</span></figcaption>
+    <pre class="code">Abstract typedef &lt;&lt;eltype&gt;&gt; STACK(eltype);
+
+empty(s)     postcondition : empty == (len(s) == 0)
+full(s)      postcondition : full  == (len(s) == max)
+push(s, elt) precondition  : full(s) == FALSE
+             postcondition : s == &lt;elt&gt; + s1          // new element goes in front
+pop(s)       precondition  : empty(s) == FALSE
+             postcondition : pop == first(s1)          // returns old first element
+                            s == sub(s1, 1, len(s1)-1) // rest remains
+top(s)       precondition  : empty(s) == FALSE
+             postcondition : top == first(s)</pre>
+  </figure>
+  <p class="small">Read <i>s1</i> as “the state of the stack before the operation”. A <b>precondition</b> must hold for the call to be legal; a <b>postcondition</b> is what the call guarantees. POP and TOP demand a non-empty stack; PUSH demands a non-full one — these are exactly the <i>underflow</i> and <i>overflow</i> checks you write in code.</p>
+
+  <h4>Primitive operations, in words</h4>
+  <ul class="tight">
+    <li><b>Create</b> a stack (array or linked list)</li>
+    <li><b>Push(e)</b> — place e on top, if not full</li>
+    <li><b>Pop()</b> — take out the top item, if not empty</li>
+    <li><b>Read top</b> — inspect without removing</li>
+    <li><b>Stack_Empty()</b> / <b>Stack_Full()</b> — boolean checks</li>
+  </ul>
+
+  <h4>Stacks in everyday life</h4>
+  <ul class="tight">
+    <li><b>A stack of plates</b> — only the top plate can be lifted off or added to</li>
+    <li><b>A stack of books on the floor</b> — the most recently placed book comes off first</li>
+    <li><b>Undo in a text editor</b> — the last edit made is the first undone</li>
+    <li><b>The “back” button in a browser</b> — the most recently visited page reappears first</li>
+    <li>Stack of coins, stack of chairs, Tower of Hanoi</li>
+  </ul>
+</section>
+
+<!-- ================= 04 STACK ARRAY IMPL ================= -->
+<section class="sec" id="s-stackimpl">
+  <div class="kicker">&sect; 04 &middot; Part I</div>
+  <h2>Array implementation</h2>
+  <p class="lead">The simplest representation: a fixed-size array <code>S.elements</code> plus a single integer <code>S.top</code> recording the index of the current top element. Every operation becomes a handful of constant-time index operations.</p>
+
+  <h4>Tracing PUSH</h4>
+  <p><b>PUSH(x, S)</b> advances <code>top</code> by one position, then stores x there. The new element sits above everything already on the stack.</p>
+  <div class="ba">
+    <div class="step">
+      <span class="slbl">Before &middot; push(30)</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">10</div><div class="idx">0</div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">2</div></div>
+      </div>
+      <div class="pseudo">top = 1</div>
+    </div>
+    <div class="step">
+      <span class="slbl">After &middot; push(30)</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">10</div><div class="idx">0</div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div></div>
+        <div class="qcol"><div class="ptrT">top &darr;</div><div class="cell f">30</div><div class="idx">2</div></div>
+      </div>
+      <div class="pseudo">top := top + 1; elements[top] := x &nbsp;— O(1)</div>
+    </div>
+  </div>
+
+  <h4>Tracing POP</h4>
+  <p><b>POP(S)</b> reads the element at <code>top</code>, then retreats <code>top</code> by one position. <b>TOP(S)</b> (peek) is the same read, without moving <code>top</code>.</p>
+  <div class="ba">
+    <div class="step">
+      <span class="slbl">Before &middot; pop()</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">10</div><div class="idx">0</div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div></div>
+        <div class="qcol"><div class="ptrT">top &darr;</div><div class="cell f">30</div><div class="idx">2</div></div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="slbl">After &middot; pop() &rarr; returns 30</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">10</div><div class="idx">0</div></div>
+        <div class="qcol"><div class="ptrT">top &darr;</div><div class="cell f">20</div><div class="idx">1</div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell">30</div><div class="idx">2</div></div>
+      </div>
+      <div class="pseudo">x := elements[top]; top := top − 1 &nbsp;— value stays in memory until overwritten</div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <div class="demo-h"><span>Interactive — Stack simulator</span><span>&sect; 04</span></div>
+    <div class="demo-b">
+      <div class="sv-rows" id="sv-rows"></div>
+      <div class="dread" id="sv-read"></div>
+      <div class="controls">
+        <input class="din" id="sv-in" inputmode="numeric" placeholder="value" aria-label="value to push">
+        <button class="btn" id="sv-push">Push</button>
+        <button class="btn ghost" id="sv-pop">Pop</button>
+        <button class="btn ghost" id="sv-rst">Reset</button>
+      </div>
+      <div class="dmsg" id="sv-msg">MAX_SIZE = 6 · top starts at −1 (empty). Try pushing past the top slot to trigger a stack <b>overflow</b> — or popping an empty stack for an <b>underflow</b>.</div>
+    </div>
+  </div>
+
+  <h4>The complete class</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>stack — array implementation</span></figcaption>
+    <pre class="code">class Stack {
+private:
+    int elements[MAX_SIZE];   // fixed capacity, compile-time constant
+    int top;                  // index of current top element
+public:
+    Stack() { top = -1; }     // MAKENULL: top = -1 means empty (we index from 0)
+    void push(int x);
+    int  pop();
+    int  peek();              // TOP(S) of the ADT
+    bool isEmpty();           // EMPTY(S) of the ADT
+    bool isFull();
+};</pre>
+  </figure>
+  <p class="small">This is exactly <b>MAKENULL, PUSH, POP, TOP and EMPTY</b> from the ADT, renamed to C++ style. Every member function runs in O(1) — no loops, no shifting.</p>
+
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>push &amp; pop — with overflow / underflow guards</span></figcaption>
+    <pre class="code">void Stack::push(int x) {
+    if (isFull()) {                 // top == MAX_SIZE - 1
+        cout &lt;&lt; "Stack overflow";  // no room left to grow
+        return;
+    }
+    top = top + 1;                  // one comparison, one increment, one write
+    elements[top] = x;              // push() is O(1)
+}
+
+int Stack::pop() {
+    if (isEmpty()) {                // top == -1
+        cout &lt;&lt; "Stack underflow"; // popping an empty stack
+        return -1;
+    }
+    int x = elements[top];          // one comparison, one read, one decrement
+    top = top - 1;                  // pop() is O(1)
+    return x;                       // slot is "unused" until next push overwrites
+}
+
+bool Stack::isEmpty() { return top == -1; }
+bool Stack::isFull()  { return top == MAX_SIZE - 1; }
+
+int Stack::peek() {
+    if (isEmpty()) return -1;
+    return elements[top];           // reads without removing
+}</pre>
+  </figure>
+
+  <div class="exam">
+    <span class="lbl">Exam note — two classic definitions</span>
+    <p><b>Stack overflow</b>: pushing onto a full array — the array has nowhere left to grow. <b>Stack underflow</b>: popping an empty stack. Both are checked <i>before</i> the index moves. Also remember: the popped slot is <b>not cleared</b> — the stale value simply sits there until the next push overwrites it.</p>
+  </div>
+
+  <h4>Full worked trace</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Call</th><th>top after</th><th>Stack (bottom &rarr; top)</th></tr>
+    <tr><td class="m">new Stack()</td><td class="m">−1</td><td class="m">(empty)</td></tr>
+    <tr><td class="m">push(10)</td><td class="m">0</td><td class="m">10</td></tr>
+    <tr><td class="m">push(20)</td><td class="m">1</td><td class="m">10, 20</td></tr>
+    <tr><td class="m">push(5)</td><td class="m">2</td><td class="m">10, 20, 5</td></tr>
+    <tr><td class="m">pop() &rarr; 5</td><td class="m">1</td><td class="m">10, 20</td></tr>
+  </table></div>
+  <p>Final state: <code>top = 1</code>, holding [10, 20]. The popped 5 is gone.</p>
+
+  <h4>Complexity summary</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Operation</th><th>Time complexity</th><th>Why</th></tr>
+    <tr><td class="m">push(x)</td><td class="m"><b>O(1)</b></td><td>one compare, one increment, one write</td></tr>
+    <tr><td class="m">pop()</td><td class="m"><b>O(1)</b></td><td>one compare, one read, one decrement</td></tr>
+    <tr><td class="m">peek() / TOP</td><td class="m"><b>O(1)</b></td><td>single indexed read</td></tr>
+    <tr><td class="m">isEmpty() / isFull()</td><td class="m"><b>O(1)</b></td><td>simple index comparisons, no traversal</td></tr>
+    <tr><td class="m">Space</td><td class="m"><b>O(n)</b></td><td>n elements in the array</td></tr>
+  </table></div>
+  <p class="small">Because every operation only ever touches the position at <code>top</code>, none of them needs to inspect any other element — the array is never searched or shifted, even if it holds thousands of elements.</p>
+</section>
+
+<!-- ================= 05 STACK LINKED ================= -->
+<section class="sec" id="s-stackll">
+  <div class="kicker">&sect; 05 &middot; Part I</div>
+  <h2>Linked-list implementation</h2>
+  <h4>Why bother? Drawbacks of the array version</h4>
+  <ul class="tight">
+    <li><b>Size is restricted</b> — the array capacity must be fixed before use (<code>MAX_SIZE</code> is a compile-time constant)</li>
+    <li><b>Memory is wasted</b> — if few elements are ever pushed, the reserved slots sit idle</li>
+  </ul>
+  <p>With a linked list, <b>nodes are created dynamically as needed</b>, so there is no memory-full condition to check — <code>isFull()</code> is <i>not applicable</i> here.</p>
+
+  <div class="fig">
+    <div class="ll">
+      <span class="llptr">top &rarr;</span>
+      <div class="node hot"><b>30</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <div class="node"><b>20</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <div class="node"><b>10</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <span class="lnul">NULL</span>
+    </div>
+    <div class="figcap"><b>Fig. 04</b> — A linked stack. The top is the <b>head</b> of the list: push = insert-at-head, pop = delete-at-head — both O(1). The dark node is the current top.</div>
+  </div>
+
+  <h4>Mapping the operations</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Operation</th><th>Linked-list equivalent</th><th>Test</th></tr>
+    <tr><td class="m">isEmpty()</td><td>—</td><td class="m">top == NULL</td></tr>
+    <tr><td class="m">isFull()</td><td>—</td><td><b>not applicable</b> (nodes created on demand)</td></tr>
+    <tr><td class="m">push(x)</td><td>same as <b>insert_beg()</b> of a singly linked list</td><td>if empty, top = new node</td></tr>
+    <tr><td class="m">pop()</td><td>same as <b>delete_beg()</b> of a singly linked list</td><td>if last node, top = NULL</td></tr>
+  </table></div>
+
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>stack — linked-list implementation</span></figcaption>
+    <pre class="code">class stack {
+    struct node {
+        int data;
+        node* next;
+    } *top;
+public:
+    stack() { top = NULL; }              // MAKENULL
+    void push(int);
+    int  pop();
+    int  isEmpty();
+};
+
+void stack::push(int x) {                 // insert at head (top)
+    node* newNode = new node;
+    newNode-&gt;data = x;
+    newNode-&gt;next = NULL;
+    if (top == NULL)
+        top = newNode;                    // first node
+    else {
+        newNode-&gt;next = top;              // link new node in front of old top
+        top = newNode;
+    }
+}
+
+int stack::isEmpty() { return top == NULL; }
+
+int stack::pop() {                        // call only if not empty
+    int x = top-&gt;data;
+    node* temp = top;
+    top = top-&gt;next;                      // advance top; delete old head
+    delete temp;
+    temp = NULL;
+    return x;
+}</pre>
+  </figure>
+</section>
+
+<!-- ================= 06 IMPLICIT/EXPLICIT + MULTISTACK ================= -->
+<section class="sec" id="s-multi">
+  <div class="kicker">&sect; 06 &middot; Part I</div>
+  <h2>Implicit &amp; explicit stacks · multistacks</h2>
+
+  <h4>Implicit vs explicit</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th></th><th>Implicit stack</th><th>Explicit stack</th></tr>
+    <tr><td><b>Who builds it</b></td><td>The run-time environment, built-in</td><td>The programmer designs it</td></tr>
+    <tr><td><b>Used for</b></td><td>Function call &amp; return status, recursion</td><td>Any LIFO purpose the programmer chooses</td></tr>
+    <tr><td><b>push / pop</b></td><td>Called <b>implicitly by the system</b> — programmer cannot manipulate it</td><td>Called <b>manually by the user</b> (e.g. reversing a string, expression conversion)</td></tr>
+    <tr><td><b>Example</td><td>Activation records during recursion</td><td>Assembly-language programming, user stack in recursion elimination</td></tr>
+  </table></div>
+  <p class="small">The implicit run-time stack is the subject of <a href="#s-rec">&sect; 13</a>; the explicit user stack is how any recursive procedure can be rewritten without recursion.</p>
+
+  <h4>Multistacks — two stacks in one array</h4>
+  <p>Suppose there is an array of size <code>n</code>. Divide it by 2: the <b>first half</b> becomes <b>Stack 1</b>, the <b>second half</b> becomes <b>Stack 2</b>.</p>
+
+  <div class="fig">
+    <div class="cells">
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">A</div><div class="idx">0</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">B</div><div class="idx">1</div></div>
+      <div class="qcol"><div class="ptrT">top1 &darr;</div><div class="cell f">C</div><div class="idx">2</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">3</div></div>
+      <div class="qcol"><div class="ptrT">top2 &darr;</div><div class="cell f">Y</div><div class="idx">4</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">5</div></div>
+    </div>
+    <div class="figcap"><b>Fig. 05</b> — Multistack, n = 6. Stack 1 owns indices 0–2 (top1: −1 empty … 2 full); Stack 2 owns indices 3–5 (top2: n/2−1 = 2 empty … n−1 = 5 full — its “empty” position sits just below its region).</div>
+  </div>
+
+  <div class="keymath">
+    top1 = −1 &hArr; stack1 empty &nbsp;&middot;&nbsp; top1 = n/2−1 &hArr; stack1 full<br>
+    top2 = n/2−1 &hArr; stack2 empty &nbsp;&middot;&nbsp; top2 = n−1 &hArr; stack2 full
+    <small>boundary conditions for the fixed-halves scheme</small>
+  </div>
+  <p class="small">A well-known variant lets both stacks <b>grow towards each other</b> from the two ends (top1 from index 0 upward, top2 from index n−1 downward); the array is full only when <code>top1 == top2</code> — no space is wasted in either half. Worth mentioning as a remark in an exam answer.</p>
+</section>
+
+<!-- ================= 07 STACK APPLICATIONS ================= -->
+<section class="sec" id="s-stackapps">
+  <div class="kicker">&sect; 07 &middot; Part I</div>
+  <h2>Where stacks appear</h2>
+  <div class="grid2">
+    <div>
+      <h4>In computer science</h4>
+      <ul class="tight">
+        <li><b>Expression conversion &amp; evaluation</b> — infix &rarr; postfix, evaluating postfix directly</li>
+        <li><b>Syntax checking / parsing</b> — balanced parentheses, matching tags in HTML/XML</li>
+        <li><b>Function calls &amp; recursion</b> — the run-time stack of activation records</li>
+        <li><b>Backtracking</b> — maze solving, eight queens / N-Queens, depth-first search</li>
+        <li><b>Undo / redo</b> — editors, image tools, version control</li>
+        <li><b>Browser history</b> — the back button retraces visits in LIFO order</li>
+        <li><b>Reversing data</b> — reverse a string/list; decimal &rarr; binary conversion</li>
+        <li><b>Tree traversal</b> (inorder, preorder, postorder) and <b>graph traversal</b> (DFS)</li>
+      </ul>
+    </div>
+    <div>
+      <h4>In real life</h4>
+      <ul class="tight">
+        <li>Pile of books, coins, chairs, plates</li>
+      </ul>
+      <h4>The four classic roles</h4>
+      <ul class="tight">
+        <li><b>Reversing</b> data (string, decimal &rarr; binary)</li>
+        <li><b>Parsing</b> (parentheses properly paired)</li>
+        <li><b>Postponement</b> (evaluate expressions)</li>
+        <li><b>Backtracking</b> (eight queens problem)</li>
+      </ul>
+      <p class="small">Sections <a href="#s-expr">&sect; 08 – 12</a> develop the three biggest application families in full exam detail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 08 NOTATIONS ================= -->
+<section class="sec" id="s-expr">
+  <div class="kicker">&sect; 08 &middot; Expressions</div>
+  <h2>Notations &amp; precedence</h2>
+  <p class="lead">An expression is a string of operands and operators. Operands are numeric values; operators are unary (+, −) or binary (+, −, *, /, ^). Where the operator <i>sits</i> relative to its operands defines the notation — and everything else follows from that.</p>
+
+  <div class="trio">
+    <div class="tcard"><span class="tl">INFIX</span><div class="tex">A <b>+</b> B</div><p>operator <b>between</b> the operands — needs parentheses &amp; precedence rules</p></div>
+    <div class="tcard"><span class="tl">PREFIX &middot; POLISH</span><div class="tex"><b>+</b> A B</div><p>operator <b>before</b> the operands — no parentheses needed</p></div>
+    <div class="tcard"><span class="tl">POSTFIX &middot; REVERSE POLISH</span><div class="tex">A B <b>+</b></div><p>operator <b>after</b> the operands — no parentheses needed</p></div>
+  </div>
+
+  <div class="tscroll"><table class="tb">
+    <tr><th>Notation</th><th>Template</th><th>a + b</th><th>(a + b) &times; (c − d)</th><th>(a + b/e) &times; (d + f)</th></tr>
+    <tr><td><b>Infix</b></td><td class="m">op1 operator op2</td><td class="m">a+b</td><td class="m">(a+b)*(c-d)</td><td class="m">(a+b/e)*(d+f)</td></tr>
+    <tr><td><b>Postfix</b></td><td class="m">op1 op2 operator</td><td class="m">ab+</td><td class="m">ab+cd-*</td><td class="m">abe/+df+*</td></tr>
+    <tr><td><b>Prefix</b></td><td class="m">operator op1 op2</td><td class="m">+ab</td><td class="m">*+ab-cd</td><td class="m">*+a/be+df</td></tr>
+  </table></div>
+
+  <h4>Why bother with postfix?</h4>
+  <ul class="tight">
+    <li>Postfix can be evaluated with a <b>single left-to-right scan and a stack</b> — no precedence table, no parentheses, no backtracking</li>
+    <li>This is exactly how many <b>real compilers and calculators</b> evaluate arithmetic internally</li>
+    <li>Example: <code>(A + B) * C</code> needs parentheses in infix to override precedence; in postfix the same expression is <code>A B + C *</code> — the <b>order of the operators already encodes what happens first</b></li>
+  </ul>
+
+  <h4>Precedence &amp; associativity</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Operator</th><th>Precedence</th><th>Associativity</th></tr>
+    <tr><td class="m"><b>^</b> (exponent, also written $)</td><td>Highest</td><td><b>Right to left</b></td></tr>
+    <tr><td class="m"><b>* &nbsp;/ &nbsp;%</b></td><td>Middle</td><td>Left to right</td></tr>
+    <tr><td class="m"><b>+ &nbsp;−</b></td><td>Lowest</td><td>Left to right</td></tr>
+  </table></div>
+
+  <h4>Precedence in action</h4>
+  <ul class="tight">
+    <li><code>A + B * C</code> — * binds tighter than +, so this means <code>A + (B * C)</code></li>
+    <li><code>A * B + C * D</code> — both multiplications happen before either addition</li>
+    <li><code>A ^ B ^ C</code> — ^ is right-associative: <code>A ^ (B ^ C)</code></li>
+    <li><code>A − B − C</code> — left-associative: <code>(A − B) − C</code>, <i>not</i> <code>A − (B − C)</code></li>
+  </ul>
+
+  <div class="exam">
+    <span class="lbl">Exam note — why right-associativity matters for ^</span>
+    <p>Exponentiation is <b>not associative</b>: <code>2 ^ 3 ^ 2</code> evaluated right-associatively (correct) is <code>2 ^ (3 ^ 2) = 2 ^ 9 = <b>512</b></code>; evaluated left-associatively (wrong) it is <code>(2 ^ 3) ^ 2 = 8 ^ 2 = <b>64</b></code>. This is the single most-tested associativity fact in this unit — and it changes the conversion algorithm’s pop rule (see <a href="#s-inpost">&sect; 09</a>).</p>
+  </div>
+</section>
+
+<!-- ================= 09 INFIX->POSTFIX ================= -->
+<section class="sec" id="s-inpost">
+  <div class="kicker">&sect; 09 &middot; Expressions</div>
+  <h2>Infix &rarr; postfix conversion</h2>
+
+  <h4>Basic rules</h4>
+  <ol class="tight">
+    <li><b>Operands</b> — letters or numbers go to the output <b>right away</b></li>
+    <li><b>Opening parenthesis (</b> — push it onto the operator stack</li>
+    <li><b>Closing parenthesis )</b> — pop operators to the output until the matching <code>(</code> is found; then <b>discard both</b> parentheses (no parenthesis ever reaches the output)</li>
+    <li><b>Operators</b> (+ − * / ^) — pop higher-or-equal precedence operators to the output <i>before</i> pushing the new operator (respecting associativity)</li>
+    <li><b>End of input</b> — pop every remaining operator to the output</li>
+  </ol>
+
+  <h4>The algorithm</h4>
+  <ul class="tight">
+    <li>Scan the infix expression <b>left to right</b>, using one stack to hold operators and parentheses</li>
+    <li>Operand &rarr; append directly to the output</li>
+    <li><code>(</code> &rarr; push onto the stack</li>
+    <li><code>)</code> &rarr; pop operators to the output until the matching <code>(</code> is found; discard both</li>
+    <li>Operator <i>o</i> &rarr; pop and output every stack-top operator with precedence &ge; <i>o</i> (respecting associativity), then push <i>o</i></li>
+    <li>At the end of the scan, pop every remaining operator to the output</li>
+  </ul>
+
+  <figure class="codefig">
+    <figcaption><span>Pseudocode</span><span>the only data structure is one operator stack</span></figcaption>
+    <pre class="code">for each token in the infix expression:
+    if token is an operand:
+        output.append(token)
+    else if token == '(':
+        stack.push(token)
+    else if token == ')':
+        while stack.top() != '(': output.append(stack.pop())
+        stack.pop()                      // discard the '('
+    else:                                // token is an operator
+        while (!stack.empty() && stack.top() != '(' &&
+               precedence(stack.top()) &gt;= precedence(token)):
+            output.append(stack.pop())
+        stack.push(token)
+
+while !stack.empty(): output.append(stack.pop())</pre>
+  </figure>
+
+  <div class="exam">
+    <span class="lbl">Exam note — the associativity refinement</span>
+    <p>“Pop while precedence &ge; incoming” is correct for the <b>left-associative</b> operators (+ − * /). For the right-associative <code>^</code>, pop only while stack precedence is <b>strictly greater</b> — so a second consecutive <code>^</code> gets pushed on top of the first, producing <code>A B C ^ ^</code> = <code>A^(B^C)</code>. If you pop on equality you wrongly get <code>(A^B)^C</code>.</p>
+  </div>
+
+  <h4>Trace 1 — A + B * C (no parentheses)</h4>
+  <p>Precedence alone decides the order. <code>*</code> has higher precedence than <code>+</code>, so <code>+</code> is never popped while <code>*</code> sits above it; every operator is eventually popped once scanning ends.</p>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Symbol</th><th>Action</th><th>Stack (bottom &rarr; top)</th><th>Output</th></tr>
+    <tr><td class="m">A</td><td>operand &rarr; output</td><td class="m">–</td><td class="m">A</td></tr>
+    <tr><td class="m">+</td><td>stack empty &rarr; push</td><td class="m">+</td><td class="m">A</td></tr>
+    <tr><td class="m">B</td><td>operand &rarr; output</td><td class="m">+</td><td class="m">A B</td></tr>
+    <tr><td class="m">*</td><td>top (+) has lower precedence &rarr; push</td><td class="m">+ *</td><td class="m">A B</td></tr>
+    <tr><td class="m">C</td><td>operand &rarr; output</td><td class="m">+ *</td><td class="m">A B C</td></tr>
+    <tr><td class="m">end</td><td>pop *, pop +</td><td class="m">–</td><td class="m"><b>A B C * +</b></td></tr>
+  </table></div>
+  <p class="small">Reading the postfix left to right: multiply B and C first, then add A — exactly matching precedence. Rule confirmed: an operator is pushed immediately if the stack top has lower precedence; it is popped out only when an operator of equal-or-higher precedence needs to go in first.</p>
+
+  <h4>Trace 2 — (A + B) * (C − D) (with parentheses)</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Symbol</th><th>Action</th><th>Stack (bottom &rarr; top)</th><th>Output</th></tr>
+    <tr><td class="m">(</td><td>push</td><td class="m">(</td><td class="m">–</td></tr>
+    <tr><td class="m">A</td><td>operand &rarr; output</td><td class="m">(</td><td class="m">A</td></tr>
+    <tr><td class="m">+</td><td>push</td><td class="m">( +</td><td class="m">A</td></tr>
+    <tr><td class="m">B</td><td>operand &rarr; output</td><td class="m">( +</td><td class="m">A B</td></tr>
+    <tr><td class="m">)</td><td>pop + to output, discard (</td><td class="m">–</td><td class="m">A B +</td></tr>
+    <tr><td class="m">*</td><td>push</td><td class="m">*</td><td class="m">A B +</td></tr>
+    <tr><td class="m">(</td><td>push</td><td class="m">* (</td><td class="m">A B +</td></tr>
+    <tr><td class="m">C</td><td>operand &rarr; output</td><td class="m">* (</td><td class="m">A B + C</td></tr>
+    <tr><td class="m">−</td><td>push</td><td class="m">* ( −</td><td class="m">A B + C</td></tr>
+    <tr><td class="m">D</td><td>operand &rarr; output</td><td class="m">* ( −</td><td class="m">A B + C D</td></tr>
+    <tr><td class="m">)</td><td>pop − to output, discard (</td><td class="m">*</td><td class="m">A B + C D −</td></tr>
+    <tr><td class="m">end</td><td>pop *</td><td class="m">–</td><td class="m"><b>A B + C D − *</b></td></tr>
+  </table></div>
+  <p class="small">Parenthesis handling, summarised: <code>(</code> is always pushed — it <b>blocks any comparison across it</b>; inside a group, ordinary precedence applies; <code>)</code> flushes back to the last unmatched <code>(</code>, and both parentheses vanish from the output. The final postfix needs <b>no parentheses at all</b> — the position of <code>*</code> after both groups already fixes the order.</p>
+
+  <h4>Trace 3 — A + B / C + D * (E − F) ^ G (the exam-grade one)</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Symbol</th><th>Action</th><th>Stack (bottom &rarr; top)</th><th>Output</th></tr>
+    <tr><td class="m">A</td><td>operand &rarr; output</td><td class="m">–</td><td class="m">A</td></tr>
+    <tr><td class="m">+</td><td>stack empty &rarr; push</td><td class="m">+</td><td class="m">A</td></tr>
+    <tr><td class="m">B</td><td>operand</td><td class="m">+</td><td class="m">A B</td></tr>
+    <tr><td class="m">/</td><td>prec(/) &gt; prec(+) &rarr; push</td><td class="m">+ /</td><td class="m">A B</td></tr>
+    <tr><td class="m">C</td><td>operand</td><td class="m">+ /</td><td class="m">A B C</td></tr>
+    <tr><td class="m">+</td><td>pop / (2&ge;1), pop + (1=1, left) &rarr; push</td><td class="m">+</td><td class="m">A B C / +</td></tr>
+    <tr><td class="m">D</td><td>operand</td><td class="m">+</td><td class="m">A B C / + D</td></tr>
+    <tr><td class="m">*</td><td>prec(*) &gt; prec(+) &rarr; push</td><td class="m">+ *</td><td class="m">A B C / + D</td></tr>
+    <tr><td class="m">(</td><td>push</td><td class="m">+ * (</td><td class="m">A B C / + D</td></tr>
+    <tr><td class="m">E</td><td>operand</td><td class="m">+ * (</td><td class="m">A B C / + D E</td></tr>
+    <tr><td class="m">−</td><td>top is ( &rarr; push</td><td class="m">+ * ( −</td><td class="m">A B C / + D E</td></tr>
+    <tr><td class="m">F</td><td>operand</td><td class="m">+ * ( −</td><td class="m">A B C / + D E F</td></tr>
+    <tr><td class="m">)</td><td>pop −, discard (</td><td class="m">+ *</td><td class="m">A B C / + D E F −</td></tr>
+    <tr><td class="m">^</td><td>prec(^) &gt; prec(*) &rarr; push</td><td class="m">+ * ^</td><td class="m">A B C / + D E F −</td></tr>
+    <tr><td class="m">G</td><td>operand</td><td class="m">+ * ^</td><td class="m">A B C / + D E F − G</td></tr>
+    <tr><td class="m">end</td><td>pop ^, pop *, pop +</td><td class="m">–</td><td class="m"><b>A B C / + D E F − G ^ * +</b></td></tr>
+  </table></div>
+
+  <h4>More worked results (verify each with the rules above)</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Infix</th><th>Postfix</th><th>Why</th></tr>
+    <tr><td class="m">a*(b+c)/d</td><td class="m"><b>abc+*d/</b></td><td>brackets: b+c &rarr; bc+; multiply a &rarr; abc+*; divide by d &rarr; abc+*d/</td></tr>
+    <tr><td class="m">a+b*c+d</td><td class="m"><b>abc*+d+</b></td><td>b*c &rarr; bc* first; add a &rarr; abc*+; add d &rarr; abc*+d+</td></tr>
+    <tr><td class="m">(a+b)*(c+d)</td><td class="m"><b>ab+cd+*</b></td><td>each bracket flushes; final * applies to both groups</td></tr>
+    <tr><td class="m">A*(B+C)−D/E</td><td class="m"><b>ABC*+DE/−</b></td><td>note * flushed by − (equal precedence, left-assoc)</td></tr>
+    <tr><td class="m">A+B/C+D*(E−F)^G</td><td class="m"><b>ABC/+DEF−G^*+</b></td><td>trace 3 above</td></tr>
+    <tr><td class="m">A+(B*C−(D/E^F)*G)*H</td><td class="m"><b>ABC*DEF^/G*−H*+</b></td><td>innermost ^ first, then /, then the G product, the subtraction, times H, plus A</td></tr>
+    <tr><td class="m">K+L−M*N+(O^P)*W/U/V*T+Q</td><td class="m"><b>KL+MN*−OPW*U/V/T*+Q+</b></td><td>OP^ &rarr; ×W &rarr; successive left-assoc divisions &rarr; ×T</td></tr>
+    <tr><td class="m">A$B*C−D+E/F/(G+H)</td><td class="m"><b>AB$C*D−EF/GH+/+</b></td><td>$ = ^; E/F/(G+H) is (E/F)/(G+H) by left-associativity</td></tr>
+    <tr><td class="m">((A+B)*C−(D−E))$(F+G)</td><td class="m"><b>AB+C*DE−−FG+$</b></td><td>two nested subtractions, then $</td></tr>
+    <tr><td class="m">A−B/(C*D$E)</td><td class="m"><b>ABCDE$*/−</b></td><td>D$E, ×C, divide B by it, subtract from A</td></tr>
+    <tr><td class="m">A*B+(C/D−E)</td><td class="m"><b>AB*CD/E−+</b></td><td>&nbsp;</td></tr>
+    <tr><td class="m">A*B+(C−D/E)</td><td class="m"><b>AB*CDE/−+</b></td><td>&nbsp;</td></tr>
+  </table></div>
+
+  <h4>The two-precedence trick (Sahni-style tables)</h4>
+  <p>Some textbooks give each operator <b>two precedences</b>: an <i>in-stack</i> precedence (ISP) and an <i>off-stack / incoming</i> precedence (ICP). The rule becomes: <b>push the incoming operator while its off-stack precedence is greater than the in-stack precedence of the top; otherwise pop first.</b></p>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>instack / outstack precedence functions</span></figcaption>
+    <pre class="code">int instack_precedence(char op) {     // ISP — for the operator on the stack
+    if (op == '(') return 0;
+    if (op == '^') return 5;
+    if (op == '*' || op == '/' || op == '%') return 4;
+    if (op == '+' || op == '-') return 2;
+    else return 0;
+}
+int outstack_precedence(char op) {    // ICP — for the incoming operator
+    if (op == '(') return 100;        // '(' always gets pushed
+    if (op == '^') return 6;
+    if (op == '*' || op == '/' || op == '%') return 3;
+    if (op == '+' || op == '-') return 1;
+    else return 0;
+}</pre>
+  </figure>
+  <ul class="tight">
+    <li>Incoming <code>*</code> (ICP 3) over top <code>+</code> (ISP 2) &rarr; 3 &gt; 2 &rarr; <b>push</b> — * waits above +</li>
+    <li>Incoming <code>+</code> (ICP 1) over top <code>*</code> (ISP 4) &rarr; 1 &le; 4 &rarr; <b>pop</b> first — left-associativity</li>
+    <li>Incoming <code>^</code> (ICP 6) over top <code>^</code> (ISP 5) &rarr; 6 &gt; 5 &rarr; <b>push</b> — this is exactly what makes <code>^</code> <b>right-associative</b></li>
+    <li><code>(</code> has ICP 100 (always pushed) but ISP 0 (nothing above it ever pops) — it acts as a wall</li>
+  </ul>
+
+  <div class="demo">
+    <div class="demo-h"><span>Interactive — infix &rarr; postfix tracer</span><span>&sect; 09</span></div>
+    <div class="demo-b">
+      <label class="dlab" for="ex-in">Infix expression &middot; single-character operands &middot; + − * / ^ ( )</label>
+      <div class="controls">
+        <input class="din wide" id="ex-in" value="A+B*C" spellcheck="false" aria-label="infix expression">
+        <button class="btn" id="ex-go">Convert</button>
+      </div>
+      <div class="presets" id="ex-presets"></div>
+      <div class="dmsg" id="ex-msg">Enter an expression or pick a preset. If all operands are digits, the numeric evaluation trace is produced too.</div>
+      <div id="ex-out"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10 INFIX->PREFIX ================= -->
+<section class="sec" id="s-inpre">
+  <div class="kicker">&sect; 10 &middot; Expressions</div>
+  <h2>Infix &rarr; prefix conversion</h2>
+
+  <h4>Method A — right-to-left scan with two stacks</h4>
+  <ol class="tight">
+    <li>Scan the expression <b>character by character from right to left</b></li>
+    <li>If <code>)</code> &rarr; push onto the <b>operator stack</b></li>
+    <li>If an <b>operand</b> &rarr; push onto the <b>prefix stack (prestack)</b></li>
+    <li>If an <b>operator</b> &rarr; if the opstack is empty, push it; else <b>pop operators from the opstack onto the prestack while the top’s precedence &ge; the incoming operator’s</b>, then push the incoming operator</li>
+    <li>If <code>(</code> &rarr; pop the opstack onto the prestack until the matching <code>)</code> is found; <b>ignore (cancel) both</b> parentheses</li>
+    <li>At the end, pop all remaining opstack entries onto the prestack</li>
+    <li>The answer is obtained by <b> popping the prestack completely</b> — it comes out in left-to-right order</li>
+  </ol>
+  <p class="small">The slide-deck variant of this algorithm builds the result string <code>p[]</code> from the <i>right end</i> (<code>k = n−1</code>, decrementing as symbols are placed) — the same idea expressed as index arithmetic.</p>
+
+  <h4>Method B — without an operator stack (four steps)</h4>
+  <div class="keymath">
+    1 &middot; <b>reverse</b> the infix string &nbsp;&rarr;&nbsp; 2 &middot; swap every <b>( with )</b> and <b>) with (</b><br>
+    3 &middot; convert that string to <b>postfix</b> (the ordinary algorithm) &nbsp;&rarr;&nbsp; 4 &middot; <b>reverse</b> the output
+    <small>infix &rarr; prefix, mirrored</small>
+  </div>
+  <p class="small">Worked micro-example, <code>A*B+C</code>: reverse &rarr; <code>C+B*A</code>; no parentheses to swap; postfix of <code>C+B*A</code> &rarr; <code>CBA*+</code>; reverse &rarr; <code>+*ABC</code> ✓. The logic: reversing mirrors the expression, so “operator after operands” (postfix) becomes “operator before operands” (prefix).</p>
+
+  <h4>Worked results</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Infix</th><th>Prefix</th></tr>
+    <tr><td class="m">A+B</td><td class="m"><b>+AB</b></td></tr>
+    <tr><td class="m">A+B−C</td><td class="m"><b>−+ABC</b> &nbsp;(i.e. (A+B)−C)</td></tr>
+    <tr><td class="m">(A+B)*(C−D)</td><td class="m"><b>*+AB−CD</b></td></tr>
+    <tr><td class="m">A*B+C</td><td class="m"><b>+*ABC</b></td></tr>
+    <tr><td class="m">A*B+(C−D/E)</td><td class="m"><b>+*AB−C/DE</b></td></tr>
+    <tr><td class="m">(a+b/e)*(d+f)</td><td class="m"><b>*+a/be+df</b></td></tr>
+    <tr><td class="m">A$B*C−D+E/F/(G+H)</td><td class="m"><b>+−*$ABCD//EF+GH</b></td></tr>
+    <tr><td class="m">((A+B)*C−(D−E))$(F+G)</td><td class="m"><b>$−*+ABC−DE+FG</b></td></tr>
+    <tr><td class="m">A−B/(C*D$E)</td><td class="m"><b>−A/B*C$DE</b></td></tr>
+  </table></div>
+</section>
+
+<!-- ================= 11 EVALUATION ================= -->
+<section class="sec" id="s-eval">
+  <div class="kicker">&sect; 11 &middot; Expressions</div>
+  <h2>Evaluating postfix &amp; prefix</h2>
+
+  <div class="def">
+    <div class="lbl">Postfix evaluation — the algorithm</div>
+    <ol class="tight">
+      <li>Read the postfix expression <b>character by character, left to right</b></li>
+      <li><b>Operand</b> &rarr; take its value and <b>push</b> it onto the stack</li>
+      <li><b>Operator</b> &rarr; pop two operands as <b>op2</b> (first pop — the RIGHT operand) and <b>op1</b> (second pop — the LEFT operand); compute <code>result = op1 OP op2</code></li>
+      <li><b>Push the result</b> back onto the stack</li>
+      <li>Repeat until the expression is exhausted</li>
+      <li>Pop the single remaining value from the top — that is the answer</li>
+    </ol>
+  </div>
+
+  <div class="exam">
+    <span class="lbl">Exam note — operand order (the #1 lost mark)</span>
+    <p>The <b>second</b> pop is the LEFT operand: compute <code>op1 OP op2</code>, never <code>op2 OP op1</code>. For <code>+</code> and <code>*</code> it happens not to matter (commutative), but for <code>−</code> and <code>/</code> the order is decisive: <code>6 5 −</code> is 1, not −1. Example from <code>8 / 2</code>: op1 = 8, op2 = 2 &rarr; 4.</p>
+  </div>
+
+  <h4>Trace — 3 4 + 5 * &nbsp;(from infix (3 + 4) × 5)</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Token</th><th>Action</th><th>Stack (bottom &rarr; top)</th></tr>
+    <tr><td class="m">3</td><td>push 3</td><td class="m">3</td></tr>
+    <tr><td class="m">4</td><td>push 4</td><td class="m">3, 4</td></tr>
+    <tr><td class="m">+</td><td>pop 4, 3 &rarr; 3+4 = 7 &rarr; push</td><td class="m">7</td></tr>
+    <tr><td class="m">5</td><td>push 5</td><td class="m">7, 5</td></tr>
+    <tr><td class="m">*</td><td>pop 5, 7 &rarr; 7×5 = 35 &rarr; push</td><td class="m">35</td></tr>
+  </table></div>
+  <p class="small">One stack, one pass. The stack never needed to know about precedence, because postfix had already encoded it. The same three-line loop evaluates <i>any</i> postfix expression, however deeply nested the original infix was — this is the technique used inside many calculators and stack-based virtual machines. Similarly <code>1 2 3 + *</code>: push 1, push 2, push 3; <code>+</code> &rarr; 2+3=5; <code>*</code> &rarr; 1×5 = <b>5</b>.</p>
+
+  <h4>The monster trace — 6 2 3 + − 3 8 2 / + * 2 ^ 3 + = 52</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Token</th><th>Action</th><th>Stack (bottom &rarr; top)</th></tr>
+    <tr><td class="m">6</td><td>push 6</td><td class="m">6</td></tr>
+    <tr><td class="m">2</td><td>push 2</td><td class="m">6, 2</td></tr>
+    <tr><td class="m">3</td><td>push 3</td><td class="m">6, 2, 3</td></tr>
+    <tr><td class="m">+</td><td>2 + 3 = 5 &rarr; push</td><td class="m">6, 5</td></tr>
+    <tr><td class="m">−</td><td>6 − 5 = 1 &rarr; push</td><td class="m">1</td></tr>
+    <tr><td class="m">3</td><td>push 3</td><td class="m">1, 3</td></tr>
+    <tr><td class="m">8</td><td>push 8</td><td class="m">1, 3, 8</td></tr>
+    <tr><td class="m">2</td><td>push 2</td><td class="m">1, 3, 8, 2</td></tr>
+    <tr><td class="m">/</td><td>8 / 2 = 4 &rarr; push</td><td class="m">1, 3, 4</td></tr>
+    <tr><td class="m">+</td><td>3 + 4 = 7 &rarr; push</td><td class="m">1, 7</td></tr>
+    <tr><td class="m">*</td><td>1 × 7 = 7 &rarr; push</td><td class="m">7</td></tr>
+    <tr><td class="m">2</td><td>push 2</td><td class="m">7, 2</td></tr>
+    <tr><td class="m">^</td><td>7 ^ 2 = 49 &rarr; push</td><td class="m">49</td></tr>
+    <tr><td class="m">3</td><td>push 3</td><td class="m">49, 3</td></tr>
+    <tr><td class="m">+</td><td>49 + 3 = 52 &rarr; push</td><td class="m"><b>52</b></td></tr>
+  </table></div>
+  <p class="small">And the compact one: <code>2 4 8 + − 8 +</code> &rarr; 4+8=12; 2−12=−10; −10+8 = <b>−2</b>. (Self-check favourite: <code>2 3 4 * + 5 −</code> &rarr; 3×4=12; 2+12=14; 14−5 = <b>9</b>.)</p>
+
+  <h4>C++ implementation — postfix evaluator</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>using std::stack — push / top / pop are the ADT operations</span></figcaption>
+    <pre class="code">int evalPostfix(vector&lt;string&gt;&amp; tokens) {
+    stack&lt;int&gt; s;
+    for (string&amp; tok : tokens) {
+        if (isdigit(tok[0])) {
+            s.push(stoi(tok));
+        } else {
+            int b = s.top(); s.pop();   // right operand (first pop)
+            int a = s.top(); s.pop();   // left operand  (second pop)
+            if      (tok == "+") s.push(a + b);
+            else if (tok == "-") s.push(a - b);   // a - b : order matters
+            else if (tok == "*") s.push(a * b);
+            else if (tok == "/") s.push(a / b);
+        }
+    }
+    return s.top();
+}</pre>
+  </figure>
+
+  <h4>Prefix evaluation — the mirror algorithm</h4>
+  <p>Prefix expressions are evaluated the <b>same way, but scanning right to left</b>:</p>
+  <ul class="tight">
+    <li><b>Operand</b> &rarr; push</li>
+    <li><b>Operator</b> &rarr; <code>a = pop(); b = pop(); push(a OP b)</code> — here <b>a</b>, the <i>first</i> value popped, plays the role of the <b>left</b> operand</li>
+  </ul>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Step (right &rarr; left: * + 3 4 5)</th><th>Action</th><th>Stack</th></tr>
+    <tr><td class="m">5, 4, 3</td><td>push 5, push 4, push 3</td><td class="m">5, 4, 3</td></tr>
+    <tr><td class="m">+</td><td>a = 3, b = 4 &rarr; push 3 + 4 = 7</td><td class="m">5, 7</td></tr>
+    <tr><td class="m">*</td><td>a = 7, b = 5 &rarr; push 7 × 5 = 35</td><td class="m"><b>35</b></td></tr>
+  </table></div>
+  <p class="small">Same answer as the postfix version of (3 + 4) × 5 — mirrored algorithm, mirrored notation.</p>
+</section>
+
+<!-- ================= 12 PARENS / UNDO / BACKTRACK ================= -->
+<section class="sec" id="s-apps2">
+  <div class="kicker">&sect; 12 &middot; Applications of stacks</div>
+  <h2>Parentheses · undo · backtracking</h2>
+
+  <h4>Checking balanced parentheses</h4>
+  <p>Scan the string left to right:</p>
+  <ul class="tight">
+    <li><code>(</code> &rarr; <b>push</b> a marker onto the stack</li>
+    <li><code>)</code> &rarr; if the stack is <b>empty</b>, the string is unbalanced — stop; otherwise <b>pop</b> one marker</li>
+    <li>At the end: <b>balanced &hArr; the stack is empty</b></li>
+  </ul>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Symbol in ( a + ( b * c ) )</th><th>Action</th><th>Stack</th></tr>
+    <tr><td class="m">(</td><td>push</td><td class="m">(</td></tr>
+    <tr><td class="m">a +</td><td>ignored (not parentheses)</td><td class="m">(</td></tr>
+    <tr><td class="m">(</td><td>push</td><td class="m">( (</td></tr>
+    <tr><td class="m">b * c</td><td>ignored</td><td class="m">( (</td></tr>
+    <tr><td class="m">)</td><td>pop</td><td class="m">(</td></tr>
+    <tr><td class="m">)</td><td>pop</td><td class="m">(empty)</td></tr>
+  </table></div>
+  <p class="small">Stack empty exactly when the string ends &rarr; <b>balanced</b>. Exactly the same idea checks matching <code>{ }</code>, <code>[ ]</code>, and HTML/XML tags — push on opening, pop-and-compare on closing.</p>
+
+  <h4>Undo / redo and the browser back button</h4>
+  <div class="grid2">
+    <div class="fig" style="margin:0">
+      <div class="vtag">Undo stack &middot; top = newest edit</div>
+      <div class="vstack">
+        <div class="plate f">edit 4</div><div class="plate">edit 3</div><div class="plate">edit 2</div><div class="plate">edit 1</div>
+      </div>
+      <div class="vtag" style="margin-top:16px">Redo stack</div>
+      <div class="vstack"><div class="plate">—</div></div>
+      <div class="figcap"><b>Fig. 06</b> — Two stacks: undo pops the most recent edit and reverses it; undone edits move onto the redo stack. A <b>new edit clears the redo stack</b> — the old “future” is no longer valid.</div>
+    </div>
+    <div class="fig" style="margin:0">
+      <div class="vtag">Browser history &middot; newest on top</div>
+      <div class="vstack">
+        <div class="plate f">Article</div><div class="plate">Docs</div><div class="plate">Search</div><div class="plate">Home</div>
+      </div>
+      <div class="vfoot">Back pops “Article”, returning to “Docs”</div>
+      <div class="figcap"><b>Fig. 07</b> — The back button: visited pages stack up in LIFO order; the most recently visited page reappears first.</div>
+    </div>
+  </div>
+
+  <h4>Backtracking with a stack</h4>
+  <p>Backtracking search <b>pushes each decision as it is made</b>, and <b>pops back to the last decision point</b> whenever a path fails — the same LIFO discipline as any other stack. Classic settings: maze solving, N-Queens / eight queens, depth-first search.</p>
+  <div class="fig">
+    <div class="bt">
+      <div class="bstep">Start</div><span class="arr">&rarr;</span>
+      <div class="bstep">Move A</div><span class="arr">&rarr;</span>
+      <div class="bstep">Move B</div><span class="arr">&rarr;</span>
+      <div class="bstep dead">Move C &nbsp;&#10007; dead end</div>
+    </div>
+    <div class="btr">&#8617; &nbsp;POP back to the last choice point (Move B) and try the next option</div>
+    <div class="figcap"><b>Fig. 08</b> — Every decision is pushed; a dead end pops the stack to the most recent untried alternative.</div>
+  </div>
+
+  <h4>Reversing data — strings and decimal&rarr;binary</h4>
+  <ul class="tight">
+    <li><b>Reverse a string</b>: push every character, then pop them all — they come out in reverse.</li>
+    <li><b>Decimal &rarr; binary</b>: repeatedly divide by 2, <b>pushing each remainder</b>; then pop — the remainders emerge most-significant first.</li>
+  </ul>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Step (n = 13)</th><th>n % 2</th><th>n / 2</th><th>Stack (bottom &rarr; top)</th></tr>
+    <tr><td class="m">13</td><td class="m">1</td><td class="m">6</td><td class="m">1</td></tr>
+    <tr><td class="m">6</td><td class="m">0</td><td class="m">3</td><td class="m">1, 0</td></tr>
+    <tr><td class="m">3</td><td class="m">1</td><td class="m">1</td><td class="m">1, 0, 1</td></tr>
+    <tr><td class="m">1</td><td class="m">1</td><td class="m">0</td><td class="m">1, 0, 1, 1</td></tr>
+    <tr><td class="m">pop all</td><td colspan="3" class="m"><b>1 1 0 1</b> &nbsp;— 13 in binary</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= 13 RUNTIME STACK ================= -->
+<section class="sec" id="s-rec">
+  <div class="kicker">&sect; 13 &middot; Part I</div>
+  <h2>The run-time stack &amp; recursion</h2>
+  <p class="lead">Every active procedure call gets an activation record pushed onto the run-time stack — Aho, Hopcroft &amp; Ullman note this holds regardless of whether the language allows recursion. This is the implicit stack of &sect; 06 at work.</p>
+
+  <div class="grid2">
+    <div class="fig" style="margin:0">
+      <div class="frames">
+        <div class="frame"><span class="fn">g()</span><span class="rv">&larr; TOP</span></div>
+        <div class="frame"><span class="fn">f()</span><span class="rv"></span></div>
+        <div class="frame"><span class="fn">main()</span><span class="rv"></span></div>
+      </div>
+      <div class="vfoot">grows &uarr; with each call &middot; shrinks on each return</div>
+      <div class="figcap"><b>Fig. 09</b> — main() called f(), f() called g(). The most recent call is always on top; returning pops it and resumes the caller.</div>
+    </div>
+    <div>
+      <h4>Inside an activation record</h4>
+      <div class="frames">
+        <div class="frame"><span class="fn">Parameters</span><span class="rv">argument values of the call</span></div>
+        <div class="frame"><span class="fn">Local variables</span><span class="rv">of that invocation</span></div>
+        <div class="frame"><span class="fn">Return address</span><span class="rv">where to jump back</span></div>
+      </div>
+      <p class="small" style="margin-top:12px">Each record holds <b>everything needed to resume the caller</b>. When the callee returns, its record is popped and the caller’s state — untouched beneath it on the stack — becomes current again.</p>
+    </div>
+  </div>
+
+  <h4>Tracing recursion — factorial(3)</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>the running example</span></figcaption>
+    <pre class="code">int factorial(int n) {
+    if (n == 0) return 1;           // base case
+    return n * factorial(n - 1);    // recursive call
+}
+// factorial(3) is called</pre>
+  </figure>
+  <div class="ba">
+    <div class="step">
+      <span class="slbl">Calling phase — frames pile up</span>
+      <div class="frames">
+        <div class="frame"><span class="fn">factorial(0)</span><span class="rv">&larr; TOP</span></div>
+        <div class="frame"><span class="fn">factorial(1)</span><span class="rv">paused, waiting</span></div>
+        <div class="frame"><span class="fn">factorial(2)</span><span class="rv">paused, waiting</span></div>
+        <div class="frame"><span class="fn">factorial(3)</span><span class="rv">paused, waiting</span></div>
+      </div>
+      <div class="vfoot">each call pauses and pushes a new frame</div>
+    </div>
+    <div class="step">
+      <span class="slbl">Returning phase — values cascade down</span>
+      <div class="frames">
+        <div class="frame"><span class="fn">factorial(0)</span><span class="rv">returns 1 &larr; TOP</span></div>
+        <div class="frame"><span class="fn">factorial(1)</span><span class="rv">1 × 1 = 1</span></div>
+        <div class="frame"><span class="fn">factorial(2)</span><span class="rv">2 × 1 = 2</span></div>
+        <div class="frame"><span class="fn">factorial(3)</span><span class="rv">3 × 2 = 6</span></div>
+      </div>
+      <div class="vfoot">base case returns 1; each caller multiplies and pops</div>
+    </div>
+  </div>
+
+  <h4>Fibonacci — a branching call tree</h4>
+  <p><code>fib(n) = fib(n−1) + fib(n−2)</code> makes <b>two</b> recursive calls, so the tree of calls branches — but the run-time stack only ever holds <b>the single path currently in progress</b>.</p>
+  <div class="fig">
+    <ul class="tree">
+      <li><span class="tnode">fib(4)</span>
+        <ul>
+          <li><span class="tnode">fib(3)</span>
+            <ul>
+              <li><span class="tnode hot">fib(2)</span>
+                <ul><li><span class="tnode">fib(1)</span></li><li><span class="tnode">fib(0)</span></li></ul>
+              </li>
+              <li><span class="tnode">fib(1)</span></li>
+            </ul>
+          </li>
+          <li><span class="tnode hot">fib(2)</span>
+            <ul><li><span class="tnode">fib(1)</span></li><li><span class="tnode">fib(0)</span></li></ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="figcap"><b>Fig. 10</b> — The call tree of fib(4). The dark nodes show that <b>fib(2) is recomputed three times</b> — the tree branches, but only one root-to-leaf path is on the stack at any instant.</div>
+  </div>
+
+  <h4>Simulating recursion without recursion</h4>
+  <p>Any recursive procedure can be rewritten iteratively by managing an <b>explicit, user-defined stack</b> — Aho, Hopcroft &amp; Ullman call this <b>“complete recursion elimination”</b> (&sect; 2.6). Each stack cell stores exactly what an activation record would: the current parameter values, the current local variables, and a marker for where to resume.</p>
+  <ul class="tight">
+    <li><b>Why do it?</b> Procedure calls are expensive in some languages; an explicit stack can be faster in tight, frequently-executed code</li>
+    <li><b>Trade-off:</b> the resulting code is longer and harder to read — recommended only when speed truly matters</li>
+    <li><b>Tail-recursion elimination</b> (the lighter variant): when the recursive call is the very last action, it can be replaced by a jump / loop — no stack growth at all</li>
+  </ul>
+
+  <h4>Recursion vs iteration</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Aspect</th><th>Recursion</th><th>Iteration</th></tr>
+    <tr><td>Memory use</td><td class="m"><b>O(depth)</b> stack frames</td><td class="m">O(1) extra (typically)</td></tr>
+    <tr><td>Code clarity</td><td>Often shorter, mirrors the definition</td><td>Can require extra bookkeeping</td></tr>
+    <tr><td>Risk</td><td><b>Stack overflow</b> on deep recursion</td><td>No call-stack growth</td></tr>
+    <tr><td>Speed</td><td>Call/return overhead per level</td><td>Usually faster in tight loops</td></tr>
+  </table></div>
+
+  <h4>Stack overflow — causes and prevention</h4>
+  <ul class="tight">
+    <li>Every activation record takes <b>real memory</b>; the run-time stack has a fixed size limit</li>
+    <li>Recursion with <b>no reachable base case</b> — or a base case that is never satisfied — keeps pushing frames forever</li>
+    <li>Eventually the stack’s memory region is exhausted: a <b>stack overflow</b>, which normally crashes the program</li>
+    <li><b>Prevention:</b> (1) always ensure the base case is reachable from every recursive call; (2) check that each call moves <b>strictly closer</b> to the base case; (3) for very deep or unbounded recursion, prefer the iterative / explicit-stack version</li>
+  </ul>
+</section>
+
+<!-- ================= PART II ================= -->
+<div class="part">
+  <div class="pnum" aria-hidden="true">II</div>
+  <div class="plbl">Part Two</div>
+  <h2>Queues</h2>
+  <p class="plead">FIFO — First-In, First-Out. Insert at the rear, delete at the front, and fairness by construction.</p>
+</div>
+
+<!-- ================= 14 QUEUE ADT ================= -->
+<section class="sec" id="s-qadt">
+  <div class="kicker">&sect; 14 &middot; Part II</div>
+  <h2>The Queue ADT</h2>
+
+  <div class="def">
+    <div class="lbl">Definition</div>
+    <p>A <b>queue</b> is another special kind of list: items are <b>inserted at one end (the REAR)</b> and <b>deleted at the other end (the FRONT)</b> — a <b>FIFO</b>, “first-in, first-out” list. Like the stack, it is a <b>restricted-access data structure</b>: only the elements indicated by front and rear can be accessed, and elements are related purely by the order in which they were placed on the queue.</p>
+  </div>
+
+  <div class="fig">
+    <div class="cells">
+      <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">10</div><div class="idx">0</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">5</div><div class="idx">2</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">3</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">4</div></div>
+    </div>
+    <div class="btr">dequeue &larr; takes from the FRONT &nbsp;&middot;&nbsp; new elements enter at the REAR &rarr; enqueue</div>
+    <div class="figcap"><b>Fig. 11</b> — The queue: a two-ended, opposite-directions discipline. Arrival order = service order.</div>
+  </div>
+
+  <h4>The five operations (Aho, Hopcroft &amp; Ullman)</h4>
+  <p>AHU give the queue <b>exactly the same five-operation shape as the stack</b> — only the position of insertion changes: the rear instead of the front/top.</p>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Operation</th><th>Effect</th></tr>
+    <tr><td class="m"><b>MAKENULL(Q)</b></td><td>Makes Q an empty queue</td></tr>
+    <tr><td class="m"><b>ENQUEUE(x, Q)</b></td><td>Inserts element x at the rear of Q</td></tr>
+    <tr><td class="m"><b>FRONT(Q)</b></td><td>Returns the first element of Q</td></tr>
+    <tr><td class="m"><b>DEQUEUE(Q)</b></td><td>Deletes the first element of Q</td></tr>
+    <tr><td class="m"><b>EMPTY(Q)</b></td><td>Returns true iff Q has no elements</td></tr>
+  </table></div>
+
+  <h4>The OOP-style specification</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Method</th><th>Input</th><th>Return</th><th>Behaviour</th></tr>
+    <tr><td class="m"><b>dequeue</b></td><td>none</td><td class="m">Object</td><td>Remove &amp; return the front object — error if empty (<b>underflow</b>)</td></tr>
+    <tr><td class="m"><b>enqueue</b></td><td class="m">Object</td><td>none</td><td>Insert an object at the rear of the queue</td></tr>
+    <tr><td class="m"><b>isEmpty</b></td><td>none</td><td class="m">boolean</td><td>Indicates if the queue is empty</td></tr>
+    <tr><td class="m"><b>front</b></td><td>none</td><td class="m">Object</td><td>Return the front object <b>without removing</b> it — error if empty</td></tr>
+    <tr><td class="m"><b>size</b></td><td>none</td><td class="m">int</td><td>Number of objects in the queue</td></tr>
+  </table></div>
+
+  <h4>The full operation set, in words</h4>
+  <ul class="tight">
+    <li>Initialize a queue &middot; determine if it is <b>empty</b> &middot; determine if it is <b>full</b></li>
+    <li><b>Insert</b> a new element after the last element, if not full (<i>enqueue</i>)</li>
+    <li><b>Retrieve</b> the first element, if not empty &middot; <b>delete</b> the first element, if not empty (<i>dequeue</i>)</li>
+    <li>Display the queue</li>
+    <li>Removing from an <b>empty</b> queue = <b>underflow</b>; inserting into a <b>full</b> queue = <b>overflow</b></li>
+  </ul>
+
+  <h4>Queues in everyday life</h4>
+  <ul class="tight">
+    <li><b>A ticket line at a cinema</b> — the first person in line is the first one served; new arrivals join the rear, the cashier serves the front</li>
+    <li><b>A print queue</b> — documents print in the order they were sent; fast-typing users never “jump the queue”</li>
+    <li><b>A call-centre queue</b> — callers are answered in the order they called</li>
+    <li><b>Batch-mode operating systems</b> — jobs to be processed are placed in a queue awaiting execution</li>
+  </ul>
+</section>
+
+<!-- ================= 15 QUEUE ARRAY IMPL ================= -->
+<section class="sec" id="s-qimpl">
+  <div class="kicker">&sect; 15 &middot; Part II</div>
+  <h2>Array implementation (linear queue)</h2>
+  <p class="lead">A fixed-size array <code>Q.elements</code> plus two indices: <code>Q.front</code> (the earliest element) and <code>Q.rear</code> (the most recent). One index moves on enqueue, the other on dequeue — the array itself never shifts.</p>
+
+  <div class="fig">
+    <div class="cells">
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">0</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">1</div></div>
+      <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">A</div><div class="idx">2</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">B</div><div class="idx">3</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">C</div><div class="idx">4</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">5</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">6</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">7</div></div>
+    </div>
+    <div class="figcap"><b>Fig. 12</b> — front = 2, rear = 4. Only the run of cells from front to rear is “live”; the rest is unused by this scheme.</div>
+  </div>
+
+  <h4>Tracing enqueue</h4>
+  <p><b>ENQUEUE(x, Q)</b> advances <code>rear</code> by one position and stores x there — <b>front is untouched</b>.</p>
+  <div class="ba">
+    <div class="step">
+      <span class="slbl">Before &middot; enqueue(40)</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">10</div><div class="idx">0</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">30</div><div class="idx">2</div><div class="ptrB">rear &uarr;</div></div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="slbl">After &middot; enqueue(40)</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">10</div><div class="idx">0</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">30</div><div class="idx">2</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">40</div><div class="idx">3</div><div class="ptrB">rear &uarr;</div></div>
+      </div>
+      <div class="pseudo">rear := rear + 1; elements[rear] := x — front never moves on enqueue</div>
+    </div>
+  </div>
+
+  <h4>Tracing dequeue</h4>
+  <p><b>DEQUEUE(Q)</b> reads the element at <code>front</code>, then advances <code>front</code> by one — <b>the vacated slot is not reused</b> by this scheme.</p>
+  <div class="ba">
+    <div class="step">
+      <span class="slbl">Before &middot; dequeue()</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">10</div><div class="idx">0</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">20</div><div class="idx">1</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">30</div><div class="idx">2</div><div class="ptrB">rear &uarr;</div></div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="slbl">After &middot; dequeue() &rarr; returns 10</span>
+      <div class="cells">
+        <div class="qcol"><div class="ptrT"></div><div class="cell">10</div><div class="idx">0</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">20</div><div class="idx">1</div><div class="ptrB"></div></div>
+        <div class="qcol"><div class="ptrT"></div><div class="cell f">30</div><div class="idx">2</div><div class="ptrB">rear &uarr;</div></div>
+      </div>
+      <div class="pseudo">x := elements[front]; front := front + 1 — slot 0 is now wasted space</div>
+    </div>
+  </div>
+
+  <h4>The complete class</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>queue — simple array scheme</span></figcaption>
+    <pre class="code">class Queue {
+private:
+    int elements[MAX_SIZE];
+    int front, rear;
+public:
+    Queue() { front = 0; rear = -1; }   // front==0 and rear==-1 together mean EMPTY
+    void enqueue(int x);
+    int  dequeue();
+    int  peekFront();                   // FRONT(Q) of the ADT
+    bool isEmpty();
+    bool isFull();
+};</pre>
+  </figure>
+
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>enqueue &amp; dequeue — both O(1)</span></figcaption>
+    <pre class="code">void Queue::enqueue(int x) {
+    if (isFull()) {                     // rear == MAX_SIZE - 1 in this simple scheme
+        cout &lt;&lt; "Queue overflow";
+        return;
+    }
+    rear = rear + 1;
+    elements[rear] = x;                 // front is never touched by enqueue
+}
+
+int Queue::dequeue() {
+    if (isEmpty()) {                    // front &gt; rear
+        cout &lt;&lt; "Queue underflow";
+        return -1;
+    }
+    int x = elements[front];
+    front = front + 1;                  // no shifting of the remaining elements — O(1)
+    return x;
+}</pre>
+  </figure>
+  <p class="small">Both operations are O(1): one comparison, one increment, one write or read. But repeated enqueue/dequeue pairs <b>drift rightward through the array…</b> — the seed of the false-overflow problem in <a href="#s-false">&sect; 16</a>.</p>
+
+  <h4>The C-style version (from the reference deck)</h4>
+  <figure class="codefig">
+    <figcaption><span>C</span><span>struct-based linear queue</span></figcaption>
+    <pre class="code">struct queue {
+    int que[SIZE];
+    int front, rear;
+} q;
+
+int isfull()  { return (q.rear &gt;= SIZE - 1); }
+int isempty() { return (q.front == -1); }
+
+int enqueue(int item) {
+    if (q.front == -1) q.front++;   // very first element
+    q.rear++;
+    q.que[q.rear] = item;
+    return q.rear;
+}
+
+int delete_q() {
+    int item = q.que[q.front];
+    q.front++;
+    printf("\nThe Deleted Item Is %d", item);
+    return q.front;
+}
+
+void display() {
+    for (int i = q.front; i &lt;= q.rear; i++)
+        printf("%d\n", q.que[i]);
+}</pre>
+  </figure>
+
+  <div class="exam">
+    <span class="lbl">Exam note — array pros &amp; cons</span>
+    <p><b>Easy to implement</b>, but: fixed capacity (a static array is bounded — you need a dynamic array for unbounded capacity), and <b>special behaviour is needed when rear reaches the end of the array</b>. The next section is exactly that special behaviour gone wrong.</p>
+  </div>
+</section>
+
+<!-- ================= 16 FALSE OVERFLOW ================= -->
+<section class="sec" id="s-false">
+  <div class="kicker">&sect; 16 &middot; Part II</div>
+  <h2>The false-overflow problem</h2>
+  <p class="lead">Every dequeue() leaves its slot behind. Once rear reaches the end of the array, enqueue() refuses new elements — even though earlier slots are free.</p>
+
+  <div class="fig">
+    <div class="cells">
+      <div class="qcol"><div class="ptrT"></div><div class="cell hatch">·</div><div class="idx">0</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell hatch">·</div><div class="idx">1</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell hatch">·</div><div class="idx">2</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell hatch">·</div><div class="idx">3</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell hatch">·</div><div class="idx">4</div></div>
+      <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">X</div><div class="idx">5</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">Y</div><div class="idx">6</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">Z</div><div class="idx">7</div><div class="ptrB">rear &uarr; &middot; MAX−1</div></div>
+    </div>
+    <div class="btr">isFull() reports <b>true</b> — even though the hatched slots 0–4 sit <b>empty and unreachable</b>.</div>
+    <div class="figcap"><b>Fig. 13</b> — False overflow: rear has hit the last index, so the simple <code>isFull()</code> fires, but the freed slots at the front are never reused.</div>
+  </div>
+
+  <h4>We need the array to wrap around</h4>
+  <ul class="tight">
+    <li>The problem is <b>not lack of space</b> — it is that freed slots at the front are never reused</li>
+    <li>Fix: <i>“think of the array as a circle, where the first position follows the last”</i></li>
+    <li>Both <code>front</code> and <code>rear</code> move steadily <b>clockwise</b> around that circle as we enqueue and dequeue</li>
+    <li>This is the <b>circular array implementation</b> of a queue</li>
+  </ul>
+</section>
+
+<!-- ================= 17 CIRCULAR ================= -->
+<section class="sec" id="s-circ">
+  <div class="kicker">&sect; 17 &middot; Part II</div>
+  <h2>Circular queues</h2>
+
+  <div class="fig">
+    <div class="ring">
+      <div class="core"><span>&#8635;</span> index 7 is followed by index 0 — the queue wraps</div>
+      <div class="rcell" style="--a:-90deg">0</div>
+      <div class="rcell" style="--a:-45deg">1</div>
+      <div class="rcell" style="--a:0deg">2</div>
+      <div class="rcell" style="--a:45deg">3</div>
+      <div class="rcell" style="--a:90deg">4</div>
+      <div class="rcell f" style="--a:135deg">10<small>5</small><em>front</em></div>
+      <div class="rcell f" style="--a:180deg">20<small>6</small></div>
+      <div class="rcell f" style="--a:225deg">30<small>7</small><em class="up">rear</em></div>
+    </div>
+    <div class="figcap"><b>Fig. 14</b> — The same array drawn as a ring. The queue occupies a run of consecutive positions from front (index 5) clockwise to rear (index 7); solid cells are occupied.</div>
+  </div>
+
+  <h4>Modulo arithmetic makes it wrap</h4>
+  <p>Instead of always incrementing, advance an index with <code>% size</code>. When an index reaches <code>size − 1</code>, the very next step brings it back to 0. This is exactly the “circle” AHU describe: the array’s last position is followed by its first.</p>
+  <div class="keymath">
+    rear = (rear + 1) % size &nbsp;&nbsp;&middot;&nbsp;&nbsp; front = (front + 1) % size<br>
+    size = 6: &nbsp;rear = 5 &nbsp;&rarr;&nbsp; (5 + 1) % 6 = 0
+    <small>index 5 is followed by index 0 — a full slot’s reuse, automatically</small>
+  </div>
+  <p class="small">Worked example from the deck (size 5): <code>rear = (4+1) % 5 = 0</code> — after the fourth location we store data at location zero again; <code>front = (3+1) % 5 = 4</code> — after location 3 we delete from location 4. The advantage of the circular queue: <b>the space of the queue is used fully</b>, curing the false overflow of the linear version.</p>
+
+  <h4>The full / empty ambiguity</h4>
+  <div class="def">
+    <div class="lbl">The problem, in one line</div>
+    <p>Using <code>front</code> and <code>rear</code> alone, <b>there is no way to tell an empty queue from one that occupies the entire circle</b> — the two states can produce <i>identical pointer values</i>.</p>
+  </div>
+  <p>Take the convention “front marks the first element, rear marks the <b>next free slot</b>”. A queue that has wrapped completely around has rear arriving back on front; an empty queue starts with front equal to rear as well:</p>
+  <div class="grid2">
+    <div class="fig" style="margin:0">
+      <div class="ring small">
+        <div class="core">4 elements</div>
+        <div class="rcell f" style="--a:-90deg">A<em class="up">front = rear = 0</em></div>
+        <div class="rcell f" style="--a:0deg">B</div>
+        <div class="rcell f" style="--a:90deg">C</div>
+        <div class="rcell f" style="--a:180deg">D</div>
+      </div>
+      <div class="figcap"><b>Fig. 15a</b> — Full: all four slots used, rear has wrapped back onto front.</div>
+    </div>
+    <div class="fig" style="margin:0">
+      <div class="ring small">
+        <div class="core">0 elements</div>
+        <div class="rcell" style="--a:-90deg">·<em class="up">front = rear = 0</em></div>
+        <div class="rcell" style="--a:0deg">·</div>
+        <div class="rcell" style="--a:90deg">·</div>
+        <div class="rcell" style="--a:180deg">·</div>
+      </div>
+      <div class="figcap"><b>Fig. 15b</b> — Empty: front equals rear here too. Same pointers, different state.</div>
+    </div>
+  </div>
+
+  <h4>Resolving the ambiguity — three standard solutions</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Solution</th><th>Idea</th><th>Trade-off</th></tr>
+    <tr><td><b>Sacrifice a slot</b></td><td>Never let the queue fill completely; stop at size − 1 elements. Full when <code>front == (rear+1) % size</code></td><td>Simple; wastes one array slot always</td></tr>
+    <tr><td><b>Count variable</b></td><td>Keep an explicit <code>count</code> of elements alongside front / rear</td><td>No wasted slot; one extra field to maintain</td></tr>
+    <tr><td><b>Empty flag</b></td><td>Keep a boolean set on the transition to / from empty</td><td>No wasted slot; flag must be updated on every operation</td></tr>
+  </table></div>
+
+  <h4>The count-based C++ class</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>circular queue — count scheme, rear = last element</span></figcaption>
+    <pre class="code">class CircularQueue {
+private:
+    int elements[MAX_SIZE];
+    int front, rear, count, size;
+public:
+    CircularQueue(int s) {
+        size = s; front = 0; rear = -1; count = 0;
+    }
+    void enqueue(int x);
+    int  dequeue();
+    bool isEmpty() { return count == 0; }   // one-line checks —
+    bool isFull()  { return count == size; } // simple and unambiguous
+};</pre>
+  </figure>
+
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>circular enqueue &amp; dequeue — still O(1)</span></figcaption>
+    <pre class="code">void CircularQueue::enqueue(int x) {
+    if (count == size) {              // overflow test: simple, unambiguous
+        cout &lt;&lt; "Queue overflow";
+        return;
+    }
+    rear = (rear + 1) % size;         // rear wraps — can move from last index back to 0
+    elements[rear] = x;
+    count = count + 1;                // no shifting, regardless of where rear wraps
+}
+
+int CircularQueue::dequeue() {
+    if (count == 0) {                 // underflow test
+        cout &lt;&lt; "Queue underflow";
+        return -1;
+    }
+    int x = elements[front];
+    front = (front + 1) % size;       // front also wraps with % size
+    count = count - 1;                // freed slots are automatically reused when
+    return x;                         // rear next wraps around to them
+}</pre>
+  </figure>
+
+  <h4>Full worked trace (size = 4)</h4>
+  <div class="tscroll wide"><table class="tb">
+    <tr><th>Call</th><th>front</th><th>rear</th><th>count</th><th>Contents (front &rarr; rear)</th></tr>
+    <tr><td class="m">new CircularQueue(4)</td><td class="m">0</td><td class="m">−1</td><td class="m">0</td><td class="m">(empty)</td></tr>
+    <tr><td class="m">enqueue(A)</td><td class="m">0</td><td class="m">0</td><td class="m">1</td><td class="m">A</td></tr>
+    <tr><td class="m">enqueue(B)</td><td class="m">0</td><td class="m">1</td><td class="m">2</td><td class="m">A, B</td></tr>
+    <tr><td class="m">enqueue(C)</td><td class="m">0</td><td class="m">2</td><td class="m">3</td><td class="m">A, B, C</td></tr>
+    <tr><td class="m">dequeue() &rarr; A</td><td class="m">1</td><td class="m">2</td><td class="m">2</td><td class="m">B, C</td></tr>
+    <tr><td class="m">enqueue(D)</td><td class="m">1</td><td class="m">3</td><td class="m">3</td><td class="m">B, C, D</td></tr>
+    <tr class="hl"><td class="m">enqueue(E)</td><td class="m">1</td><td class="m"><b>0</b></td><td class="m">4</td><td class="m"><b>B, C, D, E — rear wrapped!</b></td></tr>
+  </table></div>
+  <p class="small">The highlight row is the whole point: <code>rear = (3 + 1) % 4 = 0</code>, so E lands in slot 0 — the slot freed by the earlier dequeue. False overflow cured.</p>
+
+  <h4>The sacrifice-a-slot C version (the second exam convention)</h4>
+  <p>The reference deck implements the circular queue with a <code>front = −1</code> sentinel and the sacrificial-slot full test. Learn <b>both</b> conventions and say which one you are using:</p>
+  <figure class="codefig">
+    <figcaption><span>C</span><span>circular queue — sacrifice-a-slot scheme</span></figcaption>
+    <pre class="code">int qfull()  { return front == (rear + 1) % size; }  // full when rear is one
+                                                      // position behind front
+int qempty() { return front == -1; }                 // sentinel for empty
+
+void enqueue(int item) {
+    if (qfull())  { printf("the C.Q. is full");  return; }
+    if (front == -1) front = rear = 0;    // queue was empty: first element
+    else rear = (rear + 1) % size;        // wrap
+    queue[rear] = item;
+}
+
+int dequeue() {
+    if (qempty()) { printf("q is empty"); return -1; }
+    int item = queue[front];              // dequeue from front
+    if (front == rear)  front = rear = -1; // it was the LAST element: reset
+    else front = (front + 1) % size;      // wrap
+    printf("the deleted item is %d", item);
+    return item;
+}</pre>
+  </figure>
+  <ul class="tight">
+    <li><b>Full</b>: <code>front == (rear + 1) % size</code> — one slot always stays empty, hence “at most size − 1 elements”</li>
+    <li><b>Empty</b>: <code>front == −1</code> — the sentinel; on dequeuing the <b>last</b> element (<code>front == rear</code>), both reset to −1</li>
+    <li>Compare with the count scheme: <b>full = count == size, empty = count == 0</b> — no sentinel, no wasted slot</li>
+  </ul>
+
+  <div class="demo">
+    <div class="demo-h"><span>Interactive — circular queue simulator</span><span>&sect; 17</span></div>
+    <div class="demo-b">
+      <div id="cq-arr"></div>
+      <div class="dread" id="cq-read"></div>
+      <div class="controls">
+        <input class="din" id="cq-in" inputmode="numeric" placeholder="value" aria-label="value to enqueue">
+        <button class="btn" id="cq-enq">Enqueue</button>
+        <button class="btn ghost" id="cq-deq">Dequeue</button>
+        <button class="btn ghost" id="cq-rst">Reset</button>
+      </div>
+      <div class="dmsg" id="cq-msg">size = 6 · front = 0, rear = −1, count = 0. Enqueue six times, dequeue a few, then keep enqueueing — watch rear wrap from 5 back to 0.</div>
+    </div>
+  </div>
+
+  <div class="exam">
+    <span class="lbl">Exam note — the two checkpoints</span>
+    <p><b>Q.</b> In a size-6 circular queue, rear = 5. What is rear after one more enqueue? — <code>(5 + 1) % 6 = 0</code>. &nbsp;<b>Q.</b> Why can’t <code>front == rear</code> alone tell you whether a circular queue is empty or full? — Because the pointers record <b>position, not occupancy</b>: both the empty state and the completely-wrapped full state can leave front equal to rear. Occupancy information must come from elsewhere: a count, a flag, or a sacrificed slot.</p>
+  </div>
+</section>
+
+<!-- ================= 18 LINKED QUEUE + MULTIQUEUE ================= -->
+<section class="sec" id="s-qll">
+  <div class="kicker">&sect; 18 &middot; Part II</div>
+  <h2>Linked queue &amp; multiqueues</h2>
+
+  <h4>Linked-list implementation</h4>
+  <p>A queue can also be implemented with a linked list carrying <b>both a head and a tail pointer</b>. Which end is the front? The <b>head</b> — because it is <b>harder to remove items from the tail</b> of a singly linked list (you would need to walk to the node before it, O(n)).</p>
+
+  <div class="fig">
+    <div class="ll">
+      <span class="llptr">head = FRONT &rarr;</span>
+      <div class="node hot"><b>10</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <div class="node"><b>15</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <div class="node"><b>7</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <div class="node"><b>13</b><i>&bull;</i></div><span class="lnk">&rarr;</span>
+      <span class="lnul">NULL &nbsp;&larr; tail = REAR</span>
+    </div>
+    <div class="figcap"><b>Fig. 16</b> — Linked queue. Enqueue appends at the tail (O(1) with a tail pointer); dequeue removes at the head (O(1) — this is why head is the FRONT).</div>
+  </div>
+
+  <h4>Advantages &amp; restrictions</h4>
+  <ul class="tight">
+    <li><b>No check for “queue full”</b> — nodes are created dynamically (like the linked stack)</li>
+    <li>You <b>cannot delete an arbitrary node</b> from the queue — access remains restricted to the two ends, by definition of the ADT</li>
+  </ul>
+
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>linked queue — both operations O(1)</span></figcaption>
+    <pre class="code">struct Node { int data; Node* next; };
+Node *front = nullptr, *rear = nullptr;
+
+void enqueue(int x) {                  // insert at the tail — O(1)
+    Node* n = new Node{x, nullptr};
+    if (rear == nullptr) front = rear = n;   // first node
+    else { rear-&gt;next = n; rear = n; }
+}
+
+int dequeue() {                        // delete at the head — O(1)
+    if (front == nullptr) { /* underflow */ return -1; }
+    int x = front-&gt;data;
+    Node* t = front;
+    front = front-&gt;next;
+    if (front == nullptr) rear = nullptr;    // queue became empty
+    delete t;
+    return x;
+}</pre>
+  </figure>
+
+  <h4>Multiple queues using a single array</h4>
+  <p>Suppose there is an array of size <code>n</code>. Divide it in two: the <b>first half is Queue 1</b>, the <b>second half is Queue 2</b>. So <code>front1 = rear1 = −1</code> and <code>front2 = rear2 = n/2</code> (Queue 2’s region starts at n/2).</p>
+  <div class="fig">
+    <div class="cells">
+      <div class="qcol"><div class="ptrT">front1 &darr;</div><div class="cell f">A</div><div class="idx">0</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">B</div><div class="idx">1</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">C</div><div class="idx">2</div><div class="ptrB">rear1 &uarr;</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">3</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">4</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell">·</div><div class="idx">5</div></div>
+    </div>
+    <div class="btr">Queue 1: indices 0–2 &nbsp;|&nbsp; Queue 2: indices 3–5</div>
+    <div class="figcap"><b>Fig. 17</b> — Multiqueues: one array, two (or more) independent FIFO regions.</div>
+  </div>
+  <div class="keymath">
+    Queue 1 empty: front1 == −1 &nbsp;or&nbsp; front1 &gt; rear1<br>
+    Queue 2 empty: front2 == n/2 &nbsp;or&nbsp; front2 &gt; rear2<br>
+    Queue 2 full: rear2 == n − 1 &nbsp;(Queue 1 full: rear1 == n/2 − 1)
+    <small>boundary conditions, array of size n</small>
+  </div>
+</section>
+
+<!-- ================= 19 PRIORITY ================= -->
+<section class="sec" id="s-pq">
+  <div class="kicker">&sect; 19 &middot; Part II</div>
+  <h2>Priority queues</h2>
+
+  <div class="def">
+    <div class="lbl">Definition</div>
+    <p>A <b>priority queue</b> is a data structure in which the <b>intrinsic ordering of the elements determines the result of its basic operations</b> — not arrival order. It is a set with the operations <b>INSERT</b> and <b>DELETEMIN</b>. <b>DELETEMIN</b> is “a function that returns <i>some</i> element of smallest priority and, as a side effect, deletes it” — it combines DELETE and MIN into a single ADT operation. (“Some”, because several elements may tie for smallest.)</p>
+  </div>
+
+  <h4>Min-priority vs max-priority</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Variant</th><th>Who leaves first</th><th>Example</th></tr>
+    <tr><td><b>Min-priority</b> (ascending)</td><td>DELETEMIN removes the <b>smallest</b> priority value</td><td>An emergency room — the most critical patient (lowest “time to harm”) goes first</td></tr>
+    <tr><td><b>Max-priority</b> (descending)</td><td>The <b>largest</b> priority value leaves first</td><td>A task scheduler that always runs the highest-priority job next</td></tr>
+  </table></div>
+  <p class="small">From the second reference deck, in array terms: an <b>ascending priority queue</b> is a collection where items can be <b>inserted arbitrarily</b> but only the <b>smallest</b> priority value can be removed; a <b>descending priority queue</b> inserts arbitrarily but removes only the <b>largest</b>. Sometimes we need to insert or delete from other positions than front or rear — that is exactly what the priority queue buys us.</p>
+
+  <h4>Worked example — the emergency room</h4>
+  <p><i>“Patients having potentially fatal problems will be taken before any others, no matter how long the respective waits are.”</i></p>
+  <div class="fig">
+    <div class="er">
+      <div class="pcard">P1<small>priority 3</small></div>
+      <div class="pcard next">P2<small>priority 1</small></div>
+      <div class="pcard">P3<small>priority 5</small></div>
+      <div class="pcard">P4<small>priority 2</small></div>
+    </div>
+    <div class="btr">DELETEMIN &rarr; <b>P2 (priority 1) is treated next</b></div>
+    <div class="figcap"><b>Fig. 18</b> — Arrival order was P1, P2, P3, P4 — but the priority queue always serves the most urgent patient next, not the one who arrived first. Real-time jobs and hospital scheduling are the classic OS examples.</div>
+  </div>
+
+  <h4>How would we implement this?</h4>
+  <p>A priority queue is a set with INSERT and DELETEMIN — <b>so any set implementation works</b>. The trade-offs:</p>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Implementation</th><th>INSERT</th><th>DELETEMIN</th></tr>
+    <tr><td><b>Unsorted list</b></td><td class="m"><b>O(1)</b></td><td class="m">O(n) — must scan for the minimum</td></tr>
+    <tr><td><b>Sorted list</b></td><td class="m">O(n) — must find the insertion point</td><td class="m"><b>O(1)</b> — minimum is always first</td></tr>
+    <tr><td><b>Heap</b> (“partially ordered tree”)</td><td class="m"><b>O(log n)</b></td><td class="m"><b>O(log n)</b></td></tr>
+  </table></div>
+
+  <h4>Issues for the array implementation — and the fix</h4>
+  <ul class="tight">
+    <li>Must <b>examine all the elements</b> to find the largest / smallest for deletion</li>
+    <li><b>Removal from the middle of an array is complicated</b>: it needs to shift all subsequent elements</li>
+    <li>Needs some indicator (e.g. <code>−1</code>) to mark the empty status of vacated positions</li>
+    <li>A new insertion into an unsorted array leads to total disorder — every deletion requires a full scan</li>
+    <li><b>Solution:</b> keep the elements <b>arranged in ascending or descending order</b> after each insertion — then the extreme element is always at a known end</li>
+  </ul>
+
+  <h4>Linked-list implementation</h4>
+  <ul class="tight">
+    <li><b>Single list</b> — sorted nodes in one list: insert walks to the correct position, the minimum / maximum sits at a known end</li>
+    <li><b>Multiple lists</b> — one list per priority value: e.g. insert nodes with priority 2 and priority 3 into their own lists; DELETEMIN only ever looks at the lowest non-empty list’s front</li>
+  </ul>
+
+  <h4>Complexity at a glance</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Structure</th><th>Insert</th><th>Remove next</th><th>Search order</th></tr>
+    <tr><td>Stack</td><td class="m">O(1)</td><td class="m">O(1)</td><td>LIFO</td></tr>
+    <tr><td>Queue</td><td class="m">O(1)</td><td class="m">O(1)</td><td>FIFO</td></tr>
+    <tr><td>Priority queue (heap)</td><td class="m">O(log n)</td><td class="m">O(log n)</td><td>By priority</td></tr>
+  </table></div>
+
+  <h4>C++ — std::priority_queue</h4>
+  <p>The Standard Library gives you a heap-backed priority queue for free — <code>push()</code>, <code>top()</code>, and <code>pop()</code> are INSERT, the min/max read, and DELETEMIN.</p>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>std::priority_queue — max and min variants</span></figcaption>
+    <pre class="code">#include &lt;queue&gt;
+
+priority_queue&lt;int&gt; maxPQ;            // largest value has priority
+maxPQ.push(5); maxPQ.push(1); maxPQ.push(9);
+maxPQ.top();                          // 9
+maxPQ.pop();                          // removes 9
+
+priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minPQ;   // smallest first</pre>
+  </figure>
+</section>
+
+<!-- ================= 20 DEQUE ================= -->
+<section class="sec" id="s-deq">
+  <div class="kicker">&sect; 20 &middot; Part II</div>
+  <h2>Deques — double-ended queues</h2>
+
+  <div class="def">
+    <div class="lbl">Definition</div>
+    <p>A <b>deque</b> (“double-ended queue”) is a linear data structure that allows <b>insertion and deletion at BOTH ends with O(1) time complexity</b> — it <b>generalises both the stack and the queue</b>.</p>
+  </div>
+
+  <div class="fig">
+    <div class="dq">
+      <div class="drow"><span>&rarr; pushFront(x)</span><span>pushBack(x) &larr;</span></div>
+      <div class="cells">
+        <div class="qcol"><div class="cell f">A</div><div class="idx">0</div></div>
+        <div class="qcol"><div class="cell f">B</div><div class="idx">1</div></div>
+        <div class="qcol"><div class="cell f">C</div><div class="idx">2</div></div>
+        <div class="qcol"><div class="cell f">D</div><div class="idx">3</div></div>
+      </div>
+      <div class="drow"><span>&larr; popFront()</span><span>popBack() &rarr;</span></div>
+      <div class="dlabels"><span>FRONT end</span><span>REAR end</span></div>
+    </div>
+    <div class="figcap"><b>Fig. 19</b> — The four deque operations. Arrows pointing <i>into</i> the cells are insertions; arrows leaving are deletions. Both ends, both directions, all O(1).</div>
+  </div>
+
+  <h4>Operations</h4>
+  <ul class="tight">
+    <li><b>pushFront(x)</b> — insert x at the front &nbsp;&middot;&nbsp; <b>pushBack(x)</b> — insert x at the rear</li>
+    <li><b>popFront()</b> — remove &amp; return the front element &nbsp;&middot;&nbsp; <b>popBack()</b> — remove &amp; return the rear element</li>
+  </ul>
+
+  <h4>Restricted deques</h4>
+  <p>A full deque supports insertion and deletion at both ends. <b>Restricting one operation to a single end</b> gives two useful special cases:</p>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Variant</th><th>Insert allowed at</th><th>Delete allowed at</th></tr>
+    <tr><td><b>Full deque</b></td><td>Both ends</td><td>Both ends</td></tr>
+    <tr><td><b>Input-restricted deque</b></td><td>One end only</td><td>Both ends</td></tr>
+    <tr><td><b>Output-restricted deque</b></td><td>Both ends</td><td>One end only</td></tr>
+  </table></div>
+
+  <h4>Implementation</h4>
+  <ul class="tight">
+    <li>A <b>circular array works just as well for a deque as for a queue</b>: front moves <b>backward</b> (with wraparound) on pushFront and forward on popFront; rear moves <b>forward</b> (with wraparound) on pushBack and backward on popBack</li>
+    <li>Every operation stays <b>O(1)</b>; the same count-based full/empty test from the circular queue applies unchanged</li>
+    <li>A <b>doubly linked list</b> is the alternative representation, useful when the maximum size is unknown in advance</li>
+  </ul>
+
+  <h4>C++ — std::deque</h4>
+  <figure class="codefig">
+    <figcaption><span>C++</span><span>fast insertion &amp; deletion at both ends</span></figcaption>
+    <pre class="code">#include &lt;deque&gt;
+
+deque&lt;int&gt; d;
+d.push_back(10);
+d.push_front(5);     // d: 5, 10
+d.push_back(20);     // d: 5, 10, 20
+d.pop_front();       // d: 10, 20
+d.pop_back();        // d: 10</pre>
+  </figure>
+  <p class="small">Unlike <code>std::vector</code>, <code>std::deque</code> supports fast insertion and deletion at both ends out of the box — and it does so <b>without invalidating references to other elements</b> when it grows.</p>
+
+  <h4>Applications of deques</h4>
+  <ul class="tight">
+    <li><b>Sliding-window algorithms</b> — maintaining the maximum (or minimum) of a moving window in O(n) total, by pushing/popping from both ends</li>
+    <li><b>Palindrome checking</b> — compare front and back repeatedly, popping both, until they meet or disagree</li>
+    <li><b>Undo/redo with a bounded history</b> — new actions push at the back; once the size limit is hit, the oldest action pops from the front</li>
+    <li><b>Work-stealing task schedulers</b> — a thread takes its own tasks from one end; idle threads “steal” work from the other</li>
+  </ul>
+</section>
+
+<!-- ================= 21 QUEUE APPS ================= -->
+<section class="sec" id="s-apps">
+  <div class="kicker">&sect; 21 &middot; Part II</div>
+  <h2>Queue applications</h2>
+
+  <h4>CPU scheduling — round robin</h4>
+  <p>Each process waits in a <b>queue of ready processes</b>. The CPU gives the front process a <b>time slice</b>, then moves it to the rear — the same insert/delete FIFO cycling, with no priority involved.</p>
+  <div class="fig">
+    <div class="ring">
+      <div class="core">CPU<div style="font-size:9px;opacity:.7">time slice, then rotate</div></div>
+      <div class="rcell f" style="--a:-90deg">P1<em class="up">running</em></div>
+      <div class="rcell" style="--a:-18deg">P2</div>
+      <div class="rcell" style="--a:54deg">P3</div>
+      <div class="rcell" style="--a:126deg">P4</div>
+      <div class="rcell" style="--a:198deg">P5</div>
+    </div>
+    <div class="figcap"><b>Fig. 20</b> — Round-robin scheduling: the front process gets a slice, then rotates to the rear (&#8635;). Every process is served in turn — fairness by construction.</div>
+  </div>
+
+  <h4>Print spooling</h4>
+  <ul class="tight">
+    <li>Every document sent to a shared printer is <b>enqueued in arrival order</b>; the printer dequeues and prints one job at a time</li>
+    <li><b>Why not a stack?</b> A stack would print the <b>most recent</b> document first, leaving early jobs waiting indefinitely</li>
+    <li>Fairness in shared resources almost always calls for <b>FIFO ordering</b></li>
+  </ul>
+
+  <h4>Call-centre queueing</h4>
+  <ul class="tight">
+    <li>Callers are enqueued the moment they connect; the next available agent dequeues the <b>longest-waiting</b> caller</li>
+    <li>Estimated wait time shown to callers is essentially <i>“position in the queue × average service time”</i></li>
+    <li><b>Refinement — priority queues:</b> many systems prioritise callers who have already been transferred, or premium-support customers — FIFO by default, priority when it matters</li>
+  </ul>
+
+  <h4>Breadth-first search uses a queue</h4>
+  <p>BFS enqueues each newly discovered vertex and always dequeues the next one to explore — that FIFO discipline is exactly what visits a graph <b>level by level</b>.</p>
+  <div class="fig">
+    <ul class="tree">
+      <li><span class="tnode">A</span>
+        <ul>
+          <li><span class="tnode">B</span>
+            <ul><li><span class="tnode">D</span></li><li><span class="tnode">E</span></li></ul>
+          </li>
+          <li><span class="tnode">C</span>
+            <ul><li><span class="tnode">F</span></li></ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="qstrip">
+      <div class="qcol"><div class="ptrT">front &darr;</div><div class="cell f">B</div></div>
+      <div class="qcol"><div class="ptrT"></div><div class="cell f">C</div><div class="ptrB">rear &uarr;</div></div>
+    </div>
+    <div class="figcap"><b>Fig. 21</b> — BFS from A: A is dequeued and visited first; its neighbours B and C are enqueued — the visiting order follows arrival order, level by level. (Queue shown at the instant A was processed.)</div>
+  </div>
+
+  <h4>Buffering — traffic and data</h4>
+  <ul class="tight">
+    <li><b>Network packet buffers</b> — packets arriving faster than they can be forwarded are enqueued and sent out in arrival order</li>
+    <li><b>Keyboard / I/O buffers</b> — keystrokes typed faster than the application reads them wait in a queue</li>
+    <li><b>Road traffic at a single-lane bridge or toll booth</b> — cars queue and cross in arrival order, a physical FIFO queue</li>
+    <li><b>Common thread:</b> whenever a fast, bursty source feeds a slower, steady consumer, <b>a queue smooths the difference</b></li>
+  </ul>
+
+  <h4>Categorizing data</h4>
+  <p class="small">Example: a college library arranges books according to various departments — items are classified into separate queues by category.</p>
+
+  <h4>Applications recap</h4>
+  <ul class="tight">
+    <li>CPU / process scheduling (round robin) &middot; job scheduling in batch-mode OS (priority queue for smaller / important jobs)</li>
+    <li>Print spooling &middot; call-centre and customer-service queues</li>
+    <li>Breadth-first search over graphs &middot; network, keyboard, and I/O buffering &middot; categorizing data</li>
+    <li><b>Common thread: fairness and order-preservation — first come, first served.</b></li>
+  </ul>
+</section>
+
+<!-- ================= 22 COMPARE ================= -->
+<section class="sec" id="s-cmp">
+  <div class="kicker">&sect; 22 &middot; Synthesis</div>
+  <h2>Stack vs queue &middot; master complexity table</h2>
+
+  <h4>Stack vs queue</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th></th><th>Stack</th><th>Queue</th></tr>
+    <tr><td><b>Order of service</b></td><td>LIFO — last in, first out</td><td>FIFO — first in, first out</td></tr>
+    <tr><td><b>Insert at</b></td><td class="m">Top</td><td class="m">Rear</td></tr>
+    <tr><td><b>Remove from</b></td><td class="m">Top</td><td class="m">Front</td></tr>
+    <tr><td><b>Typical uses</b></td><td>Recursion, undo, expression evaluation</td><td>Scheduling, buffering, BFS</td></tr>
+  </table></div>
+  <p class="small">Both restrict the general List ADT to insertion/deletion at fixed ends — the difference is entirely in <i>which</i> ends.</p>
+
+  <h4>All structures — every operation</h4>
+  <div class="tscroll"><table class="tb">
+    <tr><th>Structure</th><th>Insert</th><th>Remove</th><th>Access next</th></tr>
+    <tr><td>Stack (array)</td><td class="m">O(1)</td><td class="m">O(1)</td><td class="m">O(1)</td></tr>
+    <tr><td>Queue (array)</td><td class="m">O(1)</td><td class="m">O(1)</td><td class="m">O(1)</td></tr>
+    <tr><td>Circular queue</td><td class="m">O(1)</td><td class="m">O(1)</td><td class="m">O(1)</td></tr>
+    <tr><td>Priority queue (heap)</td><td class="m">O(log n)</td><td class="m">O(log n)</td><td class="m">O(1)</td></tr>
+    <tr><td>Deque (array / circular)</td><td class="m">O(1) both ends</td><td class="m">O(1) both ends</td><td class="m">O(1)</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= 23 SUMMARY ================= -->
+<section class="sec" id="s-sum">
+  <div class="kicker">&sect; 23 &middot; Wrap-up</div>
+  <h2>Unit summary</h2>
+  <ul class="tight">
+    <li><b>Stacks (LIFO):</b> array implementation, expression conversion &amp; evaluation, the run-time stack, recursion elimination</li>
+    <li><b>Queues (FIFO):</b> array implementation, the false-overflow problem, and the circular queue</li>
+    <li><b>Priority queues:</b> served by priority rather than arrival order — INSERT / DELETEMIN, heap-backed at O(log n)</li>
+    <li><b>Deques:</b> insertion and deletion at both ends, all O(1)</li>
+    <li><b>Every operation in this unit was O(1) except priority-queue INSERT / DELETEMIN via a heap, at O(log n)</b></li>
+    <li>Also covered: stacks &amp; queues as ADTs; sequential and linked organization; circular queues; multistacks and multiqueues; implicit vs explicit stacks; applications throughout</li>
+  </ul>
+  <h4>Course outcomes achieved</h4>
+  <ol class="tight">
+    <li>Basic ability to analyze algorithms and determine algorithm correctness and time-efficiency class</li>
+    <li>Understanding of different abstract data types and data structures and their implementations (OOP with C++)</li>
+    <li>Understanding of algorithm design techniques (brute-force, divide and conquer, greedy, etc.) and their implementation</li>
+    <li>Ability to apply and implement learned algorithm design techniques and data structures to solve problems</li>
+  </ol>
+</section>
+
+<!-- ================= 24 PRACTICE ================= -->
+<section class="sec" id="s-prac">
+  <div class="kicker">&sect; 24 &middot; Drill</div>
+  <h2>Practice &amp; self-check</h2>
+  <p class="lead">Every question below comes from the lecture decks’ checkpoints and self-check slides, plus the classic exam forms of this unit. Tap a question to reveal the worked answer.</p>
+
+  <h4>Stacks</h4>
+  <details class="qa"><summary>Trace push(5), push(8), pop(), push(2) on an empty stack. What is on top at the end?</summary><div class="ans"><p>Stack after each step: [5] &rarr; [5, 8] &rarr; pop removes <b>8</b> &rarr; [5] &rarr; push(2) &rarr; [5, 2]. <b>The top is 2</b> (top index = 1).</p></div></details>
+  <details class="qa"><summary>Starting from an empty stack, what is on top after push(1); push(2); pop(); push(3)?</summary><div class="ans"><p>pop() removes 2 (the then-top). Final stack: [1, 3]. <b>Top = 3.</b></p></div></details>
+  <details class="qa"><summary>Why is push() considered O(1) even though the array could hold thousands of elements?</summary><div class="ans"><p>push() touches only the position at <code>top</code>: one comparison (<code>isFull()</code>), one increment (<code>top+1</code>), one write. No other element is ever inspected, searched, or shifted — the cost is independent of n.</p></div></details>
+  <details class="qa"><summary>What does LIFO stand for? Name one everyday example.</summary><div class="ans"><p><b>Last-In, First-Out</b> — the most recently inserted element is the first removed. Everyday examples: a stack of plates (only the top plate moves), books on the floor, undo in an editor, the browser back button.</p></div></details>
+  <details class="qa"><summary>State two drawbacks of the array stack implementation and the linked-list remedy.</summary><div class="ans"><p>Array: (1) <b>size is restricted</b> — capacity fixed before use, so pushes can overflow; (2) <b>memory is wasted</b> if the stack stays mostly empty. Linked list: nodes are created dynamically as needed — <code>isFull()</code> becomes not applicable; push = insert-at-head, pop = delete-at-head, still O(1).</p></div></details>
+  <details class="qa"><summary>Distinguish implicit and explicit stacks.</summary><div class="ans"><p><b>Implicit</b>: built by the run-time environment to store function-call status; push/pop happen automatically and the programmer cannot manipulate it (function calls, recursion). <b>Explicit</b>: designed by the programmer; push/pop are called manually by the user (e.g. reversing a string, expression conversion, the user stack in recursion elimination).</p></div></details>
+
+  <h4>Expression conversion</h4>
+  <details class="qa"><summary>Convert (A − B) × (C + D) / E to postfix.</summary><div class="ans"><p class="m">A B − C D + * E /</p><p>(A−B) &rarr; AB−; (C+D) &rarr; CD+; multiply &rarr; AB−CD+*; divide by E &rarr; AB−CD+*E/.</p></div></details>
+  <details class="qa"><summary>Convert A × (B + C) − D / E to postfix.</summary><div class="ans"><p class="m">A B C * + D E / −</p><p>Watch the − : it flushes the waiting * (equal precedence, left-associative) before being pushed.</p></div></details>
+  <details class="qa"><summary>Convert A + B/C + D*(E − F)^G to postfix.</summary><div class="ans"><p class="m">A B C / + D E F − G ^ * +</p><p>Full symbol-by-symbol trace is in &sect; 09, Trace 3.</p></div></details>
+  <details class="qa"><summary>Convert K + L − M*N + (O^P) * W/U/V * T + Q to postfix.</summary><div class="ans"><p class="m">K L + M N * − O P W * U / V / T * + Q +</p></div></details>
+  <details class="qa"><summary>Convert A + (B*C − (D/E^F)*G)*H to postfix.</summary><div class="ans"><p class="m">A B C * D E F ^ / G * − H * +</p></div></details>
+  <details class="qa"><summary>Convert A*B + (C − D/E) to postfix <i>and</i> prefix.</summary><div class="ans"><p>Postfix: <span class="m" style="background:none;border:none;padding:0">A B * C D E / − +</span> &nbsp; Prefix: <span class="m" style="background:none;border:none;padding:0">+ * A B − C / D E</span></p></div></details>
+  <details class="qa"><summary>Convert (a + b/e) × (d + f) to postfix and prefix.</summary><div class="ans"><p>Postfix: <b>a b e / + d f + *</b> &nbsp; Prefix: <b>* + a / b e + d f</b></p></div></details>
+  <details class="qa"><summary>Convert ((A+B)*C − (D−E)) $ (F+G) to postfix and prefix ($ = ^).</summary><div class="ans"><p>Postfix: <b>A B + C * D E − − F G + $</b> &nbsp; Prefix: <b>$ − * + A B C − D E + F G</b></p></div></details>
+  <details class="qa"><summary>Convert A − B/(C*D$E) to postfix and prefix.</summary><div class="ans"><p>Postfix: <b>A B C D E $ * / −</b> &nbsp; Prefix: <b>− A / * B C $ D E</b></p></div></details>
+  <details class="qa"><summary>Why does right-associativity matter specifically for the ^ operator?</summary><div class="ans"><p>Exponentiation is <b>not associative</b>. For 2 ^ 3 ^ 2: right-associative (correct) = 2^(3^2) = 2^9 = <b>512</b>; left-associative (incorrect) = (2^3)^2 = 8^2 = <b>64</b>. In the conversion algorithm this means a second consecutive ^ must be <b>pushed</b>, not popped — pop only on strictly greater precedence for ^.</p></div></details>
+  <details class="qa"><summary>Give reasons a compiler might prefer postfix over infix internally.</summary><div class="ans"><ul><li><b>No parentheses</b> — the order is completely clear without grouping symbols</li><li><b>No precedence table</b> — the operator positions already encode the evaluation order</li><li><b>Simple rules</b> — an operator always immediately follows its operands</li><li><b>Easy stack usage</b> — one left-to-right scan with push/pop evaluates the expression; no backtracking. This is exactly how many real compilers and calculators evaluate arithmetic internally.</li></ul></div></details>
+
+  <h4>Expression evaluation</h4>
+  <details class="qa"><summary>Evaluate the postfix expression 2 3 4 * + 5 − by hand.</summary><div class="ans"><p>Push 2; push 3; push 4. <code>*</code>: pop 4, 3 &rarr; 3×4 = 12; push. <code>+</code>: pop 12, 2 &rarr; 2+12 = 14; push. <code>−</code>: pop 5, 14 &rarr; 14−5 = 9. <b>Result: 9.</b></p></div></details>
+  <details class="qa"><summary>Evaluate 6 2 3 + − 3 8 2 / + * 2 ^ 3 + and show the stack after each step.</summary><div class="ans"><p>2+3=5 &rarr; 6−5=1 &rarr; 8/2=4 &rarr; 3+4=7 &rarr; 1×7=7 &rarr; 7^2=49 &rarr; 49+3. <b>Answer: 52.</b> Full stack trace in &sect; 11.</p></div></details>
+  <details class="qa"><summary>Evaluate 2 4 8 + − 8 + .</summary><div class="ans"><p>4+8=12; 2−12=−10; −10+8. <b>Answer: −2</b> — note the subtraction order: the <i>second</i> pop is the left operand.</p></div></details>
+  <details class="qa"><summary>Why must the two popped operands be applied in the correct order for − and / but not for + and *?</summary><div class="ans"><p>Addition and multiplication are <b>commutative</b> (a+b = b+a, a×b = b×a), so a swapped pop order changes nothing. Subtraction and division are <b>not commutative</b> — 6−5 = 1 but 5−6 = −1 — so the first pop must be treated as the <b>right</b> operand and the second pop as the <b>left</b>, computing op1 ∘ op2.</p></div></details>
+  <details class="qa"><summary>State the prefix evaluation algorithm and evaluate * + 3 4 5 .</summary><div class="ans"><p>Scan <b>right to left</b>; operand &rarr; push; operator &rarr; a = pop, b = pop, push(a OP b) — the first pop is the <b>left</b> operand. For * + 3 4 5: push 5, 4, 3; <code>+</code>: a=3, b=4 &rarr; 7; <code>*</code>: a=7, b=5 &rarr; <b>35</b>.</p></div></details>
+
+  <h4>Recursion &amp; the run-time stack</h4>
+  <details class="qa"><summary>What does an activation record contain, and when is it pushed?</summary><div class="ans"><p>Pushed on the run-time stack at <b>every active procedure call</b> (whether or not the language allows recursion), it holds the <b>parameter values</b>, the <b>local variables</b> of that call, and the <b>return address</b> to jump back to — everything needed to resume the caller.</p></div></details>
+  <details class="qa"><summary>Explain stack overflow and how to prevent it.</summary><div class="ans"><p>Each activation record takes real memory and the run-time stack has a fixed limit. Recursion with no <b>reachable</b> base case keeps pushing frames until the stack’s memory region is exhausted — a crash. Prevention: ensure the base case is reachable from every call; ensure each call moves strictly closer to it; for very deep recursion, use the iterative / explicit-stack version (complete recursion elimination).</p></div></details>
+  <details class="qa"><summary>Compare recursion and iteration.</summary><div class="ans"><p>Recursion: O(depth) stack frames, often shorter code mirroring the definition, risk of stack overflow, call/return overhead per level. Iteration: O(1) extra memory, may need extra bookkeeping, no call-stack growth, usually faster in tight loops. (Table in &sect; 13.)</p></div></details>
+
+  <h4>Queues &amp; circular queues</h4>
+  <details class="qa"><summary>Explain why a plain array-based queue eventually reports “full” even when it holds few elements.</summary><div class="ans"><p><b>False overflow.</b> Each dequeue advances front and leaves its slot behind — the vacated slots are never reused by the linear scheme. After many enqueue/dequeue pairs the whole queue drifts rightward; once rear reaches MAX−1, <code>isFull()</code> fires even though slots 0..front−1 are empty and unreachable. The fix is the circular queue: advance both indices modulo size so rear wraps back onto the freed slots.</p></div></details>
+  <details class="qa"><summary>In a size-6 circular queue, rear = 5. What is rear after one more enqueue?</summary><div class="ans"><p class="m">rear = (5 + 1) % 6 = 0</p><p>The index wraps from the last slot back to the first — the whole point of modulo arithmetic.</p></div></details>
+  <details class="qa"><summary>Why can’t front == rear alone tell you whether a circular queue is empty or full?</summary><div class="ans"><p>The pointers record <b>position, not occupancy</b>. With the “rear = next free slot” convention, an empty queue starts with front == rear, and a completely full one wraps rear back onto front — <b>identical pointer values, opposite states</b>. Disambiguation needs occupancy information: a count variable, an empty flag, or a sacrificed slot.</p></div></details>
+  <details class="qa"><summary>For a circular queue of size 5 with front = 3 and rear = 4 — is the queue full or empty? What extra information would you need to be sure?</summary><div class="ans"><p><b>Neither.</b> Under the usual “rear = last element” convention it holds the elements at indices 3 and 4 — exactly <b>2 elements</b>: not empty (count &gt; 0) and not full (count &lt; 5). But front and rear alone never distinguish the empty from the full <i>coincidence</i>, and the exact count depends on the convention (rear-as-last vs rear-as-next-free). To be certain in every state you need a <b>count variable</b> (or a boolean empty flag, or the sacrifice-a-slot scheme) — always state the convention you assume.</p></div></details>
+  <details class="qa"><summary>Trace new CircularQueue(4), enqueue(A), enqueue(B), enqueue(C), dequeue(), enqueue(D), enqueue(E).</summary><div class="ans"><p>(front, rear, count) after each: (0,−1,0) &rarr; (0,0,1) A &rarr; (0,1,2) A,B &rarr; (0,2,3) A,B,C &rarr; (1,2,2) B,C &rarr; (1,3,3) B,C,D &rarr; <b>(1,0,4) B,C,D,E</b> — rear wrapped from 3 to 0, reusing A’s old slot. Full table in &sect; 17.</p></div></details>
+  <details class="qa"><summary>Why is the head of a linked queue the front?</summary><div class="ans"><p>Because it is <b>harder to remove items from the tail</b> of a singly linked list — deletion at the tail requires walking to the predecessor, O(n). With a head pointer, deletion at the head is O(1); with a tail pointer, insertion at the tail is O(1) — so head = front (dequeue) and tail = rear (enqueue), both O(1).</p></div></details>
+
+  <h4>Priority queues &amp; deques</h4>
+  <details class="qa"><summary>Give one example each of a real system that behaves like a stack, a queue, and a priority queue.</summary><div class="ans"><p><b>Stack</b>: the browser back button / undo in an editor. <b>Queue</b>: a print spooler / checkout line at a shop. <b>Priority queue</b>: an emergency-room triage (most critical patient first) / an OS scheduler running the highest-priority job next.</p></div></details>
+  <details class="qa"><summary>Differentiate ascending and descending priority queues.</summary><div class="ans"><p>Both insert arbitrarily. <b>Ascending</b>: only the <b>smallest</b> priority-value element can be removed (min-priority, DELETEMIN). <b>Descending</b>: only the <b>largest</b> priority-value element can be removed (max-priority). Emergency room &rarr; ascending; task scheduler &rarr; descending.</p></div></details>
+  <details class="qa"><summary>Compare the three priority-queue implementations.</summary><div class="ans"><p>Unsorted list: INSERT O(1), DELETEMIN O(n) (full scan). Sorted list: INSERT O(n) (find position), DELETEMIN O(1) (extreme is at the end). Heap: both O(log n) — the balanced choice, and what std::priority_queue uses.</p></div></details>
+  <details class="qa"><summary>Distinguish input-restricted and output-restricted deques.</summary><div class="ans"><p><b>Input-restricted</b>: insertion allowed at <b>one end only</b>, deletion at both ends. <b>Output-restricted</b>: insertion at <b>both ends</b>, deletion at one end only. The full deque allows both operations at both ends.</p></div></details>
+</section>
+
+<!-- ================= 25 REFERENCES ================= -->
+<section class="sec" id="s-ref">
+  <div class="kicker">&sect; 25 &middot; Sources</div>
+  <h2>References</h2>
+  <ul class="refs">
+    <li>Aho, Hopcroft &amp; Ullman, <i>Data Structures and Algorithms</i>, Ch. 2 (§2.1–§2.2) &amp; Ch. 12</li>
+    <li>E. Horowitz, S. Sahni, D. Mehta; <i>Fundamentals of Data Structures in C</i>; 2nd Edition; Universities Press; 2008</li>
+    <li>Y. Langsam, M. Augenstein, A. Tannenbaum; <i>Data Structures Using C and C++</i>; 2nd Edition; Pearson Education; 2006</li>
+    <li>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein; <i>Introduction to Algorithms</i>; 3rd Edition; MIT Press — https://mitpress.mit.edu/9780262033848/</li>
+    <li>Brad Miller, David Ranum; <i>Problem Solving with Algorithms and Data Structures using Python</i>; Open Book Project — https://runestone.academy/ns/books/published/pythonds/index.html</li>
+    <li>Data Structures and Algorithms Design by Prof. Nitin Saxena; IIT Kanpur — https://onlinecourses.nptel.ac.in/noc25_cs81/preview</li>
+    <li>UC San Diego &amp; National Research University Higher School of Economics; <i>Data Structures</i>; Coursera — https://www.coursera.org/learn/data-structures</li>
+    <li>https://www.geeksforgeeks.org/dsa/</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="f1">“First come, first served — unless, of course, the stack says otherwise.”</div>
+  <div class="f2">
+    Study notes compiled from the Unit IV lecture material (Stacks, Stack Applications, Queues) · FUNDAMENTALS OF DATA STRUCTURES (CB2003)<br>
+    Manisha Mali · Department of CSE (IoT &amp; Cyber Security incl. Blockchain Technology) · BRACT's Vishwakarma Institute of Technology, Pune-48<br>
+    Mobile-first · monochrome · single-file · interactive
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ============ reading progress + active chip ============ */
+(function(){
+  var prog = document.getElementById('progress');
+  addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var p = h.scrollTop / Math.max(1, (h.scrollHeight - h.clientHeight));
+    prog.style.width = (p * 100) + '%';
+  }, {passive:true});
+
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var secs = chips.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && secs.length) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting) {
+          chips.forEach(function(c){ c.classList.remove('on'); });
+          var i = secs.indexOf(e.target);
+          if (i > -1) chips[i].classList.add('on');
+        }
+      });
+    }, {rootMargin:'-15% 0px -75% 0px'});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+})();
+
+/* ============ lightweight monochrome code highlighter ============ */
+(function(){
+  var RE = /(\/\/[^\n]*)|("[^"\n]*"|'[^'\n]*')|\b(class|struct|public|private|void|int|bool|char|return|if|else|for|while|do|new|delete|nullptr|NULL|true|false|include|define|using|namespace|const|break|continue)\b|\b(\d+)\b/g;
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  Array.prototype.forEach.call(document.querySelectorAll('pre.code'), function(pre){
+    var src = pre.textContent, out = '', last = 0, m;
+    RE.lastIndex = 0;
+    while ((m = RE.exec(src))) {
+      out += esc(src.slice(last, m.index));
+      if (m[1])      out += '<span class="c">' + esc(m[1]) + '</span>';
+      else if (m[2]) out += '<span class="s">' + esc(m[2]) + '</span>';
+      else if (m[3]) out += '<span class="k">' + esc(m[3]) + '</span>';
+      else           out += '<span class="n">' + esc(m[4]) + '</span>';
+      last = m.index + m[0].length;
+    }
+    out += esc(src.slice(last));
+    pre.innerHTML = out;
+  });
+})();
+
+/* ============ DEMO 1 — stack simulator ============ */
+(function(){
+  var CAP = 6, top = -1, cells = new Array(CAP).fill('');
+  var rows = document.getElementById('sv-rows'), msg = document.getElementById('sv-msg'),
+      read = document.getElementById('sv-read'), inp = document.getElementById('sv-in');
+  if (!rows) return;
+  function render(){
+    rows.innerHTML = '';
+    for (var i = CAP - 1; i >= 0; i--) {
+      var r = document.createElement('div');
+      r.className = 'sv-row' + (i === top ? ' is-top' : '');
+      var tag = document.createElement('span'); tag.className = 'sv-tag';
+      tag.textContent = (i === top) ? 'TOP \u2190' : '';
+      var c = document.createElement('span');
+      c.className = 'sv-cell' + (i <= top ? ' f' : '');
+      c.textContent = (i <= top) ? cells[i] : '';
+      var idx = document.createElement('span'); idx.className = 'sv-idx';
+      idx.textContent = '[' + i + ']';
+      r.appendChild(tag); r.appendChild(c); r.appendChild(idx);
+      rows.appendChild(r);
+    }
+    read.innerHTML = 'top = <b>' + top + '</b> &middot; isEmpty() \u2192 ' + (top === -1) +
+                     ' &middot; isFull() \u2192 ' + (top === CAP - 1);
+  }
+  document.getElementById('sv-push').addEventListener('click', function(){
+    if (top === CAP - 1) { msg.textContent = '\u26A0 Stack overflow \u2014 top == MAX_SIZE \u2212 1, push refused.'; return; }
+    var v = (inp.value || '').trim() || String(Math.floor(Math.random() * 90 + 10));
+    top = top + 1; cells[top] = v;
+    msg.textContent = 'push(' + v + ') \u2192 top: ' + (top - 1) + ' \u2192 ' + top + ' \u00B7 elements[top] = ' + v + ' \u2014 O(1).';
+    inp.value = ''; render();
+  });
+  document.getElementById('sv-pop').addEventListener('click', function(){
+    if (top === -1) { msg.textContent = '\u26A0 Stack underflow \u2014 top == \u22121, nothing to pop.'; return; }
+    var v = cells[top]; top = top - 1;
+    msg.textContent = 'pop() \u2192 ' + v + ' \u00B7 top: ' + (top + 1) + ' \u2192 ' + top + ' \u2014 the slot keeps its old value until overwritten.';
+    render();
+  });
+  document.getElementById('sv-rst').addEventListener('click', function(){
+    top = -1; cells = new Array(CAP).fill('');
+    msg.textContent = 'Reset \u2014 MAKENULL: top = \u22121 (empty).';
+    render();
+  });
+  render();
+})();
+
+/* ============ DEMO 2 — circular queue simulator ============ */
+(function(){
+  var N = 6, front = 0, rear = -1, count = 0, cells = new Array(N).fill('');
+  var arr = document.getElementById('cq-arr'), msg = document.getElementById('cq-msg'),
+      read = document.getElementById('cq-read'), inp = document.getElementById('cq-in');
+  if (!arr) return;
+  function contents(){
+    if (count === 0) return '(empty)';
+    var s = [];
+    for (var k = 0; k < count; k++) s.push(cells[(front + k) % N]);
+    return s.join(' \u00B7 ');
+  }
+  function render(){
+    arr.innerHTML = '';
+    var wrap = document.createElement('div'); wrap.className = 'cells';
+    for (var i = 0; i < N; i++) {
+      var col = document.createElement('div'); col.className = 'qcol';
+      var pT = document.createElement('div'); pT.className = 'ptrT';
+      pT.textContent = (count > 0 && i === front) ? 'front \u2193' : '';
+      var cell = document.createElement('div');
+      cell.className = 'cell' + (cells[i] !== '' ? ' f' : '');
+      cell.textContent = cells[i] || '';
+      var idx = document.createElement('div'); idx.className = 'idx'; idx.textContent = i;
+      var pB = document.createElement('div'); pB.className = 'ptrB';
+      pB.textContent = (count > 0 && i === rear) ? 'rear \u2191' : '';
+      col.appendChild(pT); col.appendChild(cell); col.appendChild(idx); col.appendChild(pB);
+      wrap.appendChild(col);
+    }
+    arr.appendChild(wrap);
+    read.innerHTML = 'front = <b>' + front + '</b> &middot; rear = <b>' + rear + '</b> &middot; count = <b>' + count +
+                     '</b> &middot; contents (front\u2192rear): <b>' + contents() + '</b>';
+  }
+  document.getElementById('cq-enq').addEventListener('click', function(){
+    if (count === N) { msg.textContent = '\u26A0 Queue overflow \u2014 count == size (' + N + ').'; return; }
+    var v = (inp.value || '').trim() || String(Math.floor(Math.random() * 90 + 10));
+    var prev = rear;
+    rear = (rear + 1) % N; cells[rear] = v; count++;
+    msg.textContent = 'enqueue(' + v + ') \u2192 rear = (' + prev + ' + 1) % ' + N + ' = ' + rear +
+                      (prev === N - 1 ? ' \u2014 wrapped!' : '') + ' \u00B7 count = ' + count + ' \u2014 O(1).';
+    inp.value = ''; render();
+  });
+  document.getElementById('cq-deq').addEventListener('click', function(){
+    if (count === 0) { msg.textContent = '\u26A0 Queue underflow \u2014 count == 0.'; return; }
+    var v = cells[front], prev = front;
+    cells[front] = ''; front = (front + 1) % N; count--;
+    msg.textContent = 'dequeue() \u2192 ' + v + ' \u00B7 front = (' + prev + ' + 1) % ' + N + ' = ' + front +
+                      (prev === N - 1 ? ' \u2014 wrapped!' : '') + ' \u00B7 freed slot will be reused when rear reaches it.';
+    render();
+  });
+  document.getElementById('cq-rst').addEventListener('click', function(){
+    front = 0; rear = -1; count = 0; cells = new Array(N).fill('');
+    msg.textContent = 'Reset \u2014 front = 0, rear = \u22121, count = 0 (empty).';
+    render();
+  });
+  render();
+})();
+
+/* ============ DEMO 3 — infix to postfix tracer ============ */
+(function(){
+  var inp = document.getElementById('ex-in'), btn = document.getElementById('ex-go'),
+      out = document.getElementById('ex-out'), msg = document.getElementById('ex-msg'),
+      presets = document.getElementById('ex-presets');
+  if (!out) return;
+  function prec(ch){ return ch === '^' ? 3 : (ch === '*' || ch === '/' || ch === '%') ? 2 : (ch === '+' || ch === '-') ? 1 : 0; }
+  function isOp(ch){ return '+-*/^%'.indexOf(ch) > -1; }
+  function spaced(s){ return s.split('').join(' ') || '\u2013'; }
+
+  function convert(s){
+    var st = [], o = '', steps = [];
+    function snap(sym, act){ steps.push({sym: sym, act: act, st: st.join(' '), o: o}); }
+    for (var i = 0; i < s.length; i++) {
+      var ch = s[i];
+      if (/[A-Za-z0-9]/.test(ch)) { o += ch; snap(ch, 'operand \u2192 append to output'); }
+      else if (ch === '(') { st.push(ch); snap(ch, 'push \u201C(\u201D \u2014 a wall that blocks comparisons'); }
+      else if (ch === ')') {
+        while (st.length && st[st.length - 1] !== '(') o += st.pop();
+        if (!st.length) throw new Error('Unbalanced \u201C)\u201D \u2014 no matching \u201C(\u201D.');
+        st.pop();
+        snap(ch, 'pop to output until \u201C(\u201D \u2014 discard both parentheses');
+      }
+      else if (isOp(ch)) {
+        var popped = [];
+        while (st.length && st[st.length - 1] !== '(' &&
+               (prec(st[st.length - 1]) > prec(ch) || (prec(st[st.length - 1]) === prec(ch) && ch !== '^'))) {
+          var p = st.pop(); popped.push(p); o += p;
+        }
+        var act = popped.length
+          ? 'pop ' + popped.join(', ') + ' (precedence \u2265 ' + ch + ') \u2192 push ' + ch
+          : (ch === '^' ? 'right-assoc \u2014 push \u2196 (stacks on top of \u2191)' : 'push \u2014 stack top has lower precedence');
+        st.push(ch); snap(ch, act);
+      }
+      else throw new Error('Unrecognised symbol \u201C' + ch + '\u201D.');
+    }
+    for (var j = 0; j < st.length; j++) if (st[j] === '(') throw new Error('Unbalanced \u201C(\u201D \u2014 never closed.');
+    var remaining = [];
+    while (st.length) { var r = st.pop(); remaining.push(r); o += r; }
+    snap('end', remaining.length ? 'pop all remaining: ' + remaining.join(', ') : 'stack already empty');
+    return { postfix: o, steps: steps };
+  }
+
+  function evalTrace(post){
+    if (!/^[0-9+\-*/^%]+$/.test(post)) return null;
+    if (!/[0-9]/.test(post)) return null;
+    var st = [], steps = [], val = 0;
+    for (var i = 0; i < post.length; i++) {
+      var ch = post[i];
+      if (/[0-9]/.test(ch)) { st.push(+ch); steps.push({t: ch, a: 'push ' + ch, s: st.join(' ')}); }
+      else {
+        var b = st.pop(), a = st.pop();
+        if (a === undefined) throw new Error('Malformed expression \u2014 operator is missing an operand.');
+        if (ch === '+') val = a + b; else if (ch === '-') val = a - b;
+        else if (ch === '*') val = a * b; else if (ch === '/') val = a / b;
+        else if (ch === '^') val = Math.pow(a, b); else val = 0;
+        if (val === Math.round(val)) val = Math.round(val); else val = Math.round(val * 1e6) / 1e6;
+        st.push(val);
+        steps.push({t: ch, a: 'pop b=' + b + ', a=' + a + ' \u2192 ' + a + ' ' + ch + ' ' + b + ' = ' + val, s: st.join(' ')});
+      }
+    }
+    return { val: st[st.length - 1], steps: steps };
+  }
+
+  function run(){
+    out.innerHTML = ''; 
+    var s = (inp.value || '').replace(/\s+/g, '');
+    if (!s) { msg.textContent = 'Enter an expression first.'; return; }
+    try {
+      var res = convert(s);
+      msg.textContent = 'Converted in one left-to-right pass with a single operator stack.';
+      var html = '<div class="ex-result"><span class="rl">POSTFIX</span>' + spaced(res.postfix) + '</div>';
+      html += '<div class="tscroll wide"><table class="tb"><tr><th>Symbol</th><th>Action</th><th>Stack (bottom \u2192 top)</th><th>Output</th></tr>';
+      res.steps.forEach(function(x){
+        html += '<tr><td class="m"><b>' + (x.sym) + '</b></td><td>' + x.act + '</td><td class="m">' +
+                (x.st || '\u2013') + '</td><td class="m">' + spaced(x.o) + '</td></tr>';
+      });
+      html += '</table></div>';
+      var ev = null, evErr = null;
+      try { ev = evalTrace(res.postfix); } catch (e) { evErr = e; }
+      if (ev) {
+        html += '<div class="ex-result"><span class="rl">NUMERIC EVALUATION \u00B7 RESULT</span>' + ev.val + '</div>';
+        html += '<div class="tscroll wide"><table class="tb"><tr><th>Token</th><th>Action</th><th>Stack (bottom \u2192 top)</th></tr>';
+        ev.steps.forEach(function(x){
+          html += '<tr><td class="m"><b>' + x.t + '</b></td><td>' + x.a + '</td><td class="m">' + (x.s || '\u2013') + '</td></tr>';
+        });
+        html += '</table></div>';
+      } else if (evErr) {
+        html += '<div class="dmsg">' + evErr.message + '</div>';
+      }
+      out.innerHTML = html;
+    } catch (e) {
+      msg.textContent = '\u26A0 ' + e.message;
+    }
+  }
+  btn.addEventListener('click', run);
+  inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') run(); });
+
+  ['A+B*C', '(A+B)*(C-D)', 'a*(b+c)/d', 'A+B/C+D*(E-F)^G', 'A^B^C', 'K+L-M*N+(O^P)*W/U/V*T+Q', '2^3^2', '6+2*3'].forEach(function(p){
+    var b = document.createElement('button');
+    b.className = 'preset'; b.type = 'button'; b.textContent = p;
+    b.addEventListener('click', function(){ inp.value = p; run(); });
+    presets.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

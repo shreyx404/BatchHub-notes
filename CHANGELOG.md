@@ -12,10 +12,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Ingestion of DCN Units 3 and 4 (`CB2004` IP addressing & TCP/IP Model).
 - Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
-- Initial units for Fundamentals of Data Structures (`notes/fds/` — `CB2003`).
 - Ingestion of OOP Units 2, 3, and 4 (`notes/oop/` — `CB2006`).
-- Initial units for Basics of IoT (`notes/biot/` — `CB2005`).
+- FDS Unit 5 (Trees) and Unit 6 (Graphs) (`notes/fds/` — `CB2003`).
+- BIOT Unit 4 — IoT Security and Privacy (`notes/biot/` — `CB2005`).
 - KaTeX mathematical formula rendering engine.
+
+## [1.7.0] - 2026-09-28
+
+### Added
+- **Basics of IoT (BIOT — CB2005) Units 1–3 Ingested**:
+  - `notes/biot/BIOTU1.html`: Unit 1 — Fundamentals of IoT. Covers definitions & characteristics, physical vs. logical design, enabling technologies, IoT protocol stacks, IoT levels 1–6, RFID deep dive (active/passive, EPC, frequency bands), Wireless Sensor Networks (WSN architecture, LEACH protocol), and M2M vs IoT comparison.
+  - `notes/biot/BIOTU2.html`: Unit 2 — Microprocessor & Microcontroller. Covers Microprocessor vs. Microcontroller distinction, Intel 8085 architecture & pin diagram (40-pin DIP, ALE, RD/WR bars, HOLD/HLDA), MCS-51/8051 MCU architecture, memory organization (internal/external RAM, SFRs), and external memory interfacing.
+  - `notes/biot/BIOTU3.html`: Unit 3 — IP-Based Protocols for IoT. Covers IPv6 addressing, 6LoWPAN adaptation layer & header compression, RPL routing (DODAG, objective function, ICMPv6 messages), REST web services, AMQP broker model, CoAP (confirmable/non-confirmable messages, proxy), MQTT (pub/sub, QoS levels 0–2, broker), Modbus RTU/TCP, and ZigBee architecture (coordinator, router, end-device roles).
+  - All three BIOT notes include mandatory metadata (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`), `@media print` styles, `../../index.html` back-links, and mobile-responsive layouts.
+
+- **Fundamentals of Data Structures (FDS — CB2003) Units 1–4 Ingested**:
+  - `notes/fds/FDSU1.html`: Unit 1 — Data Structures & Analysis of Algorithms. Covers ADT definitions, data structure classifications, algorithm complexity analysis, Big-O / Big-Ω / Big-Θ asymptotic notations, space-time trade-offs, recurrence relations (substitution, master theorem), and Tower of Hanoi recursion with interactive depth visualization.
+  - `notes/fds/FDSU2.html`: Unit 2 — Arrays, Searching & Sorting Techniques. Covers 1D/2D array address formulae (row-major/column-major), sparse matrix transpose algorithms, dynamic arrays, Linear Search, Binary Search, and complete analysis of 5 sorting algorithms (Bubble, Selection, Insertion, Merge, Quick Sort) with interactive bar-chart visualizer.
+  - `notes/fds/FDSU3.html`: Unit 3 — Linked Lists. Covers node anatomy & pointer mechanics, Singly Linked List (SLL) CRUD operations, Doubly Linked List (DLL), Circular Linked List (CLL), polynomial representation & addition algorithm, Josephus problem simulation, and dynamic memory allocation (free-list, first/best/worst fit).
+  - `notes/fds/FDSU4.html`: Unit 4 — Stacks & Queues. Covers Stack ADT (array & linked implementations), infix → postfix conversion (Shunting-Yard), postfix expression evaluator, call-stack recursion tracing, Queue ADT, Linear Queue, Circular Queue, Deque (input/output restricted), and Priority Queue.
+  - All four FDS notes include mandatory metadata, `@media print` styles, `../../index.html` back-links, and mobile-responsive layouts.
+
+### Changed
+- **Manifest Recompiled** (`notes.json`): Regenerated via `npm run build`, now tracks **12 published notes** across all 5 subjects (54.5% curriculum coverage).
+- **System Documentation Synchronized**: Updated `CHANGELOG.md`, `TASKS.md`, `README.md`, `PRD.md`, `ARCHITECTURE.md`, `SYLLABUS.md`, `AGENTS.md`, `STYLEGUIDE.md`, `API.md`, and `CONTRIBUTING.md` to reflect the updated note inventory and v1.7.0 release state.
 
 ## [1.6.2] - 2026-09-22
 

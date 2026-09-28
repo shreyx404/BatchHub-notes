@@ -6,12 +6,12 @@
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | 🟡 **In Progress** | **50%** (2/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **16.7%** (3/18 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 40% |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **55.6%** (10/18 Units) |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 50% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 50% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **5 / 22 Units** (22.7%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **12 / 22 Units** (54.5%).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -83,19 +83,19 @@
 
 ---
 
-## Phase 3: Multi-Subject Expansion ⚪
+## Phase 3: Multi-Subject Expansion 🟡
 
-### 1. Fundamentals of Data Structures (FDS — CB2003) — `notes/fds/` (6 Units)
-- [ ] Unit 1: Introduction to Data Structures and Complexity (`FDSU1.html`)
-  - [ ] ADTs, classification, Big-O / Big-$\Omega$ / Big-$\Theta$ analysis, time-space trade-offs, recursion.
-- [ ] Unit 2: Arrays and Searching & Sorting Techniques (`FDSU2.html`)
-  - [ ] 1D/2D arrays, sparse matrix, dynamic arrays, Linear & Binary search.
-  - [ ] Bubble, Selection, Insertion, Merge, Quick sort analysis. Sensor buffering case study.
-- [ ] Unit 3: Linked Lists (`FDSU3.html`)
-  - [ ] Singly, Doubly, and Circular linked lists, operations, polynomial arithmetic, memory allocation.
-- [ ] Unit 4: Stacks and Queues (`FDSU4.html`)
-  - [ ] Stack ADT, infix-to-postfix, expression evaluation, call stack recursion.
-  - [ ] Linear, Circular, Priority queues and Deque with real-world applications.
+### 1. Fundamentals of Data Structures (FDS — CB2003) — `notes/fds/` (6 Units) 🟡 66.7%
+- [x] **Unit 1: Introduction to Data Structures and Complexity** (`FDSU1.html`) ✅
+  - [x] ADTs, classification, Big-O / Big-$\Omega$ / Big-$\Theta$ analysis, time-space trade-offs, Tower of Hanoi recursion.
+- [x] **Unit 2: Arrays and Searching & Sorting Techniques** (`FDSU2.html`) ✅
+  - [x] 1D/2D arrays address calculation, sparse matrix transpose, dynamic arrays, Linear & Binary search.
+  - [x] Bubble, Selection, Insertion, Merge, Quick sort analysis with interactive viz and sensor buffering case study.
+- [x] **Unit 3: Linked Lists** (`FDSU3.html`) ✅
+  - [x] Singly, Doubly, and Circular linked lists, operations, polynomial arithmetic, memory allocation simulation.
+- [x] **Unit 4: Stacks and Queues** (`FDSU4.html`) ✅
+  - [x] Stack ADT, infix-to-postfix, expression evaluation, call stack recursion.
+  - [x] Linear, Circular, Priority queues and Deque with real-world applications.
 - [ ] Unit 5: Trees (`FDSU5.html`)
   - [ ] Binary trees, BST operations (insert, search, delete, mirror, height).
   - [ ] In-order, Pre-order, Post-order (recursive/iterative), Expression trees, Huffman coding.
@@ -118,15 +118,15 @@
   - [ ] `try`/`catch`/`finally`/`throw`/`throws`, Java AWT & Swing components, layout managers.
   - [ ] Event delegation model, JDBC connectivity (MySQL/Oracle), CRUD operations, Collection framework.
 
-### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units)
-- [ ] Unit 1: Introduction to IoT (`BIOTU1.html`)
-  - [ ] Definitions, characteristics, physical/logical design, enabling technologies, identifiers, IoT vs M2M.
-- [ ] Unit 2: Introduction of Microprocessor & Microcontroller (`BIOTU2.html`)
-  - [ ] Microprocessor vs microcontroller, MCS-51 (8051) architecture, pin configuration, port architecture.
-  - [ ] Memory organization (RAM/ROM/SFRs) and external memory interfacing.
-- [ ] Unit 3: IP based Protocols for IoT (`BIOTU3.html`)
-  - [ ] IPv6, 6LoWPAN adaptation, RPL routing, REST web services, AMQP, CoAP, MQTT (pub/sub, QoS).
-  - [ ] Authorization and access control in IoT.
+### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units) 🟡 75%
+- [x] **Unit 1: Introduction to IoT** (`BIOTU1.html`) ✅
+  - [x] Definitions, characteristics, physical/logical design, enabling technologies, identifiers, IoT vs M2M.
+- [x] **Unit 2: Introduction of Microprocessor & Microcontroller** (`BIOTU2.html`) ✅
+  - [x] Microprocessor vs microcontroller, 8085 architecture, pin diagram, MCS-51 (8051) architecture.
+  - [x] Memory organization (RAM/ROM/SFRs) and external memory interfacing.
+- [x] **Unit 3: IP based Protocols for IoT** (`BIOTU3.html`) ✅
+  - [x] IPv6, 6LoWPAN adaptation, RPL routing, REST web services, AMQP, CoAP, MQTT (pub/sub, QoS).
+  - [x] Modbus, ZigBee architecture, authorization and access control in IoT.
 - [ ] Unit 4: IoT Security and Privacy (`BIOTU4.html`)
   - [ ] Security challenges, threat landscape, encryption & authentication for constrained nodes.
   - [ ] Privacy concerns, regulations, and security best practices (secure boot, isolation, FOTA).

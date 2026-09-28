@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.6.2  
+**Version**: 1.7.0  
 
 ---
 
@@ -90,10 +90,12 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 │  │ - Select Subject        │  │                                        │
 │  │ - Paste Note URL        │  │  ┌──────────────────────────────────┐  │
 │  │ - Instant publish       │──┼─►│ Standalone HTML Notes            │  │
-│  └─────────────────────────┘  │  │ - notes/dcn/DCNU1.html, DCNU2    │  │
+│  └─────────────────────────┘  │  │ - notes/biot/BIOTU1–U3           │  │
+│                               │  │ - notes/dcn/DCNU1, DCNU2         │  │
+│                               │  │ - notes/fds/FDSU1–U4             │  │
 │                               │  │ - notes/oop/OOPU1.html           │  │
-│                               │  │ - notes/pas/PASU1.html, PASU2    │  │
-│                               │  │ - Sticky TOC, Callouts, Print CSS│  │
+│                               │  │ - notes/pas/PASU1, PASU2         │  │
+│                               │  │ - Responsive TOC, Print CSS, etc │  │
 │                               │  └──────────────────────────────────┘  │
 └───────────────────────────────┴────────────────────────────────────────┘
 ```
@@ -180,7 +182,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 ---
 
 ## 8. Success Metrics & KPIs
-1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 5/22 units, 22.7% published across DCN, OOP, and PAS).
+1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 12/22 units, 54.5% published across BIOT, DCN, FDS, OOP, and PAS).
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
 

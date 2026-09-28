@@ -1,5 +1,65 @@
 [
   {
+    "id": "biot-unit1",
+    "subject": "BIOT",
+    "unit": "Unit 1",
+    "title": "IoT · Unit I — Fundamentals of IoT · Exam Notes",
+    "summary": "Exam-ready notes on Fundamentals of IoT: definitions, characteristics, physical and logical design, protocol stacks, IoT levels 1-6, RFID deep dive, and M2M vs IoT comparison.",
+    "path": "notes/biot/BIOTU1.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/biot/BIOTU1.html",
+    "tags": [
+      "IoT",
+      "Fundamentals",
+      "Physical Design",
+      "Logical Design",
+      "Protocols",
+      "IoT Levels",
+      "RFID",
+      "M2M",
+      "WSN"
+    ]
+  },
+  {
+    "id": "biot-unit2",
+    "subject": "BIOT",
+    "unit": "Unit 2",
+    "title": "IoT · Unit II — Microprocessor & Microcontroller · Exam Notes",
+    "summary": "Complete examination notes on IoT Unit 2 — Microprocessor & Microcontroller: 8085 architecture, pin functions, MP vs MC comparison, 8051 MCU, and memory interfacing.",
+    "path": "notes/biot/BIOTU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/biot/BIOTU2.html",
+    "tags": [
+      "IoT",
+      "Microprocessor",
+      "Microcontroller",
+      "8085 Architecture",
+      "8085 Pin Diagram",
+      "8051 MCU",
+      "Memory Interfacing"
+    ]
+  },
+  {
+    "id": "biot-unit3",
+    "subject": "BIOT",
+    "unit": "Unit 3",
+    "title": "IoT · Unit III — IP-Based Protocols for IoT · Exam Notes",
+    "summary": "Comprehensive examination notes on IoT Unit 3 — IP-based protocols for IoT: 6LoWPAN adaptation layer and header compression, RPL routing, CoAP vs MQTT, AMQP, Modbus, and ZigBee architectures.",
+    "path": "notes/biot/BIOTU3.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/biot/BIOTU3.html",
+    "tags": [
+      "IoT",
+      "Protocols",
+      "6LoWPAN",
+      "RPL",
+      "MQTT",
+      "CoAP",
+      "AMQP",
+      "REST",
+      "IPv6",
+      "Modbus",
+      "ZigBee"
+    ]
+  },
+  {
     "id": "dcn-unit1",
     "subject": "DCN",
     "unit": "Unit 1",
@@ -41,6 +101,85 @@
       "Session",
       "Presentation",
       "Application"
+    ]
+  },
+  {
+    "id": "fds-unit1",
+    "subject": "FDS",
+    "unit": "Unit 1",
+    "title": "FDS · Unit I — Data Structures & Analysis of Algorithms · Exam Notes",
+    "summary": "Comprehensive examination notes on FDS Unit 1 — Introduction to Data Structures & Analysis of Algorithms: ADTs, asymptotic notations (Big-O, Omega, Theta), recurrence relations, and algorithm complexity.",
+    "path": "notes/fds/FDSU1.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU1.html",
+    "tags": [
+      "Data Structures",
+      "Algorithms",
+      "Complexity",
+      "Asymptotic Notation",
+      "Big-O",
+      "Recurrence Relations",
+      "ADT",
+      "Tower of Hanoi"
+    ]
+  },
+  {
+    "id": "fds-unit2",
+    "subject": "FDS",
+    "unit": "Unit 2",
+    "title": "FDS · Unit II — Arrays, Searching & Sorting Techniques · Exam Notes",
+    "summary": "Exam-ready notes on FDS Unit 2 — Arrays and Searching & Sorting Techniques: 1D/2D address calculation, sparse matrix transpose, linear/binary search, and complete analysis of 5 sorting algorithms.",
+    "path": "notes/fds/FDSU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU2.html",
+    "tags": [
+      "Data Structures",
+      "Arrays",
+      "Searching",
+      "Sorting",
+      "Linear Search",
+      "Binary Search",
+      "Bubble Sort",
+      "Selection Sort",
+      "Insertion Sort",
+      "Merge Sort",
+      "Quick Sort",
+      "Sparse Matrix"
+    ]
+  },
+  {
+    "id": "fds-unit3",
+    "subject": "FDS",
+    "unit": "Unit 3",
+    "title": "FDS · Unit III — Linked Lists · Exam Notes",
+    "summary": "In-depth examination notes on FDS Unit 3 — Linked Lists: node anatomy, pointer mechanics, SLL, DLL, CLL operations, polynomial addition, and dynamic memory allocation algorithms.",
+    "path": "notes/fds/FDSU3.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU3.html",
+    "tags": [
+      "Data Structures",
+      "Linked Lists",
+      "SLL",
+      "DLL",
+      "Circular Linked List",
+      "Polynomials",
+      "Memory Management"
+    ]
+  },
+  {
+    "id": "fds-unit4",
+    "subject": "FDS",
+    "unit": "Unit 4",
+    "title": "FDS · Unit IV — Stacks & Queues · Exam Notes",
+    "summary": "Exam notes for FDS Unit 4 (CB2003) — Stacks & Queues: ADT operations, array and linked implementations, postfix/prefix conversions, circular queues, deques, and priority queues.",
+    "path": "notes/fds/FDSU4.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU4.html",
+    "tags": [
+      "Data Structures",
+      "Stacks",
+      "Queues",
+      "Postfix Evaluation",
+      "Infix to Postfix",
+      "Circular Queue",
+      "Deque",
+      "Priority Queue"
     ]
   },
   {

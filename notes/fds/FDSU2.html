@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="fds-unit2">
+<meta name="note-subject" content="FDS">
+<meta name="note-unit" content="Unit 2">
+<meta name="note-tags" content="Data Structures, Arrays, Searching, Sorting, Linear Search, Binary Search, Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Sparse Matrix">
+<meta name="note-summary" content="Exam-ready notes on FDS Unit 2 — Arrays and Searching & Sorting Techniques: 1D/2D address calculation, sparse matrix transpose, linear/binary search, and complete analysis of 5 sorting algorithms.">
+<title>FDS · Unit II — Arrays, Searching &amp; Sorting Techniques · Exam Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MOBILE-FIRST MONOCHROME STUDY NOTES
+   ============================================================ */
+:root{
+  --bg:#0c0d10;
+  --bg2:#121419;
+  --surface:#16181f;
+  --surface2:#1c1f28;
+  --line:#282c37;
+  --line-soft:#1f222c;
+  --txt:#e9e9ec;
+  --txt-dim:#a9abb4;
+  --dim:#9a9daa;
+  --faint:#6c707d;
+  --white:#ffffff;
+  --code-bg:#101218;
+  --serif:'IBM Plex Serif', Georgia, serif;
+  --disp:'Playfair Display', Georgia, serif;
+  --mono:'JetBrains Mono', Consolas, monospace;
+  --w:42rem;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:var(--serif);font-size:1rem;line-height:1.75;
+  font-size:clamp(.98rem,.95rem + .25vw,1.09rem);
+}
+::selection{background:#e9e9ec;color:#0c0d10}
+
+/* ---------- TOP BAR ---------- */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  background:rgba(12,13,16,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{
+  max-width:72rem;margin:0 auto;padding:.7rem 1.1rem;
+  display:flex;align-items:center;gap:.9rem;
+}
+.menu-btn{
+  background:var(--surface);border:1px solid var(--line);color:var(--txt);
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;
+  padding:.55rem .85rem;cursor:pointer;border-radius:.4rem;
+  display:flex;align-items:center;gap:.5rem;flex:none;
+}
+.menu-btn:hover{background:var(--surface2)}
+.brand{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(.95rem,2.5vw,1.2rem);
+  letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.brand em{font-style:italic;font-weight:500;color:var(--dim)}
+.top-right{margin-left:auto;display:flex;gap:.5rem;flex:none}
+.top-link{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+  color:var(--dim);text-decoration:none;border:1px solid var(--line);
+  padding:.45rem .7rem;border-radius:.4rem;background:var(--surface);
+}
+.top-link:hover{color:var(--txt);background:var(--surface2)}
+@media(min-width:640px){.menu-btn .mb-label{display:inline}}
+
+/* ---------- TOC DRAWER (mobile-first) ---------- */
+.toc{
+  position:fixed;inset:0 auto 0 0;width:min(19.5rem,86vw);z-index:100;
+  background:var(--bg2);border-right:1px solid var(--line);
+  transform:translateX(-101%);transition:transform .3s ease;
+  overflow-y:auto;padding:1.4rem 1.2rem 3rem;
+}
+.toc.open{transform:translateX(0)}
+.toc-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.toc-overlay.show{opacity:1;pointer-events:auto}
+.toc-title{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;
+  color:var(--faint);margin-bottom:1.1rem;
+}
+.toc a{
+  display:block;color:var(--dim);text-decoration:none;
+  padding:.42rem .6rem;border-left:2px solid transparent;
+  font-size:.9rem;line-height:1.45;
+}
+.toc a:hover{color:var(--txt);border-left-color:#e9e9ec;background:var(--surface)}
+.toc a.sub{padding-left:1.5rem;font-size:.82rem;color:var(--faint)}
+.toc a.sub:hover{color:var(--txt)}
+.toc .toc-part{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--faint);
+  margin:1.2rem 0 .4rem;padding-left:.6rem;text-transform:uppercase;
+}
+.toc .toc-part:first-of-type{margin-top:.3rem}
+@media(min-width:1100px){
+  .toc{transform:translateX(0);position:sticky;top:3.35rem;height:calc(100vh - 3.35rem);float:left;width:19.5rem;z-index:40}
+  .toc-overlay{display:none}
+  .menu-btn{display:none}
+  .top-right{margin-left:auto}
+}
+
+/* ---------- MAIN ---------- */
+main{max-width:72rem;margin:0 auto;padding:0 1.1rem 5rem;clear:both}
+@media(min-width:1100px){main{padding-left:calc(19.5rem + 2.2rem);clear:none}}
+
+/* ---------- HERO ---------- */
+.hero{padding:clamp(2.6rem,7vw,5.5rem) 0 clamp(2rem,5vw,3.6rem);border-bottom:1px solid var(--line)}
+.hero .kicker{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;color:var(--faint);
+  text-transform:uppercase;margin-bottom:1.1rem;
+}
+.hero h1{
+  font-family:var(--disp);font-weight:900;line-height:1.06;
+  font-size:clamp(2.1rem,7.5vw,4.2rem);letter-spacing:-.015em;margin-bottom:.6rem;
+}
+.hero h1 .thin{display:block;font-weight:500;font-style:italic;font-size:.52em;color:var(--dim);margin-top:.55rem;letter-spacing:0}
+.hero .lede{max-width:36rem;color:var(--dim);margin-top:1.2rem;font-size:1.02em}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.chip{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;
+  border:1px solid var(--line);color:var(--dim);padding:.35rem .65rem;border-radius:99px;
+  background:var(--surface);
+}
+
+/* ---------- SECTIONS ---------- */
+section{padding:clamp(2.2rem,6vw,3.6rem) 0;border-bottom:1px solid var(--line-soft)}
+.sec-head{margin-bottom:1.6rem}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;color:var(--faint);
+  text-transform:uppercase;margin-bottom:.5rem;display:flex;align-items:center;gap:.8rem;
+}
+.sec-eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
+h2{
+  font-family:var(--disp);font-weight:700;line-height:1.15;
+  font-size:clamp(1.5rem,4.6vw,2.3rem);letter-spacing:-.01em;
+}
+h3{
+  font-family:var(--disp);font-weight:700;font-size:clamp(1.15rem,3.2vw,1.45rem);
+  margin:2.4rem 0 .9rem;letter-spacing:-.005em;
+  display:flex;align-items:baseline;gap:.7rem;
+}
+h3 .hnum{font-family:var(--mono);font-weight:400;font-size:.62em;color:var(--faint);letter-spacing:.05em;flex:none}
+h4{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);margin:1.8rem 0 .7rem;font-weight:600;
+  display:flex;align-items:center;gap:.7rem;
+}
+h4::after{content:"";height:1px;flex:1;min-width:1.5rem;background:var(--line-soft)}
+p{margin-bottom:1rem}
+p+p{margin-top:0}
+strong{color:var(--white);font-weight:600}
+em{color:var(--txt)}
+ul.list,ol.list{margin:.4rem 0 1.2rem 1.15rem}
+ul.list li,ol.list li{margin-bottom:.5rem;padding-left:.25rem}
+ul.list li::marker{color:var(--faint)}
+ol.list li::marker{color:var(--faint);font-family:var(--mono);font-size:.82em}
+.small{font-size:.88rem;color:var(--dim)}
+
+/* ---------- CALLOUTS ---------- */
+.callout{
+  border-left:2px solid #e9e9ec;background:var(--surface);
+  padding:1rem 1.1rem;margin:1.3rem 0;border-radius:0 .5rem .5rem 0;
+}
+.callout .c-label{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;
+  color:var(--faint);margin-bottom:.4rem;text-transform:uppercase;
+}
+.callout p:last-child{margin-bottom:0}
+.def{border-left-color:#e9e9ec}
+.exam{border-left-color:#8a8f9c}
+.warn{border-left-color:#5c6070}
+
+/* ---------- CODE ---------- */
+pre{
+  background:var(--code-bg);border:1px solid var(--line);border-radius:.6rem;
+  padding:1rem 1.1rem;overflow-x:auto;margin:1rem 0;
+  -webkit-overflow-scrolling:touch;
+}
+pre code{
+  font-family:var(--mono);font-size:clamp(.72rem,1.9vw,.82rem);
+  line-height:1.65;color:#d6d8e0;white-space:pre;display:block;min-width:max-content;
+}
+code.inline{
+  font-family:var(--mono);font-size:.86em;background:var(--surface2);
+  border:1px solid var(--line-soft);border-radius:.3em;padding:.08em .4em;color:#e9e9ec;
+}
+.c-kw{color:#9da3b5;font-style:italic}
+.c-fn{color:#e9e9ec;font-weight:600}
+.c-cm{color:#63666f;font-style:italic}
+.c-num{color:#b9bcc7}
+.code-cap{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--faint);
+  text-transform:uppercase;margin:-.5rem 0 .9rem;
+}
+
+/* ---------- TABLES ---------- */
+.tblwrap{overflow-x:auto;margin:1.1rem 0;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:.6rem}
+table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.9rem}
+th{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);text-align:left;padding:.7rem .85rem;background:var(--surface);
+  border-bottom:1px solid var(--line);white-space:nowrap;
+}
+td{padding:.65rem .85rem;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--dim)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--txt);font-weight:600}
+td code,th code{font-family:var(--mono);font-size:.84em;background:var(--surface2);padding:.1em .35em;border-radius:.25em;color:#e9e9ec;white-space:nowrap}
+tr.hilite td{background:var(--surface)}
+.tbl-cap{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--faint);margin:.5rem 0 1.2rem;text-transform:uppercase}
+
+/* ---------- ARRAY CELLS ---------- */
+.arr{display:flex;flex-wrap:wrap;gap:.4rem;margin:.8rem 0}
+.cell{
+  min-width:2.7rem;padding:.5rem .3rem;text-align:center;
+  border:1px solid var(--line);background:var(--surface);border-radius:.35rem;
+  font-family:var(--mono);font-size:.82rem;color:var(--txt);
+}
+.cell .idx{display:block;font-size:.6rem;color:var(--faint);margin-top:.15rem;letter-spacing:.05em}
+.cell.hl{border-color:#e9e9ec;background:var(--surface2);color:var(--white);font-weight:600}
+.cell.done{opacity:.42}
+.cell.pivot{border-style:dashed;border-color:#b9bcc7;color:var(--white)}
+.cell .tag{display:block;font-size:.55rem;color:var(--faint);letter-spacing:.08em;margin-top:.1rem}
+
+/* ---------- FORMULA ---------- */
+.formula{
+  background:var(--surface);border:1px solid var(--line);border-radius:.6rem;
+  padding:1.1rem 1.2rem;margin:1.2rem 0;text-align:center;
+}
+.formula .f{
+  font-family:var(--mono);font-size:clamp(.85rem,2.6vw,1.05rem);
+  color:var(--white);letter-spacing:.01em;line-height:1.8;
+}
+.formula .f-cap{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:var(--faint);margin-top:.6rem;text-transform:uppercase}
+
+/* ---------- SVG DIAGRAMS ---------- */
+.fig{margin:1.4rem 0}
+.fig svg{width:100%;height:auto;display:block;max-width:100%}
+.fig-cap{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--faint);margin-top:.6rem;text-transform:uppercase}
+
+/* ---------- INTERACTIVE SORT VISUALISER ---------- */
+.viz{
+  border:1px solid var(--line);border-radius:.7rem;background:var(--surface);
+  padding:1rem;margin:1.4rem 0;
+}
+.viz-head{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:1rem}
+.viz-title{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.viz-controls{display:flex;flex-wrap:wrap;gap:.5rem;margin-left:auto}
+.vbtn{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  background:var(--surface2);border:1px solid var(--line);color:var(--txt);
+  padding:.45rem .8rem;border-radius:.4rem;cursor:pointer;
+}
+.vbtn:hover{border-color:#4a4f5c}
+.vbtn.primary{background:#e9e9ec;color:#0c0d10;border-color:#e9e9ec;font-weight:600}
+.vbtn.primary:hover{background:#fff}
+.vbtn:disabled{opacity:.35;cursor:default}
+.viz-bars{
+  display:flex;align-items:flex-end;justify-content:center;gap:clamp(2px,.9vw,7px);
+  height:clamp(110px,22vw,170px);padding:.4rem 0;border-bottom:1px solid var(--line);
+}
+.vbar{
+  flex:1;max-width:2.4rem;background:#3a3f4d;border-radius:2px 2px 0 0;
+  transition:height .12s ease,background .12s ease;min-height:6px;
+}
+.vbar.cmp{background:#e9e9ec}
+.vbar.act{background:#fff}
+.vbar.sorted{background:#2c303b}
+.viz-status{
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);margin-top:.8rem;
+  min-height:1.2rem;letter-spacing:.03em;
+}
+.viz-status b{color:var(--white);font-weight:600}
+.speed-row{display:flex;align-items:center;gap:.7rem;margin-top:.6rem;font-family:var(--mono);font-size:.68rem;color:var(--faint)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:9rem;height:3px;background:var(--line);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#e9e9ec;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#e9e9ec;cursor:pointer;border:none}
+
+/* ---------- STEP TRACE BLOCKS ---------- */
+.trace{margin:1.2rem 0}
+.trace-row{
+  display:grid;grid-template-columns:auto 1fr;gap:.5rem .9rem;align-items:start;
+  padding:.55rem .2rem;border-bottom:1px dashed var(--line-soft);
+}
+.trace-row:last-child{border-bottom:none}
+.trace-lab{font-family:var(--mono);font-size:.66rem;color:var(--faint);letter-spacing:.08em;padding-top:.35rem;white-space:nowrap}
+.trace-body{font-size:.92rem;color:var(--dim)}
+.trace-body .mono{font-family:var(--mono);font-size:.8rem;color:#e9e9ec}
+
+/* ---------- GRID CARDS ---------- */
+.grid{display:grid;grid-template-columns:1fr;gap:.8rem;margin:1.2rem 0}
+@media(min-width:640px){.grid.g2{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:.6rem;background:var(--surface);padding:1rem 1.1rem}
+.card h5{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem}
+.card p{font-size:.9rem;color:var(--dim);margin:0}
+.card ul{margin:.2rem 0 0 1rem}
+.card li{font-size:.88rem;color:var(--dim);margin-bottom:.35rem}
+
+/* ---------- MISC ---------- */
+.divider{border:none;border-top:1px solid var(--line);margin:2.5rem 0}
+.kbd-note{font-family:var(--mono);font-size:.7rem;color:var(--faint);letter-spacing:.06em}
+details{
+  border:1px solid var(--line);border-radius:.6rem;background:var(--surface);
+  margin:.8rem 0;overflow:hidden;
+}
+details summary{
+  cursor:pointer;padding:.85rem 1.1rem;font-family:var(--mono);font-size:.75rem;
+  letter-spacing:.1em;color:var(--txt);list-style:none;display:flex;align-items:center;gap:.6rem;
+}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸";color:var(--faint);transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details .det-body{padding:0 1.1rem 1.1rem;font-size:.92rem;color:var(--dim)}
+.q-item{border:1px solid var(--line);border-radius:.6rem;background:var(--surface);padding:1rem 1.1rem;margin:.8rem 0}
+.q-item .q-num{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--faint);margin-bottom:.4rem}
+.q-item .q-txt{color:var(--txt);font-weight:600;margin-bottom:.6rem;font-size:.95rem}
+.q-item details{background:var(--code-bg);margin:.5rem 0 0;border-color:var(--line-soft)}
+.q-item details summary{font-size:.68rem;color:var(--faint)}
+.q-item details .det-body{color:var(--dim)}
+footer{
+  max-width:72rem;margin:0 auto;padding:2.5rem 1.1rem 4rem;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--faint);
+  text-transform:uppercase;
+}
+.top-fab{
+  position:fixed;right:1rem;bottom:1rem;z-index:70;
+  width:2.7rem;height:2.7rem;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--line);color:var(--dim);
+  font-family:var(--mono);font-size:1rem;cursor:pointer;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.top-fab.show{opacity:1;pointer-events:auto}
+.top-fab:hover{color:var(--txt);border-color:#4a4f5c}
+#reading-bar{position:fixed;top:0;left:0;height:2.5px;width:0%;background:#e9e9ec;z-index:120;transition:width .1s linear}
+@media print {
+  #reading-bar, .topbar, .toc, .toc-overlay, .menu-btn, .top-right, .top-fab, .viz, .vbtn { display: none !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 11pt !important; }
+  main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+  .hero, section { break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div id="reading-bar"></div>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="topbar-in">
+    <button class="menu-btn" id="menuBtn" aria-label="Open contents">☰ <span class="mb-label">CONTENTS</span></button>
+    <div class="brand">Unit II <em>· Data Structures</em></div>
+    <div class="top-right">
+      <a class="top-link" href="../../index.html">← NOTES HUB</a>
+      <a class="top-link" href="#cheat">CHEAT-SHEET</a>
+      <a class="top-link" href="#exam">EXAM Q&A</a>
+    </div>
+  </div>
+</div>
+<div class="toc-overlay" id="tocOverlay"></div>
+
+<!-- ============ TOC ============ -->
+<nav class="toc" id="toc">
+  <a class="top-link" href="../../index.html" style="display:inline-block;margin-bottom:14px;">← Notes Hub</a>
+  <div class="toc-title">TABLE OF CONTENTS</div>
+  <div class="toc-part">Part A · Foundations</div>
+  <a href="#overview">Unit Overview & Roadmap</a>
+  <a href="#sorting-intro">Sorting — Core Concepts</a>
+  <div class="toc-part">Part B · Arrays</div>
+  <a href="#arrays">1. Array Fundamentals</a>
+  <a class="sub" href="#arr-1d">1D Arrays & Addressing</a>
+  <a class="sub" href="#arr-2d">2D Arrays & Row/Column-Major</a>
+  <a class="sub" href="#sparse">Sparse Matrices</a>
+  <a class="sub" href="#strings">Strings</a>
+  <a class="sub" href="#dynamic">Dynamic Arrays</a>
+  <div class="toc-part">Part C · Searching</div>
+  <a href="#search">2. Searching Techniques</a>
+  <a class="sub" href="#linear">Linear Search</a>
+  <a class="sub" href="#binary">Binary Search</a>
+  <a class="sub" href="#others">Other Search Methods</a>
+  <div class="toc-part">Part D · Sorting</div>
+  <a href="#bubble">3. Bubble Sort</a>
+  <a href="#selection">4. Selection Sort</a>
+  <a href="#insertion">5. Insertion Sort</a>
+  <a href="#dnc">6. Divide & Conquer Strategy</a>
+  <a href="#merge">7. Merge Sort</a>
+  <a href="#quick">8. Quick Sort</a>
+  <a href="#noncompare">9. Non-Comparison Sorts</a>
+  <a href="#choosing">Choosing the Right Sort</a>
+  <div class="toc-part">Part E · Integration</div>
+  <a href="#case">10. Case Studies</a>
+  <a href="#cheat">Master Cheat-Sheet</a>
+  <a href="#exam">Exam Question Bank</a>
+</nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="overview">
+  <div class="kicker">Fundamentals of Data Structures · CB2003</div>
+  <h1>Arrays, Searching<br>&amp; Sorting Techniques
+    <span class="thin">Complete Unit II examination notes</span>
+  </h1>
+  <p class="lede">Everything traces back to one idea — <strong>contiguous-memory addressing</strong>. Constant-time O(1) access is the thread connecting every topic in this unit: arrays, searching, sorting, and the real-world systems built on top of them.</p>
+  <div class="hero-meta">
+    <span class="chip">Unit II</span>
+    <span class="chip">Arrays · 1D/2D · Sparse · Strings</span>
+    <span class="chip">Linear &amp; Binary Search</span>
+    <span class="chip">6 Sorting Algorithms</span>
+    <span class="chip">3 Case Studies</span>
+    <span class="chip">Interactive Visualisations</span>
+  </div>
+
+  <h3 style="margin-top:2.4rem"><span class="hnum">§</span>Unit Roadmap</h3>
+  <div class="fig">
+  <svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+    <line x1="30" y1="75" x2="670" y2="75" stroke="#282c37" stroke-width="1.5"/>
+    <g text-anchor="middle" fill="#e9e9ec" font-size="12">
+      <circle cx="80" cy="75" r="5" fill="#e9e9ec"/>
+      <text x="80" y="52" fill="#9a9daa" font-size="9" letter-spacing="2">BLOCK 1</text>
+      <text x="80" y="102">Arrays</text>
+      <circle cx="240" cy="75" r="5" fill="#e9e9ec"/>
+      <text x="240" y="52" fill="#9a9daa" font-size="9" letter-spacing="2">BLOCK 2</text>
+      <text x="240" y="102">Searching</text>
+      <circle cx="400" cy="75" r="5" fill="#e9e9ec"/>
+      <text x="400" y="52" fill="#9a9daa" font-size="9" letter-spacing="2">BLOCK 3</text>
+      <text x="400" y="102">Sorting</text>
+      <circle cx="560" cy="75" r="5" fill="#e9e9ec"/>
+      <text x="560" y="52" fill="#9a9daa" font-size="9" letter-spacing="2">BLOCK 4</text>
+      <text x="560" y="102">Case Studies</text>
+    </g>
+    <g font-size="9" fill="#6c707d" text-anchor="middle">
+      <text x="160" y="118">1D · 2D · sparse · strings</text>
+      <text x="320" y="118">linear · binary</text>
+      <text x="480" y="118">O(n²) → O(n log n)</text>
+      <text x="640" y="118">buffering · IDS · logs</text>
+    </g>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 0.1 — The four blocks of Unit II, each building on the last</div>
+
+  <div class="callout def">
+    <div class="c-label">The Big Picture</div>
+    <p><strong>Array storage → searching for values → sorting for structure.</strong> The case studies close the loop: a circular buffer (array) streams sensor data, pattern matching (search) scans logs for signatures, and sorting enables percentile queries over millions of records. Master the fundamentals and the applications follow naturally.</p>
+  </div>
+</header>
+
+<!-- ============================================================
+     SORTING CONCEPTS (moved early — foundation for everything)
+     ============================================================ -->
+<section id="sorting-intro">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Foundation</div>
+    <h2>Sorting — Core Concepts You Must Know First</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Definition · Sorting</div>
+    <p><strong>Sorting</strong> refers to arranging data elements in some given order — ascending or descending. Sorting algorithms arrange elements in a data structure in a specific order to <strong>optimise search efficiency and data readability</strong>.</p>
+  </div>
+
+  <h3><span class="hnum">0.1</span>Internal vs External Sorting</h3>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Property</th><th>Internal Sorting</th><th>External Sorting</th></tr>
+    <tr><td>Where it happens</td><td>Entirely in <strong>main memory</strong> (RAM)</td><td>Data lies on <strong>secondary storage</strong> (disk/tape)</td></tr>
+    <tr><td>Data size</td><td>Small enough to fit in memory at once</td><td>Too large to fit in main memory</td></tr>
+    <tr><td>Processing</td><td>CPU-only</td><td>Involves as much external processing as CPU processing</td></tr>
+    <tr><td>Methods</td><td>Insertion, Selection, Merge, Radix, Quick, Heap, Bubble</td><td>Multi-way merge of sorted runs (external merge sort)</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 0.1 — Two families of sorting by data location</div>
+
+  <h3><span class="hnum">0.2</span>Essential Vocabulary (definitions examiners love)</h3>
+  <ul class="list">
+    <li><strong>Sort order</strong> — the target arrangement: <em>ascending</em> (non-decreasing) or <em>descending</em> (non-increasing).</li>
+    <li><strong>Pass</strong> — one complete sweep over the data. The phases in which elements move toward their proper positions are called <em>passes</em>. Ex: <code class="inline">10,30,20,50,40 → Pass 1: 10,20,30,50,40 → Pass 2: 10,20,30,40,50</code></li>
+    <li><strong>In-place sort</strong> — the amount of extra space required is <strong>constant with input size</strong>, i.e. O(1) auxiliary space. Bubble, Selection, Insertion and Heap sort are in-place.</li>
+    <li><strong>Adaptive sort</strong> — running time <em>depends on the existing order</em> of the input (nearly-sorted input runs faster). Insertion sort is adaptive; selection sort is not.</li>
+  </ul>
+
+  <h4>Stability — the most-tested concept</h4>
+  <div class="callout def">
+    <div class="c-label">Definition · Stability</div>
+    <p>A sort is <strong>STABLE</strong> if it <strong>preserves the relative order of records with equal keys</strong>. Equal elements that appeared in a certain order in the input appear in that same order in the output. An <strong>unstable</strong> sort may or may not keep equal elements in their original order.</p>
+    <p class="small" style="margin-top:.6rem">Why it matters: sorting students by test score — two students with equal scores should stay in their original (e.g. roll-number) order. Stability is usually unimportant for plain integers, but critical when sorting records by one field among several.</p>
+  </div>
+  <div class="fig">
+  <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+    <text x="20" y="24" fill="#6c707d" font-size="10" letter-spacing="2">INPUT (SORT BY NUMBER ONLY)</text>
+    <g font-size="12" fill="#e9e9ec">
+      <rect x="20" y="36" width="80" height="34" rx="4" fill="#16181f" stroke="#282c37"/><text x="60" y="58" text-anchor="middle">B·2</text>
+      <rect x="108" y="36" width="80" height="34" rx="4" fill="#16181f" stroke="#282c37"/><text x="148" y="58" text-anchor="middle">A·1</text>
+      <rect x="196" y="36" width="80" height="34" rx="4" fill="#16181f" stroke="#282c37"/><text x="236" y="58" text-anchor="middle">D·2</text>
+      <rect x="284" y="36" width="80" height="34" rx="4" fill="#16181f" stroke="#282c37"/><text x="324" y="58" text-anchor="middle">C·1</text>
+    </g>
+    <text x="20" y="110" fill="#6c707d" font-size="10" letter-spacing="2">STABLE OUTPUT ✓</text>
+    <g font-size="12">
+      <rect x="20" y="122" width="80" height="34" rx="4" fill="#16181f" stroke="#3a3f4d"/><text x="60" y="144" text-anchor="middle" fill="#e9e9ec">A·1</text>
+      <rect x="108" y="122" width="80" height="34" rx="4" fill="#16181f" stroke="#3a3f4d"/><text x="148" y="144" text-anchor="middle" fill="#e9e9ec">C·1</text>
+      <rect x="196" y="122" width="80" height="34" rx="4" fill="#16181f" stroke="#e9e9ec"/><text x="236" y="144" text-anchor="middle" fill="#fff" font-weight="bold">B·2</text>
+      <rect x="284" y="122" width="80" height="34" rx="4" fill="#16181f" stroke="#3a3f4d"/><text x="324" y="144" text-anchor="middle" fill="#e9e9ec">D·2</text>
+    </g>
+    <text x="410" y="110" fill="#6c707d" font-size="10" letter-spacing="2">B BEFORE D — ORDER KEPT</text>
+    <text x="410" y="132" fill="#9a9daa" font-size="10">A stable sort keeps equal keys</text>
+    <text x="410" y="148" fill="#9a9daa" font-size="10">(the two 2s) in input order.</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 0.2 — Stability: equal keys never “cross” each other</div>
+
+  <h4>Efficiency &amp; measuring sorting algorithms</h4>
+  <ul class="list">
+    <li>Efficiency is expressed as <strong>time complexity</strong> using <strong>Big-Oh notation</strong> — how the running time grows with input size <em>n</em> (number of records).</li>
+    <li>Sorting techniques commonly have <strong>O(n²)</strong> or <strong>O(n log n)</strong> complexity.</li>
+    <li>Bubble, insertion, selection → <strong>O(n²)</strong> &nbsp;·&nbsp; Merge &amp; quick sort → <strong>O(n log n)</strong> (average).</li>
+    <li>Space complexity matters too: how much <em>extra</em> memory the algorithm needs.</li>
+  </ul>
+
+  <h4>Classification of sorting algorithms</h4>
+  <div class="grid g2">
+    <div class="card"><h5>1 · Simple / Comparison-Based</h5>
+      <p>Bubble, Selection, Insertion, Merge, Quick, Heap sort — order is determined by <strong>comparing</strong> pairs of elements.</p></div>
+    <div class="card"><h5>2 · Non-Comparison-Based</h5>
+      <p>Counting, Radix, Bucket sort — use <strong>mathematical properties of keys</strong> (digits, ranges, distribution) instead of comparisons → can achieve linear time under conditions.</p></div>
+  </div>
+
+  <h4>Real-life applications of sorting <span class="small">(frequent 2-mark question)</span></h4>
+  <ul class="list">
+    <li><strong>E-commerce:</strong> Amazon/Flipkart filters — “Price: Low to High”, ratings, newest arrivals; warehouse inventory sorted by SKU / expiry date.</li>
+    <li><strong>Search &amp; media:</strong> Google ranks billions of pages by relevance in milliseconds; Netflix sorts recommendation rows by preference scores; Instagram/X feeds sort by relevance.</li>
+    <li><strong>Everyday utilities:</strong> contact lists (alphabetical), file explorers (name/size/date), photo galleries (chronological), spreadsheets (Excel’s sort button).</li>
+    <li><strong>Systems:</strong> databases use <strong>merge sort</strong> to maintain primary indexes; routers sort packets by priority; computational biology sorts genomic datasets for pattern matching.</li>
+  </ul>
+</section>
+
+<!-- ============================================================
+     PART B — ARRAYS
+     ============================================================ -->
+<section id="arrays">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part B · Block 1</div>
+    <h2>1 · Array Fundamentals</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Definition · Array</div>
+    <p>An array is a <strong>fixed-size, ordered collection of elements of the same type, stored in contiguous memory locations</strong> — this contiguity is what makes constant-time access possible. Because every element has the same size, the address of any element can be computed directly from its index, <em>without walking through the array</em>.</p>
+  </div>
+
+  <!-- 1.1 -->
+  <h3 id="arr-1d"><span class="hnum">1.1</span>1D Arrays: Memory Representation &amp; Addressing</h3>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+    <text x="20" y="20" fill="#6c707d" font-size="10" letter-spacing="2">CONTIGUOUS MEMORY — EACH BOX FOLLOWS THE PREVIOUS IMMEDIATELY</text>
+    <g font-size="13" fill="#e9e9ec" text-anchor="middle">
+      <rect x="90" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="126" y="54">12</text><text x="126" y="70" fill="#6c707d" font-size="9">A[0]·1000</text>
+      <rect x="166" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="202" y="54">45</text><text x="202" y="70" fill="#6c707d" font-size="9">A[1]·1004</text>
+      <rect x="242" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="278" y="54">7</text><text x="278" y="70" fill="#6c707d" font-size="9">A[2]·1008</text>
+      <rect x="318" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="354" y="54">89</text><text x="354" y="70" fill="#6c707d" font-size="9">A[3]·1012</text>
+      <rect x="394" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="430" y="54">23</text><text x="430" y="70" fill="#6c707d" font-size="9">A[4]·1016</text>
+      <rect x="470" y="34" width="72" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="506" y="54">56</text><text x="506" y="70" fill="#6c707d" font-size="9">A[5]·1020</text>
+    </g>
+    <text x="90" y="106" fill="#9a9daa" font-size="10">int A[6], base = 1000, size = 4 bytes → A[3] computed at 1000 + 3×4 = 1012, no traversal</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 1.1 — Contiguous storage of <code class="inline">int A[6] = {12,45,7,89,23,56}</code></div>
+
+  <div class="formula">
+    <div class="f">Address(A[i]) = Base + i × size</div>
+    <div class="f-cap">Base = address of A[0] · size = bytes per element · i = index</div>
+  </div>
+  <p>This single formula is <strong>why array access is O(1)</strong> — one multiplication and one addition, regardless of array size or index position.</p>
+
+  <div class="code-cap">Worked example</div>
+  <pre><code><span class="c-cm">// int array, base = 1000, size = 4 bytes</span>
+<span class="c-kw">int</span> A[<span class="c-num">6</span>] = {<span class="c-num">12</span>,<span class="c-num">45</span>,<span class="c-num">7</span>,<span class="c-num">89</span>,<span class="c-num">23</span>,<span class="c-num">56</span>};
+
+<span class="c-cm">// Address of A[3]:</span>
+<span class="c-cm">//   1000 + 3*4 = 1012</span>
+cout &lt;&lt; A[<span class="c-num">3</span>];  <span class="c-cm">// prints 89</span></code></pre>
+
+  <h4>Core operations &amp; their costs</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Operation</th><th>Time</th><th>Reason</th></tr>
+    <tr><td>Access <code>A[i]</code></td><td><code>O(1)</code></td><td>Direct address computation</td></tr>
+    <tr><td>Traversal</td><td><code>O(n)</code></td><td>Visits every element once</td></tr>
+    <tr><td>Insert at end</td><td><code>O(1)</code></td><td>No shifting required (if capacity allows)</td></tr>
+    <tr><td>Insert / delete (middle)</td><td><code>O(n)</code></td><td>Shifts up to n elements</td></tr>
+    <tr><td>Search by value</td><td><code>O(n)</code></td><td>Position unknown → traversal (see §2)</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 1.1 — 1D array operation complexity</div>
+
+  <div class="callout warn">
+    <div class="c-label">Key Insight</div>
+    <p><strong>Insertion/deletion cost comes from shifting, not from the operation itself.</strong> Inserting 99 at index 2 requires first shifting every subsequent element one slot right. Deletion leaves a gap that must be closed by shifting left. End-of-array insertion avoids shifting entirely.</p>
+  </div>
+
+  <!-- 1.2 -->
+  <h3 id="arr-2d"><span class="hnum">1.2</span>2D Arrays: Concept, Row-Major &amp; Column-Major</h3>
+  <p>A 2D array models a <strong>table or grid</strong> — declared as a matrix of rows and columns, e.g. <code class="inline">int M[3][4]</code>. Physically, memory is still <strong>one contiguous 1D block</strong> — the “rows and columns” view is a <em>mapping the compiler applies</em> on top of flat memory.</p>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle">
+    <text x="120" y="22" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2">LOGICAL VIEW</text>
+    <g font-size="12" fill="#e9e9ec">
+      <rect x="50" y="40" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="73" y="62">1</text>
+      <rect x="96" y="40" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="119" y="62">2</text>
+      <rect x="142" y="40" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="165" y="62">3</text>
+      <rect x="188" y="40" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="211" y="62">4</text>
+      <rect x="50" y="74" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="73" y="96">5</text>
+      <rect x="96" y="74" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="119" y="96">6</text>
+      <rect x="142" y="74" width="46" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="165" y="96" fill="#fff" font-weight="bold">7</text>
+      <rect x="188" y="74" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="211" y="96">8</text>
+      <rect x="50" y="108" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="73" y="130">9</text>
+      <rect x="96" y="108" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="119" y="130">10</text>
+      <rect x="142" y="108" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="165" y="130">11</text>
+      <rect x="188" y="108" width="46" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="211" y="130">12</text>
+    </g>
+    <text x="165" y="168" fill="#6c707d" font-size="9">M[1][2] = 7 highlighted</text>
+
+    <text x="330" y="22" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2">ROW-MAJOR (C/C++)</text>
+    <g font-size="10" fill="#9a9daa">
+      <text x="330" y="52">1 2 3 4</text><text x="330" y="72">5 6 7 8</text><text x="330" y="92">9 10 11 12</text>
+    </g>
+    <text x="470" y="52" fill="#9a9daa" font-size="10">row 0</text>
+    <text x="470" y="72" fill="#9a9daa" font-size="10">row 1</text>
+    <text x="470" y="92" fill="#9a9daa" font-size="10">row 2</text>
+    <text x="330" y="130" fill="#6c707d" font-size="9">M[1][2] → flat index (1×4 + 2) = 6</text>
+
+    <text x="330" y="168" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2" text-anchor="start" x="330"></text>
+    <text x="550" y="22" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2">COLUMN-MAJOR</text>
+    <g font-size="10" fill="#9a9daa">
+      <text x="550" y="52">1 5 9 · 2 6 10 · 3 7 11 · 4 8 12</text>
+    </g>
+    <text x="550" y="82" fill="#6c707d" font-size="9">(Fortran, MATLAB)</text>
+    <text x="550" y="102" fill="#6c707d" font-size="9">M[1][2] → flat index (2×3 + 1) = 7</text>
+    <text x="550" y="130" fill="#6c707d" font-size="9">Different address than row-major!</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 1.2 — The same 3×4 matrix in logical, row-major and column-major views</div>
+
+  <div class="grid g2">
+    <div>
+      <div class="formula"><div class="f">Row-Major:<br>Addr(M[i][j]) = Base + (i×cols + j) × size</div>
+      <div class="f-cap">C/C++ default · rows stored contiguously</div></div>
+    </div>
+    <div>
+      <div class="formula"><div class="f">Column-Major:<br>Addr(M[i][j]) = Base + (j×rows + i) × size</div>
+      <div class="f-cap">Fortran &amp; MATLAB · matters for cache-friendly traversal</div></div>
+    </div>
+  </div>
+
+  <div class="code-cap">Worked examples — same M[1][2], base 2000, size 4</div>
+  <pre><code><span class="c-kw">int</span> M[<span class="c-num">3</span>][<span class="c-num">4</span>];   <span class="c-cm">// base = 2000, size = 4</span>
+
+<span class="c-cm">// ROW-MAJOR: Address of M[1][2]</span>
+<span class="c-cm">//   2000 + (1*4 + 2)*4 = 2000 + 24 = 2024</span>
+
+<span class="c-cm">// COLUMN-MAJOR (rows = 3): Address of M[1][2]</span>
+<span class="c-cm">//   2000 + (2*3 + 1)*4 = 2000 + 28 = 2028</span>
+<span class="c-cm">// → Different addresses for the same (i,j)!</span></code></pre>
+
+  <h4>2D array operations</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Operation</th><th>Time</th><th>Reason</th></tr>
+    <tr><td>Access <code>M[i][j]</code></td><td><code>O(1)</code></td><td>Direct address formula</td></tr>
+    <tr><td>Full traversal</td><td><code>O(r×c)</code></td><td>Visits every cell once — scales with <em>total</em> element count</td></tr>
+    <tr><td>Row scan</td><td><code>O(c)</code></td><td>One dimension only</td></tr>
+    <tr><td>Column scan</td><td><code>O(r)</code></td><td>One dimension only</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 1.2 — 2D array complexity</div>
+
+  <details>
+    <summary>REAL-WORLD USES OF 2D ARRAYS (quick-revision list)</summary>
+    <div class="det-body">
+      <ul class="list">
+        <li><strong>Images</strong> — pixels as grayscale (2D) or RGB (3D: 2D + colour channels)</li>
+        <li><strong>Spreadsheets</strong> — Excel/Sheets rows and columns</li>
+        <li><strong>Games</strong> — chess, Sudoku, minesweeper boards</li>
+        <li><strong>Mathematics</strong> — matrices for linear algebra (multiplication, transposition)</li>
+        <li><strong>Graphs</strong> — adjacency matrices representing edges between nodes</li>
+        <li><strong>Simulations</strong> — grids for temperature, pressure, terrain elevation</li>
+        <li><strong>Neural networks</strong> — weight matrices in AI models</li>
+        <li><strong>Character grids</strong> — console/LED text displays</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- 1.3 -->
+  <h3 id="sparse"><span class="hnum">1.3</span>Sparse Matrices</h3>
+  <p>A <strong>sparse matrix</strong> has far more zero entries than non-zero ones — common in scientific computing, graphs, and large lookup tables. Dense storage wastes memory: an r×c matrix always costs <strong>O(r×c)</strong> space even if only a handful of entries are non-zero.</p>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle">
+    <text x="140" y="22" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2">SPARSE MATRIX</text>
+    <g font-size="13">
+      <rect x="40" y="36" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="64" y="58" fill="#6c707d">0</text>
+      <rect x="88" y="36" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="112" y="58" fill="#6c707d">0</text>
+      <rect x="136" y="36" width="48" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="160" y="58" fill="#fff" font-weight="bold">5</text>
+      <rect x="184" y="36" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="208" y="58" fill="#6c707d">0</text>
+      <rect x="40" y="70" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="64" y="92" fill="#6c707d">0</text>
+      <rect x="88" y="70" width="48" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="112" y="92" fill="#fff" font-weight="bold">8</text>
+      <rect x="136" y="70" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="160" y="92" fill="#6c707d">0</text>
+      <rect x="184" y="70" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="208" y="92" fill="#6c707d">0</text>
+      <rect x="40" y="104" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="64" y="126" fill="#6c707d">0</text>
+      <rect x="88" y="104" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="112" y="126" fill="#6c707d">0</text>
+      <rect x="136" y="104" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="160" y="126" fill="#6c707d">0</text>
+      <rect x="184" y="104" width="48" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="208" y="126" fill="#fff" font-weight="bold">3</text>
+      <rect x="40" y="138" width="48" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="64" y="160" fill="#fff" font-weight="bold">9</text>
+      <rect x="88" y="138" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="112" y="160" fill="#6c707d">0</text>
+      <rect x="136" y="138" width="48" height="34" rx="3" fill="#16181f" stroke="#282c37"/><text x="160" y="160" fill="#6c707d">0</text>
+      <rect x="184" y="138" width="48" height="34" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="208" y="160" fill="#fff" font-weight="bold">4</text>
+    </g>
+
+    <text x="440" y="22" fill="#e9e9ec" font-size="11" font-weight="bold" letter-spacing="2">TRIPLET (ROW, COL, VALUE) FORM</text>
+    <g font-size="12">
+      <rect x="360" y="36" width="80" height="30" rx="3" fill="#1c1f28" stroke="#282c37"/><text x="400" y="56" fill="#e9e9ec">Row</text>
+      <rect x="440" y="36" width="80" height="30" rx="3" fill="#1c1f28" stroke="#282c37"/><text x="480" y="56" fill="#e9e9ec">Col</text>
+      <rect x="520" y="36" width="80" height="30" rx="3" fill="#1c1f28" stroke="#282c37"/><text x="560" y="56" fill="#e9e9ec">Value</text>
+
+      <rect x="360" y="66" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="400" y="84" fill="#9a9daa">0</text>
+      <rect x="440" y="66" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="480" y="84" fill="#9a9daa">2</text>
+      <rect x="520" y="66" width="80" height="26" rx="3" fill="#16181f" stroke="#e9e9ec"/><text x="560" y="84" fill="#fff">5</text>
+
+      <rect x="360" y="92" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="400" y="110" fill="#9a9daa">1</text>
+      <rect x="440" y="92" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="480" y="110" fill="#9a9daa">1</text>
+      <rect x="520" y="92" width="80" height="26" rx="3" fill="#16181f" stroke="#e9e9ec"/><text x="560" y="110" fill="#fff">8</text>
+
+      <rect x="360" y="118" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="400" y="136" fill="#9a9daa">2</text>
+      <rect x="440" y="118" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="480" y="136" fill="#9a9daa">3</text>
+      <rect x="520" y="118" width="80" height="26" rx="3" fill="#16181f" stroke="#e9e9ec"/><text x="560" y="136" fill="#fff">3</text>
+
+      <rect x="360" y="144" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="400" y="162" fill="#9a9daa">3</text>
+      <rect x="440" y="144" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="480" y="162" fill="#9a9daa">0</text>
+      <rect x="520" y="144" width="80" height="26" rx="3" fill="#16181f" stroke="#e9e9ec"/><text x="560" y="162" fill="#fff">9</text>
+
+      <rect x="360" y="170" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="400" y="188" fill="#9a9daa">3</text>
+      <rect x="440" y="170" width="80" height="26" rx="3" fill="#16181f" stroke="#282c37"/><text x="480" y="188" fill="#9a9daa">3</text>
+      <rect x="520" y="170" width="80" height="26" rx="3" fill="#16181f" stroke="#e9e9ec"/><text x="560" y="188" fill="#fff">4</text>
+    </g>
+    <text x="440" y="218" fill="#6c707d" font-size="9">Space drops from O(r×c) to O(3k) for k non-zero entries</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 1.3 — 4×4 sparse matrix (5 non-zeros) stored as triplets; a header records (rows, cols, count)</div>
+
+  <h4>Linked-list representation</h4>
+  <p>Each non-zero entry becomes a node with two pointers — useful when the matrix <strong>changes dynamically</strong>, unlike the fixed-size triplet array:</p>
+  <pre><code><span class="c-kw">struct</span> Node {
+    <span class="c-kw">int</span> row, col, value;
+    Node* right;  <span class="c-cm">// next non-zero in this row</span>
+    Node* down;   <span class="c-cm">// next non-zero in this column</span>
+};</code></pre>
+
+  <div class="tblwrap">
+  <table>
+    <tr><th>Storage</th><th>Space</th><th>Access M[i][j]</th></tr>
+    <tr><td>Dense (2D array)</td><td><code>O(r×c)</code></td><td><code>O(1)</code></td></tr>
+    <tr><td>Triplet array</td><td><code>O(k)</code></td><td><code>O(k)</code> worst case — requires a scan</td></tr>
+    <tr><td>Linked list</td><td><code>O(k)</code></td><td><code>O(k)</code> worst case</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 1.3 — Sparse vs dense trade-off (k = number of non-zero entries)</div>
+
+  <div class="callout exam">
+    <div class="c-label">Exam Answer Template</div>
+    <p><strong>“When to prefer triplet over dense?”</strong> — When non-zero count k ≪ r×c (e.g. a 1000×1000 matrix with 50 non-zeros costs 50 triplets vs 1,000,000 dense cells). Trade-off: random access degrades from O(1) to O(k), since finding M[i][j] requires scanning the triplet list.</p>
+  </div>
+
+  <!-- 1.4 -->
+  <h3 id="strings"><span class="hnum">1.4</span>Strings as Character Arrays</h3>
+  <ul class="list">
+    <li>A <strong>C-style string</strong> is an array of characters terminated by the <strong>null character <code class="inline">'\0'</code></strong>, which marks where the string ends inside a fixed-size buffer.</li>
+    <li>Everything about 1D array addressing applies directly — a string is just an array of type <code class="inline">char</code>.</li>
+    <li><strong>C strings</strong> are primitive, manually managed, null-terminated; <strong>C++ <code class="inline">std::string</code></strong> is a dynamic object that manages its own memory, auto-resizes, and reduces buffer-overflow risk.</li>
+  </ul>
+
+  <div class="arr" style="justify-content:flex-start">
+    <div class="cell">C<span class="idx">0</span></div>
+    <div class="cell">O<span class="idx">1</span></div>
+    <div class="cell">D<span class="idx">2</span></div>
+    <div class="cell">E<span class="idx">3</span></div>
+    <div class="cell hl">\0<span class="idx">4</span><span class="tag">TERMINATOR</span></div>
+  </div>
+
+  <h4>String operations &amp; complexity</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Operation</th><th>C function</th><th>Time</th><th>Notes</th></tr>
+    <tr><td>Length</td><td><code>strlen(a)</code></td><td><code>O(n)</code> / <code>O(1)</code></td><td>char[] scans for '\0'; std::string caches length</td></tr>
+    <tr><td>Concatenation</td><td><code>strcat(a,b)</code></td><td><code>O(n+m)</code></td><td>Copies both strings</td></tr>
+    <tr><td>Copy</td><td><code>strcpy(dest,src)</code></td><td><code>O(n)</code></td><td>Duplicate into new buffer</td></tr>
+    <tr><td>Comparison</td><td><code>strcmp(a,b)</code></td><td><code>O(min(n,m))</code></td><td>Stops at first mismatch; returns 0 if equal</td></tr>
+    <tr><td>Substring</td><td><code>s.substr(0,4)</code></td><td><code>O(k)</code></td><td>k = length of slice; e.g. "DataStructures" → "Data"</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 1.4 — Every string operation is fundamentally an array traversal in disguise</div>
+
+  <!-- 1.5 -->
+  <h3 id="dynamic"><span class="hnum">1.5</span>Dynamic Arrays &amp; Amortised Growth</h3>
+  <p>A static array’s size is fixed at declaration — too small and it overflows, too large and memory is wasted. A <strong>dynamic array grows on demand</strong>: when full, it allocates a bigger block and copies elements over, giving the illusion of unlimited size.</p>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle">
+    <text x="20" y="22" fill="#e9e9ec" font-size="10" font-weight="bold" letter-spacing="2">DOUBLING STRATEGY — CAPACITY 4 → FULL → RESIZE TO 8</text>
+    <g font-size="12" fill="#e9e9ec">
+      <rect x="60" y="40" width="52" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="86" y="63">3</text>
+      <rect x="112" y="40" width="52" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="138" y="63">7</text>
+      <rect x="164" y="40" width="52" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="190" y="63">2</text>
+      <rect x="216" y="40" width="52" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="242" y="63">9</text>
+    </g>
+    <text x="164" y="96" fill="#6c707d" font-size="9">capacity 4 — full</text>
+    <path d="M 290 58 L 340 58" stroke="#6c707d" stroke-width="1.5" marker-end="url(#arrh)"/>
+    <defs><marker id="arrh" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#6c707d"/></marker></defs>
+    <g font-size="12" fill="#9a9daa">
+      <rect x="360" y="40" width="36" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="378" y="63">3</text>
+      <rect x="396" y="40" width="36" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="414" y="63">7</text>
+      <rect x="432" y="40" width="36" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="450" y="63">2</text>
+      <rect x="468" y="40" width="36" height="36" rx="3" fill="#16181f" stroke="#282c37"/><text x="486" y="63">9</text>
+      <rect x="504" y="40" width="36" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="522" y="63" fill="#4a4f5c">–</text>
+      <rect x="540" y="40" width="36" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="558" y="63" fill="#4a4f5c">–</text>
+      <rect x="576" y="40" width="36" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="594" y="63" fill="#4a4f5c">–</text>
+      <rect x="612" y="40" width="36" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="630" y="63" fill="#4a4f5c">–</text>
+    </g>
+    <text x="480" y="96" fill="#6c707d" font-size="9">capacity 8 — elements copied, old block freed</text>
+    <text x="20" y="126" fill="#9a9daa" font-size="10">Doubling (rather than +1 growth) is what makes amortised insertion O(1)</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 1.4 — Resizing by doubling</div>
+
+  <pre><code><span class="c-cm">// C++ std::vector IS a production dynamic array</span>
+<span class="c-kw">#include</span> <span class="c-num">&lt;vector&gt;</span>
+std::vector&lt;<span class="c-kw">int</span>&gt; v;
+v.reserve(<span class="c-num">1000</span>);  <span class="c-cm">// pre-allocate, avoid repeated resizes</span>
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">1000</span>; i++) v.push_back(i);</code></pre>
+  <p class="small"><strong>Key point:</strong> <code class="inline">push_back</code>, <code class="inline">size()</code>, and <code class="inline">[]</code> behave exactly as described. Calling <code class="inline">reserve(n)</code> up front avoids repeated resizing when the final size is known ahead of time.</p>
+</section>
+
+<!-- ============================================================
+     PART C — SEARCHING
+     ============================================================ -->
+<section id="search">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part C · Block 2</div>
+    <h2>2 · Searching Techniques</h2>
+  </div>
+  <p>Searching algorithms are designed to <strong>find the location of a specific target element</strong> within a collection. The choice of technique depends heavily on how the data is organised and the performance requirements of your application.</p>
+
+  <h4>Classification of searching methods</h4>
+  <div class="grid g2">
+    <div class="card"><h5>Linear / Sequential Search</h5>
+      <p>Checks every element from start to finish until a match is found. Works on <strong>ordered and unordered</strong> collections. Time: <strong>O(n)</strong>.</p></div>
+    <div class="card"><h5>Interval / Divide-and-Conquer Search</h5>
+      <p>Exploits ordering to eliminate portions of the search space — binary, ternary, interpolation, exponential, jump, and Fibonacci search.</p></div>
+  </div>
+
+  <!-- 2.1 LINEAR -->
+  <h3 id="linear"><span class="hnum">2.1</span>Linear (Sequential) Search</h3>
+  <div class="callout def">
+    <div class="c-label">Idea</div>
+    <p>Check each element <strong>in order</strong>, from the first to the last, until the target is found or the array is exhausted. Makes <strong>no assumption about ordering</strong> — works on any array, sorted or not.</p>
+  </div>
+
+  <div class="arr">
+    <div class="cell done">8<span class="idx">0</span></div>
+    <div class="cell done">3<span class="idx">1</span></div>
+    <div class="cell done">19<span class="idx">2</span></div>
+    <div class="cell done">4<span class="idx">3</span></div>
+    <div class="cell hl">12<span class="idx">4</span><span class="tag">FOUND</span></div>
+  </div>
+
+  <div class="code-cap">C++ implementation</div>
+  <pre><code><span class="c-kw">int</span> <span class="c-fn">linearSearch</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n, <span class="c-kw">int</span> key) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n; i++) {
+        <span class="c-kw">if</span> (a[i] == key)
+            <span class="c-kw">return</span> i;   <span class="c-cm">// found — index of first match</span>
+    }
+    <span class="c-kw">return</span> -<span class="c-num">1</span>;          <span class="c-cm">// not found</span>
+}</code></pre>
+
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">DRY RUN</div><div class="trace-body">Search for <span class="mono">12</span> in <span class="mono">[8, 3, 19, 4, 12]</span> — compare 8≠12 → 3≠12 → 19≠12 → 4≠12 → <b>12 = 12 → found at index 4</b>.</div></div>
+    <div class="trace-row"><div class="trace-lab">NOT FOUND</div><div class="trace-body">Searching for <span class="mono">99</span> compares all 5 elements, then returns −1.</div></div>
+  </div>
+
+  <h4>Complexity derivation</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Comparisons</th><th>Time</th><th>Scenario</th></tr>
+    <tr><td>Best</td><td>1</td><td><code>O(1)</code></td><td>Target is at index 0</td></tr>
+    <tr><td>Average</td><td>≈ n/2</td><td><code>O(n)</code></td><td>Target equally likely at any position</td></tr>
+    <tr><td>Worst</td><td>n</td><td><code>O(n)</code></td><td>Target at the end, or absent</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 2.1 — Linear search; space complexity O(1)</div>
+
+  <p><strong>When to use:</strong> unsorted data, small arrays, or a one-off search where sorting first wouldn’t pay off. Space O(1). Simplicity is the trade-off for O(n) time — binary search is faster <em>once data is sorted</em>.</p>
+
+  <!-- 2.2 BINARY -->
+  <h3 id="binary"><span class="hnum">2.2</span>Binary Search</h3>
+  <div class="callout def">
+    <div class="c-label">Idea &amp; Precondition</div>
+    <p><strong>Requires a sorted array.</strong> Compare the target to the middle element; <strong>discard the half that cannot contain it</strong>, and repeat on the remaining half. Each comparison eliminates roughly half of the remaining search space.</p>
+  </div>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 210" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle">
+    <text x="350" y="18" fill="#6c707d" font-size="9" letter-spacing="2">SEARCH FOR 23 IN [2,5,8,12,16,23,38,45] — 2 COMPARISONS ONLY</text>
+    <g font-size="12" fill="#9a9daa">
+      <rect x="60" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37"/><text x="95" y="57">2</text>
+      <rect x="130" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37"/><text x="165" y="57">5</text>
+      <rect x="200" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37"/><text x="235" y="57">8</text>
+      <rect x="270" y="34" width="70" height="36" rx="3" fill="#16181f" stroke="#e9e9ec" stroke-width="1.5"/><text x="305" y="57" fill="#e9e9ec">12</text>
+      <rect x="340" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37"/><text x="375" y="57">16</text>
+      <rect x="410" y="34" width="70" height="36" rx="3" fill="#16181f" stroke="#fff" stroke-width="2"/><text x="445" y="57" fill="#fff" font-weight="bold">23</text>
+      <rect x="480" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="515" y="57">38</text>
+      <rect x="550" y="34" width="70" height="36" rx="3" fill="#121419" stroke="#282c37" stroke-dasharray="3,3"/><text x="585" y="57">45</text>
+    </g>
+    <text x="305" y="90" fill="#6c707d" font-size="9">mid = 3 → 12 &lt; 23 → discard left half</text>
+    <text x="445" y="90" fill="#6c707d" font-size="9">mid = 5 → 23 = 23 → FOUND</text>
+
+    <g font-size="10" fill="#6c707d">
+      <rect x="60" y="120" width="280" height="26" rx="13" fill="none" stroke="#282c37"/>
+      <text x="200" y="137">n = 8 elements</text>
+      <rect x="350" y="120" width="150" height="26" rx="13" fill="none" stroke="#3a3f4d"/>
+      <text x="425" y="137">n/2 = 4</text>
+      <rect x="510" y="120" width="90" height="26" rx="13" fill="none" stroke="#4a4f5c"/>
+      <text x="555" y="137">n/4 = 2</text>
+      <text x="60" y="172" fill="#9a9daa" font-size="10">Each comparison halves the range: n → n/2 → n/4 → … → 1, giving k = log₂n halvings</text>
+    </g>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 2.1 — Binary search halving the search space</div>
+
+  <div class="code-cap">Iterative version — note the overflow-safe midpoint</div>
+  <pre><code><span class="c-kw">int</span> <span class="c-fn">binarySearch</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n, <span class="c-kw">int</span> key) {
+    <span class="c-kw">int</span> lo = <span class="c-num">0</span>, hi = n - <span class="c-num">1</span>;
+    <span class="c-kw">while</span> (lo &lt;= hi) {
+        <span class="c-kw">int</span> mid = lo + (hi - lo) / <span class="c-num">2</span>;  <span class="c-cm">// avoids overflow vs (lo+hi)/2</span>
+        <span class="c-kw">if</span> (a[mid] == key) <span class="c-kw">return</span> mid;
+        <span class="c-kw">else if</span> (a[mid] &lt; key) lo = mid + <span class="c-num">1</span>;
+        <span class="c-kw">else</span> hi = mid - <span class="c-num">1</span>;
+    }
+    <span class="c-kw">return</span> -<span class="c-num">1</span>;
+}</code></pre>
+
+  <div class="code-cap">Recursive version</div>
+  <pre><code><span class="c-kw">int</span> <span class="c-fn">binarySearch</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> lo, <span class="c-kw">int</span> hi, <span class="c-kw">int</span> key) {
+    <span class="c-kw">if</span> (lo &gt; hi) <span class="c-kw">return</span> -<span class="c-num">1</span>;              <span class="c-cm">// base: empty range</span>
+    <span class="c-kw">int</span> mid = lo + (hi - lo) / <span class="c-num">2</span>;
+    <span class="c-kw">if</span> (a[mid] == key) <span class="c-kw">return</span> mid;
+    <span class="c-kw">if</span> (a[mid] &lt; key)
+        <span class="c-kw">return</span> <span class="c-fn">binarySearch</span>(a, mid+<span class="c-num">1</span>, hi, key);
+    <span class="c-kw">return</span> <span class="c-fn">binarySearch</span>(a, lo, mid-<span class="c-num">1</span>, key);
+}</code></pre>
+
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">DRY RUN</div><div class="trace-body">Search 23 in <span class="mono">[2,5,8,12,16,23,38,45]</span>: lo=0, hi=7, mid=3 → a[3]=12 &lt; 23 → go right · lo=4, hi=7, mid=5 → <b>a[5]=23 = 23 → found!</b> Only 2 comparisons for 8 elements.</div></div>
+  </div>
+
+  <h4>Complexity derivation</h4>
+  <div class="formula">
+    <div class="f">T(n) = T(n/2) + 1, &nbsp; T(1) = O(1)<br>after k halvings: n/2ᵏ = 1 → k = log₂n</div>
+    <div class="f-cap">Recurrence solved by repeated substitution</div>
+  </div>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Comparisons</th><th>Time</th></tr>
+    <tr><td>Best</td><td>1</td><td><code>O(1)</code></td></tr>
+    <tr><td>Average</td><td>≈ log₂n</td><td><code>O(log n)</code></td></tr>
+    <tr><td>Worst</td><td>⌊log₂n⌋ + 1</td><td><code>O(log n)</code></td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 2.2 — Binary search complexity</div>
+
+  <h4>Iterative vs recursive binary search</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Version</th><th>Time</th><th>Space</th><th>Reason</th></tr>
+    <tr><td>Iterative</td><td><code>O(log n)</code></td><td><code>O(1)</code></td><td>Just a few index variables</td></tr>
+    <tr><td>Recursive</td><td><code>O(log n)</code></td><td><code>O(log n)</code></td><td>One stack frame per halving step</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 2.3 — Same time; the difference is purely space and code style</div>
+
+  <h4>Linear vs Binary — the classic comparison</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th></th><th>Linear Search</th><th>Binary Search</th></tr>
+    <tr><td>Precondition</td><td>None</td><td>Array <strong>must be sorted</strong></td></tr>
+    <tr><td>Best case</td><td>O(1)</td><td>O(1)</td></tr>
+    <tr><td>Worst case</td><td>O(n)</td><td>O(log n)</td></tr>
+    <tr><td>Space</td><td>O(1)</td><td>O(1) iterative / O(log n) recursive</td></tr>
+    <tr><td>Best for</td><td>Small / unsorted data</td><td>Large sorted data, repeated searches</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 2.4 — Head-to-head comparison</div>
+
+  <div class="callout exam">
+    <div class="c-label">Exam Classic</div>
+    <p><strong>“Why does binary search require sorted input?”</strong> — The algorithm’s correctness depends on the invariant that everything left of <code class="inline">mid</code> is ≤ a[mid] and everything right is ≥ a[mid]. On unsorted data, discarding a half may discard the target — the algorithm can report “not found” for a value that is actually present.</p>
+  </div>
+
+  <!-- 2.3 OTHERS -->
+  <h3 id="others"><span class="hnum">2.3</span>Other Interval-Search Methods <span class="small">(know one line each)</span></h3>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Method</th><th>Idea</th><th>Requires</th><th>Time</th></tr>
+    <tr><td>Ternary Search</td><td>Divides the array into <strong>three</strong> parts using two midpoints</td><td>Sorted</td><td><code>O(log₃ n)</code></td></tr>
+    <tr><td>Interpolation Search</td><td><strong>Estimates</strong> target position from values (like searching a phone book)</td><td>Sorted + uniformly distributed</td><td><code>O(log log n)</code> avg</td></tr>
+    <tr><td>Exponential Search</td><td>Doubles the index step (1, 2, 4, 8…) to bracket the target, then binary-searches inside</td><td>Sorted / unbounded arrays</td><td><code>O(log n)</code></td></tr>
+    <tr><td>Jump Search</td><td>Skips blocks of size √n forward, then linear-searches backward within the block</td><td>Sorted</td><td><code>O(√n)</code></td></tr>
+    <tr><td>Fibonacci Search</td><td>Uses Fibonacci numbers to divide into unequal but predictable blocks; only <strong>addition/subtraction</strong>, no division</td><td>Sorted</td><td><code>O(log n)</code></td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 2.5 — The extended family of interval searches</div>
+</section>
+
+<!-- ============================================================
+     PART D — SORTING
+     ============================================================ -->
+
+<!-- BUBBLE -->
+<section id="bubble">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Simple Sorts</div>
+    <h2>3 · Bubble Sort</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Idea</div>
+    <p>Repeatedly step through the array, <strong>comparing adjacent elements and swapping them if they are out of order</strong>. Each full pass “bubbles” the <strong>largest remaining element to its correct position at the end</strong>. Smaller values bubble up to the top; larger values sink to the bottom. After k passes, the largest k elements occupy the last k positions.</p>
+  </div>
+
+  <div class="viz" id="viz-bubble">
+    <div class="viz-head">
+      <span class="viz-title">Live Visualisation · Bubble Sort</span>
+      <div class="viz-controls">
+        <button class="vbtn primary" data-run="bubble">▶ RUN</button>
+        <button class="vbtn" data-reset="bubble">RESET</button>
+      </div>
+    </div>
+    <div class="viz-bars" id="bars-bubble"></div>
+    <div class="speed-row">SPEED <input type="range" min="20" max="600" value="260" data-speed="bubble" orient="horizontal"></div>
+    <div class="viz-status" id="status-bubble">Press RUN to watch bubble sort execute.</div>
+  </div>
+
+  <h4>Worked example — [5, 2, 4, 1], Pass 1</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">COMPARE 5,2</div><div class="trace-body">out of order → <b>swap</b> → <span class="mono">[2, 5, 4, 1]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">COMPARE 5,4</div><div class="trace-body">out of order → <b>swap</b> → <span class="mono">[2, 4, 5, 1]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">COMPARE 5,1</div><div class="trace-body">out of order → <b>swap</b> → <span class="mono">[2, 4, 1, 5]</span> — 5 is now in its final position ✓</div></div>
+  </div>
+
+  <h4>Course example — [45, −40, 190, 99, 11]</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">PASS 1</div><div class="trace-body"><span class="mono">−40 &nbsp;45 &nbsp;99 &nbsp;11 &nbsp;190</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 2</div><div class="trace-body"><span class="mono">−40 &nbsp;45 &nbsp;11 &nbsp;99 &nbsp;190</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 3</div><div class="trace-body"><span class="mono">−40 &nbsp;11 &nbsp;45 &nbsp;99 &nbsp;190</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 4</div><div class="trace-body"><span class="mono">−40 &nbsp;11 &nbsp;45 &nbsp;99 &nbsp;190</span> — sorted. For n numbers, <b>n−1 passes</b> are needed.</div></div>
+  </div>
+
+  <div class="code-cap">Standard C++ implementation</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">bubbleSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n-<span class="c-num">1</span>; i++) {          <span class="c-cm">// passes</span>
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; n-i-<span class="c-num">1</span>; j++) {  <span class="c-cm">// inner loop SHRINKS — tail sorted</span>
+            <span class="c-kw">if</span> (a[j] &gt; a[j+<span class="c-num">1</span>]) {
+                <span class="c-kw">int</span> t = a[j]; a[j] = a[j+<span class="c-num">1</span>]; a[j+<span class="c-num">1</span>] = t;
+            }
+        }
+    }
+}</code></pre>
+
+  <div class="code-cap">Early-exit optimisation — the optimised version you should write in exams</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">bubbleSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n-<span class="c-num">1</span>; i++) {
+        <span class="c-kw">bool</span> swapped = <span class="c-num">false</span>;
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; n-i-<span class="c-num">1</span>; j++) {
+            <span class="c-kw">if</span> (a[j] &gt; a[j+<span class="c-num">1</span>]) {
+                <span class="c-fn">swap</span>(a[j], a[j+<span class="c-num">1</span>]);
+                swapped = <span class="c-num">true</span>;
+            }
+        }
+        <span class="c-kw">if</span> (!swapped) <span class="c-kw">break</span>;  <span class="c-cm">// full pass, zero swaps → already sorted</span>
+    }
+}</code></pre>
+
+  <h4>Complexity derivation</h4>
+  <div class="formula">
+    <div class="f">(n−1) + (n−2) + … + 1 = n(n−1)/2 comparisons → O(n²)</div>
+    <div class="f-cap">Worst/average case sum of a shrinking series</div>
+  </div>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Comparisons</th><th>Exchanges</th><th>Time</th></tr>
+    <tr><td>Best (optimised, already sorted)</td><td>n−1</td><td>0</td><td><code>O(n)</code></td></tr>
+    <tr><td>Average</td><td>≈ n²/4</td><td>≈ n²/4</td><td><code>O(n²)</code></td></tr>
+    <tr><td>Worst (reverse sorted)</td><td>n(n−1)/2</td><td>n(n−1)/2</td><td><code>O(n²)</code></td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 3.1 — Bubble sort; space O(1), works best on nearly-sorted input</div>
+
+  <h4>Stability &amp; in-place</h4>
+  <ul class="list">
+    <li><strong>Stable ✓</strong> — equal elements never cross each other, because swaps happen only on <em>strict</em> inequality <code class="inline">a[j] &gt; a[j+1]</code>. If equal, no swap → relative order preserved.</li>
+    <li><strong>In-place ✓</strong> — sorts within the original array using O(1) extra space.</li>
+  </ul>
+
+  <div class="grid g2">
+    <div class="card"><h5>Advantages</h5>
+      <ul>
+        <li>Easy to understand and implement</li>
+        <li>No additional memory space required</li>
+        <li>Stable</li>
+      </ul></div>
+    <div class="card"><h5>Disadvantages</h5>
+      <ul>
+        <li>O(n²) — very slow for large datasets</li>
+        <li>Almost no real-world applications; mostly academic</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- SELECTION -->
+<section id="selection">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Simple Sorts</div>
+    <h2>4 · Selection Sort</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Idea</div>
+    <p>Divide the array into <strong>sorted</strong> and <strong>unsorted</strong> parts. Repeatedly <strong>select the smallest element from the unsorted portion</strong> and swap it with the first unsorted element. The sorted region grows by exactly one element per pass.</p>
+  </div>
+
+  <div class="viz" id="viz-selection">
+    <div class="viz-head">
+      <span class="viz-title">Live Visualisation · Selection Sort</span>
+      <div class="viz-controls">
+        <button class="vbtn primary" data-run="selection">▶ RUN</button>
+        <button class="vbtn" data-reset="selection">RESET</button>
+      </div>
+    </div>
+    <div class="viz-bars" id="bars-selection"></div>
+    <div class="speed-row">SPEED <input type="range" min="20" max="600" value="260" data-speed="selection"></div>
+    <div class="viz-status" id="status-selection">Press RUN to watch selection sort execute.</div>
+  </div>
+
+  <h4>The procedure, step by step (array of length n)</h4>
+  <ol class="list">
+    <li>Search elements 0 through n−1 and select the smallest → <strong>swap with location 0</strong></li>
+    <li>Search elements 1 through n−1 → <strong>swap with location 1</strong></li>
+    <li>Search elements 2 through n−1 → <strong>swap with location 2</strong> … continue until nothing remains to search</li>
+  </ol>
+
+  <h4>Worked example — [64, 25, 12, 22, 11]</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">PASS 1</div><div class="trace-body">Unsorted <span class="mono">[64,25,12,22,11]</span> → min <b>11</b> → swap with 64 → <span class="mono">[11, 25, 12, 22, 64]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 2</div><div class="trace-body">Unsorted <span class="mono">[25,12,22,64]</span> → min <b>12</b> → swap with 25 → <span class="mono">[11, 12, 25, 22, 64]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 3</div><div class="trace-body">Unsorted <span class="mono">[25,22,64]</span> → min <b>22</b> → swap with 25 → <span class="mono">[11, 12, 22, 25, 64]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 4</div><div class="trace-body">Unsorted <span class="mono">[25,64]</span> → min <b>25</b> already in place → no swap → <span class="mono">[11, 12, 22, 25, 64]</span> ✓</div></div>
+  </div>
+
+  <h4>Classic exam example — [89, 45, 68, 90, 29, 34, 17]</h4>
+  <div class="fig">
+  <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" font-size="12">
+    <g fill="#9a9daa">
+      <text x="30" y="30">89  45  68  90  29  34  17</text>
+      <text x="30" y="60" fill="#e9e9ec" font-weight="bold">17</text><text x="75" y="60" fill="#6c707d">|  45  68  90  29  34  89</text>
+      <text x="30" y="90" fill="#e9e9ec" font-weight="bold">17  29</text><text x="115" y="90" fill="#6c707d">|  68  90  45  34  89</text>
+      <text x="30" y="120" fill="#e9e9ec" font-weight="bold">17  29  34</text><text x="155" y="120" fill="#6c707d">|  90  45  68  89</text>
+      <text x="30" y="150" fill="#e9e9ec" font-weight="bold">17  29  34  45</text><text x="195" y="150" fill="#6c707d">|  90  68  89</text>
+      <text x="30" y="180" fill="#e9e9ec" font-weight="bold">17  29  34  45  68</text><text x="235" y="180" fill="#6c707d">|  90  89</text>
+      <text x="30" y="210" fill="#e9e9ec" font-weight="bold">17  29  34  45  68  89</text><text x="275" y="210" fill="#6c707d">|  90</text>
+      <text x="30" y="240" fill="#fff" font-weight="bold">17  29  34  45  68  89  90</text>
+    </g>
+    <text x="330" y="60" fill="#6c707d" font-size="10">sorted | unsorted boundary</text>
+    <text x="330" y="80" fill="#6c707d" font-size="10">moves right by one each pass</text>
+    <text x="330" y="100" fill="#6c707d" font-size="10">exactly ONE swap per pass</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 4.1 — The sorted region grows one element per pass; each line is one pass</div>
+
+  <div class="code-cap">C++ implementation</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">selectionSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n-<span class="c-num">1</span>; i++) {
+        <span class="c-kw">int</span> minIdx = i;
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> j = i+<span class="c-num">1</span>; j &lt; n; j++)   <span class="c-cm">// scan — NO swapping inside</span>
+            <span class="c-kw">if</span> (a[j] &lt; a[minIdx])
+                minIdx = j;               <span class="c-cm">// only track the minimum's index</span>
+        <span class="c-kw">int</span> t = a[i]; a[i] = a[minIdx]; a[minIdx] = t;  <span class="c-cm">// ONE swap</span>
+    }
+}</code></pre>
+
+  <h4>Complexity derivation — with the formal analysis from the slides</h4>
+  <pre><code><span class="c-kw">for</span> i ← <span class="c-num">0</span> <span class="c-kw">to</span> N-<span class="c-num">2</span> {
+    min ← i;
+    <span class="c-kw">for</span> j ← i+<span class="c-num">1</span> <span class="c-kw">to</span> N-<span class="c-num">1</span> {
+        <span class="c-kw">if</span> (A[j] &lt; A[min]) min ← j;      <span class="c-cm">// cost c per comparison</span>
+    }
+    swap A[i] and A[min];
+}</code></pre>
+  <div class="formula">
+    <div class="f">T(N) = Σᵢ₌₀^N⁻² Σⱼ₌ᵢ₊₁^N⁻¹ c = Σᵢ₌₀^N⁻² c(N−1−i) = c·(N−1)N/2 ∈ O(N²)</div>
+    <div class="f-cap">The inner scan ALWAYS runs regardless of input order — no early exit exists</div>
+  </div>
+
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Comparisons</th><th>Swaps</th><th>Time</th></tr>
+    <tr><td>Best</td><td>n(n−1)/2</td><td>0</td><td><code>O(n²)</code></td></tr>
+    <tr><td>Average</td><td>n(n−1)/2</td><td>≤ n−1</td><td><code>O(n²)</code></td></tr>
+    <tr><td>Worst</td><td>n(n−1)/2</td><td>n−1</td><td><code>O(n²)</code></td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 4.1 — All cases O(n²) comparisons; but only O(n) swaps total</div>
+
+  <div class="callout exam">
+    <div class="c-label">Selection vs Bubble — Swap Count (guaranteed question)</div>
+    <p>Bubble sort performs up to <strong>O(n²) swaps</strong> (one potential swap per comparison). Selection sort performs at most <strong>n−1 swaps</strong> — exactly one per outer pass. Both are O(n²) comparisons, but <strong>selection sort is preferable when writes/swaps are expensive</strong> (flash memory, large structs/records). Only cycle sort beats selection sort in memory writes.</p>
+  </div>
+
+  <h4>Properties</h4>
+  <ul class="list">
+    <li><strong>Not stable ✗</strong> — a long-distance swap can jump an equal element past another (e.g. [3<sub>a</sub>, 3<sub>b</sub>, 1] → after one pass [1, 3<sub>b</sub>, 3<sub>a</sub>]).</li>
+    <li><strong>In-place ✓</strong> — O(1) auxiliary space.</li>
+    <li><strong>Not adaptive ✗</strong> — comparisons are identical for every input ordering.</li>
+    <li><strong>Heap sort is based on selection sort</strong> — it selects the maximum via a heap instead of a linear scan, dropping selection cost to O(log n).</li>
+  </ul>
+
+  <div class="grid g2">
+    <div class="card"><h5>Advantages</h5>
+      <ul>
+        <li>Easy to understand and implement — ideal for teaching</li>
+        <li>O(1) extra memory</li>
+        <li>Fewest memory writes of standard sorts — good when writes are costly</li>
+      </ul></div>
+    <div class="card"><h5>Disadvantages &amp; Applications</h5>
+      <ul>
+        <li>O(n²) — slower than quick/merge sort</li>
+        <li>Not stable</li>
+        <li>Use: small lists, minimal-write scenarios, foundation of heap sort</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- INSERTION -->
+<section id="insertion">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Simple Sorts</div>
+    <h2>5 · Insertion Sort</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Idea — the card-player’s algorithm</div>
+    <p>Based on the technique used by <strong>card players to arrange a hand of cards</strong>. The player keeps the cards picked up so far in sorted order; when a new card arrives, he <strong>makes room for it and inserts it in its proper place</strong>. Formally: build the sorted portion one element at a time — take the next unsorted element (<em>the key</em>) and <strong>shift larger elements rightward</strong> until its correct slot appears, then insert.</p>
+  </div>
+
+  <div class="viz" id="viz-insertion">
+    <div class="viz-head">
+      <span class="viz-title">Live Visualisation · Insertion Sort</span>
+      <div class="viz-controls">
+        <button class="vbtn primary" data-run="insertion">▶ RUN</button>
+        <button class="vbtn" data-reset="insertion">RESET</button>
+      </div>
+    </div>
+    <div class="viz-bars" id="bars-insertion"></div>
+    <div class="speed-row">SPEED <input type="range" min="20" max="600" value="260" data-speed="insertion"></div>
+    <div class="viz-status" id="status-insertion">Press RUN to watch insertion sort execute.</div>
+  </div>
+
+  <h4>Algorithm outline</h4>
+  <p>Start from the second element (the first is trivially sorted). For each element from index 1 to n−1: pick it as <code class="inline">key</code>, compare with sorted predecessors, shift each larger one right, and drop <code class="inline">key</code> into the gap.</p>
+
+  <h4>Worked example — [5, 3, 8, 4, 2]</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">START</div><div class="trace-body"><span class="mono">[5] | [3, 8, 4, 2]</span> — first element assumed sorted</div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 1</div><div class="trace-body">Insert <b>3</b>: 5 &gt; 3 → shift 5 right → insert at front → <span class="mono">[3, 5] | [8, 4, 2]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 2</div><div class="trace-body">Insert <b>8</b>: 5 &lt; 8 → no shift needed → <span class="mono">[3, 5, 8] | [4, 2]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 3</div><div class="trace-body">Insert <b>4</b>: shift 8, shift 5, stop at 3 → insert after 3 → <span class="mono">[3, 4, 5, 8] | [2]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">PASS 4</div><div class="trace-body">Insert <b>2</b>: 8, 5, 4, 3 all larger → shift all → insert at beginning → <span class="mono">[2, 3, 4, 5, 8]</span> ✓</div></div>
+  </div>
+
+  <h4>Course example — [45, −40, 190, 99, 11] (building array b)</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">STEP 1</div><div class="trace-body">b: <span class="mono">[45, 0, 0, 0, 0]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">STEP 2</div><div class="trace-body">−40 &lt; 45 → b: <span class="mono">[−40, 45, 0, 0, 0]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">STEP 3</div><div class="trace-body">190 &gt; 45 → b: <span class="mono">[−40, 45, 190, 0, 0]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">STEP 4</div><div class="trace-body">99 fits between 45 and 190 → b: <span class="mono">[−40, 45, 99, 190, 0]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">STEP 5</div><div class="trace-body">11 fits between −40 and 45 → b: <span class="mono">[−40, 11, 45, 99, 190]</span> ✓</div></div>
+  </div>
+
+  <div class="code-cap">C++ implementation — standard exam version</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">insertionSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> n) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">1</span>; i &lt; n; i++) {       <span class="c-cm">// passes: 1 to n-1</span>
+        <span class="c-kw">int</span> key = a[i];              <span class="c-cm">// current element to insert</span>
+        <span class="c-kw">int</span> j = i - <span class="c-num">1</span>;
+        <span class="c-kw">while</span> (j &gt;= <span class="c-num">0</span> &amp;&amp; a[j] &gt; key) { <span class="c-cm">// check previous (sorted) elements</span>
+            a[j+<span class="c-num">1</span>] = a[j];            <span class="c-cm">// shift greater elements RIGHT</span>
+            j--;
+        }
+        a[j+<span class="c-num">1</span>] = key;               <span class="c-cm">// insert key into the gap</span>
+    }
+}</code></pre>
+
+  <div class="code-cap">Alternate course version (shift-and-place inside loop)</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">insertsort</span>(<span class="c-kw">int</span> a[<span class="c-num">20</span>], <span class="c-kw">int</span> n) {
+    <span class="c-kw">int</span> i, k, y;
+    <span class="c-kw">for</span> (k = <span class="c-num">1</span>; k &lt; n; k++) {              <span class="c-cm">// passes</span>
+        y = a[k];                          <span class="c-cm">// current element</span>
+        <span class="c-kw">for</span> (i = k-<span class="c-num">1</span>; i &gt;= <span class="c-num">0</span> &amp;&amp; y &lt; a[i]; i--) {  <span class="c-cm">// scan back</span>
+            a[i+<span class="c-num">1</span>] = a[i];                  <span class="c-cm">// shift greater right</span>
+        }
+        a[i+<span class="c-num">1</span>] = y;                        <span class="c-cm">// place y in its slot</span>
+    }
+}</code></pre>
+
+  <h4>Complexity derivation</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Shifts</th><th>Time</th><th>Scenario</th></tr>
+    <tr><td>Best (already sorted)</td><td>0</td><td><code>O(n)</code></td><td>While loop never shifts — one comparison per element</td></tr>
+    <tr><td>Average</td><td>≈ n²/4</td><td><code>O(n²)</code></td><td>Each element shifts about half the sorted portion</td></tr>
+    <tr><td>Worst (reverse sorted)</td><td>n(n−1)/2</td><td><code>O(n²)</code></td><td>Each element shifts all the way to index 0</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 5.1 — Insertion sort; adaptive — runtime depends on existing order</div>
+
+  <div class="callout exam">
+    <div class="c-label">Shift vs Swap — Subtle Exam Point</div>
+    <p>A <strong>shift</strong> in insertion sort moves only <strong>one item</strong>, whereas an <strong>exchange</strong> in bubble/selection sort uses a temporary and moves <strong>three items</strong>. The number of shifts during an insertion is one less than the number of comparisons — or equal to it when the new value is the smallest so far.</p>
+  </div>
+
+  <h4>Why insertion sort survives in practice</h4>
+  <ul class="list">
+    <li><strong>Adaptive:</strong> number of inversions is directly proportional to work — a sorted array costs O(n). Contrast with selection sort’s input-independent O(n²).</li>
+    <li><strong>Stable ✓, in-place ✓</strong> (O(1) space), simple to implement.</li>
+    <li>Best choice for <strong>small lists and nearly-sorted data</strong>.</li>
+    <li>Used as a <strong>subroutine in Bucket Sort</strong> and in <strong>hybrid algorithms</strong> — when the subarray becomes small inside Quick/Merge sort, they switch to insertion sort. <strong>IntroSort and TimSort</strong> both use it.</li>
+  </ul>
+</section>
+
+<!-- DIVIDE & CONQUER -->
+<section id="dnc">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Strategy</div>
+    <h2>6 · Divide-and-Conquer: The Strategy</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Definition</div>
+    <p>Divide and Conquer is a <strong>method of algorithm design</strong> with three distinct steps:</p>
+    <p><strong>1 · Divide</strong> — if the input size is too large to deal with directly, divide the data into two or more disjoint subsets.<br>
+    <strong>2 · Recurse</strong> — use divide and conquer to solve the subproblems associated with the subsets.<br>
+    <strong>3 · Conquer</strong> — take the solutions to the subproblems and “merge” them into a solution for the original problem.</p>
+  </div>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle">
+    <g font-size="11">
+      <rect x="260" y="15" width="180" height="32" rx="16" fill="#16181f" stroke="#e9e9ec" stroke-width="1.2"/>
+      <text x="350" y="35" fill="#e9e9ec" font-weight="bold">PROBLEM (size n)</text>
+      <rect x="90" y="85" width="150" height="30" rx="15" fill="#16181f" stroke="#3a3f4d"/><text x="165" y="105" fill="#9a9daa">SUBPROBLEM n/2</text>
+      <rect x="275" y="85" width="150" height="30" rx="15" fill="#16181f" stroke="#3a3f4d"/><text x="350" y="105" fill="#9a9daa">SUBPROBLEM n/2</text>
+      <rect x="460" y="85" width="150" height="30" rx="15" fill="#16181f" stroke="#3a3f4d"/><text x="535" y="105" fill="#9a9daa">… (disjoint)</text>
+      <path d="M 310 47 L 175 83" stroke="#6c707d" stroke-width="1.2"/>
+      <path d="M 350 47 L 350 83" stroke="#6c707d" stroke-width="1.2"/>
+      <path d="M 390 47 L 525 83" stroke="#6c707d" stroke-width="1.2"/>
+      <path d="M 165 115 L 320 148" stroke="#6c707d" stroke-width="1.2"/>
+      <path d="M 350 115 L 350 148" stroke="#6c707d" stroke-width="1.2"/>
+      <path d="M 535 115 L 380 148" stroke="#6c707d" stroke-width="1.2"/>
+      <rect x="230" y="148" width="240" height="30" rx="15" fill="#16181f" stroke="#e9e9ec" stroke-width="1.2"/>
+      <text x="350" y="168" fill="#e9e9ec" font-weight="bold">COMBINE → SOLUTION</text>
+      <text x="620" y="50" fill="#6c707d" font-size="9">① DIVIDE ↓</text>
+      <text x="620" y="105" fill="#6c707d" font-size="9">② RECURSE ↻</text>
+      <text x="620" y="165" fill="#6c707d" font-size="9">③ CONQUER ↑</text>
+    </g>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 6.1 — The three steps of divide and conquer</div>
+
+  <h4>Divide-and-conquer applied to sorting</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Step</th><th>Merge Sort</th><th>Quick Sort</th></tr>
+    <tr><td>Divide</td><td>Split at midpoint — <strong>trivial</strong> (just find the middle)</td><td><strong>Partition</strong> around a pivot — the hard work</td></tr>
+    <tr><td>Recurse</td><td>Sort both halves recursively</td><td>Sort both partitions recursively</td></tr>
+    <tr><td>Conquer</td><td><strong>Merge</strong> the sorted halves — the hard work</td><td>Nothing — once both sides are sorted, the whole is sorted</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 6.1 — The mirrored structure of merge sort vs quick sort (very examinable)</div>
+
+  <p>The <strong>base case</strong>: a problem of size 1 (a single element) is already solved — return directly. Merge sort and quick sort differ in <em>where the hard work happens</em>: merge sort does trivial division and expensive combination; quick sort does expensive division and free combination.</p>
+</section>
+
+<!-- MERGE SORT -->
+<section id="merge">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Divide &amp; Conquer</div>
+    <h2>7 · Merge Sort</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Idea</div>
+    <p>Divide the array into two halves, <strong>recursively sort each half</strong>, then <strong>merge</strong> the two sorted halves back together. The hard work happens in the <strong>merge step</strong> — the divide step is trivial (just split at the middle). The algorithm continuously splits until it cannot divide any further, then sorts and merges the pieces back together.</p>
+  </div>
+
+  <h4>Three-phase description (as in the course)</h4>
+  <ol class="list">
+    <li><strong>Divide:</strong> find the midpoint <code class="inline">mid = (low + high) / 2</code> and split into two halves.</li>
+    <li><strong>Conquer:</strong> recursively call merge sort on both left and right subarrays.</li>
+    <li><strong>Combine:</strong> merge the two sorted halves into a single sorted array.</li>
+  </ol>
+  <p>Alternate 3-way formulation (from the D&amp;C slides): remove all elements and divide them into sequences <strong>L</strong> (less than pivot-free split — first ⌈n/2⌉ elements), <strong>E</strong>, and <strong>G</strong>… in the list version: L holds elements &lt; x, E holds equal, G holds greater; recursively sort L and G; concatenate L, E, G.</p>
+
+  <div class="viz" id="viz-merge">
+    <div class="viz-head">
+      <span class="viz-title">Live Visualisation · Merge Sort</span>
+      <div class="viz-controls">
+        <button class="vbtn primary" data-run="merge">▶ RUN</button>
+        <button class="vbtn" data-reset="merge">RESET</button>
+      </div>
+    </div>
+    <div class="viz-bars" id="bars-merge"></div>
+    <div class="speed-row">SPEED <input type="range" min="20" max="600" value="300" data-speed="merge"></div>
+    <div class="viz-status" id="status-merge">Press RUN to watch merge sort execute.</div>
+  </div>
+
+  <h4>Full recursion tree — the definitive example [38, 27, 43, 3, 9, 82, 10]</h4>
+  <div class="fig">
+  <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle" font-size="12">
+    <!-- DIVIDE (down) -->
+    <g fill="#e9e9ec">
+      <text x="350" y="22" font-weight="bold">38 27 43 3 9 82 10</text>
+      <text x="215" y="70">38 27 43</text>
+      <text x="485" y="70">3 9 82 10</text>
+      <text x="150" y="118">38 27</text>
+      <text x="285" y="118">43</text>
+      <text x="420" y="118">3 9</text>
+      <text x="555" y="118">82 10</text>
+      <text x="115" y="166">38</text>
+      <text x="185" y="166">27</text>
+      <text x="405" y="166">3</text>
+      <text x="460" y="166">9</text>
+      <text x="525" y="166">82</text>
+      <text x="590" y="166">10</text>
+    </g>
+    <g stroke="#4a4f5c" stroke-width="1.2" fill="none">
+      <path d="M 320 30 L 235 60"/>
+      <path d="M 380 30 L 465 60"/>
+      <path d="M 195 78 L 160 108"/>
+      <path d="M 235 78 L 282 108"/>
+      <path d="M 440 78 L 420 108"/>
+      <path d="M 530 78 L 550 108"/>
+      <path d="M 140 126 L 120 156"/>
+      <path d="M 160 126 L 180 156"/>
+      <path d="M 410 126 L 403 156"/>
+      <path d="M 432 126 L 455 156"/>
+      <path d="M 545 126 L 522 156"/>
+      <path d="M 568 126 L 585 156"/>
+    </g>
+    <!-- MERGE (up) -->
+    <g fill="#fff" font-weight="bold">
+      <text x="150" y="214">27 38</text>
+      <text x="420" y="214">3 9</text>
+      <text x="555" y="214">10 82</text>
+      <text x="215" y="262">27 38 43</text>
+      <text x="485" y="262">3 9 10 82</text>
+      <text x="350" y="320" font-size="13">3 9 10 27 38 43 82</text>
+    </g>
+    <g stroke="#e9e9ec" stroke-width="1.2" fill="none">
+      <path d="M 120 176 L 143 200"/>
+      <path d="M 180 176 L 158 200"/>
+      <path d="M 405 176 L 414 200"/>
+      <path d="M 458 176 L 428 200"/>
+      <path d="M 522 176 L 546 200"/>
+      <path d="M 588 176 L 566 200"/>
+      <path d="M 160 224 L 200 252"/>
+      <path d="M 285 128 L 230 252"/>
+      <path d="M 428 224 L 465 252"/>
+      <path d="M 546 224 L 510 252"/>
+      <path d="M 240 270 L 320 306"/>
+      <path d="M 465 270 L 385 306"/>
+    </g>
+    <g font-size="9" fill="#6c707d">
+      <text x="60" y="22">SPLIT ↓</text>
+      <text x="60" y="320">MERGE ↑</text>
+      <text x="610" y="380">log₂ n levels</text>
+      <text x="610" y="394">O(n) work each</text>
+    </g>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 7.1 — Complete divide phase (top) and merge phase (bottom)</div>
+
+  <h4>Compact dry run — [6, 3, 8, 1]</h4>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">SPLIT</div><div class="trace-body"><span class="mono">[6,3,8,1]</span> → <span class="mono">[6,3]</span> + <span class="mono">[8,1]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">LEFT</div><div class="trace-body"><span class="mono">[6,3]</span> → [6],[3] → merge → <span class="mono">[3,6]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">RIGHT</div><div class="trace-body"><span class="mono">[8,1]</span> → [8],[1] → merge → <span class="mono">[1,8]</span></div></div>
+    <div class="trace-row"><div class="trace-lab">FINAL</div><div class="trace-body">merge <span class="mono">[3,6] + [1,8]</span> → <span class="mono">[1,3,6,8]</span> ✓</div></div>
+  </div>
+
+  <h4>How the merge itself works — pointer walk-through</h4>
+  <p>The merge of two sorted lists L = [1, 5, 15, 28] and R = [6, 10, 14, 22] into A uses three pointers: <code class="inline">i</code> (into L), <code class="inline">j</code> (into R), <code class="inline">k</code> (into A). At each step, copy the smaller front element:</p>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">k=0..1</div><div class="trace-body">1 &lt; 6 → A[0]=1 (i=1) · 5 &lt; 6 → A[1]=5 (i=2)</div></div>
+    <div class="trace-row"><div class="trace-lab">k=2..3</div><div class="trace-body">15 vs 6 → A[2]=6 (j=1) · 15 vs 10 → A[3]=10 (j=2)</div></div>
+    <div class="trace-row"><div class="trace-lab">k=4..7</div><div class="trace-body">15 vs 14 → A[4]=14 (j=3) · 15 vs 22 → A[5]=15 (i=3) · 28 vs 22 → A[6]=22 (j=4) · R exhausted → A[7]=28 (flush L)</div></div>
+    <div class="trace-row"><div class="trace-lab">RESULT</div><div class="trace-body"><span class="mono">A = [1, 5, 6, 10, 14, 15, 22, 28]</span> — exactly n₁+n₂ iterations, total time c(n₁+n₂)</div></div>
+  </div>
+
+  <div class="code-cap">Textbook program (Horowitz-style) — merging two sorted lists</div>
+  <pre><code><span class="c-kw">template</span> &lt;<span class="c-kw">class</span> T&gt;
+<span class="c-kw">void</span> <span class="c-fn">Merge</span>(T *initList, T *mergedList, <span class="c-kw">const int</span> l, <span class="c-kw">const int</span> m, <span class="c-kw">const int</span> n)
+{
+    <span class="c-cm">// initList[l:m] and initList[m+1:n] are sorted lists.</span>
+    <span class="c-cm">// They are merged to obtain the sorted list mergedList[l:n].</span>
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i1 = l, iResult = l, i2 = m + <span class="c-num">1</span>;
+         i1 &lt;= m &amp;&amp; i2 &lt;= n;              <span class="c-cm">// while neither input list is exhausted</span>
+         iResult++)
+    {
+        <span class="c-kw">if</span> (initList[i1] &lt;= initList[i2]) {
+            mergedList[iResult] = initList[i1];
+            i1++;
+        }
+        <span class="c-kw">else</span> {
+            mergedList[iResult] = initList[i2];
+            i2++;
+        }
+    }
+    <span class="c-cm">// copy remaining records, if any, of first list</span>
+    <span class="c-fn">copy</span>(initList + i1, initList + m + <span class="c-num">1</span>, mergedList + iResult);
+    <span class="c-cm">// copy remaining records, if any, of second list</span>
+    <span class="c-fn">copy</span>(initList + i2, initList + n + <span class="c-num">1</span>, mergedList + iResult);
+}</code></pre>
+  <p class="small"><strong>Program 7.7</strong> — note the ≤ comparison: taking from the left list on ties is exactly what makes merge sort <strong>stable</strong>.</p>
+
+  <div class="code-cap">Merge routine — modern C++ course version</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">merge</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> l, <span class="c-kw">int</span> m, <span class="c-kw">int</span> r)
+{
+    vector&lt;<span class="c-kw">int</span>&gt; L(a+l, a+m+<span class="c-num">1</span>);   <span class="c-cm">// copies of the sorted halves —</span>
+    vector&lt;<span class="c-kw">int</span>&gt; R(a+m+<span class="c-num">1</span>, a+r+<span class="c-num">1</span>); <span class="c-cm">// this is the O(n) auxiliary space</span>
+    <span class="c-kw">int</span> i = <span class="c-num">0</span>, j = <span class="c-num">0</span>, k = l;
+    <span class="c-kw">while</span> (i &lt; L.size() &amp;&amp; j &lt; R.size())
+        a[k++] = (L[i] &lt;= R[j]) ? L[i++] : R[j++];
+    <span class="c-kw">while</span> (i &lt; L.size()) a[k++] = L[i++];  <span class="c-cm">// flush leftover tails</span>
+    <span class="c-kw">while</span> (j &lt; R.size()) a[k++] = R[j++];
+}</code></pre>
+
+  <div class="code-cap">Recursive driver</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">mergeSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> l, <span class="c-kw">int</span> r)
+{
+    <span class="c-kw">if</span> (l &gt;= r) <span class="c-kw">return</span>;          <span class="c-cm">// base case: length ≤ 1 is sorted</span>
+    <span class="c-kw">int</span> m = l + (r - l) / <span class="c-num">2</span>;
+    <span class="c-fn">mergeSort</span>(a, l, m);           <span class="c-cm">// sort left half</span>
+    <span class="c-fn">mergeSort</span>(a, m+<span class="c-num">1</span>, r);        <span class="c-cm">// sort right half</span>
+    <span class="c-fn">merge</span>(a, l, m, r);            <span class="c-cm">// combine</span>
+}</code></pre>
+
+  <div class="code-cap">Generic pseudocode from the slides</div>
+  <pre><code>Merge-Sort(A, n)
+    <span class="c-kw">if</span> n = <span class="c-num">1</span> <span class="c-kw">return</span>
+    <span class="c-kw">else</span>
+        n1 ← n2 ← n/2
+        <span class="c-kw">create</span> arrays L[n1], R[n2]
+        <span class="c-kw">for</span> i ← <span class="c-num">0</span> <span class="c-kw">to</span> n1-<span class="c-num">1</span>: L[i] ← A[i]
+        <span class="c-kw">for</span> j ← <span class="c-num">0</span> <span class="c-kw">to</span> n2-<span class="c-num">1</span>: R[j] ← A[n1+j]
+        Merge-Sort(L, n1)          <span class="c-cm">// recursive calls</span>
+        Merge-Sort(R, n2)
+        Merge(A, L, n1, R, n2)     <span class="c-cm">// O(n) combine; space: n</span></code></pre>
+
+  <h4>Complexity analysis — the recursion tree argument</h4>
+  <div class="fig">
+  <svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle" font-size="11">
+    <text x="350" y="20" fill="#e9e9ec" font-weight="bold">n</text>
+    <text x="215" y="65" fill="#9a9daa">n/2</text><text x="485" y="65" fill="#9a9daa">n/2</text>
+    <text x="140" y="110" fill="#6c707d">n/4</text><text x="290" y="110" fill="#6c707d">n/4</text><text x="410" y="110" fill="#6c707d">n/4</text><text x="560" y="110" fill="#6c707d">n/4</text>
+    <text x="70" y="155" fill="#4a4f5c" font-size="9">n/8 · n/8 · n/8 · n/8 · n/8 · n/8 · n/8 · n/8</text>
+    <text x="350" y="195" fill="#4a4f5c" font-size="9">… n/2 × 2 = n elements at the leaf level …</text>
+    <g stroke="#3a3f4d" stroke-width="1.1" fill="none">
+      <path d="M 320 28 L 225 55"/><path d="M 380 28 L 475 55"/>
+      <path d="M 185 73 L 150 100"/><path d="M 245 73 L 285 100"/>
+      <path d="M 455 73 L 415 100"/><path d="M 515 73 L 555 100"/>
+    </g>
+    <g font-size="10" fill="#fff">
+      <rect x="555" y="30" width="120" height="20" rx="10" fill="none" stroke="#282c37"/>
+      <text x="615" y="44" fill="#9a9daa">n = 2·(n/2) ✓</text>
+      <rect x="555" y="52" width="120" height="20" rx="10" fill="none" stroke="#282c37"/>
+      <text x="615" y="66" fill="#9a9daa">n = 4·(n/4) ✓</text>
+      <rect x="555" y="74" width="120" height="20" rx="10" fill="none" stroke="#282c37"/>
+      <text x="615" y="88" fill="#9a9daa">…every level = n</text>
+      <rect x="555" y="96" width="120" height="20" rx="10" fill="none" stroke="#e9e9ec"/>
+      <text x="615" y="110" fill="#e9e9ec">log n levels</text>
+    </g>
+    <text x="40" y="222" fill="#e9e9ec" font-size="10">Total work = (n per level) × (log n levels) = O(n log n)</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 7.2 — Each tree level does O(n) total merging work; there are log₂n levels</div>
+
+  <div class="formula">
+    <div class="f">T(n) = 2·T(n/2) + O(n) &nbsp;⟹&nbsp; T(n) = O(n log n)</div>
+    <div class="f-cap">Two half-size subproblems + O(n) merge work — holds for best, average AND worst case</div>
+  </div>
+
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Recurrence</th><th>Time</th></tr>
+    <tr class="hilite"><td>Best</td><td><code>T(n) = 2T(n/2) + n</code></td><td><code>O(n log n)</code></td></tr>
+    <tr class="hilite"><td>Average</td><td><code>T(n) = 2T(n/2) + n</code></td><td><code>O(n log n)</code></td></tr>
+    <tr class="hilite"><td>Worst</td><td><code>T(n) = 2T(n/2) + n</code></td><td><code>O(n log n)</code></td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 7.1 — Merge sort has NO bad inputs — the guarantee is its selling point</div>
+
+  <h4>Space &amp; stability</h4>
+  <ul class="list">
+    <li><strong>Space: O(n) auxiliary</strong> — the merge step allocates temporary arrays for each merge. This is the price paid for guaranteed O(n log n) time.</li>
+    <li><strong>Stable ✓</strong> — taking from the left half on ties (<code class="inline">L[i] &lt;= R[j]</code>) preserves original relative order of equal elements.</li>
+    <li><strong>Not in-place ✗</strong>.</li>
+    <li>Excellent for <strong>large datasets, linked lists, and external sorting</strong> (massive files that don’t fit in memory); databases use it to maintain indexes.</li>
+  </ul>
+
+  <div class="grid g2">
+    <div class="card"><h5>Advantages</h5>
+      <ul>
+        <li>Stable sorting</li>
+        <li>Guaranteed O(n log n) worst case</li>
+        <li>Excellent for large datasets, linked lists &amp; external sorting</li>
+      </ul></div>
+    <div class="card"><h5>Disadvantages</h5>
+      <ul>
+        <li>O(n) extra space — not in-place</li>
+        <li>Slower for small data — recursion overhead means insertion sort beats it on tiny arrays</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- QUICK SORT -->
+<section id="quick">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Divide &amp; Conquer</div>
+    <h2>8 · Quick Sort</h2>
+  </div>
+
+  <div class="callout def">
+    <div class="c-label">Idea</div>
+    <p>Quick sort is a highly efficient, divide-and-conquer, <strong>in-place</strong> sorting algorithm that selects a <strong>pivot</strong> element and <strong>partitions</strong> the array so that smaller elements move before the pivot and larger elements after it. All elements less than the pivot go left; all greater-or-equal go right; <strong>the pivot lands in its final sorted position</strong>. Recursion then handles each side independently.</p>
+  </div>
+
+  <h4>Core steps</h4>
+  <ol class="list">
+    <li><strong>Select pivot:</strong> pick an element (first, last, random, or median).</li>
+    <li><strong>Partition:</strong> rearrange elements around the pivot point.</li>
+    <li><strong>Recurse:</strong> repeat independently for the left and right sub-arrays.</li>
+  </ol>
+
+  <div class="viz" id="viz-quick">
+    <div class="viz-head">
+      <span class="viz-title">Live Visualisation · Quick Sort (Lomuto)</span>
+      <div class="viz-controls">
+        <button class="vbtn primary" data-run="quick">▶ RUN</button>
+        <button class="vbtn" data-reset="quick">RESET</button>
+      </div>
+    </div>
+    <div class="viz-bars" id="bars-quick"></div>
+    <div class="speed-row">SPEED <input type="range" min="20" max="600" value="260" data-speed="quick"></div>
+    <div class="viz-status" id="status-quick">Press RUN to watch quick sort execute.</div>
+  </div>
+
+  <h4>Two views of the divide step</h4>
+  <div class="grid g2">
+    <div class="card"><h5>Sequence view (3-way)</h5>
+      <p>Divide S into three sequences: <strong>L</strong> (elements &lt; x), <strong>E</strong> (elements = x), <strong>G</strong> (elements &gt; x). Recursively sort L and G. Conquer: concatenate L, then E, then G back into S.</p></div>
+    <div class="card"><h5>In-place view (2-pointer)</h5>
+      <p>Pointer <strong>l scans from the left, r from the right</strong>. A swap is performed when l is at an element larger than the pivot and r is at one smaller. A final swap with the pivot completes the divide step.</p></div>
+  </div>
+
+  <div class="code-cap">Textbook program (Horowitz-style) — pivot = a[left], Hoare partition</div>
+  <pre><code><span class="c-kw">template</span> &lt;<span class="c-kw">class</span> T&gt;
+<span class="c-kw">void</span> <span class="c-fn">QuickSort</span>(T *a, <span class="c-kw">const int</span> left, <span class="c-kw">const int</span> right)
+{
+    <span class="c-cm">// Sort a[left:right] into nondecreasing order.</span>
+    <span class="c-cm">// a[left] is arbitrarily chosen as the pivot. i and j partition</span>
+    <span class="c-cm">// the subarray so that a[m] &lt;= pivot for m &lt; i, and a[m] &gt;= pivot</span>
+    <span class="c-cm">// for m &gt; j. Assumes a[left] &lt;= a[right+1].</span>
+    <span class="c-kw">if</span> (left &lt; right) {
+        <span class="c-kw">int</span> i = left,  j = right + <span class="c-num">1</span>,  pivot = a[left];
+        <span class="c-kw">do</span> {
+            <span class="c-kw">do</span> i++; <span class="c-kw">while</span> (a[i] &lt; pivot);   <span class="c-cm">// scan right past small</span>
+            <span class="c-kw">do</span> j--; <span class="c-kw">while</span> (a[j] &gt; pivot);   <span class="c-cm">// scan left past large</span>
+            <span class="c-kw">if</span> (i &lt; j) <span class="c-fn">swap</span>(a[i], a[j]);
+        } <span class="c-kw">while</span> (i &lt; j);
+        <span class="c-fn">swap</span>(a[left], a[j]);             <span class="c-cm">// pivot into final position</span>
+        <span class="c-fn">QuickSort</span>(a, left, j-<span class="c-num">1</span>);        <span class="c-cm">// sort left part</span>
+        <span class="c-fn">QuickSort</span>(a, j+<span class="c-num">1</span>, right);       <span class="c-cm">// sort right part</span>
+    }
+}</code></pre>
+  <p class="small"><strong>Program 7.6</strong> — the do-while loops guarantee both scans stop at the pivot sentinel, so i and j always stay in bounds.</p>
+
+  <h4>Lomuto partition scheme — the version taught in the slides</h4>
+  <p>Choose the <strong>last element as pivot</strong>. Walk through the array keeping index <code class="inline">i</code> as the boundary of “elements smaller than pivot”. Whenever <code class="inline">a[j] &lt; pivot</code>, swap it into position <code class="inline">i+1</code> and advance i. Finally swap the pivot into position <code class="inline">i+1</code> — its correct sorted position.</p>
+
+  <div class="arr">
+    <div class="cell">1<span class="idx">0</span></div>
+    <div class="cell">3<span class="idx">1</span></div>
+    <div class="cell">2<span class="idx">2</span></div>
+    <div class="cell pivot">6<span class="idx">3</span><span class="tag">PIVOT·FINAL</span></div>
+    <div class="cell">8<span class="idx">4</span></div>
+  </div>
+  <p class="small">After partitioning [3, 1, 6, 8, 2] with pivot 6: [1, 3, 2, <b>6</b>, 8] — the pivot is permanently placed at index 3.</p>
+
+  <div class="code-cap">partition() — Lomuto scheme</div>
+  <pre><code><span class="c-kw">int</span> <span class="c-fn">partition</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> lo, <span class="c-kw">int</span> hi) {
+    <span class="c-kw">int</span> pivot = a[hi];        <span class="c-cm">// last element as pivot</span>
+    <span class="c-kw">int</span> i = lo - <span class="c-num">1</span>;           <span class="c-cm">// boundary of "smaller than pivot" region</span>
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> j = lo; j &lt; hi; j++) {
+        <span class="c-kw">if</span> (a[j] &lt; pivot) {
+            i++;
+            <span class="c-fn">swap</span>(a[i], a[j]);
+        }
+    }
+    <span class="c-fn">swap</span>(a[i+<span class="c-num">1</span>], a[hi]);   <span class="c-cm">// pivot → its correct final position</span>
+    <span class="c-kw">return</span> i + <span class="c-num">1</span>;             <span class="c-cm">// pivot's final index</span>
+}</code></pre>
+
+  <div class="code-cap">quickSort() — partition first, THEN recurse</div>
+  <pre><code><span class="c-kw">void</span> <span class="c-fn">quickSort</span>(<span class="c-kw">int</span> a[], <span class="c-kw">int</span> lo, <span class="c-kw">int</span> hi) {
+    <span class="c-kw">if</span> (lo &lt; hi) {                 <span class="c-cm">// base case: 0/1 elements</span>
+        <span class="c-kw">int</span> p = <span class="c-fn">partition</span>(a, lo, hi); <span class="c-cm">// pivot placed at index p</span>
+        <span class="c-fn">quickSort</span>(a, lo, p - <span class="c-num">1</span>);     <span class="c-cm">// sort left sub-array</span>
+        <span class="c-fn">quickSort</span>(a, p + <span class="c-num">1</span>, hi);    <span class="c-cm">// sort right sub-array</span>
+    }
+}</code></pre>
+
+  <h4>Full worked example — [10, 80, 30, 90, 40, 50] <span class="small">(memorise this trace pattern)</span></h4>
+  <p><strong>Partition 1:</strong> lo=0, hi=5, pivot = a[5] = <b>50</b>, i = −1</p>
+  <div class="tblwrap">
+  <table>
+    <tr><th>j</th><th>a[j]</th><th>a[j] &lt; 50?</th><th>Action</th><th>Array state</th><th>i</th></tr>
+    <tr><td>0</td><td>10</td><td>True</td><td>i++ (0), swap(a[0],a[0]) — no change</td><td><code>[10, 80, 30, 90, 40, 50]</code></td><td>0</td></tr>
+    <tr><td>1</td><td>80</td><td>False</td><td>do nothing</td><td><code>[10, 80, 30, 90, 40, 50]</code></td><td>0</td></tr>
+    <tr><td>2</td><td>30</td><td>True</td><td>i++ (1), swap 80 ↔ 30</td><td><code>[10, 30, 80, 90, 40, 50]</code></td><td>1</td></tr>
+    <tr><td>3</td><td>90</td><td>False</td><td>do nothing</td><td><code>[10, 30, 80, 90, 40, 50]</code></td><td>1</td></tr>
+    <tr><td>4</td><td>40</td><td>True</td><td>i++ (2), swap 80 ↔ 40</td><td><code>[10, 30, 40, 90, 80, 50]</code></td><td>2</td></tr>
+  </table>
+  </div>
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">FINAL SWAP</div><div class="trace-body">swap(a[3], a[5]) → 90 ↔ 50 → <span class="mono">[10, 30, 40, 50, 80, 90]</span> · return p = 3 — <b>pivot 50 permanently placed</b></div></div>
+    <div class="trace-row"><div class="trace-lab">RECURSE L</div><div class="trace-body">quickSort(a, 0, 2) on <span class="mono">[10, 30, 40]</span>: pivot 40 — no visible swaps; p=2. Then quickSort(a,0,1) on [10,30]: pivot 30, p=1. Base cases kick in for single elements.</div></div>
+    <div class="trace-row"><div class="trace-lab">RECURSE R</div><div class="trace-body">quickSort(a, 4, 5) on <span class="mono">[80, 90]</span>: pivot 90 — 80 &lt; 90 already left; p=5, left side [80] is a base case.</div></div>
+    <div class="trace-row"><div class="trace-lab">RESULT</div><div class="trace-body"><span class="mono">[10, 30, 40, 50, 80, 90]</span> ✓ — no merge step needed anywhere</div></div>
+  </div>
+
+  <h4>Pivot selection strategies</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Strategy</th><th>Behaviour</th></tr>
+    <tr><td>First / last element</td><td>Simplest — but degrades to <strong>O(n²) on already-sorted input</strong></td></tr>
+    <tr><td>Median-of-three (first, middle, last)</td><td>Much less likely to hit a bad split</td></tr>
+    <tr><td>Random pivot</td><td>Makes worst-case behaviour <strong>extremely unlikely</strong> regardless of input order</td></tr>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 8.1 — Pivot strategies</div>
+
+  <h4>Best, average &amp; worst case</h4>
+  <div class="formula">
+    <div class="f">Best/Average: T(n) = 2T(n/2) + n ⟹ O(n log n)<br>Worst: T(n) = T(n−1) + n ⟹ O(n²)</div>
+    <div class="f-cap">Balanced split = merge-sort recurrence · Degenerate split = arithmetic series</div>
+  </div>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle" font-size="11">
+    <text x="175" y="18" fill="#e9e9ec" font-weight="bold">BALANCED (GOOD)</text>
+    <g fill="#9a9daa">
+      <text x="175" y="45">n</text>
+      <text x="110" y="85">n/2</text><text x="240" y="85">n/2</text>
+      <text x="75" y="125">n/4</text><text x="145" y="125">n/4</text><text x="205" y="125">n/4</text><text x="275" y="125">n/4</text>
+    </g>
+    <g stroke="#3a3f4d" stroke-width="1.1" fill="none">
+      <path d="M 160 52 L 118 76"/><path d="M 190 52 L 232 76"/>
+      <path d="M 100 92 L 82 116"/><path d="M 120 92 L 140 116"/>
+      <path d="M 230 92 L 210 116"/><path d="M 250 92 L 270 116"/>
+    </g>
+    <text x="175" y="155" fill="#e9e9ec" font-size="10">height O(log n) → O(n log n)</text>
+
+    <text x="525" y="18" fill="#e9e9ec" font-weight="bold">UNBALANCED (WORST)</text>
+    <g fill="#9a9daa">
+      <text x="470" y="40">n</text>
+      <text x="530" y="62">n−1</text>
+      <text x="575" y="84">n−2</text>
+      <text x="613" y="106">n−3</text>
+      <text x="650" y="128">…1</text>
+    </g>
+    <g stroke="#3a3f4d" stroke-width="1.1" fill="none">
+      <path d="M 480 47 L 524 56"/>
+      <path d="M 540 69 L 570 78"/>
+      <path d="M 585 91 L 608 100"/>
+      <path d="M 622 113 L 645 122"/>
+    </g>
+    <text x="525" y="155" fill="#e9e9ec" font-size="10">height O(n) → n + (n−1) + … = O(n²)</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 8.1 — Quick sort’s fate depends entirely on partition balance</div>
+
+  <div class="tblwrap">
+  <table>
+    <tr><th>Case</th><th>Recurrence</th><th>Time</th><th>When</th></tr>
+    <tr><td>Best</td><td><code>T(n) = 2T(n/2) + n</code></td><td><code>O(n log n)</code></td><td>Pivot roughly splits the array in half each time</td></tr>
+    <tr><td>Average</td><td><code>T(n) = 2T(n/2) + n</code></td><td><code>O(n log n)</code></td><td>Random-ish data</td></tr>
+    <tr class="hilite"><td>Worst</td><td><code>T(n) = T(n−1) + n</code></td><td><code>O(n²)</code></td><td>Pivot always smallest/largest — e.g. sorted input with last-element pivot; partitions of size 0 and n−1</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 8.2 — Quick sort complexity cases</div>
+
+  <div class="callout exam">
+    <div class="c-label">The Canonical Exam Question</div>
+    <p><strong>“Why is quick sort’s worst case O(n²) despite O(n log n) average?”</strong> — The worst case is triggered by consistently <strong>unbalanced partitions</strong>: when the pivot is always the smallest or largest element, each partition produces subproblems of size 0 and n−1, so the sequence length reduces by only 1 per step. The recursion depth becomes n, and total work = n + (n−1) + … + 1 = n(n+1)/2 ∈ O(n²). <strong>Trigger input:</strong> an already-sorted (or reverse-sorted) array with a last-element (or first-element) pivot. <strong>Mitigation:</strong> randomized or median-of-three pivot selection makes this vanishingly unlikely — which is why quicksort remains a top practical choice.</p>
+  </div>
+
+  <h4>Running-time intuition (from the D&amp;C slides)</h4>
+  <ul class="list">
+    <li><strong>Worst case:</strong> the pivot does not divide the sequence in two; at each step the length reduces only by 1 → O(n²).</li>
+    <li><strong>General case:</strong> time spent at level i of the quick-sort tree is O(n); running time = O(n) × O(height).</li>
+    <li><strong>Average case:</strong> O(n log n).</li>
+    <li><strong>Space:</strong> O(log n) — recursion stack for the balanced case (in-place partitioning, no auxiliary arrays).</li>
+    <li><strong>Stability:</strong> ✗ not stable — long-range swaps during partitioning can reorder equal keys.</li>
+  </ul>
+
+  <div class="grid g2">
+    <div class="card"><h5>Strengths</h5>
+      <ul>
+        <li>Fastest average-case in practice — a staple of library sorts</li>
+        <li>In-place: O(log n) stack only</li>
+        <li>Cache-friendly, small hidden constants</li>
+      </ul></div>
+    <div class="card"><h5>Weaknesses</h5>
+      <ul>
+        <li>O(n²) worst case on bad pivots</li>
+        <li>Not stable</li>
+        <li>Recursive — deep stacks on degenerate inputs</li>
+      </ul></div>
+  </div>
+</section>
+
+<!-- NON-COMPARISON -->
+<section id="noncompare">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Block 3 — Beyond Comparison</div>
+    <h2>9 · Non-Comparison &amp; Other Sorts</h2>
+  </div>
+  <p>These techniques use <strong>mathematical properties of keys</strong> rather than direct comparisons, achieving linear time under specific conditions. Also included: heap sort (tree-based, comparison) — listed in the syllabus family of sorts.</p>
+
+  <div class="tblwrap">
+  <table>
+    <tr><th>Algorithm</th><th>Mechanism</th><th>Time</th><th>Condition</th></tr>
+    <tr><td>Counting Sort</td><td>Counts element <strong>frequencies</strong> to calculate final positions in the output</td><td><code>O(n + k)</code></td><td>k = range of input data; efficient for small integer ranges</td></tr>
+    <tr><td>Radix Sort</td><td>Sorts <strong>digit by digit</strong>, least-significant → most-significant; relies on a stable underlying sort (counting sort)</td><td><code>O(d·(n + k))</code></td><td>d-digit numbers</td></tr>
+    <tr><td>Bucket Sort</td><td><strong>Distributes elements into buckets</strong> uniformly, sorts each bucket individually (often with insertion sort), concatenates</td><td><code>O(n + k)</code> avg</td><td>Data uniformly distributed across a range</td></tr>
+    <tr><td>Heap Sort</td><td>Builds a <strong>Max-Heap</strong> from the data, repeatedly extracts the maximum and rebuilds; based on selection sort</td><td><code>O(n log n)</code> guaranteed</td><td>No extra memory space required — in-place</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 9.1 — Non-comparison sorts + heap sort overview</div>
+</section>
+
+<!-- CHOOSING -->
+<section id="choosing">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part D · Decision Guide</div>
+    <h2>Choosing the Right Sorting Algorithm</h2>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h5>Small / nearly-sorted arrays</h5><p><strong>Insertion sort</strong> — simple, adaptive, near-linear O(n) when input is almost in order.</p></div>
+    <div class="card"><h5>Guaranteed O(n log n) + stability</h5><p><strong>Merge sort</strong> — when O(n) extra space is acceptable; also best for linked lists &amp; external sorting.</p></div>
+    <div class="card"><h5>General-purpose, average speed, in-place</h5><p><strong>Quick sort</strong> — with a good (random / median-of-three) pivot strategy.</p></div>
+    <div class="card"><h5>Teaching / minimal writes</h5><p><strong>Selection sort</strong> — its fixed O(n) swap count is a genuine advantage when memory writes are costly.</p></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CASE STUDIES
+     ============================================================ -->
+<section id="case">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Part E · Block 4 — Applications</div>
+    <h2>10 · Case Studies: Arrays in the Real World</h2>
+  </div>
+  <p>Each case study follows the same analysis framework: <em>problem definition &amp; context → data structures &amp; array management → searching techniques → sorting techniques → complexity &amp; performance → edge cases &amp; limitations</em> (boundary conditions, overflow issues, worst-case scenarios).</p>
+
+  <!-- CS1 -->
+  <h3><span class="hnum">10.1</span>Case Study 1 — Buffering Streaming Sensor Data</h3>
+
+  <div class="callout def">
+    <div class="c-label">Problem Context</div>
+    <p>In IoT devices, embedded systems, and automotive safety modules (ABS, airbag controllers), sensors continuously sample temperature, pressure, acceleration. The core challenge is a <strong>speed mismatch</strong>: the <strong>Producer</strong> (sensor hardware, e.g. readings every 2 ms) is far faster than the <strong>Consumer</strong> (processor writing to flash or transmitting over Wi-Fi/cellular in batches, due to power and latency overheads). Directly processing every reading risks data loss when the CPU is busy — so engineers use <strong>array-based buffers</strong>.</p>
+  </div>
+
+  <h4>Two buffering architectures</h4>
+  <div class="grid g2">
+    <div class="card"><h5>Option A · Linear Array Buffer</h5>
+      <p>A standard contiguous block <code class="inline">float sensor_buffer[SIZE]</code>. Readings appended from index 0 to SIZE−1; when full, collection stops or triggers a processing flush, then resets index to 0. <em>Static batching.</em></p></div>
+    <div class="card"><h5>Option B · Circular (Ring) Buffer ★</h5>
+      <p>For continuous non-stop monitoring, wraps around using <strong>modulo arithmetic</strong>. Two indices — <strong>head</strong> (where new data is written) and <strong>tail</strong> (where data is read). <em>Key benefit: eliminates element shifting entirely</em> — new readings automatically overwrite the oldest ones.</p></div>
+  </div>
+
+  <div class="fig">
+  <svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle" font-size="12">
+    <text x="350" y="18" fill="#6c707d" font-size="9" letter-spacing="2">CIRCULAR BUFFER — NEXT WRITE OVERWRITES INDEX 0 (OLDEST READING)</text>
+    <g>
+      <rect x="160" y="34" width="90" height="44" rx="4" fill="#16181f" stroke="#e9e9ec" stroke-dasharray="4,3"/><text x="205" y="54" fill="#fff" font-weight="bold">21.3</text><text x="205" y="70" fill="#6c707d" font-size="9">idx 0 · oldest</text>
+      <rect x="250" y="34" width="90" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="295" y="54" fill="#e9e9ec">21.5</text><text x="295" y="70" fill="#6c707d" font-size="9">idx 1</text>
+      <rect x="340" y="34" width="90" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="385" y="54" fill="#e9e9ec">21.4</text><text x="385" y="70" fill="#6c707d" font-size="9">idx 2</text>
+      <rect x="430" y="34" width="90" height="44" rx="4" fill="#16181f" stroke="#282c37"/><text x="475" y="54" fill="#e9e9ec">21.6</text><text x="475" y="70" fill="#6c707d" font-size="9">idx 3 · newest</text>
+    </g>
+    <path d="M 520 56 C 600 56 610 90 480 96 C 300 105 170 100 158 88" fill="none" stroke="#6c707d" stroke-width="1.3" marker-end="url(#arrh)" stroke-dasharray="5,4"/>
+    <text x="350" y="132" fill="#9a9daa" font-size="10">write index = (write index + 1) % capacity — the modulo turns a fixed array into an infinitely reusable ring</text>
+    <text x="350" y="152" fill="#6c707d" font-size="9">fixed memory footprint · O(1) push · suitable even for high-frequency sampling</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig 10.1 — Ring buffer wrap-around</div>
+
+  <h4>Engineering trade-offs &amp; edge cases</h4>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Challenge</th><th>Array Context</th><th>Solution / Strategy</th></tr>
+    <tr><td>Buffer Overflow</td><td>New data arrives when the array is completely full</td><td><strong>Overwrite</strong> oldest (streaming: video/audio) · <strong>Blocking</strong> — pause acquisition or drop packet (critical data: flight telemetry)</td></tr>
+    <tr><td>Buffer Underflow</td><td>Processor requests data when 0 elements present</td><td>Return a status flag (false/NULL) — prevents reading junk RAM</td></tr>
+    <tr><td>Memory Fragmentation</td><td>Dynamic allocations (malloc) degrade performance over time</td><td>Use <strong>static arrays</strong> allocated at compile time — constant-time access and safety</td></tr>
+    <tr><td>Cache Line Optimisation</td><td>Spatial locality of contiguous memory</td><td>Contiguous storage enables CPU cache-line <strong>pre-fetching</strong> → maximum execution speed</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table 10.1 — Edge cases every buffer design must handle</div>
+
+  <div class="callout exam">
+    <div class="c-label">Key Takeaways (write these in exams)</div>
+    <p>① Arrays provide <strong>deterministic O(1) insertion and access</strong> — mandatory for hard real-time system bounds. ② <strong>Circular indexing with %</strong> converts a fixed linear array into an infinitely reusable ring buffer <em>without dynamic memory allocation</em>. ③ Proper <strong>overflow/underflow handling</strong> is critical in safety-critical sensor pipelines. <strong>Trade-off:</strong> older data is permanently lost once overwritten — unsuitable when full history must be retained (use a dynamic array or external storage instead).</p>
+  </div>
+
+  <!-- CS2 -->
+  <h3><span class="hnum">10.2</span>Case Study 2 — Pattern Matching in Intrusion Detection</h3>
+  <p>Network intrusion detection systems (IDS) scan packet payloads and log lines for known attack <strong>signatures</strong> — fixed byte/character sequences associated with malicious traffic. This is fundamentally a <strong>string (character-array) search problem</strong>, repeated over a continuous stream. Both the log data and the signature are naturally stored as character arrays; detection must run in real time at network line-rate, so per-byte cost determines whether the system keeps up.</p>
+
+  <div class="code-cap">Naive pattern-matching sketch</div>
+  <pre><code><span class="c-kw">bool</span> <span class="c-fn">containsSignature</span>(<span class="c-kw">string</span> text, <span class="c-kw">string</span> sig) {
+    <span class="c-kw">int</span> n = text.size(), m = sig.size();
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt;= n - m; i++) {   <span class="c-cm">// slide signature across text</span>
+        <span class="c-kw">int</span> j = <span class="c-num">0</span>;
+        <span class="c-kw">while</span> (j &lt; m &amp;&amp; text[i+j] == sig[j])  <span class="c-cm">// compare char-by-char</span>
+            j++;
+        <span class="c-kw">if</span> (j == m) <span class="c-kw">return</span> <span class="c-num">true</span>;   <span class="c-cm">// full match found!</span>
+    }
+    <span class="c-kw">return</span> <span class="c-num">false</span>;
+}</code></pre>
+
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">EXAMPLE</div><div class="trace-body">Text <span class="mono">"...DROPTABLE.."</span>, signature <span class="mono">"DROP"</span> — i=0..2: mismatch immediately, slide forward · i=3: D,R,O,P all match → <b>signature found at index 3</b> → flag this log line for review.</div></div>
+    <div class="trace-row"><div class="trace-lab">LIMITATION</div><div class="trace-body">Naive matcher is <b>O(n×m)</b> worst case — a bottleneck at line-rate with many signatures per packet. It re-examines overlapping characters on every failed attempt.</div></div>
+    <div class="trace-row"><div class="trace-lab">PRODUCTION</div><div class="trace-body">Snort &amp; Suricata use <b>Boyer–Moore</b> or <b>Knuth–Morris–Pratt (KMP)</b>, which skip ahead using information from earlier comparisons instead of re-scanning. The data structure is still the same character array — only the search strategy changes.</div></div>
+  </div>
+
+  <!-- CS3 -->
+  <h3><span class="hnum">10.3</span>Case Study 3 — Anomaly Detection in Large-Scale Logs</h3>
+  <p>Server/application logs are naturally stored as <strong>arrays of records</strong> (timestamp, metric value) — e.g. request latency sampled every second, millions of entries per day. <strong>Anomaly analysis</strong> finds values that deviate sharply from the norm — a latency spike or error-count surge. Arrays fit because logs are time-ordered (ideal for sequential storage and windowed access), sorting by metric enables percentile/threshold queries via binary search, and batch analysis maps onto array slicing.</p>
+
+  <div class="code-cap">Sliding-window anomaly detection — flag points &gt; k std-devs from the window mean</div>
+  <pre><code><span class="c-kw">for</span> (<span class="c-kw">int</span> i = W; i &lt; n; i++) {            <span class="c-cm">// W = window size, k = sensitivity</span>
+    <span class="c-kw">float</span> mean = <span class="c-fn">average</span>(a, i-W, i);
+    <span class="c-kw">float</span> sd   = <span class="c-fn">stddev</span>(a, i-W, i, mean);
+    <span class="c-kw">if</span> (<span class="c-fn">abs</span>(a[i] - mean) &gt; k * sd)
+        <span class="c-fn">flagAnomaly</span>(i);
+}
+<span class="c-cm">// Each step is O(W) over an array slice — O(n×W) total for the full log</span></code></pre>
+
+  <div class="trace">
+    <div class="trace-row"><div class="trace-lab">WINDOW</div><div class="trace-body">Trailing window <span class="mono">[120, 118, 125, 121, 119]</span> → mean ≈ <b>120.6</b>, std-dev ≈ <b>2.4</b></div></div>
+    <div class="trace-row"><div class="trace-lab">SPIKE</div><div class="trace-body">Next reading: <b>810</b> → |810 − 120.6| = 689.4 ≫ 3 × 2.4 → <b>flagged as anomaly</b></div></div>
+    <div class="trace-row"><div class="trace-lab">SCALE</div><div class="trace-body">Sorting subsets with <b>merge sort</b> (its stability keeps tied timestamps in order) + binary search over sorted windows makes percentile queries fast &amp; repeatable. Sliding-window scans are <b>embarrassingly parallel</b> — chunks analyzed concurrently.</div></div>
+  </div>
+
+  <div class="callout exam">
+    <div class="c-label">Closing the Loop</div>
+    <p>This case study unifies the whole unit: <strong>array storage → searching for thresholds → sorting for percentiles</strong> — all three blocks working together.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHEAT SHEET
+     ============================================================ -->
+<section id="cheat">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Revision · One-Glance</div>
+    <h2>Master Cheat-Sheet — Unit II</h2>
+  </div>
+
+  <h3><span class="hnum">★</span>Time complexity — all techniques</h3>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Technique</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th></tr>
+    <tr><td>Array access</td><td>O(1)</td><td>O(1)</td><td>O(1)</td><td>—</td></tr>
+    <tr><td>Linear search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(1)</td></tr>
+    <tr><td>Binary search</td><td>O(1)</td><td>O(log n)</td><td>O(log n)</td><td>O(1) / O(log n) rec</td></tr>
+    <tr><td>Bubble sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+    <tr><td>Selection sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+    <tr><td>Insertion sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+    <tr><td>Merge sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td></tr>
+    <tr><td>Quick sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td></tr>
+    <tr><td>Heap sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td></tr>
+    <tr><td>Counting sort</td><td>O(n+k)</td><td>O(n+k)</td><td>O(n+k)</td><td>O(k)</td></tr>
+    <tr><td>Radix sort</td><td>O(d(n+k))</td><td>O(d(n+k))</td><td>O(d(n+k))</td><td>O(n+k)</td></tr>
+    <tr><td>Bucket sort</td><td>O(n+k)</td><td>O(n+k)</td><td>O(n²)</td><td>O(n)</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table C.1 — The single most important table in this unit</div>
+
+  <h3><span class="hnum">★</span>Sorting — space, in-place &amp; stability</h3>
+  <div class="tblwrap">
+  <table>
+    <tr><th>Algorithm</th><th>Space</th><th>In-Place?</th><th>Stable?</th><th>Adaptive?</th><th>Swaps (worst)</th></tr>
+    <tr><td>Bubble</td><td>O(1)</td><td>Yes</td><td><strong>Yes</strong></td><td>Yes (optimised)</td><td>O(n²)</td></tr>
+    <tr><td>Selection</td><td>O(1)</td><td>Yes</td><td>No</td><td>No</td><td>n−1</td></tr>
+    <tr><td>Insertion</td><td>O(1)</td><td>Yes</td><td><strong>Yes</strong></td><td><strong>Yes</strong></td><td>O(n²)</td></tr>
+    <tr><td>Merge</td><td>O(n)</td><td>No</td><td><strong>Yes</strong></td><td>No</td><td>O(n log n)</td></tr>
+    <tr><td>Quick</td><td>O(log n)</td><td>Yes</td><td>No</td><td>No</td><td>O(n²)</td></tr>
+    <tr><td>Heap</td><td>O(1)</td><td>Yes</td><td>No</td><td>No</td><td>O(n log n)</td></tr>
+  </table>
+  </table>
+  </div>
+  <div class="tbl-cap">Table C.2 — Properties matrix</div>
+
+  <h3><span class="hnum">★</span>Key formulas</h3>
+  <div class="grid g2">
+    <div class="formula"><div class="f">1D: Addr(A[i]) = Base + i × size</div></div>
+    <div class="formula"><div class="f">2D row-major: Base + (i×cols + j)×size</div></div>
+    <div class="formula"><div class="f">2D col-major: Base + (j×rows + i)×size</div></div>
+    <div class="formula"><div class="f">Comparison sum: n(n−1)/2 → O(n²)</div></div>
+  </div>
+
+  <h3><span class="hnum">★</span>Concept map</h3>
+  <div class="fig">
+  <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace" text-anchor="middle" font-size="12">
+    <rect x="240" y="20" width="220" height="40" rx="20" fill="#16181f" stroke="#e9e9ec" stroke-width="1.2"/>
+    <text x="350" y="45" fill="#fff" font-weight="bold">CONTIGUOUS-MEMORY ADDRESSING</text>
+    <rect x="40" y="110" width="160" height="36" rx="18" fill="#16181f" stroke="#3a3f4d"/><text x="120" y="133" fill="#9a9daa">Arrays</text>
+    <rect x="240" y="110" width="220" height="36" rx="18" fill="#16181f" stroke="#3a3f4d"/><text x="350" y="133" fill="#9a9daa">Searching</text>
+    <rect x="500" y="110" width="160" height="36" rx="18" fill="#16181f" stroke="#3a3f4d"/><text x="580" y="133" fill="#9a9daa">Sorting</text>
+    <path d="M 300 60 L 140 106" stroke="#4a4f5c" stroke-width="1.2"/>
+    <path d="M 350 60 L 350 106" stroke="#4a4f5c" stroke-width="1.2"/>
+    <path d="M 400 60 L 560 106" stroke="#4a4f5c" stroke-width="1.2"/>
+    <g font-size="9" fill="#6c707d">
+      <text x="120" y="165">1D/2D · sparse ·</text><text x="120" y="178">strings · dynamic</text>
+      <text x="350" y="165">linear · binary</text>
+      <text x="580" y="165">bubble · selection · insertion</text><text x="580" y="178">merge · quick</text>
+    </g>
+    <path d="M 120 150 C 120 200 240 210 350 210" stroke="#3a3f4d" stroke-width="1" fill="none"/>
+    <path d="M 580 150 C 580 200 460 210 350 210" stroke="#3a3f4d" stroke-width="1" fill="none"/>
+    <rect x="190" y="215" width="320" height="36" rx="18" fill="#16181f" stroke="#282c37"/>
+    <text x="350" y="238" fill="#6c707d">Case Studies — buffering · IDS · log analysis</text>
+  </svg>
+  </div>
+  <div class="fig-cap">Fig C.1 — O(1) access is the thread connecting every topic in this unit</div>
+</section>
+
+<!-- ============================================================
+     EXAM Q&A
+     ============================================================ -->
+<section id="exam">
+  <div class="sec-head">
+    <div class="sec-eyebrow">Self-Test · With Model Answers</div>
+    <h2>Exam Question Bank</h2>
+  </div>
+  <p>Attempt each question before revealing the answer. These mirror the practice questions from your course materials.</p>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 01 · ADDRESS CALCULATION</div>
+    <div class="q-txt">Derive the address of A[i][j] in a 5×8 row-major array with base 2000, element size 4.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>Row-major formula: <strong>Addr(A[i][j]) = Base + (i × cols + j) × size</strong>, with cols = 8, size = 4:</p>
+      <p><strong>Addr(A[i][j]) = 2000 + (8i + j) × 4 = 2000 + 32i + 4j</strong></p>
+      <p>Check: A[2][3] = 2000 + (2×8 + 3)×4 = 2000 + 76 = <strong>2076</strong>. Access remains O(1) — one arithmetic computation, no traversal.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 02 · QUICK SORT WORST CASE</div>
+    <div class="q-txt">Why is quick sort’s worst case O(n²) despite O(n log n) average case? Give an input that triggers it with a last-element pivot.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>With a poor pivot, partitions are size 0 and n−1: the sequence shrinks by only <strong>one element per step</strong>. Total work = n + (n−1) + … + 1 = n(n+1)/2 ∈ <strong>O(n²)</strong>, and recursion depth becomes n.</p>
+      <p><strong>Trigger input:</strong> an already-sorted array (or reverse-sorted) with the last element as pivot — the pivot is then always the maximum (or minimum), producing the maximally unbalanced split. <strong>Mitigation:</strong> random or median-of-three pivot selection.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 03 · INSERTION SORT TRACE</div>
+    <div class="q-txt">Trace insertion sort on [9, 5, 1, 4, 3] and count the shifts performed.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>Insert 5: shift 9 → [5, 9, 1, 4, 3] — <strong>1 shift</strong><br>
+      Insert 1: shift 9, 5 → [1, 5, 9, 4, 3] — <strong>2 shifts</strong><br>
+      Insert 4: shift 9, 5 → [1, 4, 5, 9, 3] — <strong>2 shifts</strong><br>
+      Insert 3: shift 9, 5, 4 → [1, 3, 4, 5, 9] — <strong>3 shifts</strong></p>
+      <p><strong>Total: 8 shifts</strong> (= number of inversions in the input — insertion sort’s work is proportional to inversions, which is exactly why it is adaptive).</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 04 · STABILITY ANALYSIS</div>
+    <div class="q-txt">Is bubble sort stable? Justify from the swap condition.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p><strong>Yes.</strong> The swap condition is <em>strict</em> inequality: <code>if (a[j] > a[j+1])</code>. When two adjacent elements are <strong>equal</strong>, the condition is false and no swap occurs — so equal elements never cross each other, and their original relative order is preserved in the output. That is precisely the definition of stability.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 05 · SPARSE MATRICES</div>
+    <div class="q-txt">When would you prefer a triplet sparse-matrix representation over a dense 2D array?</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>When the non-zero count <strong>k ≪ r×c</strong>. Dense storage always costs O(r×c) space even if almost all entries are zero; triplets cost only <strong>O(3k)</strong> (plus a header of rows/cols/count). Example: a 1000×1000 matrix with 50 non-zeros needs 50 triplets versus 1,000,000 dense cells. <strong>Trade-off:</strong> random access to M[i][j] degrades from O(1) to O(k), since the triplet list must be scanned. Prefer a linked representation when the matrix changes dynamically.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 06 · BINARY SEARCH PRECONDITION</div>
+    <div class="q-txt">Why does binary search require sorted input, and what happens if you run it on unsorted data?</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>Correctness rests on the invariant: everything left of mid is ≤ a[mid], everything right is ≥ a[mid]. On unsorted data, discarding a half may discard the target — the algorithm can report <strong>“not found” (−1) for a value that is actually present</strong>, or return a wrong index. The result is unreliable, not merely slow.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 07 · SYNTHESIS</div>
+    <div class="q-txt">Compare bubble and selection sort on swap count, and state when each is preferred.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>Both do exactly n(n−1)/2 comparisons, but bubble sort can perform up to <strong>O(n²) swaps</strong> (one per comparison) while selection sort does at most <strong>n−1 swaps</strong> — exactly one per outer pass. Selection sort is preferred when <strong>writes are expensive</strong> (flash memory, large records); only cycle sort beats it on memory writes. Bubble sort’s advantages: stable (selection is not) and adaptive with the early-exit flag — best case O(n) on sorted input, where selection is still O(n²).</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 08 · DESIGN</div>
+    <div class="q-txt">Which sort would you choose for: (a) a nearly-sorted 30-element array, (b) a 10-million-record file requiring a stable sort, (c) an in-memory general-purpose sort where average speed matters most?</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p><strong>(a) Insertion sort</strong> — adaptive, near O(n) on almost-sorted data, ideal for small arrays.<br>
+      <strong>(b) Merge sort</strong> — stable with guaranteed O(n log n); the standard choice for external sorting of massive files and database index maintenance.<br>
+      <strong>(c) Quick sort</strong> — fastest average case in practice, in-place with O(log n) stack; use random or median-of-three pivots to avoid the O(n²) trap.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 09 · CASE STUDY</div>
+    <div class="q-txt">In a sensor ring buffer, what is the difference between the overflow handling strategies for streaming video versus flight telemetry?</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p><strong>Streaming (video/audio): overwrite strategy</strong> — newest data matters most; when the buffer fills, new readings replace the oldest ones automatically via modulo wrap-around.<br>
+      <strong>Flight telemetry (critical data): blocking strategy</strong> — no reading may be lost; when full, the system pauses sensor acquisition or drops the incoming packet, and signals the condition. Underflow (reading an empty buffer) is handled by returning a status flag (false/NULL) to prevent reading junk memory.</p>
+    </div></details>
+  </div>
+
+  <div class="q-item">
+    <div class="q-num">QUESTION 10 · DERIVATION</div>
+    <div class="q-txt">Derive the time complexity of merge sort using the recursion-tree method.</div>
+    <details><summary>REVEAL ANSWER</summary><div class="det-body">
+      <p>Recurrence: <strong>T(n) = 2T(n/2) + O(n)</strong>. The recursion tree halves n at each level: level 0 has one problem of size n, level 1 has two of size n/2 (total n), level 2 has four of size n/4 (total n) … the leaf level has n/2 problems of size 2 (total n). So <strong>every level does O(n) total merging work</strong>. The tree has log₂n levels (n halves to 1 in log₂n steps). Total: <strong>O(n) × O(log n) = O(n log n)</strong> — identical for best, average, and worst case because the split is always exactly at the midpoint, regardless of input order.</p>
+    </div></details>
+  </div>
+</section>
+
+<footer>
+  Fundamentals of Data Structures · Unit II — Arrays, Searching &amp; Sorting Techniques<br>
+  Sources: Course slides (VIT Pune) · Horowitz, Sahni &amp; Mehta · Cormen et al. · cppreference<br>
+  Study notes · Monochrome edition · Scroll or use contents ↑
+</footer>
+
+</main>
+
+<button class="top-fab" id="topFab" aria-label="Back to top">↑</button>
+
+<script>
+/* ============ TOC DRAWER ============ */
+const toc = document.getElementById('toc');
+const overlay = document.getElementById('tocOverlay');
+const menuBtn = document.getElementById('menuBtn');
+function openToc(){toc.classList.add('open');overlay.classList.add('show');}
+function closeToc(){toc.classList.remove('open');overlay.classList.remove('show');}
+menuBtn.addEventListener('click',()=>{toc.classList.contains('open')?closeToc():openToc();});
+overlay.addEventListener('click',closeToc);
+toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.innerWidth<1100)closeToc();}));
+
+/* ============ BACK TO TOP ============ */
+const fab=document.getElementById('topFab');
+window.addEventListener('scroll',()=>{fab.classList.toggle('show',window.scrollY>600);},{passive:true});
+fab.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ============ SORT VISUALISERS ============ */
+const SEED=[42,88,15,63,97,7,71,34,56,21,80,49];
+const vizState={};
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function speedOf(name){const el=document.querySelector(`[data-speed="${name}"]`);return 660-parseInt(el.value);}
+
+function initViz(name){
+  const holder=document.getElementById('bars-'+name);
+  holder.innerHTML='';
+  const bars=SEED.map(v=>{
+    const b=document.createElement('div');b.className='vbar';
+    b.style.height=(v)+'%';holder.appendChild(b);return b;
+  });
+  vizState[name]={arr:[...SEED],bars,running:false};
+}
+function render(name,cmp=[],act=[],sortedSet=new Set()){
+  const s=vizState[name];
+  s.bars.forEach((b,i)=>{
+    b.className='vbar'+(sortedSet.has(i)?' sorted':cmp.includes(i)?' cmp':act.includes(i)?' act':'');
+    b.style.height=s.arr[i]+'%';
+  });
+}
+function setStatus(name,html){document.getElementById('status-'+name).innerHTML=html;}
+
+async function vBubble(name){
+  const s=vizState[name],a=s.arr,n=a.length,sorted=new Set();
+  for(let i=0;i<n-1;i++){
+    let swapped=false;
+    for(let j=0;j<n-1-i;j++){
+      render(name,[j,j+1],[],sorted);setStatus(name,`Pass ${i+1} — comparing <b>${a[j]}</b> and <b>${a[j+1]}</b>`);
+      await sleep(speedOf(name));
+      if(a[j]>a[j+1]){[a[j],a[j+1]]=[a[j+1],a[j]];swapped=true;render(name,[],[j,j+1],sorted);await sleep(speedOf(name));}
+    }
+    sorted.add(n-1-i);
+    if(!swapped){setStatus(name,'No swaps in this pass — array already sorted (early exit ✓)');sorted.clear();for(let k=0;k<n;k++)sorted.add(k);render(name,[],[],sorted);return;}
+  }
+  for(let k=0;k<n;k++)sorted.add(k);
+  render(name,[],[],sorted);setStatus(name,'Bubble sort complete — <b>O(n²)</b> comparisons, stable, in-place');
+}
+async function vSelection(name){
+  const s=vizState[name],a=s.arr,n=a.length,sorted=new Set();
+  for(let i=0;i<n-1;i++){
+    let m=i;
+    for(let j=i+1;j<n;j++){
+      render(name,[m,j],[],sorted);setStatus(name,`Pass ${i+1} — scanning for minimum (current min <b>${a[m]}</b>)`);
+      await sleep(speedOf(name));
+      if(a[j]<a[m])m=j;
+    }
+    if(m!==i){[a[i],a[m]]=[a[m],a[i]];render(name,[],[i,m],sorted);await sleep(speedOf(name));}
+    sorted.add(i);
+  }
+  sorted.add(n-1);
+  render(name,[],[],sorted);setStatus(name,'Selection sort complete — exactly <b>n−1 swaps</b>, all cases O(n²)');
+}
+async function vInsertion(name){
+  const s=vizState[name],a=s.arr,n=a.length;
+  for(let i=1;i<n;i++){
+    const key=a[i];let j=i-1;
+    render(name,[i],[],new Set([...Array(i).keys()]));setStatus(name,`Inserting key <b>${key}</b> into sorted prefix`);
+    await sleep(speedOf(name));
+    while(j>=0&&a[j]>key){
+      a[j+1]=a[j];render(name,[j,j+1],[j],new Set([...Array(j).keys()]));setStatus(name,`Shifting <b>${a[j]}</b> right`);
+      await sleep(speedOf(name));j--;
+    }
+    a[j+1]=key;render(name,[],[j+1],new Set([...Array(i+1).keys()]));await sleep(speedOf(name));
+  }
+  render(name,[],[],new Set([...Array(n).keys()]));
+  setStatus(name,'Insertion sort complete — adaptive: work ∝ inversions');
+}
+async function vQuick(name){
+  const s=vizState[name],a=s.arr;
+  async function qs(lo,hi){
+    if(lo>=hi)return;
+    const pivot=a[hi];let i=lo-1;
+    setStatus(name,`Partitioning — pivot <b>${pivot}</b> (last element)`);
+    for(let j=lo;j<hi;j++){
+      render(name,[j,hi],[]);await sleep(speedOf(name));
+      if(a[j]<pivot){i++;[a[i],a[j]]=[a[j],a[i]];render(name,[],[i,j]);await sleep(speedOf(name));}
+    }
+    [a[i+1],a[hi]]=[a[hi],a[i+1]];
+    render(name,[],[i+1]);setStatus(name,`Pivot <b>${a[i+1]}</b> placed at final index ${i+1}`);
+    await sleep(speedOf(name)*1.4);
+    await qs(lo,i);await qs(i+2,hi);
+  }
+  await qs(0,a.length-1);
+  render(name,[],[],new Set([...Array(a.length).keys()]));
+  setStatus(name,'Quick sort complete — average <b>O(n log n)</b>, in-place');
+}
+async function vMerge(name){
+  const s=vizState[name];
+  async function ms(l,r){
+    if(l>=r)return;
+    const m=Math.floor((l+r)/2);
+    await ms(l,m);await ms(m+1,r);
+    const L=s.arr.slice(l,m+1),R=s.arr.slice(m+1,r+1);
+    let i=0,j=0,k=l;
+    while(i<L.length&&j<R.length){
+      s.arr[k]=(L[i]<=R[j])?L[i++]:R[j++];
+      render(name,[l+k],[k]);setStatus(name,`Merging halves — taking <b>${s.arr[k]}</b>`);
+      await sleep(speedOf(name));k++;
+    }
+    while(i<L.length){s.arr[k]=L[i++];render(name,[k],[k]);await sleep(speedOf(name));k++;}
+    while(j<R.length){s.arr[k]=R[j++];render(name,[k],[k]);await sleep(speedOf(name));k++;}
+    render(name,[],[],new Set([...Array(l).keys(),...Array(r+1).keys()].filter(x=>x<l)));
+  }
+  await ms(0,s.arr.length-1);
+  render(name,[],[],new Set([...Array(s.arr.length).keys()]));
+  setStatus(name,'Merge sort complete — guaranteed <b>O(n log n)</b>, O(n) space');
+}
+const RUNNERS={bubble:vBubble,selection:vSelection,insertion:vInsertion,merge:vMerge,quick:vQuick};
+
+document.querySelectorAll('[data-run]').forEach(btn=>{
+  btn.addEventListener('click',async()=>{
+    const name=btn.dataset.run,s=vizState[name];
+    if(s.running)return;
+    s.running=true;btn.disabled=true;
+    await RUNNERS[name](name);
+    s.running=false;btn.disabled=false;
+  });
+});
+document.querySelectorAll('[data-reset]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const name=btn.dataset.reset;
+    vizState[name].running=false;initViz(name);
+    setStatus(name,'Reset. Press RUN to watch again.');
+  });
+});
+['bubble','selection','insertion','merge','quick'].forEach(initViz);
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  if (h > 0) document.getElementById('reading-bar').style.width = (window.scrollY / h * 100) + '%';
+}, { passive: true });
+</script>
+</body>
+</html>

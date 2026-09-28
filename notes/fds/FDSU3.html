@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="fds-unit3">
+<meta name="note-subject" content="FDS">
+<meta name="note-unit" content="Unit 3">
+<meta name="note-tags" content="Data Structures, Linked Lists, SLL, DLL, Circular Linked List, Polynomials, Memory Management">
+<meta name="note-summary" content="In-depth examination notes on FDS Unit 3 — Linked Lists: node anatomy, pointer mechanics, SLL, DLL, CLL operations, polynomial addition, and dynamic memory allocation algorithms.">
+<title>FDS · Unit III — Linked Lists · Exam Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & TOKENS (mobile-first) ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#161613; --paper:#fafaf6; --surface:#f0f0ea; --white:#ffffff;
+  --line:#dcdcd4; --line2:#c7c7be;
+  --g1:#3a3a36; --g2:#6f6f68; --g3:#9c9c93;
+  --serif:'Fraunces',Georgia,serif;
+  --body:'Newsreader',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.75 var(--body);-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+img,svg{max-width:100%}
+a{color:inherit}
+sup{font-size:.7em}
+/* ============ PROGRESS BAR ============ */
+#pbar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--ink);z-index:100}
+/* ============ MASTHEAD ============ */
+.masthead{padding:52px 20px 34px;border-bottom:2px solid var(--ink)}
+.kicker{font:500 10.5px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--g2)}
+.masthead h1{font:600 clamp(44px,12vw,84px)/.95 var(--serif);letter-spacing:-.02em;margin:14px 0 12px}
+.standfirst{font:italic 400 clamp(17px,4.5vw,20px)/1.55 var(--body);color:var(--g1);max-width:58ch}
+.hero-svg{margin-top:30px;display:block}
+.mast-meta{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 22px;font:500 11px/1.7 var(--mono);color:var(--g2)}
+.ulo{margin:26px 20px 0;border:1px solid var(--ink);background:var(--surface);padding:16px 18px}
+.ulo .cl{font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;display:block;margin-bottom:8px}
+.ulo ul{padding-left:1.15em}
+.ulo li{margin:4px 0;font-size:15px}
+/* ============ TOC NAV ============ */
+.layout{max-width:1220px;margin:0 auto}
+.toc{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--ink)}
+.toc .track{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+.toc .track::-webkit-scrollbar{display:none}
+.toc a{flex:0 0 auto;display:flex;gap:7px;align-items:baseline;font:600 11px/1 var(--mono);letter-spacing:.05em;padding:9px 12px;border:1px solid var(--line2);border-radius:999px;color:var(--g1);text-decoration:none;text-transform:uppercase}
+.toc a b{font-weight:700;color:var(--g3)}
+.toc a.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.toc a.active b{color:var(--g3)}
+/* ============ MAIN / SECTIONS ============ */
+main{padding:6px 20px 90px}
+section{border-top:2px solid var(--ink);padding:46px 0 34px;scroll-margin-top:72px}
+.sec-top{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.sec-no{font:700 11px var(--mono);letter-spacing:.22em;color:var(--g1)}
+.sec-rule{flex:1;height:1px;background:var(--ink)}
+h2{font:600 clamp(30px,7.5vw,42px)/1.05 var(--serif);letter-spacing:-.015em}
+.sec-sub{font:italic 400 16.5px/1.5 var(--body);color:var(--g2);margin:8px 0 6px}
+h3{display:flex;gap:10px;align-items:baseline;font:600 clamp(19px,5vw,22px)/1.25 var(--serif);margin:2.1em 0 .55em}
+h3 .ix{font:700 11px var(--mono);color:var(--g3);letter-spacing:.05em}
+h4{font:700 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;margin:1.8em 0 .5em;color:var(--ink)}
+p{margin:0 0 1em;max-width:70ch}
+ul,ol{margin:0 0 1em;padding-left:1.25em;max-width:68ch}
+li{margin:.3em 0}
+li::marker{color:var(--g3)}
+strong{font-weight:600}
+em.term{font-style:normal;border-bottom:2px solid var(--line2);font-weight:500}
+/* ============ CALLOUTS ============ */
+.call{margin:1.5em 0;padding:15px 18px;max-width:72ch}
+.call .cl{font:700 10px var(--mono);letter-spacing:.2em;text-transform:uppercase;display:block;margin-bottom:6px}
+.call p:last-child,.call ul:last-child,.call ol:last-child{margin-bottom:0}
+.call.def{border:1px solid var(--ink);background:var(--surface)}
+.call.def .cl{color:var(--g2)}
+.call.tip{border-left:4px solid var(--ink)}
+.call.tip .cl{color:var(--g1)}
+.call.warn{background:var(--ink);color:var(--paper)}
+.call.warn .cl{color:var(--g3)}
+.call.warn code{color:var(--paper)}
+/* ============ VS PANEL ============ */
+.vs{display:grid;grid-template-columns:1fr;margin:1.6em 0;border:1px solid var(--ink);position:relative;background:var(--white)}
+.vs>div{padding:16px 18px}
+.vs .side-b{border-top:1px solid var(--ink)}
+.vs h4{margin:0 0 .5em}
+.vs ul{margin-bottom:0}
+.vs .vslabel{display:none}
+/* ============ FIGURES ============ */
+.fig{margin:1.8em 0;border:1px solid var(--line2);background:var(--white);padding:16px 10px 10px}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{margin:10px 8px 4px;padding-top:9px;border-top:1px solid var(--line);font:italic 400 13.5px/1.55 var(--body);color:var(--g1)}
+.fig figcaption b{font:700 10px var(--mono);letter-spacing:.15em;color:var(--g2);font-style:normal;margin-right:8px}
+/* ============ CODE ============ */
+.code{margin:1.6em 0;border:1px solid var(--ink)}
+.code figcaption{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--ink);font:600 11px var(--mono);letter-spacing:.08em;color:var(--g1);background:var(--surface)}
+.code .copy{font:700 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;background:none;border:1px solid var(--line2);padding:4px 10px;cursor:pointer;color:var(--ink)}
+.code .copy:hover{background:var(--ink);color:var(--paper)}
+.code pre{padding:14px 16px;overflow-x:auto;background:var(--ink);color:#d9d9d1;font:400 13px/1.7 var(--mono)}
+.code pre::-webkit-scrollbar{height:8px}
+.code pre::-webkit-scrollbar-thumb{background:#3a3a36}
+code{font-family:var(--mono);font-size:.88em;background:var(--surface);padding:.08em .35em;border:1px solid var(--line)}
+.code code{background:none;border:none;padding:0;font-size:13px}
+.k{color:#ffffff;font-weight:600}
+.t{color:#cfcfc6}
+.c{color:#7f7f77;font-style:italic}
+.s{color:#b8b8ae}
+.n{color:#f2f2e9}
+.f{color:#e8e8df}
+/* ============ TABLES ============ */
+.tblwrap{overflow-x:auto;margin:1.6em 0;border:1px solid var(--ink);background:var(--white)}
+table{border-collapse:collapse;width:100%;font:400 13px/1.55 var(--mono);min-width:560px}
+th{font:700 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:2px solid var(--ink);background:var(--surface);color:var(--ink)}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--g1)}
+tbody tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink);font-weight:600}
+.tnote{font:italic 400 13px/1.6 var(--body);color:var(--g2);margin:-1em 0 1.4em;max-width:70ch}
+/* ============ TRACE STRIPS ============ */
+.trace{margin:1.6em 0;border:1px solid var(--line2);background:var(--white)}
+.tstep{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;padding:10px 14px;border-bottom:1px solid var(--line)}
+.tstep:last-child{border-bottom:none}
+.tstep .op{font:700 12px var(--mono);white-space:nowrap}
+.tstep .state{font:500 12.5px var(--mono);color:var(--g1)}
+.tstep .why{font:italic 400 13px var(--body);color:var(--g2)}
+/* ============ Q&A / DETAILS ============ */
+.qa{border:1px solid var(--line2);margin:10px 0;background:var(--white)}
+.qa summary{cursor:pointer;padding:14px 16px;font:500 15.5px/1.55 var(--body);display:flex;gap:10px;list-style:none}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{content:'+';margin-left:auto;font:600 16px var(--mono);color:var(--g3);flex:0 0 auto}
+.qa[open] summary::after{content:'−'}
+.qa .ans{padding:2px 16px 14px;font-size:14.5px;color:var(--g1)}
+.qa .ans .verdict{font:700 12px var(--mono);letter-spacing:.06em;color:var(--ink);display:block;margin:8px 0 4px}
+.qa .opts{display:grid;grid-template-columns:1fr;gap:2px;margin:8px 0;font:400 13px var(--mono);color:var(--g1)}
+.qa .opts span{padding:3px 0}
+details.gen{border:1px dashed var(--line2);margin:1.4em 0;background:var(--white)}
+details.gen summary{cursor:pointer;padding:12px 16px;font:700 11px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--g1);list-style:none;display:flex;gap:8px;align-items:center}
+details.gen summary::-webkit-details-marker{display:none}
+details.gen summary::after{content:'+';margin-left:auto;color:var(--g3);font-size:15px}
+details.gen[open] summary::after{content:'−'}
+details.gen .inner{padding:4px 16px 16px}
+/* ============ DEFINITION ROLL ============ */
+.roll{border:1px solid var(--ink);background:var(--white);margin:1.6em 0}
+.roll>div{display:grid;grid-template-columns:1fr;gap:2px 16px;padding:11px 15px;border-bottom:1px solid var(--line)}
+.roll>div:last-child{border-bottom:none}
+.roll dt{font:700 12px/1.6 var(--mono);color:var(--ink)}
+.roll dd{font-size:14.5px;color:var(--g1)}
+/* ============ LABS ============ */
+.lab{margin:2em 0;border:2px solid var(--ink);background:var(--white)}
+.lab-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:var(--ink);color:var(--paper)}
+.lab-tag{font:700 9.5px var(--mono);letter-spacing:.2em;border:1px solid var(--g3);padding:3px 8px}
+.lab-title{font:italic 500 15px var(--body)}
+.lab-stage{padding:22px 14px;overflow-x:auto;display:flex;align-items:center;min-height:100px;border-bottom:1px solid var(--line)}
+.lhead{font:700 11px var(--mono);color:var(--g2);white-space:nowrap;padding-right:6px}
+.lempty{font:600 13px var(--mono);color:var(--g3)}
+.lnode{display:flex;border:1.5px solid var(--ink);flex:0 0 auto;background:var(--white)}
+.ndata{min-width:42px;padding:10px 12px;font:600 14px var(--mono);display:grid;place-items:center;border-right:1.5px solid var(--ink)}
+.nptr{min-width:26px;display:grid;place-items:center;font:600 13px var(--mono);color:var(--g2);padding:0 4px}
+.larrow{font:600 14px var(--mono);padding:0 5px;flex:0 0 auto}
+.lnode.visiting .ndata{background:var(--ink);color:var(--paper)}
+.lnode.found{outline:3px solid var(--ink);outline-offset:3px}
+.lnode.flash{animation:pop .7s ease}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.lab-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.lab-controls label{font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g2);display:flex;align-items:center;gap:8px}
+.lab-controls input{width:62px;border:1.5px solid var(--ink);padding:7px 8px;font:600 13px var(--mono);background:var(--paper);color:var(--ink)}
+.lab-controls button{font:700 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
+.lab-controls button:hover:not(:disabled){background:var(--paper);color:var(--ink)}
+.lab-controls button.ghost{background:transparent;color:var(--ink)}
+.lab-controls button:disabled{opacity:.35;cursor:not-allowed}
+.lab-status{padding:11px 14px;font:italic 500 14px/1.6 var(--body);color:var(--g1);border-bottom:1px solid var(--line)}
+.lab-trace{list-style:none;padding:10px 14px;background:var(--surface);font:400 11.5px/1.8 var(--mono);max-height:170px;overflow-y:auto}
+.lab-trace li{display:flex;flex-wrap:wrap;gap:2px 12px;margin:0}
+.lab-trace .lo{font-weight:700;color:var(--ink)}
+.lab-trace .lc{color:var(--g1)}
+.lab-trace .lx{margin-left:auto;color:var(--g3);font-weight:700}
+.survivor{display:none;padding:14px;border-top:1px solid var(--ink);font:600 20px var(--serif)}
+.survivor.show{display:block}
+.survivor .ver{display:block;font:italic 400 13.5px var(--body);color:var(--g2);margin-top:2px}
+.jlog{list-style:none;padding:10px 14px;border-top:1px solid var(--line);font:400 12px/1.9 var(--mono);color:var(--g1);max-height:150px;overflow-y:auto}
+.jlog b{color:var(--ink)}
+/* ============ SVG INTERNALS ============ */
+svg text{font-family:var(--mono)}
+.nb{fill:#fff;stroke:#161613;stroke-width:1.6}
+.nbd{fill:#161613;stroke:#161613;stroke-width:1.6}
+.nbg{fill:#f4f4ee;stroke:#9c9c93;stroke-width:1.2;stroke-dasharray:4 3}
+.nh{fill:url(#hatch);stroke:#161613;stroke-width:1.6}
+.nl{stroke:#161613;stroke-width:1.3}
+.nlg{stroke:#9c9c93;stroke-width:1.1}
+.nt{font:600 14px var(--mono);fill:#161613;text-anchor:middle}
+.nts{font:600 11px var(--mono);fill:#161613;text-anchor:middle}
+.ntw{font:600 14px var(--mono);fill:#fafaf6;text-anchor:middle}
+.ntws{font:600 11px var(--mono);fill:#fafaf6;text-anchor:middle}
+.ntg{font:600 13px var(--mono);fill:#9c9c93}
+.np{fill:#161613}
+.ar{stroke:#161613;stroke-width:1.6;fill:none;marker-end:url(#ah)}
+.arg{stroke:#9c9c93;stroke-width:1.4;fill:none;marker-end:url(#ahg);stroke-dasharray:5 4}
+.lb{font:500 10px var(--mono);fill:#8a8a84;letter-spacing:.12em}
+.lbd{font:700 10.5px var(--mono);fill:#161613;letter-spacing:.14em}
+.li{font:italic 500 12.5px var(--body);fill:#6f6f68}
+.hdt{font:700 11.5px var(--mono);fill:#161613}
+.stc{fill:#161613}
+.stt{font:700 10px var(--mono);fill:#fafaf6;text-anchor:middle}
+.jn-live{fill:#fff;stroke:#161613;stroke-width:1.6}
+.jn-cur{fill:#161613;stroke:#161613}
+.jn-dead{fill:#f0f0ea;stroke:#9c9c93;stroke-width:1.2;stroke-dasharray:4 3}
+.jx{stroke:#9c9c93;stroke-width:1.6}
+.jt{font:600 13px var(--mono);fill:#161613;text-anchor:middle}
+.jt-dead{fill:#9c9c93}
+.jt-cur{fill:#fafaf6}
+.jar{stroke:#161613;stroke-width:1.4;fill:none;marker-end:url(#ah)}
+/* ============ FOOTER ============ */
+footer{border-top:2px solid var(--ink);padding:36px 20px 70px}
+footer h4{margin-top:0}
+.refs{font:400 12px/1.8 var(--mono);color:var(--g1);max-width:80ch}
+.refs a{color:var(--g2)}
+.colophon{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font:italic 400 13px var(--body);color:var(--g2)}
+/* ============ TABLET ============ */
+@media(min-width:720px){
+  .vs{grid-template-columns:1fr 1fr}
+  .vs .side-b{border-top:none;border-left:1px solid var(--ink)}
+  .vs .vslabel{display:grid;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--paper);place-items:center;font:700 11px var(--mono);z-index:2}
+  .qa .opts{grid-template-columns:1fr 1fr}
+  .roll>div{grid-template-columns:170px 1fr}
+  .fig{padding:20px 16px 12px}
+}
+/* ============ DESKTOP ============ */
+@media(min-width:1000px){
+  .masthead{padding:72px 48px 44px}
+  .ulo{margin:30px 48px 0}
+  .layout{display:grid;grid-template-columns:252px minmax(0,1fr)}
+  .toc{top:0;height:100vh;overflow-y:auto;border-bottom:none;border-right:1px solid var(--ink);background:var(--paper)}
+  .toc .track{flex-direction:column;gap:2px;padding:26px 16px;border-bottom:1px solid var(--line)}
+  .toc a{border:none;border-radius:0;padding:8px 10px;font-size:11.5px;text-transform:none;letter-spacing:.02em}
+  .toc a:hover{background:var(--surface)}
+  main{padding:6px 56px 110px;max-width:900px}
+  section{scroll-margin-top:28px}
+  .code pre{font-size:13.5px}
+}
+@media print {
+  #pbar, .toc, .copy { display: none !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 11pt !important; }
+  main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+  section { break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div id="pbar"></div>
+
+<!-- shared markers & patterns -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#161613"/></marker>
+<marker id="ahg" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9c9c93"/></marker>
+<pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#f4f4ee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#c7c7be" stroke-width="2"/></pattern>
+</defs></svg>
+
+<!-- ==================== MASTHEAD ==================== -->
+<header class="masthead">
+  <a href="../../index.html" class="back-link" style="display:inline-block;margin-bottom:14px;font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--g2);text-decoration:none;">← Notes Hub</a>
+  <p class="kicker">Fundamentals of Data Structures · CB2003 · Unit III</p>
+  <h1>Linked Lists</h1>
+  <p class="standfirst">From arrays to nodes — singly, doubly &amp; circular lists, and the two applications they power under the hood: polynomials and memory allocators.</p>
+  <svg class="hero-svg" viewBox="0 0 720 118" role="img" aria-label="A linked list: head points to nodes 10, 24, 7, then NULL">
+    <text class="hdt" x="8" y="61">head</text>
+    <path class="ar" d="M44,57 H92"/>
+    <g transform="translate(100,36)"><rect class="nb" width="88" height="42" rx="5"/><line class="nl" x1="60" y1="0" x2="60" y2="42"/><text class="nt" x="30" y="27" style="font-size:18px">10</text><circle class="np" cx="74" cy="21" r="3.4"/></g>
+    <path class="ar" d="M178,57 H258"/>
+    <g transform="translate(266,36)"><rect class="nb" width="88" height="42" rx="5"/><line class="nl" x1="60" y1="0" x2="60" y2="42"/><text class="nt" x="30" y="27" style="font-size:18px">24</text><circle class="np" cx="74" cy="21" r="3.4"/></g>
+    <path class="ar" d="M344,57 H424"/>
+    <g transform="translate(432,36)"><rect class="nb" width="88" height="42" rx="5"/><line class="nl" x1="60" y1="0" x2="60" y2="42"/><text class="nt" x="30" y="27" style="font-size:18px">7</text><circle class="np" cx="74" cy="21" r="3.4"/></g>
+    <path class="ar" d="M510,57 H548"/>
+    <text class="ntg" x="556" y="62">NULL</text>
+    <text class="lb" x="131" y="104">0x4FA0</text><text class="lb" x="297" y="104">0x2B18</text><text class="lb" x="463" y="104">0x9C04</text>
+  </svg>
+  <div class="mast-meta">
+    <span>MANISHA MALI · VIT PUNE</span><span>CSE — IoT &amp; CYBER SECURITY INCL. BLOCKCHAIN</span><span>SLL · DLL · CLL · POLYNOMIALS · ALLOCATORS</span>
+  </div>
+</header>
+
+<div class="ulo">
+  <span class="cl">Unit Learning Outcomes</span>
+  <ul>
+    <li>Explain why linked structures replace arrays for dynamic data.</li>
+    <li>Trace pointer manipulation for insert / delete / search <em>by hand</em>.</li>
+    <li>Implement singly, doubly &amp; circular lists in C / C++.</li>
+    <li>Apply linked lists to polynomials and memory allocators.</li>
+  </ul>
+</div>
+
+<!-- ==================== LAYOUT ==================== -->
+<div class="layout">
+
+<nav class="toc" aria-label="Table of contents">
+  <div class="track">
+    <a href="../../index.html" class="back-link" style="border-style:dashed;">← Notes Hub</a>
+    <a href="#s1"><b>01</b> Foundations</a>
+    <a href="#s2"><b>02</b> Memory &amp; Fragmentation</a>
+    <a href="#s3"><b>03</b> Singly Linked Lists</a>
+    <a href="#s4"><b>04</b> Doubly Linked Lists</a>
+    <a href="#s5"><b>05</b> Circular Linked Lists</a>
+    <a href="#s6"><b>06</b> Application · Polynomials</a>
+    <a href="#s7"><b>07</b> Application · Allocators</a>
+    <a href="#s8"><b>08</b> The Big Comparison</a>
+    <a href="#s9"><b>09</b> Linked Lists in the Wild</a>
+    <a href="#s10"><b>10</b> Exam Corner</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ==================== § 1 FOUNDATIONS ==================== -->
+<section id="s1">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 01</span><span class="sec-rule"></span></div>
+    <h2>Foundations</h2>
+    <p class="sec-sub">Arrays, pointers, and the case for linked lists</p>
+  </header>
+
+  <h3><span class="ix">1.1</span>Linear data structures &amp; sequential organization</h3>
+  <p>A <em class="term">linear data structure</em> arranges data in a list or straight sequence — the adjacency relation between elements is strictly <strong>one-to-one</strong>. The two canonical examples are the <strong>array</strong> and the <strong>linked list</strong>.</p>
+  <p><em class="term">Sequential organization</em> means data is stored in sequential form, in <strong>consecutive memory locations</strong> (an array). Two basic operations are performed on data stored this way:</p>
+  <ol>
+    <li><strong>Storing</strong> data at a desired location.</li>
+    <li><strong>Retrieving</strong> data from a desired location.</li>
+  </ol>
+  <p>For a one-dimensional array <code>int a[10]</code>, the compiler locates any element by pure index arithmetic:</p>
+  <p style="font:600 15px var(--mono);border:1px solid var(--line2);background:var(--white);padding:12px 16px;display:inline-block">addr(a[i]) &nbsp;=&nbsp; base(a) &nbsp;+&nbsp; i × sizeof(element)</p>
+  <p>That single formula is why array access is <strong>O(1) random access</strong> — no searching, no walking, just one multiplication and one addition.</p>
+
+  <h3><span class="ix">1.2</span>Recap: arrays &amp; their drawbacks</h3>
+  <ul>
+    <li>Elements stored in <strong>contiguous</strong> memory, indexed <code>0 … n−1</code>.</li>
+    <li>Random access by index is <strong>O(1)</strong> — very fast.</li>
+    <li>Size is <strong>fixed at creation</strong> in most languages.</li>
+    <li>Inserting or deleting in the middle requires <strong>shifting</strong> elements — <strong>O(n)</strong> in the worst case.</li>
+  </ul>
+  <div class="call warn">
+    <span class="cl">Array drawbacks — the exam list</span>
+    <ol style="margin:0">
+      <li>Very difficult to insert or delete a middle element (involves <strong>shift operations</strong>).</li>
+      <li>Overall representation is <strong>time and space inefficient</strong> — resizing means copying everything.</li>
+      <li>We cannot make an exact judgement of <strong>size</strong> in advance — over-estimate wastes contiguous memory; under-estimate causes overflow.</li>
+    </ol>
+  </div>
+
+  <h3><span class="ix">1.3</span>Why linked lists exist</h3>
+  <div class="vs">
+    <span class="vslabel">vs</span>
+    <div>
+      <h4>Problems with arrays</h4>
+      <ul>
+        <li>Fixed capacity — resizing means <strong>copying everything</strong>.</li>
+        <li>Insert/delete in the middle shifts <strong>O(n)</strong> elements.</li>
+        <li>Unused capacity <strong>wastes contiguous</strong> memory.</li>
+      </ul>
+    </div>
+    <div class="side-b">
+      <h4>What linked lists fix</h4>
+      <ul>
+        <li>Grow and shrink <strong>one node at a time</strong>, on demand.</li>
+        <li>Insert/delete is <strong>O(1)</strong> once you hold a pointer to the spot.</li>
+        <li>Nodes can live <strong>anywhere</strong> in memory — no shifting, no reservation.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="call def">
+    <span class="cl">Definition — Linked list</span>
+    <p>A <strong>linear data structure in which the elements are not stored at contiguous memory locations</strong>. The elements are linked using <strong>pointers</strong>: each node contains a <strong>data field</strong> and a <strong>reference (link) to the next node</strong>. Memory allocation to nodes is <em>random</em>, and the structure is <em>dynamic</em> — nodes are allocated or deallocated as per requirement.</p>
+  </div>
+
+  <h3><span class="ix">1.4</span>The node — the building block</h3>
+  <p>A <em class="term">node</em> bundles a <strong>value</strong> with a <strong>pointer to the next node</strong>. A chain of nodes, linked head-to-tail, forms the list; the last node's pointer is <code>NULL</code>. The list itself is tracked by a single pointer, <em class="term">head</em> — everything else is reachable by following <code>next</code>.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 210" role="img" aria-label="Anatomy of a node">
+      <text class="li" x="10" y="30">data — the value stored (any type)</text>
+      <path class="nlg" d="M120,36 L196,58"/>
+      <text class="li" x="120" y="26">the node's own address — 0x4FA0</text>
+      <path class="nlg" d="M252,32 L256,50"/>
+      <g transform="translate(150,55)">
+        <rect class="nb" width="220" height="64" rx="6"/>
+        <line class="nl" x1="150" y1="0" x2="150" y2="64"/>
+        <text class="nt" x="75" y="41" style="font-size:22px">10</text>
+        <circle class="np" cx="185" cy="32" r="4"/>
+      </g>
+      <text class="lb" x="212" y="96">DATA</text><text class="lb" x="322" y="96">NEXT</text>
+      <path class="ar" d="M341,87 Q390,87 432,87"/>
+      <g transform="translate(438,70)"><rect class="nbg" width="92" height="36" rx="5"/><text class="nts" x="46" y="23" fill="#9c9c93">next node</text></g>
+      <text class="li" x="300" y="155">next — the address of the following node,</text>
+      <text class="li" x="300" y="174">or NULL if this is the last node</text>
+      <path class="nlg" d="M330,148 L340,122"/>
+    </svg>
+    <figcaption><b>FIG 1.1</b> Anatomy of a node: a data field plus a link field. Everything else in this unit is built from this one idea.</figcaption>
+  </figure>
+
+  <h3><span class="ix">1.5</span>Self-referential structures</h3>
+  <div class="call def">
+    <span class="cl">Definition — Self-referential structure</span>
+    <p>A <code>struct</code> (or class) that contains one or more members that are <strong>pointers or references to another object of the same structure type</strong>. These are the fundamental building blocks of dynamic data structures — linked lists, trees, and graphs.</p>
+  </div>
+  <p><strong>Why can't a struct contain itself directly?</strong> Because that would cause an <strong>infinite recursive sizing loop at compile time</strong> — the struct would contain a copy of itself, which contains a copy of itself, forever. But it <em>can</em> contain a <strong>pointer to its own type</strong>, because a pointer's size is fixed regardless of the structure's payload.</p>
+  <p><strong>Why are they used?</strong></p>
+  <ul>
+    <li><strong>Dynamic memory allocation</strong> — data structures grow or shrink at runtime, unlike fixed arrays.</li>
+    <li><strong>Non-contiguous storage</strong> — pointers hold the addresses of subsequent elements, wherever they live.</li>
+    <li><strong>Complex data relationships</strong> — stacks, queues, binary search trees, graphs.</li>
+  </ul>
+
+  <figure class="code">
+    <figcaption><span>self_referential.cpp — one link &amp; multiple links</span><button class="copy">copy</button></figcaption>
+<pre><code>// 1. Single link — singly linked list
+struct Node {
+    int data;            // actual data stored
+    struct Node* next;   // pointer to another Node
+};
+
+// 2a. Multiple links — doubly linked list
+struct DoublyNode {
+    int data;
+    DoublyNode* prev;    // pointer to the previous node
+    DoublyNode* next;    // pointer to the next node
+};
+
+// 2b. Multiple links — binary tree node
+struct TreeNode {
+    int value;
+    TreeNode* left;      // pointer to left child
+    TreeNode* right;     // pointer to right child
+};</code></pre>
+  </figure>
+
+  <h3><span class="ix">1.6</span>Pointers refresher (C++)</h3>
+  <ul>
+    <li>A pointer variable <strong>holds the address</strong> of another object.</li>
+    <li><code>Node* next;</code> — <code>next</code> can point to a <code>Node</code>, or to nothing.</li>
+    <li><code>new Node(...)</code> <strong>allocates on the heap</strong> and returns its address.</li>
+    <li><code>nullptr</code> is the safe "points to nothing" value.</li>
+    <li><code>p-&gt;data</code> and <code>p-&gt;next</code> <strong>dereference</strong> through a pointer <code>p</code>.</li>
+    <li><code>delete p;</code> <strong>frees</strong> the heap memory <code>p</code> points to.</li>
+  </ul>
+
+  <figure class="code">
+    <figcaption><span>node.cpp — defining &amp; allocating a node</span><button class="copy">copy</button></figcaption>
+<pre><code>struct Node {
+    int data;
+    Node* next;
+};
+
+// one alone, unlinked node on the heap
+Node* p = new Node{10, nullptr};</code></pre>
+  </figure>
+
+  <h3><span class="ix">1.7</span>Memory layout — contiguous vs. scattered</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 310" role="img" aria-label="Array contiguous versus linked list scattered in memory">
+      <text class="lbd" x="10" y="22">ARRAY — ONE CONTIGUOUS BLOCK</text>
+      <text class="lb" x="46" y="38">0x1000</text><text class="lb" x="106" y="38">0x1004</text><text class="lb" x="166" y="38">0x1008</text><text class="lb" x="226" y="38">0x100C</text>
+      <g transform="translate(40,44)">
+        <rect class="nb" width="60" height="36"/><text class="nt" x="30" y="23">10</text>
+        <rect class="nb" x="60" width="60" height="36"/><text class="nt" x="90" y="23">24</text>
+        <rect class="nb" x="120" width="60" height="36"/><text class="nt" x="150" y="23">7</text>
+        <rect class="nb" x="180" width="60" height="36"/><text class="nt" x="210" y="23">5</text>
+      </g>
+      <text class="lb" x="70" y="96">[0]</text><text class="lb" x="130" y="96">[1]</text><text class="lb" x="190" y="96">[2]</text><text class="lb" x="250" y="96">[3]</text>
+      <text class="li" x="40" y="120">addr(a[i]) = base + i × 4  →  index math finds any element instantly</text>
+      <path class="nlg" stroke-dasharray="5 4" d="M20,138 H540"/>
+      <text class="lbd" x="10" y="166">LINKED LIST — SCATTERED ACROSS THE HEAP</text>
+      <text class="hdt" x="10" y="216">head</text>
+      <path class="ar" d="M38,212 H56"/>
+      <g transform="translate(60,195)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M115,214 Q160,252 199,252"/>
+      <g transform="translate(205,235)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M270,250 Q310,215 339,207"/>
+      <g transform="translate(345,190)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M410,209 Q440,255 459,257"/>
+      <g transform="translate(465,240)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">5</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M520,257 H540"/><text class="ntg" x="542" y="262">∅</text>
+      <text class="lb" x="79" y="243">0x4FA0</text><text class="lb" x="224" y="283">0x2B18</text><text class="lb" x="364" y="238">0x9C04</text><text class="lb" x="484" y="288">0x7A30</text>
+    </svg>
+    <figcaption><b>FIG 1.2</b> The array occupies fixed, back-to-back slots. Linked-list nodes live wherever free heap space is found — pointers stitch them into logical order.</figcaption>
+  </figure>
+
+  <h3><span class="ix">1.8</span>Where linked lists show up</h3>
+  <ul>
+    <li>Browser back/forward history — <strong>doubly linked</strong></li>
+    <li>Music-player playlists, including "repeat all" — <strong>circular</strong></li>
+    <li>Undo/redo stacks in editors</li>
+    <li><strong>Adjacency lists</strong> for graphs</li>
+    <li><strong>Free lists</strong> inside memory allocators</li>
+    <li>Building block for stacks, queues, and hash-table buckets</li>
+  </ul>
+
+  <h4>Applications — the full taxonomy</h4>
+  <ul>
+    <li><strong>System architecture &amp; operating systems</strong> — memory management (linked list of free/allocated blocks); process scheduling (queues of ready/blocked processes); file-system allocation (FAT links disk blocks into files).</li>
+    <li><strong>Application software</strong> — undo/redo (DLL of operations); browser history (DLL of URLs); looping playlists (CLL).</li>
+    <li><strong>Abstract data types</strong> — stacks &amp; queues without size limits; graphs (adjacency lists); hash tables (separate chaining).</li>
+    <li><strong>Advanced computation</strong> — polynomial manipulation (coefficient + exponent per node); sparse matrices (store only non-zero elements).</li>
+  </ul>
+  <div class="call tip">
+    <span class="cl">Exam tip</span>
+    <p>A linked list is the right structure when a <strong>large number of insertions and deletions</strong> is needed on a (possibly sorted) list that grows and shrinks — e.g. student enrolment records each semester. Searching it, however, is <strong>slower than searching an array</strong>.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 210" role="img" aria-label="Family tree of linked list types">
+      <g transform="translate(215,12)"><rect class="nbd" width="130" height="34" rx="5"/><text class="ntw" x="65" y="22">LINKED LIST</text></g>
+      <path class="nl" d="M280,46 V78 H69 V104"/><path class="nl" d="M280,46 V78 H209 V104"/><path class="nl" d="M280,46 V78 H349 V104"/><path class="nl" d="M280,46 V78 H489 V104"/>
+      <g transform="translate(10,106)"><rect class="nb" width="118" height="34" rx="5"/><text class="nts" x="59" y="22" style="font-size:12px">SINGLY</text></g>
+      <g transform="translate(150,106)"><rect class="nb" width="118" height="34" rx="5"/><text class="nts" x="59" y="22" style="font-size:12px">DOUBLY</text></g>
+      <g transform="translate(290,106)"><rect class="nb" width="118" height="34" rx="5"/><text class="nts" x="59" y="22" style="font-size:12px">CIRCULAR</text></g>
+      <g transform="translate(430,106)"><rect class="nb" width="118" height="34" rx="5"/><text class="nts" x="59" y="22" style="font-size:12px">CIRCULAR DLL</text></g>
+      <text class="li" x="10" y="166">next only</text><text class="li" x="150" y="166">next + prev</text><text class="li" x="290" y="166">last → first</text><text class="li" x="430" y="166">both wraps</text>
+      <text class="li" x="10" y="198">…plus generalized lists, where nodes may point to lists or atoms — arbitrary link shapes.</text>
+    </svg>
+    <figcaption><b>FIG 1.3</b> The family of linked lists. Sections 03–05 cover each member; the circular DLL combines both wraps.</figcaption>
+  </figure>
+</section>
+
+<!-- ==================== § 2 MEMORY ==================== -->
+<section id="s2">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 02</span><span class="sec-rule"></span></div>
+    <h2>Memory &amp; Fragmentation</h2>
+    <p class="sec-sub">How the heap really works underneath a linked list</p>
+  </header>
+
+  <h3><span class="ix">2.1</span>Where do variables live? Stack vs. heap</h3>
+  <ul>
+    <li><strong>STACK</strong> — local variables &amp; function calls; fixed size; allocated/freed <em>automatically</em>; very fast; strict LIFO order. <span class="li">e.g. the pointer <code>Node* p;</code> itself.</span></li>
+    <li><strong>HEAP</strong> — objects created with <code>new</code>, alive until <code>delete</code>; <em>programmer controls the lifetime</em>; size decided at run time. <span class="li">e.g. the node <code>new Node{10, nullptr}</code> itself.</span></li>
+  </ul>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 230" role="img" aria-label="Stack versus heap memory">
+      <text class="lbd" x="30" y="26">STACK</text>
+      <rect class="nb" x="30" y="40" width="180" height="30"/><text class="nts" x="120" y="60">main()'s locals</text>
+      <rect class="nbd" x="30" y="74" width="180" height="30"/><text class="ntws" x="120" y="94">Node* p</text>
+      <rect class="nb" x="30" y="108" width="180" height="30"/><text class="nts" x="120" y="128">Node* curr</text>
+      <rect class="nb" x="30" y="142" width="180" height="30"/><text class="nts" x="120" y="162">return address</text>
+      <path class="ar" d="M228,48 V170"/><text class="li" x="238" y="110">grows down,</text><text class="li" x="238" y="126">freed automatically</text>
+      <text class="lbd" x="330" y="26">HEAP</text>
+      <rect class="nbg" x="330" y="48" width="60" height="38"/>
+      <g transform="translate(412,58)"><rect class="nbd" width="118" height="44" rx="5"/><text class="ntw" x="59" y="28">Node{10,∅}</text></g>
+      <rect class="nbg" x="330" y="118" width="80" height="34"/>
+      <rect class="nbg" x="430" y="126" width="70" height="30"/>
+      <rect class="nbg" x="352" y="166" width="92" height="30"/>
+      <path class="arg" d="M212,92 Q310,60 406,78"/>
+      <text class="lb" x="278" y="60">0x4FA0</text>
+      <text class="li" x="330" y="216">blocks anywhere, any order — lives until delete</text>
+    </svg>
+    <figcaption><b>FIG 2.1</b> The pointer lives on the stack; the node it points to lives on the heap. Heap allocation is what lets a list grow one node at a time.</figcaption>
+  </figure>
+
+  <h4>Heap memory — core characteristics</h4>
+  <p><em class="term">Heap memory</em> is a region of RAM for <strong>dynamic allocation</strong>: unlike the stack's strict LIFO order, blocks may be allocated and deallocated <strong>randomly, at runtime, in any order</strong>.</p>
+  <ul>
+    <li><strong>Dynamic size</strong> — the amount of space isn't fixed at compile time; request variable amounts while running.</li>
+    <li><strong>Global access</strong> — heap objects are reachable from anywhere, as long as you hold a pointer or reference.</li>
+    <li><strong>Slower access</strong> — allocation requires searching free blocks and tracking pointers, so it is slower than stack operations.</li>
+    <li><strong>Deallocation</strong> — manual in C/C++ (<code>malloc/new</code> vs <code>free/delete</code>); forgetting causes leaks. Managed languages (Java, Python, JS) use <strong>garbage collection</strong> to clear unused objects automatically.</li>
+  </ul>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Feature</th><th>Stack memory</th><th>Heap memory</th></tr></thead>
+    <tbody>
+      <tr><td>Allocation method</td><td>Automatic (handled by CPU)</td><td>Dynamic (requested by program)</td></tr>
+      <tr><td>Access speed</td><td>Fast</td><td>Slower</td></tr>
+      <tr><td>Data lifetime</td><td>Only within current function scope</td><td>Persists until explicitly freed / garbage collected</td></tr>
+      <tr><td>Size limit</td><td>Small (risk of stack overflow)</td><td>Large (bounded by RAM / virtual memory)</td></tr>
+      <tr><td>Structure</td><td>Strict order (LIFO)</td><td>Flexible, unstructured pool</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call def">
+    <span class="cl">Definition — Memory leak</span>
+    <p>A bug where a program takes memory from the system for temporary use but <strong>fails to release it back when no longer needed</strong>. The unreleased memory builds up over time, slows the device, and can crash the application.</p>
+  </div>
+
+  <h3><span class="ix">2.2</span>Dynamic allocation: new &amp; delete</h3>
+  <figure class="code">
+    <figcaption><span>new_delete.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>Node* p = new Node{10, nullptr};  // allocate on heap
+// ... use *p, p-&gt;data, p-&gt;next ...
+delete p;                         // free the heap block
+p = nullptr;                      // avoid a dangling pointer</code></pre>
+  </figure>
+  <div class="call warn">
+    <span class="cl">Iron rule</span>
+    <p>Every <code>new</code> must be matched by <strong>exactly one</strong> <code>delete</code>. In C++, the programmer — not the language — owns this bookkeeping.</p>
+  </div>
+
+  <h3><span class="ix">2.3</span>What is memory fragmentation?</h3>
+  <p>As blocks are allocated and freed over time, the heap can end up with <strong>wasted space even though total free memory looks sufficient</strong>. There are two distinct diseases:</p>
+
+  <h4>Internal fragmentation — waste inside a block</h4>
+  <p>Allocators often hand out memory in <strong>fixed-size chunks</strong> (rounded to 8 or 16 bytes) for speed and simple bookkeeping. If a request doesn't exactly fill a chunk, the leftover space <em>inside</em> that block is wasted — it can't be given to anyone else.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 560 150" role="img" aria-label="Internal fragmentation diagram">
+      <text class="lb" x="60" y="36">ONE ALLOCATED BLOCK — 32 B (ROUNDED)</text>
+      <rect class="nb" x="60" y="45" width="310" height="50"/>
+      <text class="nts" x="215" y="74" style="font-size:12px">requested 20 B — in use</text>
+      <rect class="nh" x="370" y="45" width="110" height="50"/>
+      <text class="li" x="358" y="115">12 B of padding —</text><text class="li" x="358" y="131">wasted inside the block</text>
+    </svg>
+    <figcaption><b>FIG 2.2</b> Internal fragmentation: the request was 20 B; the block handed out was 32 B. The 12 B difference is unusable to everyone.</figcaption>
+  </figure>
+
+  <h4>External fragmentation — scattered free gaps</h4>
+  <p>Free memory is split into many small gaps <strong>between</strong> still-allocated blocks. A request for one large block can <strong>fail even though the sum of all free space is enough</strong>, because no single gap is big enough.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 580 120" role="img" aria-label="External fragmentation diagram">
+      <rect class="nb" x="40" y="42" width="75" height="40"/><text class="nts" x="77" y="66">used</text>
+      <rect class="nh" x="115" y="42" width="50" height="40"/>
+      <rect class="nb" x="165" y="42" width="90" height="40"/><text class="nts" x="210" y="66">used</text>
+      <rect class="nh" x="255" y="42" width="45" height="40"/>
+      <rect class="nb" x="300" y="42" width="80" height="40"/><text class="nts" x="340" y="66">used</text>
+      <rect class="nh" x="380" y="42" width="60" height="40"/>
+      <rect class="nb" x="440" y="42" width="70" height="40"/><text class="nts" x="475" y="66">used</text>
+      <rect class="nh" x="510" y="42" width="35" height="40"/>
+      <text class="lb" x="130" y="100">50</text><text class="lb" x="272" y="100">45</text><text class="lb" x="402" y="100">60</text><text class="lb" x="520" y="100">35</text>
+      <text class="li" x="40" y="28">total free = 190 units, largest single gap = 60 — a 100-unit request fails</text>
+    </svg>
+    <figcaption><b>FIG 2.3</b> External fragmentation: enough total free memory, but chopped into useless slivers.</figcaption>
+  </figure>
+
+  <div class="call tip">
+    <span class="cl">Exam tip — how to tell them apart</span>
+    <p><strong>Internal</strong> = wasted space <em>inside</em> an allocated block. <strong>External</strong> = free memory <em>between</em> allocated blocks, split into small non-adjacent gaps.</p>
+  </div>
+
+  <h3><span class="ix">2.4</span>Tracking free space: the free list</h3>
+  <p>The allocator keeps its own <strong>linked list threading together every free block</strong>, so it can quickly find space for the next request. Each free block stores its own <strong>size</strong> and a <strong>next</strong> pointer to the following free block — the list lives <em>inside the very memory it manages</em>.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 560 200" role="img" aria-label="Free list threading free blocks">
+      <text class="hdt" x="8" y="52">free_head</text>
+      <path class="ar" d="M78,48 Q120,20 152,44"/>
+      <path class="ar" d="M205,44 Q245,15 288,44" style="stroke-dasharray:0"/>
+      <path class="ar" d="M335,44 Q380,15 428,44"/>
+      <path class="arg" d="M480,48 Q505,30 522,44"/>
+      <text class="ntg" x="524" y="52">∅</text>
+      <g transform="translate(120,105)"><rect class="nb" x="0" width="50" height="44"/><rect class="nh" x="50" width="40" height="44"/><text class="nts" x="25" y="27">used</text><text class="nts" x="70" y="18" style="font-size:9px">24B</text><circle class="np" cx="78" cy="34" r="2.6"/></g>
+      <g transform="translate(258,105)"><rect class="nb" x="0" width="50" height="44"/><rect class="nh" x="50" width="32" height="44"/><text class="nts" x="25" y="27">used</text><text class="nts" x="66" y="18" style="font-size:9px">8B</text><circle class="np" cx="74" cy="34" r="2.6"/></g>
+      <g transform="translate(400,105)"><rect class="nb" x="0" width="52" height="44"/><rect class="nh" x="52" width="44" height="44"/><text class="nts" x="26" y="27">used</text><text class="nts" x="74" y="18" style="font-size:9px">40B</text><circle class="np" cx="84" cy="34" r="2.6"/></g>
+      <text class="lb" x="128" y="96">FREE</text><text class="lb" x="266" y="96">FREE</text><text class="lb" x="408" y="96">FREE</text>
+      <text class="li" x="8" y="180">Allocation = unlink a block (or split it). Freeing = relink it — exactly the insert/delete</text>
+      <text class="li" x="8" y="196">operations of this unit, running inside the allocator itself (see § 07).</text>
+    </svg>
+    <figcaption><b>FIG 2.4</b> The free list only links the free blocks; used blocks are ignored until they are released.</figcaption>
+  </figure>
+
+  <h3><span class="ix">2.5</span>Dangling pointers &amp; memory leaks</h3>
+  <figure class="code">
+    <figcaption><span>bugs.cpp — the two classic bugs</span><button class="copy">copy</button></figcaption>
+<pre><code>// BUG 1 — dangling pointer: q still holds p's old address
+Node* p = new Node{10, nullptr};
+Node* q = p;
+delete p;          // heap block is freed...
+q-&gt;data = 99;      // ...but q still points there — undefined behaviour
+
+// BUG 2 — memory leak: the old block is forgotten, never freed
+Node* leak = new Node{5, nullptr};
+leak = nullptr;    // the only pointer to the node is gone — leaked</code></pre>
+  </figure>
+  <div class="call def">
+    <span class="cl">Definition — Dangling pointer</span>
+    <p>A pointer that still holds the address of memory that has already been <strong>freed</strong>. Dereferencing it is undefined behaviour.</p>
+  </div>
+  <div class="call def">
+    <span class="cl">Definition — Memory leak</span>
+    <p>Allocated memory that is <strong>no longer reachable</strong> by any pointer, and therefore can never be freed.</p>
+  </div>
+
+  <details class="qa">
+    <summary>Quick check — after this code runs, what state is <code>q-&gt;next</code> in?</summary>
+    <div class="ans">
+      <pre style="font:400 12px/1.7 var(--mono);overflow-x:auto;background:var(--surface);padding:10px 12px;border:1px solid var(--line)"><code>Node* p = new Node{1, nullptr};
+Node* q = new Node{2, nullptr};
+p-&gt;next = q;
+q-&gt;next = p;
+delete p;</code></pre>
+      <span class="verdict">Answer</span>
+      <p><code>q-&gt;next</code> is a <strong>dangling pointer</strong> — it still holds <code>p</code>'s old address, but that block has been freed. <code>q</code> itself is fine; only the field pointing at the freed node is unsafe to use.</p>
+    </div>
+  </details>
+
+  <h3><span class="ix">2.6</span>Pointer safety practices</h3>
+  <ul>
+    <li>Set a pointer to <code>nullptr</code> <strong>immediately after</strong> <code>delete</code>.</li>
+    <li>Never <code>delete</code> the same pointer twice (<strong>double free</strong>).</li>
+    <li>Never dereference a pointer you haven't checked for <code>nullptr</code>.</li>
+    <li>Keep exactly <strong>one "owner"</strong> responsible for deleting each node.</li>
+    <li>Prefer tools like <strong>valgrind / AddressSanitizer</strong> to catch leaks early.</li>
+  </ul>
+</section>
+
+<!-- ==================== § 3 SINGLY ==================== -->
+<section id="s3">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 03</span><span class="sec-rule"></span></div>
+    <h2>Singly Linked Lists</h2>
+    <p class="sec-sub">Structure, insert, delete, traverse, and search</p>
+  </header>
+
+  <h3><span class="ix">3.1</span>Structure</h3>
+  <p>Each node points <strong>only forward</strong>. To reach node <em>i</em> you must walk through every node before it — <strong>there is no going back</strong>. A linked list is a series of connected nodes; each contains at least a piece of data (any type) and a pointer to the next node. <em>Head</em> points to the first node; the last node points to <code>NULL</code>. Basic operations: <strong>insert, find, delete, print</strong>, etc.</p>
+
+  <figure class="code">
+    <figcaption><span>sll_node.cpp — three ways to say the same thing</span><button class="copy">copy</button></figcaption>
+<pre><code>// 1. Plain struct
+struct Node {
+    int data;
+    Node* next;
+};
+
+// 2. A list class — the whole list is just one pointer
+class LinkedList {
+public:
+    Node* head = nullptr;
+    // insert, deleteValue, traverse, search ...
+};
+
+// 3. Class node with constructor
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int data) {          // constructor to initialise a new node
+        this-&gt;data = data;
+        this-&gt;next = NULL;
+    }
+};</code></pre>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_node.c — the classic C typedefs</span><button class="copy">copy</button></figcaption>
+<pre><code>typedef struct SLLnode {
+    int data;
+    struct SLLnode *next;
+} node;                     // node is an alias for struct SLLnode
+
+node* n1, *n2, *n3, *n4;    // pointer variables
+node *Head, *temp;
+
+// …or hide the pointer in the typedef itself:
+typedef struct SLLnode {
+    int data;
+    struct SLLnode *next;
+} *NODE;
+NODE n1, n2, n3, n4;        // each of these is a SLLnode*</code></pre>
+  </figure>
+
+  <h3><span class="ix">3.2</span>Creating a list by hand</h3>
+  <figure class="code">
+    <figcaption><span>build3.cpp — output: 10 20 30</span><button class="copy">copy</button></figcaption>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int new_data) {           // constructor
+        this-&gt;data = new_data;
+        this-&gt;next = nullptr;
+    }
+};
+
+int main() {
+    Node* head = new Node(10);             // first node (head of list)
+    head-&gt;next = new Node(20);             // link the second node
+    head-&gt;next-&gt;next = new Node(30);       // link the third node
+
+    Node* temp = head;                     // print the list
+    while (temp != nullptr) {
+        cout &lt;&lt; temp-&gt;data &lt;&lt; " ";
+        temp = temp-&gt;next;
+    }
+}</code></pre>
+  </figure>
+  <p>The equivalent C program links four named nodes manually: set each node's <code>data</code>, chain the <code>next</code> fields (<code>n1-&gt;next = n2;</code> … <code>n4-&gt;next = NULL;</code>), set <code>Head = n1;</code>, then walk with <code>temp</code> while <code>temp != NULL</code>, printing each value.</p>
+
+  <h3><span class="ix">3.3</span>accept() and create() — the C factory pattern</h3>
+  <p>This is the classic exam answer for "write a program to create a linked list": a function that manufactures one node, and a driver loop that keeps attaching nodes at the end.</p>
+  <figure class="code">
+    <figcaption><span>create.c — creation of a linked list</span><button class="copy">copy</button></figcaption>
+<pre><code>struct element {              // structure declaration
+    int data;
+    struct element *next;
+};
+typedef struct element *node; // alias: "node" means struct element*
+
+node accept()                 // create ONE node and return it
+{
+    node a;                                       // 1. declare
+    a = (node)malloc(sizeof(struct element));     // 2. allocate memory
+    printf("\n Enter data:");                     // 3. initialise data
+    scanf("%d", &amp;a-&gt;data);
+    a-&gt;next = NULL;                                // 4. next = NULL
+    return(a);                                    // 5. return the node
+}
+
+node create(node head)        // build a whole list, header node = head
+{
+    node temp, newnode;
+    do {
+        newnode = accept();               // allocate + initialise node
+        if (head == NULL)
+            head = newnode;               // first node in the list
+        else {
+            temp = head;
+            while (temp-&gt;next != NULL)    // walk to the LAST element
+                temp = temp-&gt;next;
+            temp-&gt;next = newnode;         // attach node to last element
+        }
+        printf("\n Do u want to add more nodes(y/n)\n");
+        scanf(" %c", &amp;ch);
+    } while (ch == 'y' || ch == 'Y');
+    return head;                           // return head of the list
+}</code></pre>
+  </figure>
+
+  <h3><span class="ix">3.4</span>Traversal — the walking pointer</h3>
+  <p>To traverse, we need a <em class="term">walking pointer</em> — a pointer that moves from node to node as each element is processed:</p>
+  <ol>
+    <li>Start a working pointer <code>curr</code> at <code>head</code>.</li>
+    <li>While <code>curr</code> is not <code>nullptr</code>: <strong>visit/print</strong> <code>curr-&gt;data</code>, then move forward: <code>curr = curr-&gt;next</code>.</li>
+    <li>The loop ends the instant <code>curr</code> becomes <code>nullptr</code>.</li>
+  </ol>
+  <p><strong>Cost: O(n)</strong> — every node is visited once. Note the fine print: a list of <em>n</em> nodes needs <strong>n + 1 loop checks</strong> — the final check sees <code>curr == nullptr</code> and stops.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 190" role="img" aria-label="Traversal steps with curr pointer">
+      <text class="lb" x="8" y="20">STEP 1 · curr AT 10</text>
+      <g transform="translate(74,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,59 H174"/>
+      <g transform="translate(180,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,59 H280"/>
+      <g transform="translate(286,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,59 H366"/><text class="ntg" x="370" y="63">NULL</text>
+      <path class="ar" d="M99,18 Q99,32 100,38"/>
+      <text class="lb" x="8" y="96">STEP 2 · curr AT 24</text>
+      <text class="lb" x="8" y="150">STEP 3 · curr AT 7</text>
+      <text class="lb" x="8" y="182">STEP 4 · curr == NULL — LOOP STOPS</text>
+      <path class="ar" d="M205,94 Q205,108 206,114"/>
+      <path class="ar" d="M311,148 Q311,162 312,168"/>
+    </svg>
+    <figcaption><b>FIG 3.1</b> Steps 1–3 print each value; step 4 sees <code>curr == nullptr</code> and the loop stops. Four loop checks for three nodes.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>traverse.cpp / display.c</span><button class="copy">copy</button></figcaption>
+<pre><code>// C++ — print the list
+void printList(Node* head) {
+    Node* curr = head;
+    while (curr != nullptr) {
+        std::cout &lt;&lt; curr-&gt;data &lt;&lt; " -&gt; ";
+        curr = curr-&gt;next;
+    }
+    std::cout &lt;&lt; "NULL\n";
+}
+
+// C — display with an empty-list guard
+void display(node head) {
+    node temp = head;
+    if (temp == NULL) {
+        printf("\n Empty list");
+        return;
+    }
+    while (temp != NULL) {
+        printf("\t %d -&gt;", temp-&gt;data);
+        temp = temp-&gt;next;
+    }
+}</code></pre>
+  </figure>
+
+  <h3><span class="ix">3.5</span>Insert at head — O(1)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 205" role="img" aria-label="Insert at head before and after">
+      <text class="lbd" x="8" y="24">BEFORE</text>
+      <text class="hdt" x="10" y="66">head</text><path class="ar" d="M40,61 H70"/>
+      <g transform="translate(74,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,61 H174"/>
+      <g transform="translate(180,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,61 H280"/>
+      <g transform="translate(286,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,61 H366"/><text class="ntg" x="370" y="65">NULL</text>
+      <text class="lbd" x="8" y="128">AFTER — insert 5 as the new first element</text>
+      <text class="hdt" x="10" y="172">head</text><path class="ar" d="M40,167 H70"/>
+      <g transform="translate(74,150)"><rect class="nbd" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34" stroke="#fafaf6"/><text class="ntw" x="20" y="22">5</text><circle class="np" cx="51" cy="17" r="3.2" fill="#fafaf6"/></g>
+      <path class="ar" d="M129,167 H174"/>
+      <g transform="translate(180,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,167 H280"/>
+      <g transform="translate(286,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,167 H386"/>
+      <g transform="translate(392,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M447,167 H472"/><text class="ntg" x="476" y="171">NULL</text>
+      <g transform="translate(152,128)"><circle r="8" class="stc"/><text y="3.5" class="stt">1</text></g>
+      <g transform="translate(46,190)"><circle r="8" class="stc"/><text y="3.5" class="stt">2</text></g>
+      <text class="stx" x="164" y="132">newNode-&gt;next = head</text>
+      <text class="stx" x="58" y="194">head = newNode</text>
+    </svg>
+    <figcaption><b>FIG 3.2</b> Insert at head: two pointer writes, zero traversal. The dark node is the newcomer.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_insert_head.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertHead(Node*&amp; head, int value) {
+    Node* newNode = new Node{value, nullptr};
+    newNode-&gt;next = head;     // 1. new node points at the old head
+    head = newNode;           // 2. head becomes the new node
+}</code></pre>
+  </figure>
+  <p><strong>O(1)</strong> — no traversal needed. <code>head</code> is passed <em>by reference</em> (<code>Node*&amp;</code>) so the caller's pointer is updated too.</p>
+
+  <h3><span class="ix">3.6</span>Insert at tail — O(n)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 205" role="img" aria-label="Insert at tail before and after">
+      <text class="lbd" x="8" y="24">BEFORE — append 30 as the new last element</text>
+      <text class="hdt" x="10" y="66">head</text><path class="ar" d="M40,61 H70"/>
+      <g transform="translate(74,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,61 H174"/>
+      <g transform="translate(180,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,61 H280"/>
+      <g transform="translate(286,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,61 H366"/><text class="ntg" x="370" y="65">NULL</text>
+      <text class="lb" x="288" y="32">curr walks here</text>
+      <text class="lbd" x="8" y="128">AFTER</text>
+      <text class="hdt" x="10" y="172">head</text><path class="ar" d="M40,167 H70"/>
+      <g transform="translate(74,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,167 H174"/>
+      <g transform="translate(180,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,167 H280"/>
+      <g transform="translate(286,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,167 H386"/>
+      <g transform="translate(392,150)"><rect class="nbd" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34" stroke="#fafaf6"/><text class="ntw" x="20" y="22">30</text><circle class="np" cx="51" cy="17" r="3.2" fill="#fafaf6"/></g>
+      <path class="ar" d="M447,167 H472"/><text class="ntg" x="476" y="171">NULL</text>
+    </svg>
+    <figcaption><b>FIG 3.3</b> Insert at tail: <code>curr = head;</code> walk while <code>curr-&gt;next</code> exists; then <code>curr-&gt;next = newNode</code>.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_insert_tail.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertTail(Node*&amp; head, int value) {
+    Node* newNode = new Node{value, nullptr};
+    if (!head) { head = newNode; return; }   // empty-list guard
+    Node* curr = head;
+    while (curr-&gt;next)                       // walk to the last node
+        curr = curr-&gt;next;
+    curr-&gt;next = newNode;                    // link it in
+}</code></pre>
+  </figure>
+  <p><strong>O(n)</strong> with only a head pointer — we must walk to the last node first. <span class="call tip" style="padding:10px 14px;display:block;margin-top:.8em">Maintain a <strong>tail pointer</strong> as well, and appending drops to <strong>O(1)</strong> — this is exactly how a queue is implemented (§ 10.4, P8).</span></p>
+
+  <h3><span class="ix">3.7</span>Insert at a position / after a node</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 215" role="img" aria-label="Insert at position before and after">
+      <text class="lbd" x="8" y="24">BEFORE — insert 99 after the 1st node</text>
+      <text class="hdt" x="10" y="66">head</text><path class="ar" d="M40,61 H70"/>
+      <g transform="translate(74,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,61 H174"/>
+      <g transform="translate(180,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,61 H280"/>
+      <g transform="translate(286,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,61 H366"/><text class="ntg" x="370" y="65">NULL</text>
+      <text class="lb" x="92" y="32">prev</text>
+      <text class="lbd" x="8" y="132">AFTER</text>
+      <text class="hdt" x="10" y="176">head</text><path class="ar" d="M40,171 H70"/>
+      <g transform="translate(74,154)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,171 H174"/>
+      <g transform="translate(180,154)"><rect class="nbd" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34" stroke="#fafaf6"/><text class="ntw" x="20" y="22">99</text><circle class="np" cx="51" cy="17" r="3.2" fill="#fafaf6"/></g>
+      <path class="ar" d="M235,171 H280"/>
+      <g transform="translate(286,154)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,171 H386"/>
+      <g transform="translate(392,154)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M447,171 H472"/><text class="ntg" x="476" y="175">NULL</text>
+      <path class="arg" d="M125,178 Q208,204 282,178"/>
+      <text class="li" x="158" y="208">old link 10→24 — replaced</text>
+      <g transform="translate(252,132)"><circle r="8" class="stc"/><text y="3.5" class="stt">1</text></g>
+      <g transform="translate(144,196)"><circle r="8" class="stc"/><text y="3.5" class="stt">2</text></g>
+      <text class="stx" x="264" y="136">newNode-&gt;next = prev-&gt;next</text>
+      <text class="stx" x="156" y="200">prev-&gt;next = newNode</text>
+    </svg>
+    <figcaption><b>FIG 3.4</b> Insert at a position: link the new node <em>forward first</em>, then splice it in behind.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_insert_after.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertAfter(Node* prev, int value) {
+    if (!prev) return;                    // guard: no node to link after
+    Node* newNode = new Node{value, nullptr};
+    newNode-&gt;next = prev-&gt;next;           // 1. link forward FIRST
+    prev-&gt;next = newNode;                 // 2. then splice in
+}</code></pre>
+  </figure>
+  <div class="call warn">
+    <span class="cl">Order matters</span>
+    <p>Link the new node forward <strong>first</strong>, then splice it in. If you write <code>prev-&gt;next = newNode;</code> first, the old value of <code>prev-&gt;next</code> is <strong>overwritten before it's saved</strong> — the rest of the list is lost forever.</p>
+  </div>
+
+  <figure class="code">
+    <figcaption><span>sll_insert_pos.c — insert at a given location</span><button class="copy">copy</button></figcaption>
+<pre><code>node insert_pos(node first)          // e.g. insert at position 2 in a list of 3
+{
+    node newnode, q;
+    int loc, i;
+    printf("\n Enter the location:");
+    scanf("%d", &amp;loc);
+    newnode = accept();
+    i = 1;
+    q = first;
+    while (i &lt; loc - 1) {             // q stops one position BEFORE the target
+        if (q-&gt;next == NULL) {
+            printf("\n Underflow!!!"); // location beyond the list
+            return(first);
+        }
+        q = q-&gt;next;
+        i++;
+    }
+    newnode-&gt;next = q-&gt;next;          // same two-step splice
+    q-&gt;next = newnode;
+    return(first);
+}</code></pre>
+  </figure>
+
+  <h4>Insertion — the four cases (classic exam question)</h4>
+  <figure class="fig">
+    <svg viewBox="0 0 560 330" role="img" aria-label="Four cases of insertion">
+      <text class="lbd" x="8" y="22">(a) INTO AN EMPTY LIST</text>
+      <text class="ntg" x="24" y="58">head → NULL</text>
+      <path class="ar" d="M130,52 H176"/>
+      <g transform="translate(182,36)"><rect class="nbd" width="50" height="28" rx="4"/><text class="ntws" x="17" y="18">new</text></g>
+      <text class="stx" x="248" y="55">head = newNode</text>
+
+      <text class="lbd" x="8" y="104">(b) AT THE BEGINNING</text>
+      <g transform="translate(24,116)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">10</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <path class="ar" d="M78,130 H104"/>
+      <g transform="translate(110,116)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">24</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <path class="ar" d="M206,108 Q186,92 66,90 Q40,90 40,112"/>
+      <g transform="translate(24,84)"><rect class="nbd" width="50" height="28" rx="4"/><text class="ntws" x="17" y="18">new</text></g>
+      <text class="stx" x="250" y="135">new-&gt;next = head · head = new</text>
+
+      <text class="lbd" x="8" y="190">(c) AT THE END</text>
+      <g transform="translate(24,202)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">10</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <path class="ar" d="M78,216 H104"/>
+      <g transform="translate(110,202)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">24</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <path class="ar" d="M164,216 H190"/>
+      <g transform="translate(196,202)"><rect class="nbd" width="50" height="28" rx="4"/><text class="ntws" x="17" y="18">new</text></g>
+      <text class="stx" x="262" y="221">walk to last · last-&gt;next = new</text>
+
+      <text class="lbd" x="8" y="276">(d) IN THE MIDDLE</text>
+      <g transform="translate(24,288)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">10</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <path class="ar" d="M78,302 H104"/>
+      <g transform="translate(110,288)"><rect class="nbd" width="50" height="28" rx="4"/><text class="ntws" x="17" y="18">new</text></g>
+      <path class="ar" d="M164,302 H190"/>
+      <g transform="translate(196,288)"><rect class="nb" width="50" height="28" rx="4"/><line class="nl" x1="34" x2="34" y1="0" y2="28"/><text class="nts" x="17" y="18">24</text><circle class="np" cx="42" cy="14" r="2.6"/></g>
+      <text class="stx" x="262" y="307">new-&gt;next = prev-&gt;next · prev-&gt;next = new</text>
+    </svg>
+    <figcaption><b>FIG 3.5</b> The four insertion cases. Deletion, by contrast, has only two cases — the first node, and every other node.</figcaption>
+  </figure>
+
+  <h3><span class="ix">3.8</span>Deletion</h3>
+  <p><strong>Delete at head</strong> — three steps, O(1):</p>
+  <ol>
+    <li><code>Node* temp = head;</code> &nbsp;(remember the old head)</li>
+    <li><code>head = head-&gt;next;</code> &nbsp;(move head forward)</li>
+    <li><code>delete temp;</code> &nbsp;(free it)</li>
+  </ol>
+  <p><strong>Delete a middle node</strong> (given <code>prev</code>): <code>temp = prev-&gt;next;</code> then <code>prev-&gt;next = temp-&gt;next;</code> then <code>delete temp;</code>. Note that deleting the <em>last</em> node and a <em>middle</em> node use the <strong>same process</strong> — only two cases exist.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 200" role="img" aria-label="Delete a middle node before and after">
+      <text class="lbd" x="8" y="24">BEFORE — remove the middle node (24)</text>
+      <text class="hdt" x="10" y="66">head</text><path class="ar" d="M40,61 H70"/>
+      <g transform="translate(74,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,61 H174"/>
+      <g transform="translate(180,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,61 H280"/>
+      <g transform="translate(286,44)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,61 H366"/><text class="ntg" x="370" y="65">NULL</text>
+      <text class="lb" x="92" y="32">prev</text><text class="lb" x="198" y="32">temp</text>
+      <text class="lbd" x="8" y="128">AFTER — prev-&gt;next = temp-&gt;next · delete temp</text>
+      <text class="hdt" x="10" y="172">head</text><path class="ar" d="M40,167 H70"/>
+      <g transform="translate(74,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,167 Q208,190 282,171"/>
+      <g transform="translate(286,150)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,167 H366"/><text class="ntg" x="370" y="171">NULL</text>
+      <g transform="translate(180,150)"><rect class="nbg" width="62" height="34" rx="5"/><line class="nlg" x1="40" x2="40" y1="0" y2="34" stroke-dasharray="4 3"/><text class="nts" x="20" y="22" fill="#9c9c93">24</text></g>
+    </svg>
+    <figcaption><b>FIG 3.6</b> Deletion never moves data — it reroutes one pointer around the victim, then frees it. The ghost node is the freed block.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_delete_value.cpp — delete by value, fully annotated</span><button class="copy">copy</button></figcaption>
+<pre><code>void deleteValue(Node*&amp; head, int value) {
+    if (!head) return;                     // list is empty
+
+    if (head-&gt;data == value) {             // target is the FIRST node
+        Node* temp = head;
+        head = head-&gt;next;
+        delete temp;
+        return;
+    }
+    Node* prev = head;                     // find the node BEFORE the target
+    while (prev-&gt;next &amp;&amp; prev-&gt;next-&gt;data != value)
+        prev = prev-&gt;next;
+
+    if (prev-&gt;next) {                      // found it — bypass and free
+        Node* temp = prev-&gt;next;
+        prev-&gt;next = temp-&gt;next;
+        delete temp;
+    }
+}</code></pre>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>sll_delete.c — delete at begin / end / by key</span><button class="copy">copy</button></figcaption>
+<pre><code>node delete_begin(node first)
+{
+    node a;
+    if (first == NULL) { printf("\n List is Empty"); }
+    else {
+        a = first;
+        first = first-&gt;next;
+        printf("\n Deleted record: %d", a-&gt;data);
+        free(a);
+    }
+    return first;
+}
+
+node delete_end(node first)            // two pointers walk together
+{
+    node a, b;
+    if (first == NULL) { printf("\n List is Empty"); }
+    else {
+        a = first;
+        while (a-&gt;next != NULL) {
+            b = a;                     // b trails: ends on the second-last
+            a = a-&gt;next;
+        }
+        b-&gt;next = NULL;                // second-last becomes the last
+        free(a);
+    }
+    return first;
+}
+
+node delete_pos(node first)            // delete by key (e.g. empid) — corrected
+{
+    node a = first, b = NULL;
+    int num;
+    if (first == NULL) { printf("\n List is Empty"); return first; }
+    printf("\n Enter the ID to delete: ");
+    scanf("%d", &amp;num);
+    if (first-&gt;empid == num) {         // key is the FIRST node
+        a = first; first = first-&gt;next; free(a);
+        return first;
+    }
+    while (a != NULL &amp;&amp; a-&gt;empid != num) {   // NULL check FIRST — see pitfall
+        b = a; a = a-&gt;next;
+    }
+    if (a == NULL) { printf("\n not found"); return first; }
+    b-&gt;next = a-&gt;next;                 // bypass
+    free(a);
+    return first;
+}</code></pre>
+  </figure>
+  <div class="call warn">
+    <span class="cl">Pitfall — condition order in C</span>
+    <p>The original slide wrote <code>while(a-&gt;empid != num &amp;&amp; a != NULL)</code>. This <strong>dereferences <code>a</code> before checking it for NULL</strong> — if the key is absent, the loop reads through the end of the list and crashes. Always test <code>a != NULL</code> <em>first</em>, and handle the first-node case before the walk (or <code>b</code> stays NULL).</p>
+  </div>
+
+  <h3><span class="ix">3.9</span>Search — the pre / cur technique</h3>
+  <p>Since nodes have no names, we search with two pointers: <em class="term">pre</em> (previous) and <em class="term">cur</em> (current). Initially <code>pre = NULL</code> and <code>cur</code> points to the first node. The two pointers <strong>move together</strong> toward the end of the list; <code>pre</code> trails one node behind so that, on a hit, we already hold the predecessor needed for insertion or deletion.</p>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Case</th><th>pre</th><th>cur</th></tr></thead>
+    <tbody>
+      <tr><td>Target is the first node</td><td>NULL</td><td>first node</td></tr>
+      <tr><td>Target is in the middle</td><td>node just before target</td><td>target node</td></tr>
+      <tr><td>Target is the last node</td><td>second-last node</td><td>last node</td></tr>
+      <tr><td>Not found (e.g. target larger than every value)</td><td>last node</td><td>NULL</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">The last row is the "extreme case" from the lectures: with a target larger than every element, the pair marches off the end — pre settles on the last node, cur becomes NULL.</p>
+
+  <figure class="code">
+    <figcaption><span>sll_search.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>bool search(Node* head, int target) {
+    Node* curr = head;
+    while (curr != nullptr) {
+        if (curr-&gt;data == target)
+            return true;
+        curr = curr-&gt;next;
+    }
+    return false;
+}</code></pre>
+  </figure>
+  <p><strong>O(n)</strong> worst case — and unlike a <em>sorted array</em>, a linked list (even sorted) has <strong>no way to binary-search</strong>, because you cannot jump to the middle; there is no random access.</p>
+
+  <h4>Retrieving a node</h4>
+  <p><em class="term">Retrieving</em> means randomly accessing a node to <strong>inspect or copy</strong> its data. The list must first be searched; if the item is found it is retrieved, otherwise the process aborts. Retrieval uses only the <code>cur</code> pointer, which points at the node found by the search.</p>
+
+  <h3><span class="ix">3.10</span>Time complexity — singly linked list</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Operation</th><th>Complexity</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Insert at head</td><td>O(1)</td><td>no traversal needed</td></tr>
+      <tr><td>Insert at tail</td><td>O(n)</td><td>must walk to the last node (O(1) with a tail pointer)</td></tr>
+      <tr><td>Insert after a given node</td><td>O(1)</td><td>pointer already in hand</td></tr>
+      <tr><td>Delete at head</td><td>O(1)</td><td>just move head forward</td></tr>
+      <tr><td>Delete by value</td><td>O(n)</td><td>must find the node first</td></tr>
+      <tr><td>Search / traverse</td><td>O(n)</td><td>no random access</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="ix">3.11</span>Advantages &amp; disadvantages</h3>
+  <div class="vs">
+    <span class="vslabel">vs</span>
+    <div>
+      <h4>Advantages</h4>
+      <ul>
+        <li><strong>Dynamic size</strong> — no fixed limit like arrays.</li>
+        <li>Efficient insertion &amp; deletion at the <strong>beginning</strong> (and at the end with a tail pointer); efficient in the <strong>middle</strong> too, given a pointer to the preceding node.</li>
+        <li><strong>No wastage of memory</strong> — nodes exist only while needed.</li>
+        <li>Can implement complex structures: stacks, queues, graphs.</li>
+      </ul>
+    </div>
+    <div class="side-b">
+      <h4>Disadvantages</h4>
+      <ul>
+        <li><strong>Extra memory</strong> for the pointer stored in every node.</li>
+        <li><strong>No direct / random access</strong> — reaching element <em>i</em> needs traversal.</li>
+        <li><strong>Cache-unfriendly</strong> — nodes are not in contiguous memory.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3><span class="ix">3.12</span>Other basic operations</h3>
+  <figure class="code">
+    <figcaption><span>count · display_reverse · invert.c</span><button class="copy">copy</button></figcaption>
+<pre><code>// Count the number of nodes
+int count(node *P) {
+    int i = 0;
+    while (P != NULL) {
+        P = P-&gt;next;
+        i++;
+    }
+    return i;
+}
+
+// Display in reverse — recursion unwinds from the tail
+void display_reverse(node *h) {
+    if (h != NULL) {
+        display_reverse(h-&gt;next);   // recurse to the END first
+        printf("%d ", h-&gt;data);     // print while unwinding
+    }
+}
+
+// Inversion — reverse every pointer, iteratively (three-pointer slide)
+node* invert(node *head) {
+    node *p = NULL, *q = head, *r = (q ? q-&gt;next : NULL);
+    while (q != NULL) {
+        q-&gt;next = p;       // reverse ONE link
+        p = q;             // slide the window forward
+        q = r;
+        if (r) r = r-&gt;next;
+    }
+    return p;              // p is the new head (old tail)
+}</code></pre>
+  </figure>
+  <p><strong>Inversion, traced:</strong> <code>p</code> holds the already-reversed prefix, <code>q</code> is the node being flipped, <code>r</code> remembers the not-yet-reversed suffix. Each iteration points <code>q</code> backward at <code>p</code>, then all three slide one step. When <code>q</code> falls off the end, <code>p</code> stands on the old tail — the new head. <em>(The slide version omitted <code>return p;</code> and crashed on an empty list — both fixed above.)</em></p>
+  <p>Other list operations to know: <strong>concatenate</strong> two lists (walk to the end of the first, link it to the head of the second), <strong>merge</strong> two sorted lists (§ 10.4, P7), <strong>sort</strong> a list, and <strong>split</strong> a list into two.</p>
+
+  <h3><span class="ix">3.13</span>Worked examples</h3>
+  <div class="trace">
+    <div class="tstep"><span class="op">start</span><span class="state">head → NULL</span><span class="why">empty list</span></div>
+    <div class="tstep"><span class="op">insertHead(5)</span><span class="state">head → [5] → NULL</span><span class="why">new node's next = NULL(old head); head = new</span></div>
+    <div class="tstep"><span class="op">insertHead(9)</span><span class="state">head → [9] → [5] → NULL</span><span class="why">each insert lands in front</span></div>
+    <div class="tstep"><span class="op">insertHead(2)</span><span class="state">head → [2] → [9] → [5] → NULL</span><span class="why">list grows backwards</span></div>
+  </div>
+  <div class="trace">
+    <div class="tstep"><span class="op">search(9)</span><span class="state">head → [2] → [9] → [5] → NULL</span><span class="why">found — curr stops on 9</span></div>
+    <div class="tstep"><span class="op">deleteValue(9)</span><span class="state">head → [2] → [5] → NULL</span><span class="why">prev (at 2) is found first; prev-&gt;next relinked past 9; 9's node freed</span></div>
+  </div>
+
+  <h3><span class="ix">3.14</span>Live lab — drive a singly linked list</h3>
+  <div class="lab">
+    <div class="lab-head"><span class="lab-tag">LIVE LAB</span><span class="lab-title">Singly Linked List Simulator — every button prints the pointer operations it performs</span></div>
+    <div class="lab-stage" id="sllStage"></div>
+    <div class="lab-controls" id="sllControls">
+      <label>value <input type="number" id="sllVal" inputmode="numeric"></label>
+      <button data-op="head">insert head</button>
+      <button data-op="tail">insert tail</button>
+      <button data-op="delhead">delete head</button>
+      <button data-op="delval">delete value</button>
+      <button data-op="search">search</button>
+      <button data-op="reset" class="ghost">reset</button>
+    </div>
+    <div class="lab-status" id="sllStatus"></div>
+    <ol class="lab-trace" id="sllTrace"></ol>
+  </div>
+
+  <h3><span class="ix">3.15</span>Case study — employee records (multi-field nodes)</h3>
+  <p>All operations stay identical when a node carries many fields; only the data part changes. Searching then keys on one chosen field (<code>empid</code>). The full program:</p>
+  <details class="gen">
+    <summary>Full C implementation — employee linked list</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>employee.c</span><button class="copy">copy</button></figcaption>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct emp {
+    char name[20];
+    char dpt[20];
+    int  empid;
+    int  sal;
+    struct emp *next;
+};
+typedef struct emp *node;
+
+node accept()                        // create &amp; fill ONE employee node
+{
+    node a;
+    a = (node)malloc(sizeof(struct emp));
+    printf("\n Enter Employee name    : "); scanf("%s", a-&gt;name);
+    printf("\n Enter Department        : "); scanf("%s", a-&gt;dpt);
+    printf("\n Enter Employee Id       : "); scanf("%d", &amp;a-&gt;empid);
+    printf("\n Enter Salary of Employee: "); scanf("%d", &amp;a-&gt;sal);
+    a-&gt;next = NULL;
+    return a;
+}
+
+node create(node first)              // build the list (same as § 3.3)
+{
+    node temp, newnode; char ch = 'y';
+    do {
+        newnode = accept();
+        if (first == NULL) first = newnode;
+        else {
+            for (temp = first; temp-&gt;next != NULL; temp = temp-&gt;next);
+            temp-&gt;next = newnode;
+        }
+        printf("\n Add more nodes(y/n)? "); scanf(" %c", &amp;ch);
+    } while (ch == 'y' || ch == 'Y');
+    return first;
+}
+
+void display(node first)             // table of all records
+{
+    node temp;
+    if (first == NULL) { printf("\n Empty list"); return; }
+    printf("\n NAME \t DEPARTMENT \t EMP_ID \t SALARY \n");
+    for (temp = first; temp != NULL; temp = temp-&gt;next)
+        printf(" %s \t %s \t %d \t %d \n",
+               temp-&gt;name, temp-&gt;dpt, temp-&gt;empid, temp-&gt;sal);
+}
+
+node insert_begin(node first)        // new record becomes the head
+{
+    node newnode = accept();
+    newnode-&gt;next = first;
+    first = newnode;
+    return first;
+}
+
+node insert_end(node first)          // walk to tail, attach
+{
+    node a, newnode = accept();
+    for (a = first; a-&gt;next != NULL; a = a-&gt;next);
+    a-&gt;next = newnode;
+    return first;
+}
+
+node insert_pos(node first)          // insert at a given location
+{
+    node newnode, q; int loc, i;
+    printf("\n Enter the location: "); scanf("%d", &amp;loc);
+    newnode = accept();
+    for (i = 1, q = first; i &lt; loc - 1; i++) {
+        if (q-&gt;next == NULL) { printf("\n Underflow!!!"); return first; }
+        q = q-&gt;next;
+    }
+    newnode-&gt;next = q-&gt;next;
+    q-&gt;next = newnode;
+    return first;
+}
+
+node delete_begin(node first) { /* as in § 3.8 */ }
+node delete_end(node first)   { /* as in § 3.8 */ }
+node delete_pos(node first)   { /* as in § 3.8 — search by empid */ }
+
+void search(node first)              // search by employee ID
+{
+    node a; int empno;
+    printf("\n Enter the employee ID : "); scanf("%d", &amp;empno);
+    for (a = first; a != NULL &amp;&amp; a-&gt;empid != empno; a = a-&gt;next);
+    if (a == NULL) printf("\n Record not found");
+    else printf("\n %s \t %s \t %d \t %d \n",
+                a-&gt;name, a-&gt;dpt, a-&gt;empid, a-&gt;sal);
+}
+
+node modify(node first)              // search by ID, overwrite fields
+{
+    int empno; node a;
+    printf("\n Enter the employee ID to modify: "); scanf("%d", &amp;empno);
+    for (a = first; a != NULL; a = a-&gt;next)
+        if (a-&gt;empid == empno) {
+            printf("\n Enter name: ");        scanf("%s",  a-&gt;name);
+            printf("\n Enter department: ");  scanf("%s",  a-&gt;dpt);
+            printf("\n Enter ID: ");          scanf("%d", &amp;a-&gt;empid);
+            printf("\n Enter salary: ");      scanf("%d", &amp;a-&gt;sal);
+            return first;
+        }
+    return first;
+}</code></pre>
+      </figure>
+      <p style="font-size:14.5px;color:var(--g2)"><em>delete_begin / delete_end / delete_pos follow § 3.8 exactly, printing the deleted record before <code>free()</code>.</em></p>
+    </div>
+  </details>
+</section>
+
+<!-- ==================== § 4 DOUBLY ==================== -->
+<section id="s4">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 04</span><span class="sec-rule"></span></div>
+    <h2>Doubly Linked Lists</h2>
+    <p class="sec-sub">Two pointers per node buy backward traversal</p>
+  </header>
+
+  <h3><span class="ix">4.1</span>Structure</h3>
+  <p>Every node keeps a <strong>prev</strong> pointer as well as <strong>next</strong> — the list can be walked in either direction, from first to last or from last back to first. The list may also carry two pointer variables: <em>first</em> (points to the first node) and <em>last</em> (points to the last node).</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 200" role="img" aria-label="Doubly linked node anatomy">
+      <g transform="translate(10,74)"><rect class="nbg" width="80" height="36" rx="5"/><text class="nts" x="40" y="23" fill="#9c9c93">prev node</text></g>
+      <path class="arg" d="M94,92 H136"/>
+      <g transform="translate(140,60)">
+        <rect class="nb" width="260" height="64" rx="6"/>
+        <line class="nl" x1="70" y1="0" x2="70" y2="64"/>
+        <line class="nl" x1="190" y1="0" x2="190" y2="64"/>
+        <circle class="np" cx="35" cy="32" r="4"/>
+        <text class="nt" x="130" y="41" style="font-size:22px">10</text>
+        <circle class="np" cx="225" cy="32" r="4"/>
+      </g>
+      <text class="lb" x="152" y="52">PREV</text><text class="lb" x="248" y="52">DATA</text><text class="lb" x="330" y="52">NEXT</text>
+      <path class="ar" d="M404,92 H446"/>
+      <g transform="translate(450,74)"><rect class="nbg" width="80" height="36" rx="5"/><text class="nts" x="40" y="23" fill="#9c9c93">next node</text></g>
+      <text class="li" x="80" y="156">prev — address of the previous node</text>
+      <path class="nlg" d="M140,148 L172,128"/>
+      <text class="li" x="300" y="156">next — address of the next node</text>
+      <path class="nlg" d="M368,148 L366,128"/>
+    </svg>
+    <figcaption><b>FIG 4.1</b> A DLL node has three parts: the information field, a <code>next</code> pointer, and a <code>prev</code> pointer.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>dll_node.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+Node* p = new Node{10, nullptr, nullptr};   // one extra pointer per node</code></pre>
+  </figure>
+  <p>The C version: <code>struct node { int data; struct node *next; struct node *prev; };</code></p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 150" role="img" aria-label="Doubly linked list structure">
+      <text class="hdt" x="30" y="26">head</text>
+      <path class="ar" d="M52,32 Q70,42 74,52"/>
+      <text class="ntg" x="14" y="83">NULL</text>
+      <path class="ar" d="M52,79 H84"/>
+      <g transform="translate(90,60)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,58 Q205,42 242,58"/>
+      <path class="arg" d="M234,96 Q205,114 170,96"/>
+      <g transform="translate(224,60)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M300,58 Q339,42 376,58"/>
+      <path class="arg" d="M368,96 Q339,114 304,96"/>
+      <g transform="translate(358,60)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,79 H466"/><text class="ntg" x="470" y="83">NULL</text>
+      <text class="lb" x="150" y="22">NEXT — SOLID, FORWARD</text>
+      <text class="lb" x="150" y="138">PREV — DASHED, BACKWARD</text>
+    </svg>
+    <figcaption><b>FIG 4.2</b> A DLL bounded by NULL on both sides. The upper lane walks forward; the lower lane walks backward.</figcaption>
+  </figure>
+
+  <h3><span class="ix">4.2</span>Doubly vs. singly — the trade</h3>
+  <div class="vs">
+    <span class="vslabel">vs</span>
+    <div>
+      <h4>Doubly linked gains</h4>
+      <ul>
+        <li>Traverse <strong>forward AND backward</strong>.</li>
+        <li><strong>Delete a node in O(1)</strong> given only its pointer.</li>
+        <li>A pointer to a node doubles as a "position" you can move either way.</li>
+      </ul>
+    </div>
+    <div class="side-b">
+      <h4>The cost</h4>
+      <ul>
+        <li><strong>One extra pointer per node</strong> — more memory.</li>
+        <li>Every insert/delete touches <strong>more pointer fields</strong>.</li>
+        <li>More bookkeeping — <strong>easier to introduce bugs</strong>.</li>
+      </ul>
+    </div>
+  </div>
+  <p><strong>Applications of DLL:</strong> the browser cache/URL list behind the BACK and FWD buttons; undo functionality in Photoshop or Word (a list of states); stacks, hash tables and binary trees; representing a deck of cards in a game; sparse matrices.</p>
+
+  <h3><span class="ix">4.3</span>Insert at head</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="DLL insert at head before and after">
+      <text class="lbd" x="8" y="22">BEFORE — insert 5 as the new first element</text>
+      <text class="ntg" x="14" y="70">NULL</text><path class="ar" d="M52,66 H84"/>
+      <g transform="translate(90,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,48 Q205,32 242,48"/><path class="arg" d="M234,86 Q205,104 170,86"/>
+      <g transform="translate(224,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M300,48 Q339,32 376,48"/><path class="arg" d="M368,86 Q339,104 304,86"/>
+      <g transform="translate(358,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,66 H466"/><text class="ntg" x="470" y="70">NULL</text>
+      <text class="lbd" x="8" y="140">AFTER</text>
+      <text class="ntg" x="14" y="188">NULL</text><path class="ar" d="M52,184 H84"/>
+      <g transform="translate(90,168)"><rect class="nbd" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34" stroke="#fafaf6"/><line class="nl" x1="64" x2="64" y1="0" y2="34" stroke="#fafaf6"/><circle class="np" cx="10" cy="17" r="3" fill="#fafaf6"/><text class="ntw" x="42" y="22">5</text><circle class="np" cx="74" cy="17" r="3" fill="#fafaf6"/></g>
+      <path class="ar" d="M166,166 Q205,150 242,166"/><path class="arg" d="M234,204 Q205,222 170,204"/>
+      <g transform="translate(224,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M300,166 Q339,150 376,166"/><path class="arg" d="M368,204 Q339,222 304,204"/>
+      <g transform="translate(358,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,166 Q473,150 510,166"/><path class="arg" d="M502,204 Q473,222 438,204"/>
+      <g transform="translate(492,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M568,184 H600"/><text class="ntg" x="604" y="188">NULL</text>
+      <text class="stx" x="8" y="242">① n-&gt;next = head ② head-&gt;prev = n ③ n-&gt;prev = NULL ④ head = n</text>
+    </svg>
+    <figcaption><b>FIG 4.3</b> DLL insert at head: four pointer writes instead of two.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>dll_insert_head.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertHead(Node*&amp; head, int value) {
+    Node* n = new Node{value, nullptr, head};  // prev = null, next = old head
+    if (head) head-&gt;prev = n;                  // guard: old head may not exist
+    head = n;
+}</code></pre>
+  </figure>
+
+  <h3><span class="ix">4.4</span>Insert at tail</h3>
+  <p>Walk <code>curr</code> from <code>head</code> to the last node, then link the new node in behind it: <code>curr-&gt;next = newNode; newNode-&gt;prev = curr;</code> — and <code>newNode-&gt;next = nullptr</code>.</p>
+  <figure class="code">
+    <figcaption><span>dll_insert_tail.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertTail(Node*&amp; head, int value) {
+    Node* n = new Node{value, nullptr, nullptr};
+    if (!head) { head = n; return; }        // empty-list guard
+    Node* curr = head;
+    while (curr-&gt;next)
+        curr = curr-&gt;next;                  // walk to the last node
+    curr-&gt;next = n;
+    n-&gt;prev = curr;
+}</code></pre>
+  </figure>
+  <p>In C (from the lecture): <code>insert_end</code> walks <code>a = a-&gt;next</code> while <code>a-&gt;next != NULL</code>, then <code>a-&gt;next = newnode; newnode-&gt;prev = a;</code>. <strong>Insertion in between</strong> two nodes <code>a</code> and <code>b</code> uses the four-link recipe: <code>a-&gt;next = new; new-&gt;prev = a; new-&gt;next = b; b-&gt;prev = new;</code></p>
+
+  <h3><span class="ix">4.5</span>Insert before a given node</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="DLL insert before node 24">
+      <text class="lbd" x="8" y="22">BEFORE — insert 99 before node 24 (curr)</text>
+      <text class="ntg" x="14" y="70">NULL</text><path class="ar" d="M52,66 H84"/>
+      <g transform="translate(90,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,48 Q205,32 242,48"/><path class="arg" d="M234,86 Q205,104 170,86"/>
+      <g transform="translate(224,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M300,48 Q339,32 376,48"/><path class="arg" d="M368,86 Q339,104 304,86"/>
+      <g transform="translate(358,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,66 H466"/><text class="ntg" x="470" y="70">NULL</text>
+      <text class="lb" x="246" y="36">curr</text>
+      <text class="lbd" x="8" y="140">AFTER</text>
+      <text class="ntg" x="14" y="188">NULL</text><path class="ar" d="M52,184 H84"/>
+      <g transform="translate(90,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,166 Q205,150 242,166"/><path class="arg" d="M234,204 Q205,222 170,204"/>
+      <g transform="translate(224,168)"><rect class="nbd" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34" stroke="#fafaf6"/><line class="nl" x1="64" x2="64" y1="0" y2="34" stroke="#fafaf6"/><circle class="np" cx="10" cy="17" r="3" fill="#fafaf6"/><text class="ntw" x="42" y="22">99</text><circle class="np" cx="74" cy="17" r="3" fill="#fafaf6"/></g>
+      <path class="ar" d="M300,166 Q339,150 376,166"/><path class="arg" d="M368,204 Q339,222 304,204"/>
+      <g transform="translate(358,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,166 Q473,150 510,166"/><path class="arg" d="M502,204 Q473,222 438,204"/>
+      <g transform="translate(492,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M568,184 H600"/><text class="ntg" x="604" y="188">NULL</text>
+      <text class="stx" x="8" y="242">① n-&gt;next = curr ② n-&gt;prev = curr-&gt;prev ③ curr-&gt;prev-&gt;next = n ④ curr-&gt;prev = n</text>
+    </svg>
+    <figcaption><b>FIG 4.4</b> Insert before a node you already hold — possible in O(1) precisely because of the prev pointers.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>dll_insert_before.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertBefore(Node* curr, int value) {
+    if (!curr) return;
+    Node* n = new Node{value, curr-&gt;prev, curr};
+    if (curr-&gt;prev) curr-&gt;prev-&gt;next = n;
+    curr-&gt;prev = n;
+}</code></pre>
+  </figure>
+  <div class="call warn">
+    <span class="cl">Pitfall — inserting before the head</span>
+    <p>If <code>curr</code> <em>is</em> the head, <code>curr-&gt;prev</code> is null and this function never updates <code>head</code> — the new node is stranded off the front of the list. Either pass <code>head</code> by reference and set <code>head = n;</code> in that case, or use <code>insertHead</code> instead. This is exactly the kind of edge case exam questions probe.</p>
+  </div>
+
+  <h3><span class="ix">4.6</span>Delete a node — the DLL's party trick</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="DLL delete middle node">
+      <text class="lbd" x="8" y="22">BEFORE — remove the middle node (24), given its pointer</text>
+      <text class="ntg" x="14" y="70">NULL</text><path class="ar" d="M52,66 H84"/>
+      <g transform="translate(90,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,48 Q205,32 242,48"/><path class="arg" d="M234,86 Q205,104 170,86"/>
+      <g transform="translate(224,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">24</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M300,48 Q339,32 376,48"/><path class="arg" d="M368,86 Q339,104 304,86"/>
+      <g transform="translate(358,50)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,66 H466"/><text class="ntg" x="470" y="70">NULL</text>
+      <text class="lb" x="246" y="36">temp</text>
+      <text class="lbd" x="8" y="140">AFTER</text>
+      <text class="ntg" x="14" y="188">NULL</text><path class="ar" d="M52,184 H84"/>
+      <g transform="translate(90,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">10</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M166,166 Q265,144 372,164"/><path class="arg" d="M368,206 Q265,228 172,206"/>
+      <g transform="translate(224,168)"><rect class="nbg" width="84" height="34" rx="5"/><text class="nts" x="42" y="22" fill="#9c9c93">24</text></g>
+      <g transform="translate(358,168)"><rect class="nb" width="84" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="64" x2="64" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="42" y="22">7</text><circle class="np" cx="74" cy="17" r="3"/></g>
+      <path class="ar" d="M434,184 H466"/><text class="ntg" x="470" y="188">NULL</text>
+      <text class="stx" x="8" y="242">① temp-&gt;prev-&gt;next = temp-&gt;next ② temp-&gt;next-&gt;prev = temp-&gt;prev ③ delete temp</text>
+    </svg>
+    <figcaption><b>FIG 4.5</b> Two neighbours simply point at each other, skipping the victim. <strong>O(1) once you hold the node's pointer — no search required</strong>, unlike a singly linked list.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>dll_delete.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void deleteNode(Node*&amp; head, Node* temp) {
+    if (temp-&gt;prev)
+        temp-&gt;prev-&gt;next = temp-&gt;next;   // unlink from the left
+    else
+        head = temp-&gt;next;              // we are deleting the HEAD
+
+    if (temp-&gt;next)
+        temp-&gt;next-&gt;prev = temp-&gt;prev;   // unlink from the right
+
+    delete temp;
+}</code></pre>
+  </figure>
+
+  <h4>The three deletion cases (C steps from the lecture)</h4>
+  <ul>
+    <li><strong>First node:</strong> <code>temp = first</code> → <code>first = first-&gt;next</code> → <code>first-&gt;prev = NULL</code> → <code>temp-&gt;next = NULL</code> → <code>free(temp)</code>.</li>
+    <li><strong>Any middle node (temp):</strong> <code>(temp-&gt;next)-&gt;prev = temp-&gt;prev;</code> → <code>(temp-&gt;prev)-&gt;next = temp-&gt;next;</code> → <code>free(temp)</code>.</li>
+    <li><strong>Last node (temp, after walking to it):</strong> <code>(temp-&gt;prev)-&gt;next = NULL;</code> → <code>temp-&gt;prev = NULL;</code> → <code>free(temp)</code>.</li>
+  </ul>
+
+  <h3><span class="ix">4.7</span>Traverse &amp; search</h3>
+  <figure class="code">
+    <figcaption><span>dll_traverse_search.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>// forward:  curr = curr-&gt;next;
+// backward: curr = curr-&gt;prev;
+
+bool search(Node* head, int target) {     // same idea as singly
+    Node* curr = head;
+    while (curr != nullptr) {
+        if (curr-&gt;data == target) return true;
+        curr = curr-&gt;next;
+    }
+    return false;
+}</code></pre>
+  </figure>
+  <div class="call tip">
+    <span class="cl">Exam tip</span>
+    <p>Having a <code>prev</code> pointer does <strong>not</strong> speed up search in an unsorted list — it's still <strong>O(n)</strong>. Bidirectional links help <em>navigation and deletion</em>, not lookup.</p>
+  </div>
+
+  <h3><span class="ix">4.8</span>Singly vs. doubly — complexity &amp; memory</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Aspect</th><th>Singly linked</th><th>Doubly linked</th></tr></thead>
+    <tbody>
+      <tr><td>Insert / delete at head</td><td>O(1)</td><td>O(1)</td></tr>
+      <tr><td>Delete, given a node pointer</td><td>O(n) — need prev</td><td>O(1)</td></tr>
+      <tr><td>Traverse backward</td><td>Not possible</td><td>O(1) per step</td></tr>
+      <tr><td>Extra memory per node</td><td>—</td><td>1 extra pointer</td></tr>
+      <tr><td>Typical use</td><td>Simple stacks, free lists</td><td>Deques, LRU caches, editors</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="ix">4.9</span>Worked example</h3>
+  <div class="trace">
+    <div class="tstep"><span class="op">start</span><span class="state">head → NULL</span><span class="why">empty list</span></div>
+    <div class="tstep"><span class="op">insertHead(5)</span><span class="state">NULL ⇄ [5] ⇄ NULL</span><span class="why">head-&gt;prev guard skipped (list was empty)</span></div>
+    <div class="tstep"><span class="op">insertHead(9)</span><span class="state">NULL ⇄ [9] ⇄ [5] ⇄ NULL</span><span class="why">5-&gt;prev = 9; head = 9</span></div>
+    <div class="tstep"><span class="op">deleteNode(5)</span><span class="state">NULL ⇄ [9] ⇄ NULL</span><span class="why">5 had no next; 9-&gt;next = NULL; delete 5</span></div>
+  </div>
+</section>
+
+<!-- ==================== § 5 CIRCULAR ==================== -->
+<section id="s5">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 05</span><span class="sec-rule"></span></div>
+    <h2>Circular Linked Lists</h2>
+    <p class="sec-sub">No NULL at the end — the last node points back to the first</p>
+  </header>
+
+  <h3><span class="ix">5.1</span>Structure</h3>
+  <p>A linked list in which the <strong>last node points back to the head/first node</strong> instead of NULL. The circular list has <strong>neither a beginning nor an end</strong> — there is no end, only a loop. In the <em>circular doubly</em> variant, <code>next</code> of the last node wraps to <code>head</code> <em>and</em> <code>prev</code> of the head wraps to the last node — every node can be reached in either direction, forever.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 400 300" role="img" aria-label="Circular singly linked list">
+      <text class="hdt" x="52" y="42">head</text>
+      <path class="ar" d="M88,44 Q130,32 168,50"/>
+      <path class="ar" d="M215,70 Q300,105 287,188"/>
+      <path class="ar" d="M280,235 Q200,292 122,236"/>
+      <path class="ar" d="M95,192 Q98,102 186,72"/>
+      <g transform="translate(169,38)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <g transform="translate(260,196)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <g transform="translate(78,196)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <text class="li" x="120" y="288">last-&gt;next = head — the loop closes</text>
+    </svg>
+    <figcaption><b>FIG 5.1</b> Circular singly linked list: 10 → 24 → 7 → back to 10.</figcaption>
+  </figure>
+
+  <figure class="fig">
+    <svg viewBox="0 0 400 330" role="img" aria-label="Circular doubly linked list">
+      <text class="hdt" x="52" y="42">head</text>
+      <path class="ar" d="M88,44 Q130,32 168,50"/>
+      <path class="ar" d="M215,70 Q300,105 287,188"/>
+      <path class="ar" d="M280,235 Q200,292 122,236"/>
+      <path class="ar" d="M95,192 Q98,102 186,72"/>
+      <path class="arg" d="M282,182 Q275,95 218,74"/>
+      <path class="arg" d="M275,232 Q200,262 125,232"/>
+      <path class="arg" d="M182,74 Q105,105 100,186"/>
+      <g transform="translate(169,38)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="42" x2="42" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="31" y="22" style="font-size:12px">10</text><circle class="np" cx="52" cy="17" r="3"/></g>
+      <g transform="translate(260,196)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="42" x2="42" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="31" y="22" style="font-size:12px">24</text><circle class="np" cx="52" cy="17" r="3"/></g>
+      <g transform="translate(78,196)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="20" x2="20" y1="0" y2="34"/><line class="nl" x1="42" x2="42" y1="0" y2="34"/><circle class="np" cx="10" cy="17" r="3"/><text class="nt" x="31" y="22" style="font-size:12px">7</text><circle class="np" cx="52" cy="17" r="3"/></g>
+      <text class="lb" x="10" y="312">SOLID = NEXT (WRAPS LAST → HEAD)</text>
+      <text class="lb" x="10" y="326">DASHED = PREV (WRAPS HEAD → LAST)</text>
+    </svg>
+    <figcaption><b>FIG 5.2</b> Circular doubly linked list — both directions wrap, so <code>head-&gt;prev</code> is the last node (giving O(1) append!).</figcaption>
+  </figure>
+
+  <h3><span class="ix">5.2</span>Why use a circular list?</h3>
+  <ul>
+    <li>Natural fit for anything that <strong>repeats in a cycle</strong>.</li>
+    <li>No special-case NULL check needed when "wrapping around".</li>
+    <li><strong>Any node can act as an entry point</strong> — not just a fixed head.</li>
+    <li>Common uses: <strong>round-robin scheduling</strong>, looping playlists, the <strong>Josephus problem</strong>.</li>
+  </ul>
+  <p><strong>Advantage:</strong> no fixed header — the entry pointer can be shifted to any node in the list (we must have at least one entry pointer). <strong>Disadvantage:</strong> care must be taken while processing, or we may get into an <strong>infinite loop</strong>.</p>
+
+  <h3><span class="ix">5.3</span>Creation &amp; insertion</h3>
+  <figure class="code">
+    <figcaption><span>cll_create.c — creation, insert first, insert last</span><button class="copy">copy</button></figcaption>
+<pre><code>// Creation: the FIRST node points at ITSELF
+if (first == NULL) {
+    first = new;
+    new-&gt;next = first;            // a one-node circle
+}
+else {                            // attach a new node and keep it circular
+    temp = first;
+    while (temp-&gt;next != first)   // walk until we come back around
+        temp = temp-&gt;next;
+    temp-&gt;next = new;             // old last points to new node
+    new-&gt;next = first;            // new node closes the loop
+}
+
+// Insert at FIRST position — the last node must also be updated!
+temp = first;
+while (temp-&gt;next != first)
+    temp = temp-&gt;next;           // find the last node — O(n)
+temp-&gt;next = new;
+new-&gt;next = first;
+first = new;
+
+// Insert at LAST position — same walk, but head stays put
+temp = first;
+while (temp-&gt;next != first)
+    temp = temp-&gt;next;
+temp-&gt;next = new;
+new-&gt;next = first;</code></pre>
+  </figure>
+  <p>The modern O(1) alternative avoids the walk by inserting <em>right after</em> the head instead:</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 235" role="img" aria-label="Insert after head in a circular list">
+      <text class="lbd" x="8" y="22">BEFORE — insert 30 right after head</text>
+      <text class="hdt" x="10" y="64">head</text><path class="ar" d="M40,59 H70"/>
+      <g transform="translate(74,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,59 H174"/>
+      <g transform="translate(180,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,59 H280"/>
+      <g transform="translate(286,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="arg" d="M337,76 Q220,112 105,76"/>
+      <text class="lb" x="196" y="108">wraps back to head</text>
+      <text class="lbd" x="8" y="152">AFTER</text>
+      <text class="hdt" x="10" y="196">head</text><path class="ar" d="M40,191 H70"/>
+      <g transform="translate(74,174)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,191 H174"/>
+      <g transform="translate(180,174)"><rect class="nbd" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34" stroke="#fafaf6"/><text class="ntw" x="20" y="22">30</text><circle class="np" cx="51" cy="17" r="3.2" fill="#fafaf6"/></g>
+      <path class="ar" d="M235,191 H280"/>
+      <g transform="translate(286,174)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M341,191 H386"/>
+      <g transform="translate(392,174)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="arg" d="M443,208 Q220,248 105,212"/>
+      <text class="stx" x="8" y="120">① new-&gt;next = head-&gt;next ② head-&gt;next = new</text>
+    </svg>
+    <figcaption><b>FIG 5.3</b> Insert after head: same two writes as a plain singly list — the only difference anywhere is what the very last node's <code>next</code> points to.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>cll_core.cpp — insert, delete, print</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertAfterHead(Node* head, int value) {
+    Node* n = new Node{value, head-&gt;next};
+    head-&gt;next = n;                 // O(1) — no walking
+}
+
+void deleteAfterHead(Node* head) {
+    if (head-&gt;next == head) return; // only ONE node — deleting it
+                                    // would leave head dangling
+    Node* temp = head-&gt;next;
+    head-&gt;next = temp-&gt;next;
+    delete temp;
+}
+
+void printCircular(Node* head) {
+    if (!head) return;
+    Node* curr = head;
+    do {                             // do-while: head must be visited
+        std::cout &lt;&lt; curr-&gt;data &lt;&lt; " -&gt; ";
+        curr = curr-&gt;next;
+    } while (curr != head);          // stop after 1 lap, NOT nullptr
+}</code></pre>
+  </figure>
+  <p>The equivalent C <code>display</code> from the lecture walks with <code>while (temp-&gt;next != first)</code>, printing each node, then prints the last node's data <em>after</em> the loop — two ways to solve the same "don't loop forever" problem.</p>
+
+  <h3><span class="ix">5.4</span>Deletion — the C cases</h3>
+  <ul>
+    <li><strong>Single node:</strong> simply set <code>first = NULL</code> — nothing else exists.</li>
+    <li><strong>Key absent:</strong> print a "not found" message (use a <code>flag</code>: search sets <code>flag = 1</code> on a hit).</li>
+    <li><strong>First node (data 10):</strong> with two pointers: <code>first = first-&gt;next;</code> → last node's <code>next</code> updated to the new first → <code>temp-&gt;next = NULL; free(temp)</code>.</li>
+    <li><strong>Middle node (e.g. 20):</strong> pointer <code>a</code> on the previous node, <code>temp</code> on the victim: <code>a-&gt;next = temp-&gt;next; temp-&gt;next = NULL; free(temp)</code>.</li>
+    <li><strong>Last node:</strong> <code>a</code> on the second-last: <code>a-&gt;next = first;</code> (re-close the loop!) → <code>temp-&gt;next = NULL; free(temp)</code>.</li>
+  </ul>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 235" role="img" aria-label="Delete the node after head in a circular list">
+      <text class="lbd" x="8" y="22">BEFORE — remove the node after head (24)</text>
+      <text class="hdt" x="10" y="64">head</text><path class="ar" d="M40,59 H70"/>
+      <g transform="translate(74,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,59 H174"/>
+      <g transform="translate(180,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">24</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M235,59 H280"/>
+      <g transform="translate(286,42)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="arg" d="M337,76 Q220,112 105,76"/>
+      <text class="lb" x="196" y="108">wraps to head</text><text class="lb" x="196" y="32">temp</text>
+      <text class="lbd" x="8" y="152">AFTER</text>
+      <text class="hdt" x="10" y="196">head</text><path class="ar" d="M40,191 H70"/>
+      <g transform="translate(74,174)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">10</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="ar" d="M129,191 H174"/>
+      <g transform="translate(180,174)"><rect class="nbg" width="62" height="34" rx="5"/><text class="nts" x="20" y="22" fill="#9c9c93">24</text></g>
+      <path class="ar" d="M249,191 H274" style="stroke-dasharray:0"/>
+      <g transform="translate(286,174)"><rect class="nb" width="62" height="34" rx="5"/><line class="nl" x1="40" x2="40" y1="0" y2="34"/><text class="nt" x="20" y="22">7</text><circle class="np" cx="51" cy="17" r="3.2"/></g>
+      <path class="arg" d="M337,208 Q220,248 105,212"/>
+      <text class="stx" x="8" y="120">① temp = head-&gt;next ② head-&gt;next = temp-&gt;next ③ delete temp</text>
+    </svg>
+    <figcaption><b>FIG 5.4</b> Delete after head. The wrap arrow from 7 is untouched — the loop stays closed.</figcaption>
+  </figure>
+
+  <h3><span class="ix">5.5</span>The #1 circular-list bug</h3>
+  <div class="call warn">
+    <span class="cl">Pitfall — the infinite loop</span>
+    <pre style="font:400 12.5px/1.7 var(--mono);overflow-x:auto;margin:6px 0"><code>// BUG: this never stops on a circular list!
+Node* curr = head;
+while (curr != nullptr) {
+    // curr is NEVER nullptr here —
+    curr = curr-&gt;next;      // it just keeps wrapping around
+}</code></pre>
+    <p>Forgetting that a circular list has no NULL is the classic bug. Always stop on <strong>"back to head"</strong> (<code>curr != head</code>) — or a counted number of steps — instead.</p>
+  </div>
+
+  <h3><span class="ix">5.6</span>Application — round-robin CPU scheduling</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 400 330" role="img" aria-label="Round robin scheduling circle">
+      <path class="jar" d="M222,72 Q270,90 288,140"/>
+      <path class="jar" d="M288,180 Q270,230 222,248"/>
+      <path class="jar" d="M178,248 Q130,230 112,180"/>
+      <path class="jar" d="M112,140 Q130,90 178,72"/>
+      <g transform="translate(174,38)"><rect class="nb" width="52" height="34" rx="5"/><text class="nt" x="26" y="22">P1</text></g>
+      <g transform="translate(269,143)"><rect class="nb" width="52" height="34" rx="5"/><text class="nt" x="26" y="22">P2</text></g>
+      <g transform="translate(174,248)"><rect class="nb" width="52" height="34" rx="5"/><text class="nt" x="26" y="22">P3</text></g>
+      <g transform="translate(79,143)"><rect class="nbd" width="52" height="34" rx="5"/><text class="ntw" x="26" y="22">P4</text></g>
+      <text class="hdt" x="30" y="128">curr</text>
+      <path class="ar" d="M44,138 H74"/>
+      <text class="li" x="30" y="312">each process gets a time slice, then curr = curr-&gt;next —</text>
+      <text class="li" x="30" y="328">control wraps forever around the ready queue</text>
+    </svg>
+    <figcaption><b>FIG 5.5</b> Round-robin scheduling: the OS cycles through a circular list of ready processes, giving each a few milliseconds before moving on.</figcaption>
+  </figure>
+
+  <h3><span class="ix">5.7</span>Application — the Josephus problem</h3>
+  <div class="call def">
+    <span class="cl">Definition — Josephus problem</span>
+    <p><strong>n</strong> people stand in a circle, numbered 1 to n. Starting from person 1 and counting clockwise, in each step exactly <strong>k−1 people are skipped</strong> and the <strong>k-th person is eliminated</strong>. Counting resumes from the next person, and the process continues until only one person remains. <strong>Determine the position of the survivor.</strong></p>
+  </div>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Input</th><th>Elimination order</th><th>Survivor</th></tr></thead>
+    <tbody>
+      <tr><td>n = 5, k = 2</td><td>2 → 4 → 1 → 5</td><td>3</td></tr>
+      <tr><td>n = 7, k = 3</td><td>3 → 6 → 2 → 7 → 5 → 1</td><td>4</td></tr>
+    </tbody>
+  </table></div>
+  <p>A circular list makes the "wrap around" trivial to code: count k−1 steps of <code>curr = curr-&gt;next</code>, unlink the k-th node, repeat until one node remains.</p>
+
+  <div class="call tip">
+    <span class="cl">Examiner's shortcut — the Josephus recurrence</span>
+    <p>For a one-line answer in MCQs, compute with 0-indexed positions: <strong>J(1) = 0; J(n) = (J(n−1) + k) mod n</strong>, then add 1. Check: n=5, k=2 → J = 2 → survivor <strong>3</strong>; n=7, k=3 → J = 3 → survivor <strong>4</strong>. Both match the tables above.</p>
+  </div>
+
+  <h4>Live lab — Josephus elimination</h4>
+  <div class="lab">
+    <div class="lab-head"><span class="lab-tag">LIVE LAB</span><span class="lab-title">Josephus Elimination — reproduce the worked examples, then test the recurrence</span></div>
+    <div class="lab-controls" style="border-bottom:1px solid var(--line)">
+      <label>n <input type="number" id="josN" value="5" min="2" max="12" inputmode="numeric"></label>
+      <label>k <input type="number" id="josK" value="2" min="1" max="12" inputmode="numeric"></label>
+      <button id="josBuild">build circle</button>
+      <button id="josStep">eliminate next</button>
+      <button id="josPlay" class="ghost">auto play</button>
+    </div>
+    <div style="padding:14px"><svg id="josSvg" viewBox="0 0 340 340" style="width:100%;max-width:360px;display:block;margin:0 auto"></svg></div>
+    <div class="lab-status" id="josStat"></div>
+    <div class="survivor" id="josSurv" hidden></div>
+    <ol class="jlog" id="josLog"></ol>
+  </div>
+
+  <h3><span class="ix">5.8</span>Worked example</h3>
+  <div class="trace">
+    <div class="tstep"><span class="op">start</span><span class="state">head → [10] → [24] → [7] ↺ head</span><span class="why">circular list of 3</span></div>
+    <div class="tstep"><span class="op">insertAfterHead(30)</span><span class="state">head → [10] → [30] → [24] → [7] ↺ head</span><span class="why">new-&gt;next = head-&gt;next; head-&gt;next = new</span></div>
+    <div class="tstep"><span class="op">deleteAfterHead()</span><span class="state">head → [10] → [24] → [7] ↺ head</span><span class="why">temp = head-&gt;next (30); head-&gt;next = temp-&gt;next; delete temp</span></div>
+  </div>
+</section>
+
+<!-- ==================== § 6 POLYNOMIALS ==================== -->
+<section id="s6">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 06</span><span class="sec-rule"></span></div>
+    <h2>Application · Polynomials</h2>
+    <p class="sec-sub">Each term becomes one node — coefficient, exponent, and next</p>
+  </header>
+
+  <h3><span class="ix">6.1</span>Representing a polynomial</h3>
+  <p>Why a linked list? Because a polynomial is <strong>sparse</strong> — <code>5x³ + 2x + 7</code> has only three terms, but an array indexed by exponent would need slots for exponents 0…3 (and <code>x¹⁰⁰⁰ + 1</code> would need a thousand). The linked representation stores <strong>only the non-zero terms</strong>, in <strong>decreasing order of exponent</strong>: no prior estimation of the number of nodes, easy insertion and deletion of terms — at the price of no random access.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 620 150" role="img" aria-label="Polynomial as linked list">
+      <text class="hdt" x="8" y="71">head</text><path class="ar" d="M38,67 H64"/>
+      <text class="lb" x="92" y="36">COEFF</text><text class="lb" x="136" y="36">EXP</text><text class="lb" x="168" y="36">NEXT</text>
+      <g transform="translate(70,50)"><rect class="nb" width="118" height="34" rx="5"/><line class="nl" x1="44" x2="44" y1="0" y2="34"/><line class="nl" x1="88" x2="88" y1="0" y2="34"/><text class="nt" x="22" y="22">5</text><text class="nt" x="66" y="22">3</text><circle class="np" cx="103" cy="17" r="3"/></g>
+      <path class="ar" d="M177,67 H244"/>
+      <g transform="translate(250,50)"><rect class="nb" width="118" height="34" rx="5"/><line class="nl" x1="44" x2="44" y1="0" y2="34"/><line class="nl" x1="88" x2="88" y1="0" y2="34"/><text class="nt" x="22" y="22">2</text><text class="nt" x="66" y="22">1</text><circle class="np" cx="103" cy="17" r="3"/></g>
+      <path class="ar" d="M357,67 H424"/>
+      <g transform="translate(430,50)"><rect class="nb" width="118" height="34" rx="5"/><line class="nl" x1="44" x2="44" y1="0" y2="34"/><line class="nl" x1="88" x2="88" y1="0" y2="34"/><text class="nt" x="22" y="22">7</text><text class="nt" x="66" y="22">0</text><circle class="np" cx="103" cy="17" r="3"/></g>
+      <path class="ar" d="M537,67 H566"/><text class="ntg" x="570" y="71">NULL</text>
+      <text class="li" x="70" y="118">5x³ + 2x + 7 — exponents strictly decreasing; zero-coefficient terms left out entirely</text>
+    </svg>
+    <figcaption><b>FIG 6.1</b> A polynomial is a list of (coefficient, exponent) nodes. A polynomial <em>is</em> a linked list of terms.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>term.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>struct Term {
+    int coeff;
+    int exp;
+    Term* next;
+};
+using Polynomial = Term*;    // a polynomial IS a list of terms</code></pre>
+  </figure>
+
+  <h3><span class="ix">6.2</span>Building a polynomial — sorted insert</h3>
+  <figure class="code">
+    <figcaption><span>insert_term.cpp — keeps the list sorted, largest exponent first</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertTerm(Term*&amp; poly, int coeff, int exp) {
+    if (!poly || exp &gt; poly-&gt;exp) {          // new front, or empty list
+        poly = new Term{coeff, exp, poly};
+        return;
+    }
+    Term* curr = poly;
+    while (curr-&gt;next &amp;&amp; curr-&gt;next-&gt;exp &gt; exp)
+        curr = curr-&gt;next;
+    curr-&gt;next = new Term{coeff, exp, curr-&gt;next};
+}</code></pre>
+  </figure>
+  <details class="gen">
+    <summary>Extension — insertTerm that combines like terms (needed for multiplication)</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>insert_term_combined.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>void insertTerm(Term*&amp; poly, int coeff, int exp) {
+    if (!poly || exp &gt; poly-&gt;exp) {
+        poly = new Term{coeff, exp, poly};
+        return;
+    }
+    if (exp == poly-&gt;exp) {                 // combine at the head
+        poly-&gt;coeff += coeff;
+        return;
+    }
+    Term* curr = poly;
+    while (curr-&gt;next &amp;&amp; curr-&gt;next-&gt;exp &gt; exp)
+        curr = curr-&gt;next;
+    if (curr-&gt;next &amp;&amp; curr-&gt;next-&gt;exp == exp) {  // equal exponent:
+        curr-&gt;next-&gt;coeff += coeff;                // add, don't insert
+        if (curr-&gt;next-&gt;coeff == 0) {              // 5x² + (−5x²) = 0
+            Term* dead = curr-&gt;next;
+            curr-&gt;next = dead-&gt;next;
+            delete dead;
+        }
+    } else
+        curr-&gt;next = new Term{coeff, exp, curr-&gt;next};
+}</code></pre>
+      </figure>
+    </div>
+  </details>
+
+  <h3><span class="ix">6.3</span>Adding two polynomials</h3>
+  <p>Walk A and B together, one term each, <strong>like merging two sorted lists</strong>:</p>
+  <ol>
+    <li><strong>Same exponent</strong> → add the coefficients into one result term; advance both.</li>
+    <li><strong>A's exponent larger</strong> → copy A's term; advance only A.</li>
+    <li><strong>B's exponent larger</strong> → copy B's term; advance only B.</li>
+  </ol>
+  <p>When one list runs out, append the remainder of the other. Each pointer only ever moves forward, so the whole addition is <strong>O(m + n)</strong>.</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="Polynomial addition walkthrough">
+      <text class="hdt" x="8" y="46">A →</text>
+      <g transform="translate(90,30)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">3</text><text class="nt" x="57" y="22">2</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M182,47 H226"/>
+      <g transform="translate(230,30)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">2</text><text class="nt" x="57" y="22">0</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M322,47 H352"/><text class="ntg" x="356" y="51">NULL</text>
+      <text class="li" x="420" y="46">A = 3x² + 2</text>
+      <text class="hdt" x="8" y="111">B →</text>
+      <g transform="translate(90,95)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">5</text><text class="nt" x="57" y="22">2</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M182,112 H226"/>
+      <g transform="translate(230,95)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">4</text><text class="nt" x="57" y="22">1</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M322,112 H352"/><text class="ntg" x="356" y="116">NULL</text>
+      <text class="li" x="420" y="111">B = 5x² + 4x</text>
+      <path class="ar" d="M138,66 V182"/><path class="ar" d="M138,131 V182"/>
+      <path class="ar" d="M278,131 Q278,160 278,182"/>
+      <path class="ar" d="M278,66 Q370,150 418,182"/>
+      <text class="lb" x="152" y="130">3 + 5 = 8 — EXPONENTS MATCH</text>
+      <text class="lb" x="292" y="160">COPY FROM B</text>
+      <text class="lb" x="330" y="112">COPY FROM A</text>
+      <text class="hdt" x="8" y="216">A+B →</text>
+      <g transform="translate(90,196)"><rect class="nbd" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34" stroke="#fafaf6"/><line class="nl" x1="76" x2="76" y1="0" y2="34" stroke="#fafaf6"/><text class="ntw" x="19" y="22">8</text><text class="ntw" x="57" y="22">2</text><circle class="np" cx="86" cy="17" r="3" fill="#fafaf6"/></g>
+      <path class="ar" d="M182,213 H226"/>
+      <g transform="translate(230,196)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">4</text><text class="nt" x="57" y="22">1</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M322,213 H366"/>
+      <g transform="translate(370,196)"><rect class="nb" width="96" height="34" rx="5"/><line class="nl" x1="38" x2="38" y1="0" y2="34"/><line class="nl" x1="76" x2="76" y1="0" y2="34"/><text class="nt" x="19" y="22">2</text><text class="nt" x="57" y="22">0</text><circle class="np" cx="86" cy="17" r="3"/></g>
+      <path class="ar" d="M462,213 H492"/><text class="ntg" x="496" y="217">NULL</text>
+      <text class="li" x="420" y="216">= 8x² + 4x + 2</text>
+    </svg>
+    <figcaption><b>FIG 6.2</b> Adding 3x² + 2 and 5x² + 4x: the x² terms merge into 8x², then 4x is copied from B, then 2 from A.</figcaption>
+  </figure>
+
+  <figure class="code">
+    <figcaption><span>add_poly.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>Term* addPoly(Term* a, Term* b) {
+    Term* result = nullptr; Term* tail = nullptr;
+
+    auto append = [&amp;](int c, int e) {         // append at TAIL — O(1)
+        Term* n = new Term{c, e, nullptr};
+        if (!result) result = tail = n;
+        else { tail-&gt;next = n; tail = n; }
+    };
+
+    while (a &amp;&amp; b) {
+        if (a-&gt;exp == b-&gt;exp) {               // same exponent: add
+            append(a-&gt;coeff + b-&gt;coeff, a-&gt;exp);
+            a = a-&gt;next; b = b-&gt;next;
+        } else if (a-&gt;exp &gt; b-&gt;exp) {         // A's term is bigger
+            append(a-&gt;coeff, a-&gt;exp); a = a-&gt;next;
+        } else {                               // B's term is bigger
+            append(b-&gt;coeff, b-&gt;exp); b = b-&gt;next;
+        }
+    }
+    while (a) { append(a-&gt;coeff, a-&gt;exp); a = a-&gt;next; }  // leftovers
+    while (b) { append(b-&gt;coeff, b-&gt;exp); b = b-&gt;next; }
+    return result;
+}</code></pre>
+  </figure>
+  <div class="call tip">
+    <span class="cl">Why the tail pointer here?</span>
+    <p><code>append</code> keeps a <code>tail</code> pointer so each result term costs O(1) — the very optimisation discussed in § 3.6. Without it, building an m+n term result by repeated tail-inserts would be O((m+n)²).</p>
+  </div>
+
+  <h3><span class="ix">6.4</span>Multiplying two polynomials</h3>
+  <ul>
+    <li>Multiply <strong>every term of A by every term of B</strong>.</li>
+    <li>Term arithmetic: <strong>(c₁, e₁) × (c₂, e₂) → (c₁·c₂, e₁+e₂)</strong>.</li>
+    <li>This produces up to <strong>|A| × |B|</strong> partial-product terms.</li>
+    <li><strong>Combine terms with equal exponents</strong> (add their coefficients) — use the combining <code>insertTerm</code>.</li>
+  </ul>
+  <figure class="code">
+    <figcaption><span>mult_poly.cpp — sketch</span><button class="copy">copy</button></figcaption>
+<pre><code>Term* multPoly(Term* a, Term* b) {
+    Term* result = nullptr;
+    for (Term* pa = a; pa; pa = pa-&gt;next)
+        for (Term* pb = b; pb; pb = pb-&gt;next)
+            insertTerm(result, pa-&gt;coeff * pb-&gt;coeff,
+                               pa-&gt;exp   + pb-&gt;exp);
+    // insertTerm must combine equal exponents (see § 6.2 extension)
+    return result;
+}</code></pre>
+  </figure>
+  <p><strong>Complexity:</strong> O(m·n) partial products are generated; each insertion into the result costs up to O(result length), giving O(m·n·(m+n)) with this simple scheme — fine for exam answers, and the standard "combine as you insert" improvement is the extension above.</p>
+</section>
+
+<!-- ==================== § 7 ALLOCATORS ==================== -->
+<section id="s7">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 07</span><span class="sec-rule"></span></div>
+    <h2>Application · Memory Management</h2>
+    <p class="sec-sub">The allocator itself is built out of a linked list</p>
+  </header>
+
+  <h3><span class="ix">7.1</span>The allocator's free list</h3>
+  <p>The heap is one big pool of memory; the allocator threads every currently-free block into <strong>its own linked list</strong> (§ 2.4). Each free block stores its own <strong>size</strong> and a <strong>next</strong> pointer to the following free block.</p>
+
+  <h3><span class="ix">7.2</span>First-fit allocation</h3>
+  <ol>
+    <li>Walk the free list from <code>free_head</code>.</li>
+    <li>Stop at the <strong>first block whose size ≥ the request</strong>.</li>
+    <li>If it's much bigger than needed, <strong>split it in two</strong>.</li>
+    <li><strong>Unlink</strong> the (used) block from the free list; return it to the caller.</li>
+  </ol>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 210" role="img" aria-label="First fit allocation">
+      <text class="hdt" x="8" y="66">free_head</text>
+      <path class="ar" d="M80,62 H96"/>
+      <g transform="translate(100,44)"><rect class="nbg" width="70" height="36" rx="5"/><text class="nts" x="35" y="23" fill="#9c9c93">8 B</text></g>
+      <path class="ar" d="M174,62 H216"/>
+      <g transform="translate(220,44)"><rect class="nb" width="100" height="36" rx="5" style="stroke-width:2.6"/><text class="nt" x="50" y="23">40 B</text></g>
+      <path class="ar" d="M324,62 H366"/>
+      <g transform="translate(370,44)"><rect class="nbg" width="80" height="36" rx="5"/><text class="nts" x="40" y="23" fill="#9c9c93">16 B</text></g>
+      <path class="ar" d="M454,62 H484"/><text class="ntg" x="488" y="66">NULL</text>
+      <text class="li" x="100" y="32">× too small</text><text class="li" x="382" y="32">× later — first fit stops here</text>
+      <g transform="translate(220,0)"><rect class="nbd" width="100" height="0"/></g>
+      <rect class="nbd" x="228" y="10" width="88" height="22" rx="11"/><text class="ntws" x="272" y="25" style="font-size:10px">request 20 B</text>
+      <path class="ar" d="M272,34 V42"/>
+      <text class="lbd" x="8" y="136">AFTER — THE 40 B BLOCK IS SPLIT</text>
+      <g transform="translate(220,150)"><rect class="nbd" width="50" height="36" rx="5"/><text class="ntws" x="25" y="23" style="font-size:11px">20B</text></g>
+      <g transform="translate(270,150)"><rect class="nh" width="50" height="36" rx="5"/><text class="nts" x="25" y="23">20B</text></g>
+      <text class="li" x="336" y="173">used half returned to the caller;</text>
+      <text class="li" x="336" y="189">20 B remainder stays on the free list</text>
+    </svg>
+    <figcaption><b>FIG 7.1</b> First-fit with a 20 B request: the 8 B block is skipped, the 40 B block is chosen and split.</figcaption>
+  </figure>
+  <p class="tnote">Sibling strategies (know the names): <strong>best fit</strong> picks the smallest adequate block; <strong>worst fit</strong> picks the largest; <strong>next fit</strong> resumes the search where the last one stopped.</p>
+
+  <h3><span class="ix">7.3</span>A tiny first-fit allocator</h3>
+  <figure class="code">
+    <figcaption><span>alloc.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>struct Block { size_t size; Block* next; };
+Block* freeHead;
+
+void* myAlloc(size_t n) {
+    Block** p = &amp;freeHead;                 // pointer TO the link itself
+    while (*p &amp;&amp; (*p)-&gt;size &lt; n)
+        p = &amp;(*p)-&gt;next;                   // advance — no prev pointer!
+    if (!*p) return nullptr;               // out of memory
+
+    Block* b = *p;
+    *p = b-&gt;next;                          // unlink from the free list
+    return (void*)(b + 1);                 // user data starts just
+}                                          // AFTER the size header
+// myFree(ptr) does the reverse: relink the block back onto the free list</code></pre>
+  </figure>
+  <p><strong>The pointer-to-pointer idiom:</strong> <code>p</code> is the <em>address of the link</em> that points at the current block (first <code>&amp;freeHead</code>, then <code>&amp;block-&gt;next</code>). To unlink, we just write <code>*p = b-&gt;next;</code> — no separate <code>prev</code> pointer, no head special-case. <code>(b + 1)</code> is pointer arithmetic: one <code>Block</code> past the header, i.e. the bytes the user may use.</p>
+
+  <h3><span class="ix">7.4</span>Coalescing — fighting fragmentation on free</h3>
+  <p>When a block is freed, the allocator checks its <strong>immediate neighbours in memory</strong>; if they're also free, it <strong>merges them into one larger block</strong> instead of leaving adjacent free fragments — directly countering external fragmentation.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 560 175" role="img" aria-label="Coalescing before and after">
+      <text class="lbd" x="8" y="24">BEFORE free(B)</text>
+      <g transform="translate(60,34)"><rect class="nh" width="90" height="40"/><text class="nts" x="45" y="26">A · free</text></g>
+      <g transform="translate(150,34)"><rect class="nb" width="110" height="40"/><text class="nts" x="55" y="26">B · used</text></g>
+      <g transform="translate(260,34)"><rect class="nh" width="90" height="40"/><text class="nts" x="45" y="26">C · free</text></g>
+      <path class="ar" d="M205,80 V106"/>
+      <text class="lb" x="215" y="98">free(B)</text>
+      <text class="lbd" x="8" y="130">AFTER</text>
+      <g transform="translate(60,140)"><rect class="nh" width="290" height="34"/><text class="nts" x="145" y="22">A + B + C — one big free block</text></g>
+    </svg>
+    <figcaption><b>FIG 7.2</b> Coalescing merges physically adjacent free blocks so future large requests can succeed.</figcaption>
+  </figure>
+
+  <h3><span class="ix">7.5</span>Beyond manual delete: garbage collection</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Strategy</th><th>How it works</th><th>Strength</th><th>Weakness</th></tr></thead>
+    <tbody>
+      <tr><td>Reference counting</td><td>each object stores a count of pointers to it; count hits zero → freed immediately</td><td>simple, immediate reclamation</td><td>cannot free <strong>reference cycles</strong></td></tr>
+      <tr><td>Mark-and-sweep</td><td>pause; walk every pointer reachable from "roots"; mark each object reached; sweep frees the unmarked rest</td><td>handles cycles</td><td>pauses the program to run</td></tr>
+    </tbody>
+  </table></div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 560 270" role="img" aria-label="Mark and sweep reachability">
+      <g transform="translate(30,105)"><rect class="nbd" width="86" height="56" rx="5"/><text class="ntws" x="43" y="26" style="font-size:10px">ROOTS</text><text class="ntws" x="43" y="42" style="font-size:9px">stack · globals</text></g>
+      <path class="ar" d="M118,120 Q150,60 174,44"/>
+      <path class="ar" d="M118,134 H174"/>
+      <g transform="translate(178,22)"><rect class="nbd" width="64" height="36" rx="5"/><text class="ntw" x="32" y="23">A</text></g>
+      <g transform="translate(178,112)"><rect class="nbd" width="64" height="36" rx="5"/><text class="ntw" x="32" y="23">B</text></g>
+      <path class="ar" d="M244,46 Q290,55 314,72"/>
+      <path class="ar" d="M244,128 Q280,115 314,90"/>
+      <g transform="translate(318,62)"><rect class="nbd" width="64" height="36" rx="5"/><text class="ntw" x="32" y="23">C</text></g>
+      <path class="ar" d="M384,200 H446"/>
+      <path class="ar" d="M446,212 H384"/>
+      <g transform="translate(318,182)"><rect class="nbg" width="64" height="36" rx="5"/><text class="nts" x="32" y="23" fill="#9c9c93">D</text></g>
+      <g transform="translate(448,182)"><rect class="nbg" width="64" height="36" rx="5"/><text class="nts" x="32" y="23" fill="#9c9c93">E</text></g>
+      <text class="lb" x="160" y="16">MARKED — REACHABLE</text>
+      <text class="lb" x="330" y="246">UNREACHABLE — D ⇄ E FORM A CYCLE</text>
+      <path class="nlg" d="M350,240 L370,200"/>
+      <text class="li" x="10" y="240">sweep phase: anything not marked from a root is garbage —</text>
+      <text class="li" x="10" y="256">its memory is linked back onto the free list</text>
+    </svg>
+    <figcaption><b>FIG 7.3</b> Mark-and-sweep. Note the cycle D ⇄ E: reference counting would keep both alive forever (each counts 1 pointer); mark-and-sweep frees them, because no root reaches them.</figcaption>
+  </figure>
+</section>
+
+<!-- ==================== § 8 COMPARISON ==================== -->
+<section id="s8">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 08</span><span class="sec-rule"></span></div>
+    <h2>The Big Comparison</h2>
+    <p class="sec-sub">Array vs. singly vs. doubly vs. circular — and how to choose</p>
+  </header>
+
+  <h3><span class="ix">8.1</span>Master complexity table</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Operation</th><th>Array</th><th>Singly LL</th><th>Doubly LL</th><th>Circular LL</th></tr></thead>
+    <tbody>
+      <tr><td>Access by index</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+      <tr><td>Insert at front</td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(1)</td></tr>
+      <tr><td>Insert at end</td><td>O(1)*<sup></sup></td><td>O(n)</td><td>O(1)†</td><td>O(1)†</td></tr>
+      <tr><td>Delete, node in hand</td><td>O(n)</td><td>O(n)</td><td>O(1)</td><td>O(1) / O(n)‡</td></tr>
+      <tr><td>Traverse backward</td><td>Yes (i−−)</td><td>No</td><td>Yes</td><td>SLL: no · DLL: yes</td></tr>
+      <tr><td>Extra memory / element</td><td>None</td><td>1 pointer</td><td>2 pointers</td><td>1–2 pointers</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tnote">* Amortised, when spare capacity exists at the end of the array. † With a tail pointer — or in a circular DLL, where <code>head-&gt;prev</code> <em>is</em> the last node. ‡ Circular: O(1) in a CDLL with the node in hand; O(n) in a circular SLL unless the previous node is known.</p>
+
+  <h3><span class="ix">8.2</span>When to use which structure</h3>
+  <div class="call tip">
+    <span class="cl">The guiding principle</span>
+    <p>Pick the <strong>simplest structure that supports the access pattern your algorithm needs</strong> — not the most powerful one.</p>
+  </div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Structure</th><th>Best when…</th></tr></thead>
+    <tbody>
+      <tr><td>Array</td><td>You need fast random access and the size rarely changes</td></tr>
+      <tr><td>Singly linked list</td><td>You mostly insert/delete at the front (e.g. a stack, a free list)</td></tr>
+      <tr><td>Doubly linked list</td><td>You need to move in both directions or delete arbitrary nodes fast</td></tr>
+      <tr><td>Circular linked list</td><td>The data is naturally cyclic (scheduling, looping playlists)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="ix">8.3</span>Decision guide</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 400" role="img" aria-label="Decision flowchart for choosing a structure">
+      <g transform="translate(110,10)"><rect class="nbd" width="110" height="34" rx="17"/><text class="ntw" x="55" y="22" style="font-size:11px">Start</text></g>
+      <path class="ar" d="M165,44 V52"/>
+      <path class="dia" d="M60,90 L165,52 L270,90 L165,128 Z"/>
+      <text class="nts" x="165" y="84" style="font-size:10px">random access</text><text class="nts" x="165" y="98" style="font-size:10px">by index?</text>
+      <path class="ar" d="M270,90 H336"/><text class="lb" x="284" y="82">YES</text>
+      <g transform="translate(340,72)"><rect class="nb" width="150" height="36" rx="5"/><text class="nts" x="75" y="23" style="font-size:11px">ARRAY</text></g>
+      <path class="ar" d="M165,128 V152"/><text class="lb" x="172" y="146">NO</text>
+      <path class="dia" d="M60,190 L165,152 L270,190 L165,228 Z"/>
+      <text class="nts" x="165" y="184" style="font-size:10px">backward</text><text class="nts" x="165" y="198" style="font-size:10px">traversal too?</text>
+      <path class="ar" d="M60,190 H16 V224" style="marker-end:none"/><path class="ar" d="M16,224 V300"/>
+      <g transform="translate(20,188)"><rect class="nb" width="0" height="0"/></g>
+      <text class="lb" x="24" y="182">NO</text>
+      <path class="ar" d="M165,228 V252"/><text class="lb" x="172" y="246">YES</text>
+      <path class="dia" d="M60,290 L165,252 L270,290 L165,328 Z"/>
+      <text class="nts" x="165" y="284" style="font-size:10px">data is</text><text class="nts" x="165" y="298" style="font-size:10px">cyclic?</text>
+      <path class="ar" d="M270,290 H336"/><text class="lb" x="284" y="282">YES</text>
+      <g transform="translate(340,272)"><rect class="nb" width="150" height="36" rx="5"/><text class="nts" x="75" y="23" style="font-size:11px">CIRCULAR (DLL)</text></g>
+      <path class="ar" d="M165,328 V346"/><text class="lb" x="172" y="342">NO</text>
+      <g transform="translate(90,348)"><rect class="nb" width="150" height="36" rx="5"/><text class="nts" x="75" y="23" style="font-size:11px">DOUBLY LINKED LL</text></g>
+      <g transform="translate(-30,300)"><rect class="nb" width="120" height="36" rx="5"/><text class="nts" x="60" y="23" style="font-size:11px">SINGLY LL</text></g>
+    </svg>
+    <figcaption><b>FIG 8.1</b> The decision guide: three questions sort every situation. (The SINGLY LL branch follows the left "No" path from the middle diamond.)</figcaption>
+  </figure>
+
+  <h3><span class="ix">8.4</span>Sequential vs. linked organization</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Aspect</th><th>Sequential organization (array)</th><th>Linked organization (linked list)</th></tr></thead>
+    <tbody>
+      <tr><td>Definition</td><td>Elements in consecutive memory locations</td><td>Nodes allocated randomly; pointers link them</td></tr>
+      <tr><td>Advantages</td><td>O(1) random access; no per-element pointer overhead</td><td>Dynamic growth; efficient insertion &amp; deletion; no size estimation needed</td></tr>
+      <tr><td>Disadvantages</td><td>Shifting on insert/delete; fixed size; wasteful over-allocation</td><td>No random access; extra memory for links; cache-unfriendly</td></tr>
+      <tr><td>Example</td><td><code>int a[10]</code></td><td>SLL, DLL, CLL node chains</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ==================== § 9 IN THE WILD ==================== -->
+<section id="s9">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 09</span><span class="sec-rule"></span></div>
+    <h2>Linked Lists in the Wild</h2>
+    <p class="sec-sub">Real systems you use every day, and the list hiding inside each</p>
+  </header>
+
+  <h3><span class="ix">9.1</span>Singly linked lists — under-the-hood systems</h3>
+  <p>Each item points only to the next; highly optimised for adding or removing items quickly at the ends.</p>
+  <ul>
+    <li><strong>OS memory management</strong> — the OS keeps a linked list of "free blocks" to track available RAM. Opening/closing programs (<code>malloc</code> / <code>free</code>) splits or merges list nodes <em>without rearranging physical memory</em>.</li>
+    <li><strong>Blockchain networks</strong> — conceptually, Bitcoin or Ethereum behave like a singly linked list: each block of transactions contains data and a digital "pointer" (a <strong>hash</strong>) to the previous block, creating an immutable chain.</li>
+    <li><strong>Hash-map collision handling</strong> — deep inside language runtimes (Python dictionaries, Java HashMaps), two keys that hash to the same bucket are handled by chaining a linked list of entries at that bucket (<em>separate chaining</em>).</li>
+  </ul>
+
+  <h3><span class="ix">9.2</span>Doubly linked lists — bidirectional navigation</h3>
+  <p>Each node points to both the next and the previous item — ideal wherever you must move back and forth.</p>
+  <ul>
+    <li><strong>Browser history</strong> — clicking Back or Forward in Chrome/Firefox traverses a doubly linked list of visited URLs.</li>
+    <li><strong>Undo / redo</strong> — Word, VS Code, and Photoshop log actions as nodes; Undo walks the pointer backward, Redo forward.</li>
+    <li><strong>Image viewers</strong> — gallery apps let you swipe to the next image or back to the previous one seamlessly.</li>
+  </ul>
+
+  <h3><span class="ix">9.3</span>Circular linked lists — continuous loops</h3>
+  <p>The final item points back to the very first, creating an endless cycle.</p>
+  <ul>
+    <li><strong>Music &amp; video playlists</strong> — Spotify or VLC: when the final song finishes, the player loops back to the first track ("repeat all").</li>
+    <li><strong>OS task scheduling</strong> — round-robin: the OS cycles through a circular list of active programs, giving each a few milliseconds of CPU before moving to the next.</li>
+    <li><strong>Traffic-light controllers</strong> — automated systems cycle repeatedly through Green → Yellow → Red states.</li>
+  </ul>
+</section>
+
+<!-- ==================== § 10 EXAM CORNER ==================== -->
+<section id="s10">
+  <header>
+    <div class="sec-top"><span class="sec-no">§ 10</span><span class="sec-rule"></span></div>
+    <h2>Exam Corner</h2>
+    <p class="sec-sub">Key takeaways · cheat sheet · MCQs with answers · solved practice set · question bank</p>
+  </header>
+
+  <h3><span class="ix">10.1</span>Key takeaways</h3>
+  <ul>
+    <li>Linked lists trade the array's O(1) random access for <strong>O(1) insert/delete</strong>.</li>
+    <li>A node is just <strong>a value plus one or two pointers</strong> — everything else follows.</li>
+    <li><strong>Fragmentation is why allocators (and free lists) exist</strong> in the first place.</li>
+    <li>Doubly linked lists add a <code>prev</code> pointer for <strong>backward traversal &amp; O(1) delete</strong>.</li>
+    <li>Circular lists replace "until NULL" with <strong>"until back at head"</strong>.</li>
+    <li>Polynomials and memory allocators are both, underneath, <strong>linked lists</strong>.</li>
+  </ul>
+
+  <h3><span class="ix">10.2</span>Cheat sheet — complexity at a glance</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Operation</th><th>Array</th><th>Singly LL</th><th>Doubly LL</th><th>Circular LL</th></tr></thead>
+    <tbody>
+      <tr><td>Access by index</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+      <tr><td>Insert at head</td><td>O(n)</td><td>O(1)</td><td>O(1)</td><td>O(1)</td></tr>
+      <tr><td>Delete given a node</td><td>O(n)</td><td>O(n)</td><td>O(1)</td><td>O(1)/O(n)</td></tr>
+      <tr><td>Traverse backward</td><td>Yes (i−−)</td><td>No</td><td>Yes</td><td>SLL: no · DLL: yes</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="ix">10.3</span>Review questions (click to reveal)</h3>
+  <details class="qa"><summary>Q1. What is the time complexity of inserting a new node at the head of a singly linked list?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) O(1)</span><span>B) O(n)</span><span>C) O(log n)</span><span>D) O(n²)</span></div>
+      <span class="verdict">Answer — A · O(1)</span>
+      <p>No traversal is needed to insert at the head: two pointer writes (<code>newNode-&gt;next = head; head = newNode;</code>) and you're done.</p>
+    </div>
+  </details>
+  <details class="qa"><summary>Q2. In a singly linked list, what does the last node's next pointer store?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) address of the head node</span><span>B) nullptr</span><span>C) its own address</span><span>D) a garbage value</span></div>
+      <span class="verdict">Answer — B · nullptr</span>
+      <p>NULL marks the end of a NULL-terminated list — it is the sentinel every traversal loop watches for.</p>
+    </div>
+  </details>
+  <details class="qa"><summary>Q3. Which structure allows O(1) deletion of a node given only a pointer to it (no search)?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) Array</span><span>B) Singly linked list</span><span>C) Doubly linked list</span><span>D) None of these</span></div>
+      <span class="verdict">Answer — C · Doubly linked list</span>
+      <p>The <code>prev</code> pointer gives the predecessor for free, avoiding the search a singly linked list must perform.</p>
+    </div>
+  </details>
+  <details class="qa"><summary>Q4. What is external fragmentation?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) wasted space inside an allocated block</span><span>B) free memory split into many small, non-adjacent gaps</span><span>C) a pointer that references freed memory</span><span>D) a cycle in a linked list</span></div>
+      <span class="verdict">Answer — B</span>
+      <p>Scattered free gaps: total free space is enough, but no single gap is. (A describes <em>internal</em> fragmentation; C a dangling pointer; D a list bug.)</p>
+    </div>
+  </details>
+  <details class="qa"><summary>Q5. In a circular singly linked list, how do you know traversal has completed one lap?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) curr becomes nullptr</span><span>B) curr equals head again</span><span>C) a counter reaches zero</span><span>D) the list throws an exception</span></div>
+      <span class="verdict">Answer — B · curr == head</span>
+      <p>A circular list has no NULL to stop on — the loop must watch for "back to head" instead.</p>
+    </div>
+  </details>
+  <details class="qa"><summary>Q6. Adding two polynomial lists — what happens when two terms share an exponent?</summary>
+    <div class="ans">
+      <div class="opts"><span>A) keep only the first term</span><span>B) add their coefficients into one result term</span><span>C) discard both terms</span><span>D) multiply their coefficients</span></div>
+      <span class="verdict">Answer — B</span>
+      <p>Matching exponents combine into one term: 3x² + 5x² → 8x². Both pointers then advance.</p>
+    </div>
+  </details>
+
+  <h3><span class="ix">10.4</span>Practice problems — fully solved</h3>
+
+  <details class="gen"><summary>P1 · Why is inserting at the tail of a singly linked list O(n), unless a tail pointer is maintained?</summary>
+    <div class="inner"><p>With only <code>head</code>, the last node can be found only by walking all n links — hence O(n). If the list also maintains a <code>tail</code> pointer (updated whenever a node is appended or the last node deleted), appending is two writes: <code>tail-&gt;next = n; tail = n;</code> — O(1). This is exactly how the queue of § P8 achieves O(1) enqueue.</p></div>
+  </details>
+
+  <details class="gen"><summary>P2 · Dangling pointer vs. memory leak — the difference</summary>
+    <div class="inner">
+      <p><strong>Dangling pointer:</strong> memory is freed but pointers to it still exist and may be used → undefined behaviour. <strong>Memory leak:</strong> memory is still allocated but no pointer can reach it → it can never be freed.</p>
+      <pre style="font:400 12px/1.7 var(--mono);overflow-x:auto;background:var(--surface);padding:10px 12px;border:1px solid var(--line)"><code>Node* p = new Node{1,nullptr};
+delete p;        // p is now DANGLING (freed, still addressable)
+Node* q = new Node{2,nullptr};
+q = nullptr;     // the node {2} is LEAKED (allocated, unreachable)</code></pre>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P3 · Why must the circular-list stopping condition differ from a NULL-terminated list?</summary>
+    <div class="inner"><p>In a circular list <code>next</code> is never NULL — the last node points back to head. A <code>while (curr != nullptr)</code> loop therefore never terminates. The correct condition is <code>curr != head</code> inside a <code>do…while</code> (the do-while guarantees the first node is visited before the equality test ends the lap).</p></div>
+  </details>
+
+  <details class="gen"><summary>P4 · Reverse a singly linked list — iterative &amp; recursive</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>reverse.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>// Iterative — three-pointer slide (same as invert(), § 3.12)
+Node* reverse(Node* head) {
+    Node *prev = nullptr, *curr = head;
+    while (curr) {
+        Node* nxt = curr-&gt;next;   // remember the rest
+        curr-&gt;next = prev;        // flip ONE arrow
+        prev = curr;              // advance both
+        curr = nxt;
+    }
+    return prev;                  // old tail = new head
+}
+
+// Recursive — reverse the rest, then hook head behind it
+Node* reverseRec(Node* head) {
+    if (!head || !head-&gt;next) return head;
+    Node* newHead = reverseRec(head-&gt;next);
+    head-&gt;next-&gt;next = head;      // node after me points back at me
+    head-&gt;next = nullptr;         // I become the tail
+    return newHead;
+}</code></pre>
+      </figure>
+      <p style="font-size:14.5px">Iterative: O(n) time, O(1) space. Recursive: O(n) time, O(n) call-stack space.</p>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P5 · Detect a cycle — Floyd's slow/fast pointers</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>floyd.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>bool hasCycle(Node* head) {
+    Node *slow = head, *fast = head;
+    while (fast &amp;&amp; fast-&gt;next) {
+        slow = slow-&gt;next;          // 1 step
+        fast = fast-&gt;next-&gt;next;    // 2 steps
+        if (slow == fast) return true;
+    }
+    return false;                    // fast fell off → no cycle
+}</code></pre>
+      </figure>
+      <p style="font-size:14.5px"><strong>Why it works:</strong> if a cycle exists, both pointers end up inside it; fast gains on slow by exactly one node per iteration, so the gap shrinks to 0 — they must meet. If fast reaches NULL, the list ends: no cycle. O(n) time, O(1) space.</p>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P6 · Find the middle node in a single pass</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>middle.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>Node* middle(Node* head) {
+    Node *slow = head, *fast = head;
+    while (fast &amp;&amp; fast-&gt;next) {
+        slow = slow-&gt;next;
+        fast = fast-&gt;next-&gt;next;
+    }
+    return slow;    // fast hits the end → slow is at the middle
+}</code></pre>
+      </figure>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P7 · Merge two sorted linked lists into one sorted list</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>merge.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>Node* mergeSorted(Node* a, Node* b) {
+    Node dummy{0, nullptr};          // dummy head — no special case
+    Node* tail = &amp;dummy;
+    while (a &amp;&amp; b) {
+        if (a-&gt;data &lt;= b-&gt;data) { tail-&gt;next = a; a = a-&gt;next; }
+        else                   { tail-&gt;next = b; b = b-&gt;next; }
+        tail = tail-&gt;next;
+    }
+    tail-&gt;next = a ? a : b;          // append the remainder
+    return dummy.next;
+}</code></pre>
+      </figure>
+      <p style="font-size:14.5px">Same merge step as polynomial addition (§ 6.3) — compare at each node, advance the smaller side. O(m + n).</p>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P8 · Implement a stack and a queue using a singly linked list</summary>
+    <div class="inner">
+      <figure class="code">
+        <figcaption><span>stack_queue.cpp</span><button class="copy">copy</button></figcaption>
+<pre><code>// STACK — both operations at the HEAD: O(1) + O(1)
+void push(Node*&amp; head, int v) {          // insertHead
+    head = new Node{v, head};
+}
+int pop(Node*&amp; head) {                   // deleteHead
+    Node* t = head; int v = t-&gt;data;
+    head = head-&gt;next;
+    delete t; return v;
+}
+
+// QUEUE — enqueue at TAIL, dequeue at HEAD: O(1) + O(1)
+struct Queue { Node *head = nullptr, *tail = nullptr; };
+void enqueue(Queue&amp; q, int v) {
+    Node* n = new Node{v, nullptr};
+    if (!q.tail) q.head = q.tail = n;    // empty queue
+    else { q.tail-&gt;next = n; q.tail = n; }
+}
+int dequeue(Queue&amp; q) {                   // same as pop, but fix tail
+    Node* t = q.head; int v = t-&gt;data;
+    q.head = q.head-&gt;next;
+    if (!q.head) q.tail = nullptr;
+    delete t; return v;
+}</code></pre>
+      </figure>
+    </div>
+  </details>
+
+  <details class="gen"><summary>P9 · Extend the polynomial multiplier to combine like terms as it inserts</summary>
+    <div class="inner"><p>Use the combining <code>insertTerm</code> from § 6.2 (extension): when the exponent being inserted already exists, add the coefficients in place instead of creating a node — and drop the node if the coefficient becomes zero. <code>multPoly</code> itself needs no change.</p></div>
+  </details>
+
+  <h3><span class="ix">10.5</span>Long-answer question bank</h3>
+  <details class="gen"><summary>L1 · Define a linked list; draw the node; state advantages over arrays</summary>
+    <div class="inner"><p>Definition (§ 1.3) → node diagram (FIG 1.1) → array problems vs. LL fixes (§ 1.3) → advantages/disadvantages table (§ 3.11). Marks live in the diagram and the O(1)-vs-shifting argument.</p></div>
+  </details>
+  <details class="gen"><summary>L2 · Explain self-referential structures with examples</summary>
+    <div class="inner"><p>Definition (§ 1.5) → why direct self-containment is impossible (infinite recursive sizing) but a self-pointer is fine (fixed pointer size) → SLL, DLL and tree node code (§ 1.5) → three reasons they're used.</p></div>
+  </details>
+  <details class="gen"><summary>L3 · Write a program to create and traverse a singly linked list</summary>
+    <div class="inner"><p><code>accept()</code> + <code>create()</code> + <code>display()</code> (§ 3.3, § 3.4). Annotate the five steps inside accept() — examiners look for the malloc and the <code>next = NULL</code> initialisation.</p></div>
+  </details>
+  <details class="gen"><summary>L4 · Explain insertion into a linked list — all four cases, with diagrams</summary>
+    <div class="inner"><p>FIG 3.5 covers all four cases; quote <code>insertHead</code>, <code>insertTail</code>, <code>insertAfter</code> (§ 3.5–3.7). Always mention the ORDER-MATTERS pitfall.</p></div>
+  </details>
+  <details class="gen"><summary>L5 · Explain deletion from a linked list — cases, diagrams, code</summary>
+    <div class="inner"><p>Only two cases: first node, and any other (middle and last are identical). FIG 3.6 + <code>deleteValue</code> + the C trio (§ 3.8). Mention the search-first (pre/cur) prerequisite.</p></div>
+  </details>
+  <details class="gen"><summary>L6 · Stack vs. heap; internal vs. external fragmentation (with diagrams)</summary>
+    <div class="inner"><p>Comparison table + FIG 2.1 (§ 2.1), then both fragmentation figures with the "wasted inside" vs. "scattered between" contrast (§ 2.3) and the free list as the remedy (§ 2.4).</p></div>
+  </details>
+  <details class="gen"><summary>L7 · Dangling pointer, memory leak, double free — examples and safety rules</summary>
+    <div class="inner"><p><code>bugs.cpp</code> (§ 2.5), the quick-check example, and the five safety practices (§ 2.6).</p></div>
+  </details>
+  <details class="gen"><summary>L8 · DLL structure; insert &amp; delete at head/middle/tail with diagrams; SLL vs DLL</summary>
+    <div class="inner"><p>FIG 4.1–4.5, the four-step insert recipe, the three deletion cases (§ 4.6), and the comparison table (§ 4.8). The star point: O(1) delete given only the node pointer.</p></div>
+  </details>
+  <details class="gen"><summary>L9 · CLL structure; traversal stopping condition; round-robin; Josephus</summary>
+    <div class="inner"><p>FIG 5.1/5.2, do-while traversal, the infinite-loop pitfall (§ 5.5), FIG 5.5, and a full Josephus trace for n = 5, k = 2 (§ 5.7) — optionally verify with the recurrence.</p></div>
+  </details>
+  <details class="gen"><summary>L10 · Polynomial representation and addition — algorithm with a worked trace</summary>
+    <div class="inner"><p>FIG 6.1, the Term node, <code>insertTerm</code>, the three-case merge rule, FIG 6.2 trace, full <code>addPoly</code> code, O(m+n) argument (§ 6).</p></div>
+  </details>
+  <details class="gen"><summary>L11 · Free list, first-fit allocation, coalescing; reference counting vs. mark-and-sweep</summary>
+    <div class="inner"><p>FIG 7.1 (first-fit + split), the pointer-to-pointer allocator (§ 7.3), FIG 7.2 (coalescing), and the GC comparison with FIG 7.3 — highlight why refcounting fails on cycles.</p></div>
+  </details>
+  <details class="gen"><summary>L12 · Compare array, SLL, DLL and CLL; justify choosing each</summary>
+    <div class="inner"><p>Master table with footnotes (§ 8.1), the "simplest structure that works" principle, and the decision flowchart (FIG 8.1).</p></div>
+  </details>
+
+  <h3><span class="ix">10.6</span>Two-mark rapid-fire definitions</h3>
+  <div class="roll">
+    <div><dt>Node</dt><dd>A data field bundled with one or more pointers to other nodes.</dd></div>
+    <div><dt>Head</dt><dd>The pointer to the first node; the list's only necessary handle.</dd></div>
+    <div><dt>Self-referential structure</dt><dd>A struct containing a pointer to an object of its own type.</dd></div>
+    <div><dt>Walking pointer</dt><dd>A pointer (curr) that advances node-by-node during traversal.</dd></div>
+    <div><dt>Dangling pointer</dt><dd>A pointer that still references freed memory.</dd></div>
+    <div><dt>Memory leak</dt><dd>Allocated memory that is no longer reachable and never freed.</dd></div>
+    <div><dt>Internal fragmentation</dt><dd>Wasted space inside an allocated block (rounding).</dd></div>
+    <div><dt>External fragmentation</dt><dd>Free memory split into small, non-adjacent, unusable gaps.</dd></div>
+    <div><dt>Free list</dt><dd>The allocator's linked list threading all free heap blocks.</dd></div>
+    <div><dt>First-fit</dt><dd>Allocation strategy: take the first free block big enough.</dd></div>
+    <div><dt>Coalescing</dt><dd>Merging physically adjacent free blocks into one larger block.</dd></div>
+    <div><dt>Reference counting</dt><dd>GC that frees an object when its pointer count hits zero; fails on cycles.</dd></div>
+    <div><dt>Mark-and-sweep</dt><dd>GC that marks everything reachable from roots, then sweeps the rest.</dd></div>
+    <div><dt>Circular list</dt><dd>A list whose last node points back to the first — no NULL, only a loop.</dd></div>
+    <div><dt>Round-robin</dt><dd>Scheduling that cycles through a circular ready queue, one time slice each.</dd></div>
+    <div><dt>Josephus problem</dt><dd>Eliminate every k-th person around a circle until one survives.</dd></div>
+    <div><dt>Sparse representation</dt><dd>Storing only non-zero elements (e.g. polynomial terms) to save memory.</dd></div>
+  </div>
+
+  <div class="call tip">
+    <span class="cl">Diagrams you must be able to draw from memory</span>
+    <ul style="margin:0">
+      <li>Node anatomy (data + next) and the SLL chain ending in NULL</li>
+      <li>Before/after pictures for every insert &amp; delete — SLL, DLL, CLL</li>
+      <li>DLL with both pointer lanes; CLL with the wrap arrow</li>
+      <li>Internal vs. external fragmentation; the free list</li>
+      <li>Polynomial addition trace; mark-and-sweep reachability</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <h4>References</h4>
+  <ol class="refs">
+    <li>Aho, Hopcroft &amp; Ullman, <em>Data Structures and Algorithms</em>, Ch. 2 (§2.1–§2.2) &amp; Ch. 12.</li>
+    <li>E. Horowitz, S. Sahni, D. Mehta; <em>Fundamentals of Data Structures in C</em>; 2nd Ed.; Universities Press; 2008.</li>
+    <li>Y. Langsam, M. Augenstein, A. Tannenbaum; <em>Data Structures Using C and C++</em>; 2nd Ed.; Pearson Education; 2006.</li>
+    <li>Cormen, Leiserson, Rivest, Stein; <em>Introduction to Algorithms</em>; 3rd Ed.; MIT Press.</li>
+    <li>Miller &amp; Ranum; <em>Problem Solving with Algorithms and Data Structures using Python</em>; Open Book Project, 2025.</li>
+    <li>Prof. Nitin Saxena; <em>Data Structures and Algorithms Design</em>; IIT Kanpur (NPTEL).</li>
+    <li>UC San Diego &amp; NRU HSE; <em>Data Structures</em>; Coursera.</li>
+    <li><span>GeeksforGeeks — Data Structures and Algorithms.</span></li>
+  </ol>
+  <p class="colophon">Study notes compiled from the Unit III lecture series by Manisha Mali, Vishwakarma Institute of Technology, Pune — Parts 1–7, with original figures and interactive labs added for revision. Cross-check against the original decks before the exam.</p>
+</footer>
+
+<script>
+/* ================= syntax highlighter ================= */
+(function(){
+  var KW='for|while|if|else|return|new|delete|do|struct|class|public|private|protected|using|typedef|sizeof|break|continue|const|static|this|true|false|nullptr|NULL|auto|switch|case|default|enum|union';
+  var TY='int|char|bool|void|float|double|long|unsigned|size_t|Node|Term|Block|Polynomial|SLLnode|element|emp|LinkedList|string|std|node|NODE|Queue';
+  var re=new RegExp('(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)|("(?:[^"\\\\\\n]|\\\\.)*")|(\\\'(?:[^\\\'\\\\\\n]|\\\\.)*\\\')|(^[ \\t]*#[^\\n]*)|\\b('+KW+')\\b|\\b('+TY+')\\b|([A-Za-z_]\\w*)(?=\\s*\\()|\\b(\\d+(?:\\.\\d+)?)\\b','gm');
+  function w(c,m){return '<span class="'+c+'">'+m+'</span>';}
+  document.querySelectorAll('pre code').forEach(function(el){
+    var t=el.textContent.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    t=t.replace(re,function(m,c,s,ch,pp,kw,ty,fn,num){
+      if(c)return w('c',m); if(s)return w('s',m); if(ch)return w('s',m);
+      if(pp)return w('k',m); if(kw)return w('k',m); if(ty)return w('t',m);
+      if(fn)return w('f',m); if(num)return w('n',m); return m;
+    });
+    el.innerHTML=t;
+  });
+})();
+
+/* ================= copy buttons ================= */
+document.querySelectorAll('.code .copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var code=btn.closest('.code').querySelector('code');
+    var t=code.textContent;
+    function done(){btn.textContent='copied';setTimeout(function(){btn.textContent='copy';},1500);}
+    function fb(){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}ta.remove();}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fb);}else{fb();}
+  });
+});
+
+/* ================= progress bar + scrollspy ================= */
+(function(){
+  var bar=document.getElementById('pbar');
+  addEventListener('scroll',function(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
+    bar.style.width=(p*100)+'%';
+  },{passive:true});
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id);});
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  secs.forEach(function(s){if(s)spy.observe(s);});
+})();
+
+/* ================= SLL simulator ================= */
+(function(){
+  var stage=document.getElementById('sllStage'); if(!stage)return;
+  var stat=document.getElementById('sllStatus');
+  var traceList=document.getElementById('sllTrace');
+  var val=document.getElementById('sllVal');
+  var btns=document.querySelectorAll('#sllControls button');
+  var list=[],busy=false;
+  var rnd=function(){return Math.floor(Math.random()*90+10);};
+  val.value=rnd();
+  function nodeEl(v,last){
+    var d=document.createElement('div');d.className='lnode';
+    d.innerHTML='<span class="ndata">'+v+'</span><span class="nptr">'+(last?'∅':'•')+'</span>';
+    return d;
+  }
+  function render(flash){
+    stage.innerHTML='';
+    var h=document.createElement('span');h.className='lhead';h.textContent='head →';stage.appendChild(h);
+    if(!list.length){var e=document.createElement('span');e.className='lempty';e.textContent='NULL';stage.appendChild(e);return;}
+    list.forEach(function(v,i){
+      var n=nodeEl(v,i===list.length-1);
+      if(i===flash)n.classList.add('flash');
+      stage.appendChild(n);
+      if(i<list.length-1){var a=document.createElement('span');a.className='larrow';a.textContent='→';stage.appendChild(a);}
+    });
+  }
+  function trace(op,code,cx){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="lo">'+op+'</span><span class="lc">'+code+'</span><span class="lx">'+cx+'</span>';
+    traceList.insertBefore(li,traceList.firstChild);
+    while(traceList.children.length>14)traceList.removeChild(traceList.lastChild);
+  }
+  function set(s){stat.textContent=s;}
+  function getv(){var x=parseInt(val.value,10);return isNaN(x)?rnd():x;}
+  function full(){if(list.length>=12){set('Demo limit reached (12 nodes) — delete something first.');return true;}return false;}
+  function on(op,fn){var b=document.querySelector('[data-op="'+op+'"]');if(b)b.addEventListener('click',fn);}
+  on('head',function(){
+    if(busy||full())return;var v=getv();list.unshift(v);
+    trace('insertHead('+v+')','n-&gt;next = head · head = n','O(1)');
+    render(0);set('Inserted '+v+' at the head — two pointer writes, no traversal. O(1).');val.value=rnd();
+  });
+  on('tail',function(){
+    if(busy||full())return;var v=getv();var steps=list.length;list.push(v);
+    trace('insertTail('+v+')','walk '+steps+' node(s) · curr-&gt;next = n','O(n)');
+    render(list.length-1);set('Appended '+v+' — walked '+steps+' link(s) to find the tail first. O(n) without a tail pointer.');val.value=rnd();
+  });
+  on('delhead',function(){
+    if(busy)return;
+    if(!list.length){set('Nothing to delete — head is already NULL.');return;}
+    var v=list.shift();
+    trace('deleteHead()','temp = head · head = head-&gt;next · delete temp','O(1)');
+    render();set('Deleted head node '+v+' — head now points to '+(list.length?list[0]:'NULL')+'. O(1).');
+  });
+  on('delval',function(){
+    if(busy)return;var v=getv();
+    if(!list.length){set('List is empty — nothing to delete.');return;}
+    var i=list.indexOf(v);
+    if(i<0){trace('deleteValue('+v+')','walked all '+list.length+' nodes — not found','O(n)');set(v+' is not in the list.');return;}
+    if(i===0){list.shift();trace('deleteValue('+v+')','node was head · head = head-&gt;next · delete temp','O(1)');}
+    else{list.splice(i,1);trace('deleteValue('+v+')','search '+(i+1)+' nodes · prev-&gt;next = temp-&gt;next · delete temp','O(n)');}
+    render();set('Deleted node '+v+' (position '+(i+1)+').');
+  });
+  on('search',async function(){
+    if(busy)return;
+    if(!list.length){set('List is empty — search walks zero nodes and returns false.');return;}
+    busy=true;btns.forEach(function(b){b.disabled=true;});
+    var t=getv(),found=-1;
+    var nodes=function(){return stage.querySelectorAll('.lnode');};
+    for(var i=0;i<list.length;i++){
+      var ns=nodes();
+      ns.forEach(function(n){n.classList.remove('visiting');});
+      ns[i].classList.add('visiting');
+      set('curr → node '+list[i]+' : is '+list[i]+' == '+t+' ?');
+      await new Promise(function(r){setTimeout(r,650);});
+      if(list[i]===t){ns[i].classList.remove('visiting');ns[i].classList.add('found');found=i;break;}
+    }
+    if(found>=0){
+      trace('search('+t+')',(found+1)+' comparison(s) — return true','O(n)');
+      set('Found '+t+' at position '+(found+1)+' after '+(found+1)+' comparison(s).');
+    }else{
+      nodes().forEach(function(n){n.classList.remove('visiting');});
+      trace('search('+t+')',list.length+' comparisons, curr hit NULL — return false','O(n)');
+      set(t+' is not in the list — curr fell off the end (NULL) after '+list.length+' comparison(s).');
+    }
+    setTimeout(function(){nodes().forEach(function(n){n.classList.remove('found');});},2500);
+    busy=false;btns.forEach(function(b){b.disabled=false;});
+  });
+  on('reset',function(){
+    if(busy)return;list=[];traceList.innerHTML='';
+    render();set('List reset — head = NULL.');
+  });
+  render();set('List starts empty (head = NULL). Insert a node to begin — every operation prints its exact pointer writes below.');
+})();
+
+/* ================= Josephus lab ================= */
+(function(){
+  var svg=document.getElementById('josSvg'); if(!svg)return;
+  var log=document.getElementById('josLog');
+  var banner=document.getElementById('josSurv');
+  var stat=document.getElementById('josStat');
+  var nIn=document.getElementById('josN'),kIn=document.getElementById('josK');
+  var playBtn=document.getElementById('josPlay');
+  var NS='http://www.w3.org/2000/svg';
+  var n=5,k=2,alive=[],idx=0,timer=null;
+  function el(t,a){var e=document.createElementNS(NS,t);for(var q in a)e.setAttribute(q,a[q]);return e;}
+  function draw(){
+    svg.innerHTML='';
+    var c=170,R=118,i;
+    var ang=function(i){return -Math.PI/2+i*2*Math.PI/n;};
+    var pos=function(i){var a=ang(i);return [c+R*Math.cos(a),c+R*Math.sin(a)];};
+    /* clockwise ring arrows between neighbours */
+    for(i=0;i<n;i++){
+      var a0=ang(i)+0.38,a1=ang((i+1)%n)-0.38;
+      var p0=[c+R*Math.cos(a0),c+R*Math.sin(a0)],p1=[c+R*Math.cos(a1),c+R*Math.sin(a1)];
+      svg.appendChild(el('path',{d:'M'+p0[0]+','+p0[1]+' A'+R+','+R+' 0 0 1 '+p1[0]+','+p1[1],class:'jar'}));
+    }
+    /* people */
+    for(i=0;i<n;i++){
+      var p=i+1,xy=pos(i);
+      var dead=alive.indexOf(p)<0;
+      var cur=!dead&&alive.length>1&&alive[idx]===p;
+      if(dead){
+        svg.appendChild(el('circle',{cx:xy[0],cy:xy[1],r:17,class:'jn-dead'}));
+        svg.appendChild(el('line',{x1:xy[0]-10,y1:xy[1]-10,x2:xy[0]+10,y2:xy[1]+10,class:'jx'}));
+        svg.appendChild(el('line',{x1:xy[0]+10,y1:xy[1]-10,x2:xy[0]-10,y2:xy[1]+10,class:'jx'}));
+      }else{
+        svg.appendChild(el('circle',{cx:xy[0],cy:xy[1],r:17,class:cur?'jn-cur':'jn-live'}));
+      }
+      var t=el('text',{x:xy[0],y:xy[1]+4.5,class:'jt'+(dead?' jt-dead':'')+(cur?' jt-cur':'')});
+      t.textContent=p;svg.appendChild(t);
+    }
+    if(alive.length===1){
+      var xy2=pos(alive[0]-1);
+      svg.appendChild(el('circle',{cx:xy2[0],cy:xy2[1],r:22,class:'jn-live','stroke-width':3}));
+    }
+  }
+  function finish(){
+    var s=alive[0],r=0,i;
+    for(i=2;i<=n;i++)r=(r+k)%i;
+    banner.hidden=false;banner.classList.add('show');
+    banner.innerHTML='Survivor: position <b>'+s+'</b>'+(r+1===s?'<span class="ver">verified by the recurrence J(n,k) = (J(n−1)+k) mod n → '+(r+1)+'</span>':'');
+    stat.textContent='Only person '+s+' remains. The full elimination order is logged below.';
+    if(timer){clearInterval(timer);timer=null;playBtn.textContent='auto play';}
+  }
+  function step(){
+    if(alive.length<=1){finish();return;}
+    var kill=(idx+k-1)%alive.length;
+    var person=alive[kill];
+    alive.splice(kill,1);
+    idx=kill%alive.length;
+    var li=document.createElement('li');
+    li.innerHTML='<b>'+person+'</b> eliminated — remaining: '+alive.join(', ');
+    log.appendChild(li);log.scrollTop=log.scrollHeight;
+    draw();
+    if(alive.length===1)finish();
+    else stat.textContent='Counting resumes at person '+alive[idx]+' … '+alive.length+' left.';
+  }
+  function build(){
+    if(timer){clearInterval(timer);timer=null;playBtn.textContent='auto play';}
+    n=Math.min(12,Math.max(2,parseInt(nIn.value,10)||5));
+    k=Math.min(12,Math.max(1,parseInt(kIn.value,10)||2));
+    nIn.value=n;kIn.value=k;
+    alive=[];for(var i=1;i<=n;i++)alive.push(i);
+    idx=0;banner.hidden=true;banner.classList.remove('show');log.innerHTML='';
+    stat.textContent='Circle built: n = '+n+', k = '+k+'. Counting starts at person '+alive[idx]+' — every '+k+'-th person is eliminated.';
+    draw();
+  }
+  document.getElementById('josBuild').addEventListener('click',build);
+  document.getElementById('josStep').addEventListener('click',step);
+  playBtn.addEventListener('click',function(){
+    if(timer){clearInterval(timer);timer=null;playBtn.textContent='auto play';}
+    else{
+      if(alive.length<=1)build();
+      playBtn.textContent='stop';
+      timer=setInterval(function(){if(alive.length<=1){clearInterval(timer);timer=null;playBtn.textContent='auto play';}else step();},750);
+    }
+  });
+  build();
+})();
+</script>
+</body>
+</html>

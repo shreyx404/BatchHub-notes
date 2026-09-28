@@ -15,13 +15,22 @@ const NOTES_DIR = path.join(__dirname, '..', 'notes');
 const OUTPUT_FILE = path.join(__dirname, '..', 'notes.json');
 const BASE_URL = 'https://shreyx404.github.io/BatchHub-notes';
 
+function decodeEntities(str) {
+  return str
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 /**
  * Extract content of a <meta name="key" content="value"> tag
  */
 function extractMeta(html, name) {
   const regex = new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']`, 'i');
   const match = html.match(regex);
-  return match ? match[1].trim() : '';
+  return match ? decodeEntities(match[1].trim()) : '';
 }
 
 /**
@@ -29,7 +38,7 @@ function extractMeta(html, name) {
  */
 function extractTitle(html) {
   const match = html.match(/<title>([^<]*)<\/title>/i);
-  return match ? match[1].trim() : 'Untitled';
+  return match ? decodeEntities(match[1].trim()) : 'Untitled';
 }
 
 /**

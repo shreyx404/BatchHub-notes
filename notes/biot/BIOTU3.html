@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="note-id" content="biot-unit3">
+<meta name="note-subject" content="BIOT">
+<meta name="note-unit" content="Unit 3">
+<meta name="note-tags" content="IoT, Protocols, 6LoWPAN, RPL, MQTT, CoAP, AMQP, REST, IPv6, Modbus, ZigBee">
+<meta name="note-summary" content="Comprehensive examination notes on IoT Unit 3 — IP-based protocols for IoT: 6LoWPAN adaptation layer and header compression, RPL routing, CoAP vs MQTT, AMQP, Modbus, and ZigBee architectures.">
+<title>IoT · Unit III — IP-Based Protocols for IoT · Exam Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#f7f6f1; --card:#ffffff; --ink:#151512; --muted:#6e6c64;
+  --line:#dedbd2; --line2:#b9b6ab; --soft:#eeece5; --soft2:#e3e1d8;
+  --serif:"Fraunces",Georgia,serif; --sans:"Instrument Sans",sans-serif; --mono:"JetBrains Mono",monospace;
+  --tbh:56px; --max:74ch;
+}
+[data-theme="dark"]{
+  --paper:#101010; --card:#171716; --ink:#ecebe6; --muted:#9c9a92;
+  --line:#2b2b29; --line2:#4a4a46; --soft:#1b1b1a; --soft2:#232322;
+}
+/* ============ BASE ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--tbh) + 16px)}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+img,svg{max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-.01em}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.lbl{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+strong{font-weight:650}
+em{font-style:italic}
+sup{font-size:.7em}
+/* ============ TOPBAR ============ */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--tbh);z-index:60;background:var(--paper);border-bottom:1.5px solid var(--ink);display:flex;align-items:center;gap:14px;padding:0 16px}
+.tb-brand{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.14em;white-space:nowrap}
+.tb-brand span{color:var(--muted);font-weight:400}
+.tb-pct{margin-left:auto;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--muted);white-space:nowrap}
+.icon-btn{width:38px;height:38px;border:1.5px solid var(--ink);display:grid;place-items:center;background:var(--card);transition:background .15s}
+.icon-btn:hover{background:var(--ink)} .icon-btn:hover svg{stroke:var(--paper);fill:var(--paper)}
+.icon-btn svg{width:17px;height:17px;stroke:var(--ink);fill:none;stroke-width:1.8;transition:stroke .15s,fill .15s}
+#bar{position:absolute;left:0;bottom:-1.5px;height:1.5px;background:var(--ink);width:0%}
+/* ============ TOC ============ */
+.toc{position:fixed;top:var(--tbh);left:0;bottom:0;width:min(320px,86vw);background:var(--card);border-right:1.5px solid var(--ink);z-index:55;overflow-y:auto;padding:26px 22px 40px;transform:translateX(-102%);transition:transform .3s cubic-bezier(.7,0,.3,1)}
+body.toc-open .toc{transform:none}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:54;opacity:0;pointer-events:none;transition:opacity .3s}
+body.toc-open .backdrop{opacity:1;pointer-events:auto}
+.toc h3{font-size:1.35rem;margin-bottom:4px}
+.toc .lbl{display:block;margin-bottom:18px}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;border-bottom:1px solid var(--line)}
+.toc a{display:flex;gap:12px;align-items:baseline;padding:9px 6px 9px 2px;text-decoration:none;font-size:.86rem;font-weight:500;transition:padding .15s}
+.toc a::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:.08em}
+.toc a:hover{padding-left:8px}
+.toc a.act{font-weight:700}
+.toc a.act::before{color:var(--ink);text-decoration:underline}
+/* ============ LAYOUT ============ */
+.layout{padding-top:var(--tbh)}
+main{display:block}
+section.ch{padding:clamp(48px,9vw,96px) 0;border-bottom:1.5px solid var(--ink);position:relative}
+/* ============ COVER ============ */
+.cover{min-height:calc(100svh - var(--tbh));display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;border-bottom:1.5px solid var(--ink)}
+.hero-art{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.9}
+.cover .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:40px}
+.cover .lbl{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.cover .lbl::after{content:"";flex:1;max-width:180px;height:1.5px;background:var(--ink)}
+.cover h1{font-size:clamp(2.9rem,13vw,7rem);font-weight:560;letter-spacing:-.03em}
+.cover h1 .it{font-style:italic;font-weight:400}
+.cover .sub{max-width:52ch;margin-top:22px;color:var(--muted);font-size:1.02rem}
+.cover .meta{margin-top:38px;display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:7px 12px;background:var(--card)}
+.hero-art .hl{stroke:var(--line2);stroke-width:1;fill:none;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s ease forwards}
+.hero-art .hn{fill:var(--ink);opacity:0;animation:pop .8s ease forwards,rise 5s ease-in-out infinite alternate}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+@keyframes rise{from{opacity:.35}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hero-art .hl{animation:none;stroke-dashoffset:0}.hero-art .hn{animation:none;opacity:1}}
+/* ============ STATS STRIP ============ */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-bottom:1.5px solid var(--ink)}
+.stat{padding:22px 20px;border-right:1px solid var(--line2)}
+.stat:last-child{border-right:none}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(1.5rem,4.5vw,2.1rem);font-weight:600;letter-spacing:-.02em}
+.stat span{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+/* ============ CHAPTER HEADS ============ */
+.chead{position:relative;margin-bottom:34px}
+.ghost{position:absolute;top:-.28em;left:-.05em;font-family:var(--serif);font-weight:900;font-size:clamp(6rem,26vw,13rem);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--line2);z-index:0;user-select:none;pointer-events:none}
+.chead .kicker{position:relative;z-index:1;display:block;margin-bottom:14px}
+.chead h2{position:relative;z-index:1;font-size:clamp(1.85rem,6.5vw,3rem);max-width:20ch}
+.chead .lede{position:relative;z-index:1;margin-top:14px;color:var(--muted);max-width:62ch;font-size:1rem}
+/* ============ SUBHEADS ============ */
+h3.num{font-size:1.28rem;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line2);display:flex;gap:12px;align-items:baseline}
+h3.num .n{font-family:var(--mono);font-size:.7rem;font-weight:500;color:var(--muted);letter-spacing:.06em;flex-shrink:0}
+h4{font-family:var(--sans);font-size:.95rem;font-weight:700;letter-spacing:.02em;margin:26px 0 10px;text-transform:uppercase}
+/* ============ CONTENT BITS ============ */
+p{margin:0 0 16px}
+ul.o,ol.o{margin:0 0 18px 0;padding-left:0;list-style:none}
+ul.o li,ol.o li{position:relative;padding-left:26px;margin-bottom:9px}
+ul.o li::before{content:"—";position:absolute;left:0;color:var(--muted)}
+ol.o{counter-reset:oli}
+ol.o li{counter-increment:oli}
+ol.o li::before{content:counter(oli,decimal-leading-zero);position:absolute;left:0;font-family:var(--mono);font-size:.7rem;top:.32em;color:var(--muted)}
+.lead-word{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+/* callouts */
+.box{border:1.5px solid var(--ink);background:var(--card);padding:20px 20px 18px;margin:26px 0;box-shadow:6px 6px 0 var(--line2)}
+.box .lbl{display:block;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.box.def{background:var(--soft)}
+.box.tip .lbl{color:var(--ink);font-weight:700}
+.box.warn{border-style:dashed}
+/* tables */
+.tw{overflow-x:auto;margin:26px 0;border:1.5px solid var(--ink);background:var(--card);box-shadow:6px 6px 0 var(--line2)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.86rem}
+th{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;text-align:left;background:var(--ink);color:var(--paper);padding:11px 14px;font-weight:500}
+td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:var(--soft)}
+td .sm{font-size:.78rem;color:var(--muted)}
+/* figures */
+.fig{margin:30px 0;border:1.5px solid var(--ink);background:var(--card);padding:22px 16px 16px;box-shadow:6px 6px 0 var(--line2)}
+.fig svg{display:block;width:100%;height:auto}
+.figcap{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:16px;padding-top:10px;border-top:1px solid var(--line);line-height:1.6}
+.figcap b{color:var(--ink)}
+/* svg part classes (theme-aware) */
+svg .bxF{fill:var(--card);stroke:var(--ink);stroke-width:1.5}
+svg .bxS{fill:var(--ink);stroke:var(--ink)}
+svg .nd{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+svg .ln{stroke:var(--ink);stroke-width:1.5;fill:none;marker-end:url(#ah)}
+svg .ln0{stroke:var(--ink);stroke-width:1.5;fill:none}
+svg .lnD{stroke:var(--muted);stroke-width:1;fill:none;stroke-dasharray:5 4}
+svg .lnT{stroke:var(--ink);stroke-width:3;fill:none}
+svg .t{fill:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+svg .tB{fill:var(--paper);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+svg .tS{fill:var(--muted);font-family:var(--mono);font-size:9.5px}
+svg .ts{font-family:var(--serif);font-size:13px;font-style:italic;fill:var(--muted)}
+/* pill groups */
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px}
+.pill{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;border:1.5px solid var(--ink);padding:6px 12px;background:var(--card)}
+.pill.f{background:var(--ink);color:var(--paper)}
+.pillg{border:1.5px solid var(--ink);background:var(--card);padding:16px;margin:0 0 12px}
+.pillg .lbl{display:block;margin-bottom:10px}
+/* stack diagrams (HTML) */
+.stack{margin:0 0 10px}
+.slayer{border:1.5px solid var(--ink);padding:12px 16px;margin-top:-1.5px;display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+.slayer:first-child{margin-top:0}
+.slayer b{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.slayer span{font-size:.8rem;color:var(--muted)}
+.slayer.hl{background:var(--ink)} .slayer.hl b,.slayer.hl span{color:var(--paper)}
+.slayer.dsh{border-style:dashed}
+.duo{display:grid;gap:18px}
+.duo .stackcol .lbl{display:block;margin-bottom:10px}
+/* bit bars */
+.bitbar{border:1.5px solid var(--ink);background:var(--card);padding:14px;margin:24px 0}
+.bb-row{display:flex;gap:2px;margin-bottom:2px}
+.bb{border:1.5px solid var(--ink);padding:7px 4px;text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.02em;line-height:1.35;display:flex;align-items:center;justify-content:center;min-width:0;overflow-wrap:anywhere;background:var(--card)}
+.bb.del{border-style:dashed;color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.bb.add{background:var(--ink);color:var(--paper)}
+.bb.full{padding:10px 4px;font-size:.66rem}
+.bblegend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bblegend i{display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);margin-right:6px;vertical-align:-2px;font-style:normal}
+.bblegend .l1 i{border-style:dashed}.bblegend .l2 i{background:var(--ink)}
+/* QoS demo */
+.qos{border:1.5px solid var(--ink);background:var(--card);box-shadow:6px 6px 0 var(--line2);margin:30px 0}
+.qos-tabs{display:flex;border-bottom:1.5px solid var(--ink)}
+.qos-tabs button{flex:1;padding:13px 8px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border-right:1.5px solid var(--ink);transition:background .15s}
+.qos-tabs button:last-child{border-right:none}
+.qos-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.qos-body{padding:18px 14px 6px}
+.qos-panel{display:none}
+.qos-panel.on{display:block}
+.qos-panel svg{width:100%;height:auto;display:block}
+.qos-panel .msg{opacity:0}
+.qos-panel.play .msg{animation:msgin .5s ease forwards;animation-delay:var(--d,0s)}
+@keyframes msgin{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.qos-note{padding:14px 16px 16px;font-size:.86rem;color:var(--muted);border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.qos-panel .msg{animation:none;opacity:1}}
+/* flashcards */
+.cards{display:grid;grid-template-columns:1fr;gap:14px;margin:26px 0}
+.fc{perspective:1200px;height:190px;cursor:pointer}
+.fc-in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.6,0,.3,1);transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1.5px solid var(--ink);padding:18px;display:flex;flex-direction:column;justify-content:center;gap:8px;box-shadow:5px 5px 0 var(--line2)}
+.fc-f{background:var(--card)}
+.fc-b{background:var(--ink);transform:rotateY(180deg)}
+.fc-f .lbl{margin-bottom:2px}
+.fc-f b{font-family:var(--serif);font-size:1.3rem;font-weight:600;line-height:1.15}
+.fc-b p{color:var(--paper);font-size:.85rem;line-height:1.55;margin:0}
+.fc-b .lbl{color:var(--line2)}
+/* details deep-dive */
+details.dd{border:1.5px solid var(--ink);background:var(--card);margin:26px 0}
+details.dd summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+details.dd summary::-webkit-details-marker{display:none}
+details.dd summary .pm{width:16px;height:16px;flex-shrink:0;position:relative}
+details.dd summary .pm::before,details.dd summary .pm::after{content:"";position:absolute;background:var(--ink);inset:auto}
+details.dd summary .pm::before{left:0;right:0;top:7px;height:1.5px}
+details.dd summary .pm::after{top:0;bottom:0;left:7px;width:1.5px;transition:transform .2s}
+details.dd[open] summary .pm::after{transform:scaleY(0)}
+details.dd .ddc{padding:4px 18px 20px;border-top:1px solid var(--line)}
+/* key-facts grid */
+.kf{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:24px 0}
+.kf .box{margin:0;box-shadow:4px 4px 0 var(--line2)}
+.kf .box b{font-family:var(--serif);font-size:1.15rem;display:block;margin-top:6px}
+/* contents list */
+.toc-big{display:grid;gap:0}
+.toc-big a{text-decoration:none;display:flex;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid var(--line2);transition:padding .15s}
+.toc-big a:hover{padding-left:12px;background:var(--soft)}
+.toc-big .no{font-family:var(--mono);font-size:.66rem;color:var(--muted);letter-spacing:.08em;flex-shrink:0}
+.toc-big .tt{font-family:var(--serif);font-size:1.08rem;font-weight:600}
+.toc-big .ds{display:block;font-family:var(--sans);font-size:.78rem;color:var(--muted);font-weight:400;margin-top:2px}
+/* code / mono inline */
+code.k{font-family:var(--mono);font-size:.8em;background:var(--soft);border:1px solid var(--line2);padding:1px 6px}
+footer{padding:44px 0 70px}
+footer .lbl{display:block;margin-bottom:10px}
+footer p{font-size:.8rem;color:var(--muted)}
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+/* ============ RESPONSIVE ============ */
+@media(min-width:640px){
+  .duo{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:1100px){
+  .layout{display:grid;grid-template-columns:288px minmax(0,1fr);max-width:1460px;margin:0 auto}
+  .toc{position:sticky;top:var(--tbh);height:calc(100vh - var(--tbh));transform:none!important;border-right:1.5px solid var(--ink);width:auto;z-index:10}
+  .backdrop{display:none}
+  body.toc-open{overflow:auto}
+  main .wrap{max-width:var(--max)}
+  .cover .wrap,.stats,footer .wrap{max-width:calc(var(--max) + 0px);margin-left:auto;margin-right:auto}
+  .cards{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:1099px){ body.toc-open{overflow:hidden} }
+/* ============ PRINT ============ */
+@media print{
+  .topbar,.toc,.backdrop,.icon-btn{display:none!important}
+  body{font-size:11pt}
+  .layout{display:block}
+  section.ch{page-break-inside:avoid;padding:24px 0}
+  .fig,.box,.tw{box-shadow:none}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <button class="icon-btn" id="menuBtn" aria-label="Open contents">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12" stroke-linecap="round"/></svg>
+  </button>
+  <div class="tb-brand">UNIT 3 <span>· IoT PROTOCOLS</span></div>
+  <div class="tb-pct" id="pct">READ 0%</div>
+  <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode">
+    <svg viewBox="0 0 24 24" id="themeIcon"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4" stroke-linecap="round"/><circle cx="12" cy="12" r="4.2"/></svg>
+  </button>
+  <div id="bar"></div>
+</header>
+
+<div class="backdrop" id="backdrop"></div>
+
+<div class="layout">
+<!-- ============ TOC ============ -->
+<nav class="toc" id="toc" aria-label="Table of contents">
+  <a href="../../index.html" class="back-link" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">← Notes Hub</a>
+  <h3>Contents</h3>
+  <span class="lbl">Unit 3 · Syllabus map</span>
+  <ol>
+    <li><a href="#ch1">Protocol Standardization</a></li>
+    <li><a href="#ch2">M2M &amp; WSN Protocols</a></li>
+    <li><a href="#ch3">SCADA &amp; RFID</a></li>
+    <li><a href="#ch4">Modbus Protocol</a></li>
+    <li><a href="#ch5">ZigBee Architecture</a></li>
+    <li><a href="#ch6">IP Addressing: IPv4 → IPv6</a></li>
+    <li><a href="#ch7">6LoWPAN</a></li>
+    <li><a href="#ch8">RPL Routing</a></li>
+    <li><a href="#ch9">IoT Communication Models</a></li>
+    <li><a href="#ch10">MQTT</a></li>
+    <li><a href="#ch11">CoAP</a></li>
+    <li><a href="#ch12">REST, AMQP &amp; Friends</a></li>
+    <li><a href="#ch13">LoRa &amp; LoRaWAN</a></li>
+    <li><a href="#ch14">Case Study: Smart Irrigation</a></li>
+    <li><a href="#arsenal">Exam Arsenal</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <svg class="hero-art" viewBox="0 0 760 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <line class="hl" x1="80" y1="90" x2="200" y2="60" pathLength="1" style="animation-delay:.2s"/>
+    <line class="hl" x1="200" y1="60" x2="330" y2="110" pathLength="1" style="animation-delay:.35s"/>
+    <line class="hl" x1="330" y1="110" x2="470" y2="50" pathLength="1" style="animation-delay:.5s"/>
+    <line class="hl" x1="470" y1="50" x2="600" y2="100" pathLength="1" style="animation-delay:.65s"/>
+    <line class="hl" x1="600" y1="100" x2="710" y2="180" pathLength="1" style="animation-delay:.8s"/>
+    <line class="hl" x1="330" y1="110" x2="390" y2="190" pathLength="1" style="animation-delay:.95s"/>
+    <line class="hl" x1="390" y1="190" x2="520" y2="210" pathLength="1" style="animation-delay:1.1s"/>
+    <line class="hl" x1="520" y1="210" x2="600" y2="100" pathLength="1" style="animation-delay:1.25s"/>
+    <line class="hl" x1="390" y1="190" x2="240" y2="260" pathLength="1" style="animation-delay:1.4s"/>
+    <line class="hl" x1="240" y1="260" x2="90" y2="300" pathLength="1" style="animation-delay:1.55s"/>
+    <line class="hl" x1="240" y1="260" x2="160" y2="190" pathLength="1" style="animation-delay:1.7s"/>
+    <line class="hl" x1="160" y1="190" x2="80" y2="90" pathLength="1" style="animation-delay:1.85s"/>
+    <line class="hl" x1="520" y1="210" x2="620" y2="330" pathLength="1" style="animation-delay:2s"/>
+    <line class="hl" x1="620" y1="330" x2="430" y2="330" pathLength="1" style="animation-delay:2.15s"/>
+    <line class="hl" x1="430" y1="330" x2="390" y2="190" pathLength="1" style="animation-delay:2.3s"/>
+    <line class="hl" x1="620" y1="330" x2="710" y2="180" pathLength="1" style="animation-delay:2.45s"/>
+    <circle class="hn" cx="80" cy="90" r="4" style="animation-delay:.2s"/>
+    <circle class="hn" cx="200" cy="60" r="3" style="animation-delay:.35s"/>
+    <circle class="hn" cx="330" cy="110" r="5" style="animation-delay:.5s"/>
+    <circle class="hn" cx="470" cy="50" r="3" style="animation-delay:.65s"/>
+    <circle class="hn" cx="600" cy="100" r="4" style="animation-delay:.8s"/>
+    <circle class="hn" cx="710" cy="180" r="3" style="animation-delay:.95s"/>
+    <circle class="hn" cx="390" cy="190" r="6" style="animation-delay:1.1s"/>
+    <circle class="hn" cx="520" cy="210" r="4" style="animation-delay:1.25s"/>
+    <circle class="hn" cx="240" cy="260" r="3" style="animation-delay:1.4s"/>
+    <circle class="hn" cx="90" cy="300" r="4" style="animation-delay:1.55s"/>
+    <circle class="hn" cx="160" cy="190" r="3" style="animation-delay:1.7s"/>
+    <circle class="hn" cx="620" cy="330" r="5" style="animation-delay:1.85s"/>
+    <circle class="hn" cx="430" cy="330" r="3" style="animation-delay:2s"/>
+  </svg>
+  <div class="wrap">
+    <span class="lbl">UNIT 3 · INTERNET OF THINGS · EXAM NOTES</span>
+    <h1>The<br>Protocol<br><span class="it">Layer.</span></h1>
+    <p class="sub">Everything that lets constrained things talk: standardization politics, M2M &amp; SCADA, Modbus, ZigBee, IP addressing from IPv4 to IPv6, 6LoWPAN, RPL, MQTT, CoAP, AMQP, REST, LoRa — and a full smart-irrigation case study.</p>
+    <div class="meta">
+      <span class="chip">14 Chapters</span>
+      <span class="chip">20+ Diagrams</span>
+      <span class="chip">Interactive QoS Lab</span>
+      <span class="chip">Flashcards</span>
+      <span class="chip">Mobile-first</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<div class="stats">
+  <div class="stat"><b>2 B</b><span>MQTT fixed header</span></div>
+  <div class="stat"><b>4 B</b><span>CoAP fixed header</span></div>
+  <div class="stat"><b>240</b><span>ZigBee endpoints / node</span></div>
+  <div class="stat"><b>1280 B</b><span>IPv6 minimum MTU</span></div>
+  <div class="stat"><b>15 km</b><span>LoRaWAN range</span></div>
+</div>
+
+<!-- ============ CONTENTS ============ -->
+<section class="ch" id="contents" style="border-bottom:1.5px solid var(--ink)">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="lbl kicker">ORIENTATION</span>
+      <h2>Syllabus Index</h2>
+      <p class="lede">The unit flows in four movements: <em>context</em> (why standardize at all), <em>field protocols</em> (Modbus, ZigBee, SCADA), <em>the IP family</em> (addressing, 6LoWPAN, RPL, MQTT, CoAP, AMQP), and <em>long range</em> (LoRa + case study). The Arsenal at the end compresses everything for the night before the exam.</p>
+    </div>
+    <div class="toc-big rv">
+      <a href="#ch1"><span class="no">01</span><span><span class="tt">Protocol Standardization for IoT</span><span class="ds">IoT-A, fragmentation, the double-edged sword, two open questions</span></span></a>
+      <a href="#ch2"><span class="no">02</span><span><span class="tt">M2M &amp; WSN Protocols</span><span class="ds">MSTF architecture, standards activities, M2M ≈ IoT</span></span></a>
+      <a href="#ch3"><span class="no">03</span><span><span class="tt">SCADA &amp; RFID Protocols</span><span class="ds">IEEE C37.1, IEDs, GENCO/TRANSCO/DISCO/ISO, EPCglobal</span></span></a>
+      <a href="#ch4"><span class="no">04</span><span><span class="tt">Modbus Protocol</span><span class="ds">1979, Modicon, object types, RTU/ASCII/TCP variants</span></span></a>
+      <a href="#ch5"><span class="no">05</span><span><span class="tt">ZigBee Architecture</span><span class="ds">802.15.4, NWK/APS/ZDO, 240 endpoints, addressing modes</span></span></a>
+      <a href="#ch6"><span class="no">06</span><span><span class="tt">IP Addressing: IPv4 → IPv6</span><span class="ds">Classful, subnetting, CIDR, NAT, IPv6 header anatomy</span></span></a>
+      <a href="#ch7"><span class="no">07</span><span><span class="tt">6LoWPAN</span><span class="ds">Adaptation layer, compression, fragmentation, mesh addressing</span></span></a>
+      <a href="#ch8"><span class="no">08</span><span><span class="tt">RPL Routing</span><span class="ds">DODAG, Objective Function, storing vs non-storing, Contiki</span></span></a>
+      <a href="#ch9"><span class="no">09</span><span><span class="tt">IoT Communication Models</span><span class="ds">Request-Response, Push-Pull, Pub-Sub, Exclusive Pair</span></span></a>
+      <a href="#ch10"><span class="no">10</span><span><span class="tt">MQTT</span><span class="ds">Broker, topics, QoS 0/1/2, retained messages, LWT, security</span></span></a>
+      <a href="#ch11"><span class="no">11</span><span><span class="tt">CoAP</span><span class="ds">UDP web transfer, Observe method, 4-byte binary header</span></span></a>
+      <a href="#ch12"><span class="no">12</span><span><span class="tt">REST, AMQP &amp; Friends</span><span class="ds">RESTful IoT, exchanges/queues/bindings, AMQP vs HTTP</span></span></a>
+      <a href="#ch13"><span class="no">13</span><span><span class="tt">LoRa &amp; LoRaWAN</span><span class="ds">Cycleo, ISM bands, star-of-stars, pros &amp; cons</span></span></a>
+      <a href="#ch14"><span class="no">14</span><span><span class="tt">Case Study: LoRa Smart Irrigation</span><span class="ds">Architecture, data flow, why LoRa fits</span></span></a>
+      <a href="#arsenal"><span class="no">✳</span><span><span class="tt">Exam Arsenal</span><span class="ds">Protocol map, key numbers, comparisons, flashcards, question bank</span></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 1 ============ -->
+<section class="ch" id="ch1" data-title="Standardization">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">01</span>
+      <span class="lbl kicker">CHAPTER 01 · FOUNDATIONS</span>
+      <h2>Protocol Standardization for IoT</h2>
+      <p class="lede">Before any protocol can be studied, understand the political landscape they were born into: a fragmented world of islands, consortia and competing forums — and why that is both a disease and a symptom of a healthy market.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">1.1</span>The IoT-A Project</h3>
+    <div class="rv">
+      <p><span class="lead-word">IoT-A</span> (Internet of Things Architecture) is one of the few efforts targeting a <strong>holistic architecture for all IoT sectors</strong> — a single reference model rather than another silo.</p>
+      <ul class="o">
+        <li>A consortium of <strong>17 European organizations from 9 countries</strong>.</li>
+        <li>Its landmark contribution was surveying and summarizing the then-current status of IoT standardization, concluding the landscape was fundamentally broken (below).</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">1.2</span>The Four Findings — Status of IoT Standardization</h3>
+    <div class="rv">
+      <div class="kf">
+        <div class="box"><span class="lbl">Finding 1</span><b>Fragmented architectures</b>Each vertical built its own stack; nothing interoperates.</div>
+        <div class="box"><span class="lbl">Finding 2</span><b>No holistic approach</b>No complete, end-to-end IoT implementation proposal existed.</div>
+        <div class="box"><span class="lbl">Finding 3</span><b>Island solutions</b>RFID, sensor networks, SCADA etc. thrive as isolated islands.</div>
+        <div class="box"><span class="lbl">Finding 4</span><b>Little cross-sector reuse</b>Technology and knowledge rarely travel between sectors.</div>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">1.3</span>Standardization is a Double-Edged Sword</h3>
+    <div class="rv">
+      <p>This is a favourite theory question. The argument has two blades:</p>
+      <ul class="o">
+        <li><strong>Critical to market development</strong> — standards create trust, interoperability, economies of scale and vendor-neutral ecosystems. Without them, no mass IoT market can exist.</li>
+        <li><strong>But it may threaten innovation and inhibit change</strong> — once a standard is accepted by the market, enormous inertia locks it in, even when better technology appears.</li>
+      </ul>
+      <div class="box tip">
+        <span class="lbl">Exam framing · quotable line</span>
+        <p style="margin:0"><em>“Standardization and innovation are like yin &amp; yang — they can be contradictory to each other in some cases, even though this observation is debatable.”</em> Write this line; then argue both sides in one paragraph each.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">1.4</span>Structural Problems in the Standards World</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Scoped silos by design:</strong> different consortia, forums and alliances standardize within their own limited scope. <em>3GPP</em> covers only cellular wireless networks; <em>EPCglobal’s middleware</em> covers only RFID events.</li>
+        <li><strong>Redundant competition:</strong> even within the <em>same segment</em>, more than one consortium works on standardization without enough communication with each other — some actively compete.</li>
+        <li><strong>Gray zones in definition:</strong> some believe the IoT concept is well established, but it remains unclear <em>which technologies should be included</em> in the term at all.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">1.5</span>The Two (Probably Unanswerable) Open Questions</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Q1 · Coordination problem</span>
+        <p>ICT standardization is a <strong>highly decentralized activity</strong>. How can the individual activities of the network of extremely heterogeneous standards-setting bodies be <strong>coordinated</strong>?</p>
+      </div>
+      <div class="box def">
+        <span class="lbl">Q2 · Participation problem</span>
+        <p>It will become essential to allow <strong>all interested stakeholders</strong> to participate in the standardization process toward the IoT and to voice their respective requirements and concerns. <strong>How can this be achieved?</strong></p>
+      </div>
+      <p class="figcap">The source notes these two issues — for IoT standardization in particular and ICT standardization in general — <em>may never have answers</em>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 2 ============ -->
+<section class="ch" id="ch2" data-title="M2M & WSN">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">02</span>
+      <span class="lbl kicker">CHAPTER 02 · FOUNDATIONS</span>
+      <h2>M2M &amp; WSN Protocols</h2>
+      <p class="lede">Machine-to-Machine is IoT’s industrial ancestor. Understanding its standardization efforts explains why the industry needed a cleaner, IP-centric generation of protocols.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">2.1</span>The Customization Problem</h3>
+    <div class="rv">
+      <p>Most M2M applications are developed today in a <strong>highly customized fashion</strong> — each deployment is a bespoke engineering project with its own protocols, gateways and data formats. This is precisely the “island solution” problem from Chapter 1, seen from the engineering trench.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">2.2</span>The MSTF Reference Architecture</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>The high-level M2M architecture from the <strong>M2M Standardization Task Force (MSTF)</strong> includes <strong>fixed and other non-cellular wireless networks</strong> — not just cellular.</li>
+        <li>Because of this inclusiveness, it is effectively a <strong>generic, holistic IoT architecture</strong>, even though it is nominally an M2M architecture.</li>
+        <li>Terminology note: <strong>M2M and IoT are sometimes used interchangeably in the United States</strong> — a classic viva/short-question trap.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">2.3</span>The M2M Standards Activity Checklist</h3>
+    <div class="rv">
+      <p>Memorize this list — it is asked as “what other M2M standards activities exist?” Answer in eight points:</p>
+      <div class="pillg">
+        <span class="lbl">A · Data transport protocol standards</span>
+        <div class="pillrow">
+          <span class="pill f">M2MXML</span><span class="pill">JSON</span><span class="pill">BiTXML</span><span class="pill">WMMP</span><span class="pill">MDMP</span>
+        </div>
+      </div>
+      <ul class="o">
+        <li><strong>OMA DM extension</strong> — extend Open Mobile Alliance Device Management to support M2M device-management protocol objects.</li>
+        <li><strong>M2M device management</strong> and <strong>standardization of the M2M gateway</strong>.</li>
+        <li><strong>M2M security and fraud detection.</strong></li>
+        <li><strong>Network APIs</strong> exposing M2M service capabilities.</li>
+        <li><strong>Remote management of devices behind a gateway/firewall</strong> (a genuinely hard NAT-traversal problem — links to Chapter 6).</li>
+        <li><strong>Open REST-based APIs for M2M applications</strong> (links to Chapter 12).</li>
+      </ul>
+      <div class="box tip">
+        <span class="lbl">Memory hook</span>
+        <p style="margin:0">Transport → <em>Manage</em> (OMA DM, gateway) → <em>Secure</em> → <em>Expose</em> (APIs, REST, remote-behind-firewall). “<strong>T-M-S-E</strong>” — four verbs, eight bullets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 3 ============ -->
+<section class="ch" id="ch3" data-title="SCADA & RFID">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">03</span>
+      <span class="lbl kicker">CHAPTER 03 · INDUSTRIAL &amp; IDENTIFICATION</span>
+      <h2>SCADA &amp; RFID Protocols</h2>
+      <p class="lede">SCADA represents the whole industrial automation arena — one of the acknowledged pillars of IoT. Its evolution from centralized control to distributed intelligent devices is a mini-history of IoT itself.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">3.1</span>What SCADA Is</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>SCADA — Supervisory Control And Data Acquisition.</strong> One of the IoT pillars, representing the entire industrial automation arena: centralized systems supervising remote telemetry, sensors and actuators over large geographic areas (power grids, pipelines, water networks).</p>
+      </div>
+      <ul class="o">
+        <li>The IEEE created a standard specification called <strong>IEEE Std C37.1™ (2007)</strong> for SCADA and automation systems.</li>
+        <li>In recent years, <strong>network-based industrial automation has greatly evolved</strong> with the use of <strong>Intelligent Electronic Devices (IEDs)</strong> — or “IoT devices” in our vocabulary — deployed in <strong>substations and power stations</strong>.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">3.2</span>From Centralized to Distributed</h3>
+    <div class="rv">
+      <p>The key architectural shift: <strong>processing is now distributed</strong>. Functions that used to be performed at the control center can now be performed by the IED itself — i.e., <strong>M2M communication between devices</strong>, peer-to-peer, without round-trips to headquarters.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">3.3</span>The Restructured Electric Industry</h3>
+    <div class="rv">
+      <p>Due to restructuring/deregulation, traditional vertically-integrated electric utilities were replaced by many specialized entities:</p>
+      <div class="fig">
+        <svg viewBox="0 0 720 250" role="img" aria-label="Restructured electricity sector: GENCO, TRANSCO, DISCO in a chain, ISO supervising above">
+          <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxS" x="230" y="18" width="260" height="46" rx="2"/>
+          <text class="tB" x="360" y="38" text-anchor="middle">ISO — INDEPENDENT</text>
+          <text class="tB" x="360" y="53" text-anchor="middle">SYSTEM OPERATOR</text>
+          <line class="lnD" x1="360" y1="64" x2="360" y2="100"/>
+          <rect class="bxF" x="40" y="110" width="180" height="66" rx="2"/>
+          <text class="t" x="130" y="138" text-anchor="middle">GENCO</text>
+          <text class="tS" x="130" y="156" text-anchor="middle">GENERATION</text>
+          <line class="ln" x1="220" y1="143" x2="268" y2="143" marker-end="url(#ah3)"/>
+          <rect class="bxF" x="272" y="110" width="180" height="66" rx="2"/>
+          <text class="t" x="362" y="138" text-anchor="middle">TRANSCO</text>
+          <text class="tS" x="362" y="156" text-anchor="middle">TRANSMISSION</text>
+          <line class="ln" x1="452" y1="143" x2="500" y2="143" marker-end="url(#ah3)"/>
+          <rect class="bxF" x="504" y="110" width="180" height="66" rx="2"/>
+          <text class="t" x="594" y="138" text-anchor="middle">DISCO</text>
+          <text class="tS" x="594" y="156" text-anchor="middle">DISTRIBUTION</text>
+          <text class="ts" x="360" y="215" text-anchor="middle">Control centre + IEDs in substations supervise all three layers</text>
+        </svg>
+        <p class="figcap"><b>Fig 3.1</b> — The de-integrated electricity value chain. Generation, transmission and distribution became separate companies, coordinated by an ISO; IEDs inside substations now do locally what the control center once did centrally.</p>
+      </div>
+      <div class="box tip">
+        <span class="lbl">Mnemonic</span>
+        <p style="margin:0"><strong>G-T-D under ISO</strong>: “<em>Generate, Transmit, Distribute — the ISO watches all</em>.” Four entities, one chain.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">3.4</span>RFID Protocols (EPCglobal Family)</h3>
+    <div class="rv">
+      <p>RFID standardization is the canonical example of a <strong>single-scope standards silo</strong>: <em>EPCglobal’s middleware specification covers only RFID events</em> — nothing else. Know this family at sketch level:</p>
+      <ul class="o">
+        <li><strong>Air interface protocol</strong> — defines the physical dialogue between <em>reader</em> and <em>tag</em> (modulation, encoding, anti-collision for many tags in one reader field). The dominant standard: <strong>EPC Class-1 Gen-2 (EPCglobal)</strong>, harmonized as <strong>ISO/IEC 18000-63</strong>, operating in UHF bands.</li>
+        <li><strong>Tag memory structure</strong> — reserved (passwords), EPC (identity), TID (tag type), user memory banks.</li>
+        <li><strong>Middleware / EPCIS</strong> — filters and captures RFID <em>events</em> and shares them with enterprise applications — the exact component whose narrow scope is criticized in Chapter 1.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 4 ============ -->
+<section class="ch" id="ch4" data-title="Modbus">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">04</span>
+      <span class="lbl kicker">CHAPTER 04 · INDUSTRIAL FIELD PROTOCOL</span>
+      <h2>Modbus Protocol</h2>
+      <p class="lede">The grandfather of industrial protocols — 1979, and still everywhere on factory floors. Exams love its four object types and its reasons for survival.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">4.1</span>Origins &amp; Why Industry Adopted It</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>Modbus</strong> is a <strong>serial communications protocol</strong> originally published by <strong>Modicon (now Schneider Electric) in 1979</strong>, commonly available for connecting industrial electronic devices.</p>
+      </div>
+      <p><span class="lead-word">Four reasons for use in industrial environments</span> — learn verbatim:</p>
+      <ol class="o">
+        <li>Developed <strong>with industrial applications in mind</strong>.</li>
+        <li><strong>Openly published and royalty-free</strong>.</li>
+        <li><strong>Easy to deploy and maintain</strong>.</li>
+        <li>Enables <strong>communication among many devices connected to the same network</strong> (multi-drop).</li>
+      </ol>
+    </div>
+
+    <h3 class="num rv"><span class="n">4.2</span>The Four Object Types (Data Model)</h3>
+    <div class="rv">
+      <p>Every piece of Modbus-addressable data falls into one of four categories, distinguished by <em>access rights</em> and <em>size</em>:</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Object type</th><th>Access</th><th>Size</th><th>Typical use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Coil</strong></td><td>Read–write</td><td>1 bit</td><td>Relay / actuator ON-OFF state</td></tr>
+            <tr><td><strong>Discrete input</strong></td><td>Read-only</td><td>1 bit</td><td>Digital sensor: limit switch, door contact</td></tr>
+            <tr><td><strong>Input register</strong></td><td>Read-only</td><td>16 bits</td><td>Analog measurement: temperature, pressure</td></tr>
+            <tr><td><strong>Holding register</strong></td><td>Read–write</td><td>16 bits</td><td>Configuration value / setpoint</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box tip">
+        <span class="lbl">Mnemonic</span>
+        <p style="margin:0"><strong>“C-D-I-H”</strong> → <em>C</em>oils &amp; <em>H</em>olding are writable; <em>D</em>iscrete &amp; <em>I</em>nput are read-only; 1-bit objects are C/D, 16-bit objects are I/H. The axes of the table (access × size) uniquely determine each object.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">4.3</span>Protocol Versions</h3>
+    <div class="rv">
+      <div class="pillg">
+        <span class="lbl">The Modbus family</span>
+        <div class="pillrow">
+          <span class="pill f">Modbus RTU</span><span class="pill">Modbus ASCII</span><span class="pill f">Modbus TCP</span><span class="pill">Modbus over TCP (RTU/IP)</span><span class="pill">Modbus over UDP</span><span class="pill">Modbus Plus (MB+)</span><span class="pill">Pemex Modbus</span><span class="pill">Enron Modbus</span>
+        </div>
+      </div>
+      <ul class="o">
+        <li><strong>RTU</strong> — compact binary framing over serial (RS-232/485); the classic.</li>
+        <li><strong>ASCII</strong> — human-readable hex characters over serial; more overhead, easier debugging.</li>
+        <li><strong>TCP</strong> — same PDU encapsulated in TCP packets (port 502); today’s dominant variant.</li>
+        <li><strong>Over UDP / Plus / Pemex / Enron</strong> — vendor- and region-specific extensions; naming alone suffices for exams.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">4.4</span>Master–Slave Exchange</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 200" role="img" aria-label="Modbus master request and slave response">
+          <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxS" x="40" y="70" width="170" height="56" rx="2"/>
+          <text class="tB" x="125" y="94" text-anchor="middle">MASTER</text>
+          <text class="tB" x="125" y="110" text-anchor="middle">(CLIENT)</text>
+          <rect class="bxF" x="510" y="70" width="170" height="56" rx="2"/>
+          <text class="t" x="595" y="94" text-anchor="middle">SLAVE</text>
+          <text class="tS" x="595" y="110" text-anchor="middle">(SERVER)</text>
+          <line class="ln" x1="210" y1="82" x2="510" y2="82" marker-end="url(#ah4)"/>
+          <text class="t" x="360" y="72" text-anchor="middle">REQUEST · read holding register 40001</text>
+          <line class="ln" x1="510" y1="118" x2="210" y2="118" marker-end="url(#ah4)"/>
+          <text class="t" x="360" y="140" text-anchor="middle">RESPONSE · 16-bit value</text>
+          <text class="ts" x="360" y="178" text-anchor="middle">One master polls up to 247 slaves on a shared bus (RTU) or TCP connection</text>
+        </svg>
+        <p class="figcap"><b>Fig 4.1</b> — Strict request/response: the master always initiates; slaves only answer. Modbus is a <em>polling</em> protocol — no push, no broker.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 5 ============ -->
+<section class="ch" id="ch5" data-title="ZigBee">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">05</span>
+      <span class="lbl kicker">CHAPTER 05 · SHORT-RANGE MESH</span>
+      <h2>ZigBee Architecture</h2>
+      <p class="lede">A high-level protocol suite riding on IEEE 802.15.4, built for small, low-power digital radios. Its layered architecture — and especially the roles of NWK, APS and ZDO — is a guaranteed long-answer question.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.1</span>What ZigBee Is</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>ZigBee</strong> is an <strong>IEEE 802.15.4-based specification for a suite of high-level communication protocols</strong>, used to create <strong>personal area networks with small, low-power digital radios</strong>.</p>
+      </div>
+      <p><span class="lead-word">Applications</span> — home automation, medical device data collection, and other <strong>low-power, low-bandwidth</strong> uses.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.2</span>The Three-Section Architecture</h3>
+    <div class="rv">
+      <p>ZigBee’s stack is divided into <strong>three sections</strong>:</p>
+      <ol class="o">
+        <li><strong>IEEE 802.15.4</strong> — the <strong>PHYsical (PHY)</strong> and <strong>MAC</strong> layers.</li>
+        <li><strong>ZigBee layers</strong> — the <strong>Network layer (NWK)</strong>, the <strong>ZigBee Device Object (ZDO)</strong>, the <strong>Application Support sublayer (APS)</strong>, and <strong>security management</strong>.</li>
+        <li><strong>Manufacturer application</strong> — manufacturers may adopt a standard <strong>ZigBee application profile</strong> or develop their own.</li>
+      </ol>
+      <div class="fig">
+        <div class="stack">
+          <div class="slayer"><b>Manufacturer application</b><span>standard ZigBee application profile — or a custom one</span></div>
+          <div class="slayer"><b>ZDO · App objects (EP 1…240)</b><span>+ security management</span></div>
+          <div class="slayer"><b>APS — application support</b><span>request · confirm · response services</span></div>
+          <div class="slayer"><b>NWK — network layer</b><span>join/leave · routing · discovery</span></div>
+          <div class="slayer"><b>MAC — IEEE 802.15.4</b><span>section ① of the architecture</span></div>
+          <div class="slayer"><b>PHY — IEEE 802.15.4</b><span>2.4 GHz radio</span></div>
+        </div>
+        <p class="figcap"><b>Fig 5.1</b> — ZigBee stack. The bottom two layers are owned by IEEE 802.15.4; everything above is defined by the ZigBee specification; the top belongs to the manufacturer.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.3</span>Network Layer (NWK)</h3>
+    <div class="rv">
+      <p>Situated <strong>between the MAC layer and the APS</strong>, it provides four functions — learn all four:</p>
+      <ul class="o">
+        <li><strong>Starting a network</strong> (coordinator duty).</li>
+        <li><strong>Managing end devices joining or leaving</strong> a network.</li>
+        <li><strong>Route discovery.</strong></li>
+        <li><strong>Neighbor discovery.</strong></li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.4</span>APS — Application Support Sublayer</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>Provides services necessary for <strong>application objects (endpoints)</strong> and the <strong>ZDO</strong>.</li>
+        <li>Its data-transfer services to application objects come in three primitives: <strong>Request, Confirm, Response</strong>.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.5</span>Application Objects (Endpoints)</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>An application object <strong>defines input and output to the APS</strong>.</li>
+        <li>Worked example from the spec: a <strong>switch that controls a light</strong> — the switch is the <em>input</em> from the application object; the <em>output</em> is the light-bulb condition.</li>
+        <li>Each node can have <strong>240 separate application objects</strong> (endpoints 1–240).</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.6</span>ZDO — ZigBee Device Object</h3>
+    <div class="rv">
+      <p>The ZDO handles <strong>control and management of application objects</strong> and performs the overall device-management tasks:</p>
+      <ul class="o">
+        <li>Determines the <strong>type of device</strong> in the network — end device, router, or coordinator.</li>
+        <li><strong>Initializes</strong> the APS, the network layer, and the security service provider.</li>
+        <li>Performs <strong>device and service discovery</strong>.</li>
+        <li>Initializes the <strong>coordinator for establishing a network</strong>.</li>
+        <li><strong>Security management</strong>.</li>
+        <li><strong>Network management</strong>.</li>
+      </ul>
+      <div class="box tip"><span class="lbl">Mnemonic</span><p style="margin:0"><strong>T-I-D-C-S-N</strong>: <em>Type, Init, Discovery, Coordinator, Security, Network</em> — “<strong>T</strong>his <strong>I</strong>o<strong>T</strong> <strong>D</strong>evice <strong>C</strong>an <strong>S</strong>ecure <strong>N</strong>etworks.”</p></div>
+    </div>
+
+    <h3 class="num rv"><span class="n">5.7</span>End Nodes &amp; Addressing Modes</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>Each <strong>end node (end device) can host multiple endpoints (EPs)</strong>; each EP contains an <strong>application profile</strong> (e.g., home automation) and can control multiple devices or a single device.</li>
+        <li>ZigBee uses three addressing modes for transmission of information: <strong>direct</strong>, <strong>group</strong>, and <strong>broadcast</strong> addressing.</li>
+      </ul>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Mode</th><th>Meaning</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Direct</strong></td><td>Message addressed to one specific endpoint on one specific node</td><td>Switch EP 3 → Lamp EP 1</td></tr>
+            <tr><td><strong>Group</strong></td><td>Message addressed to a named group of endpoints across nodes</td><td>“All lights in room 2”</td></tr>
+            <tr><td><strong>Broadcast</strong></td><td>Message delivered to every device in the network</td><td>Network-wide “permit join” command</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 6 ============ -->
+<section class="ch" id="ch6" data-title="IP Addressing">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">06</span>
+      <span class="lbl kicker">CHAPTER 06 · THE IP FOUNDATION</span>
+      <h2>IP Addressing: IPv4 → IPv6</h2>
+      <p class="lede">IP delivers packets from one node to another without either knowing the other’s network type — it is <em>ubiquitous, scalable and versatile</em>, which is exactly why IoT wants to ride on it. But first, IPv4 had to be rescued from itself.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.1</span>The Exhaustion Problem</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>The Internet is the <strong>world’s largest public data network, doubling in size every nine months</strong>.</li>
+        <li><strong>IPv4 defines a 32-bit address</strong> → 2<sup>32</sup> = <strong>4,294,967,296</strong> possible addresses.</li>
+        <li>The first problem is the <strong>eventual depletion of the IP address space</strong>.</li>
+        <li>The <strong>traditional classful model does not use the address space to its maximum potential</strong> — massive structural waste.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.2</span>Classful Addressing (1981)</h3>
+    <div class="rv">
+      <p>When IP was standardized in <strong>September 1981</strong>, every attached system needed a unique 32-bit address built on a <strong>two-level hierarchy</strong> (network + host). Addresses were divided into <strong>5 classes</strong> — Class A uses 8 bits for network-ID and 24 bits for host-ID, and so on for B and C:</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Class</th><th>Leading bits</th><th>Net / Host bits</th><th>First-octet range</th><th>Default mask</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A</strong></td><td>0</td><td>8 / 24</td><td>0–127</td><td>/8 (255.0.0.0)</td><td>Huge networks</td></tr>
+            <tr><td><strong>B</strong></td><td>10</td><td>16 / 16</td><td>128–191</td><td>/16 (255.255.0.0)</td><td>Medium networks</td></tr>
+            <tr><td><strong>C</strong></td><td>110</td><td>24 / 8</td><td>192–223</td><td>/24 (255.255.255.0)</td><td>Small networks</td></tr>
+            <tr><td><strong>D</strong></td><td>1110</td><td>—</td><td>224–239</td><td>—</td><td>Multicast</td></tr>
+            <tr><td><strong>E</strong></td><td>1111</td><td>—</td><td>240–255</td><td>—</td><td>Reserved / experimental</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The fatal flaw: blocks are assigned <strong>along octet boundaries</strong>, so an organization needing 300 addresses had to take a whole Class B (65,534) — <strong>colossal wastage of IP addresses</strong>.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.3</span>Technique 1 — Subnetting</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>Introduces a <strong>three-level hierarchy: network, subnet, host</strong>.</li>
+        <li>The <strong>extended-network-prefix</strong> = classful network-prefix + subnet-number, traditionally identified by the <strong>subnet mask</strong>.</li>
+      </ul>
+      <div class="box">
+        <span class="lbl">Worked example · subnetting</span>
+        <p style="margin-bottom:8px">Given <code class="k">192.168.10.0/24</code>, create 4 subnets → borrow 2 host bits → /26, mask <code class="k">255.255.255.192</code>:</p>
+        <ul class="o" style="margin-bottom:0">
+          <li><code class="k">192.168.10.0/26</code> — hosts .1 → .62</li>
+          <li><code class="k">192.168.10.64/26</code> — hosts .65 → .126</li>
+          <li><code class="k">192.168.10.128/26</code> — hosts .129 → .190</li>
+          <li><code class="k">192.168.10.192/26</code> — hosts .193 → .254</li>
+        </ul>
+        <p class="figcap" style="border:none;margin-top:10px;padding-top:0">Each block: 64 addresses = 62 usable + network + broadcast.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.4</span>Technique 2 — CIDR</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Classless Inter-Domain Routing eliminates traditional classful IP routing</strong>.</li>
+        <li>Supports the deployment of <strong>arbitrarily sized networks</strong>: routing information is advertised with a <strong>bit mask / prefix length</strong> specifying the number of leftmost contiguous bits in the network portion — e.g. <code class="k">192.168.0.0/21</code>.</li>
+      </ul>
+      <div class="box">
+        <span class="lbl">Worked example · CIDR table lookup (the exam algorithm)</span>
+        <p style="margin-bottom:8px">Entry <code class="k">192.168.32.0/21</code> (mask 255.255.248.0). Destination <code class="k">192.168.36.17</code>:</p>
+        <ol class="o">
+          <li>Extract the destination IP address.</li>
+          <li>Boolean AND the address with the subnet mask for each entry: 36 = <code class="k">00100100</code>, 248 = <code class="k">11111000</code> → AND = <code class="k">00100000</code> = 32 → <code class="k">192.168.32.0</code>.</li>
+          <li>Compare the result against the entry’s base address — it <strong>matches</strong>, so the packet is forwarded to the router for that base address.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.5</span>Technique 3 — NAT</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Network Address Translation</strong>: each organization holds <strong>a single public IP address</strong>; inside, every host gets a private address unique within the organization, drawn from a <strong>reserved set</strong> (e.g., 10.0.0.0/8).</li>
+        <li>The NAT box rewrites private <em>address:port</em> pairs to its public address with distinct ports, keeping a translation table.</li>
+      </ul>
+      <div class="fig">
+        <svg viewBox="0 0 720 250" role="img" aria-label="NAT translation between private network and internet">
+          <defs><marker id="ah6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxF" x="20" y="40" width="230" height="170" rx="8" style="stroke-dasharray:6 5"/>
+          <text class="tS" x="135" y="62" text-anchor="middle">PRIVATE NETWORK 10.0.0.0/24</text>
+          <circle class="nd" cx="80" cy="110" r="16"/><text class="tS" x="80" y="143" text-anchor="middle">10.0.0.1</text>
+          <circle class="nd" cx="185" cy="110" r="16"/><text class="tS" x="185" y="143" text-anchor="middle">10.0.0.4</text>
+          <circle class="nd" cx="135" cy="185" r="16"/><text class="tS" x="135" y="218" text-anchor="middle">10.0.0.9</text>
+          <rect class="bxS" x="330" y="88" width="160" height="56" rx="2"/>
+          <text class="tB" x="410" y="112" text-anchor="middle">NAT ROUTER</text>
+          <text class="tB" x="410" y="128" text-anchor="middle">203.0.113.7</text>
+          <line class="ln" x1="250" y1="110" x2="326" y2="110" marker-end="url(#ah6)"/>
+          <text class="tS" x="288" y="100" text-anchor="middle">10.0.0.4:51000</text>
+          <path class="lnD" d="M500 116 C 560 116 570 120 620 120"/>
+          <line class="ln" x1="606" y1="120" x2="622" y2="120" marker-end="url(#ah6)"/>
+          <text class="tS" x="575" y="108" text-anchor="middle">203.0.113.7:40001</text>
+          <ellipse class="lnD" cx="640" cy="120" rx="58" ry="36"/>
+          <text class="tS" x="640" y="124" text-anchor="middle">INTERNET</text>
+        </svg>
+        <p class="figcap"><b>Fig 6.1</b> — NAT: many private addresses multiplexed onto one public address via port translation. This is why “remote management of devices behind a gateway/firewall” (Ch 2) is hard.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.6</span>IPv6 — Features &amp; Notation</h3>
+    <div class="rv">
+      <div class="kf">
+        <div class="box"><span class="lbl">Feature</span><b>Larger address space</b>128-bit → practically inexhaustible</div>
+        <div class="box"><span class="lbl">Feature</span><b>Aggregation-based hierarchy</b>Efficient backbone routing</div>
+        <div class="box"><span class="lbl">Feature</span><b>Efficient &amp; extensible datagram</b>Fixed 40-byte header + extension headers</div>
+        <div class="box"><span class="lbl">Feature</span><b>Stateless address autoconfiguration</b>Nodes configure themselves (SLAAC)</div>
+        <div class="box"><span class="lbl">Feature</span><b>Security</b>IPsec support mandatory</div>
+        <div class="box"><span class="lbl">Feature</span><b>Mobility</b>Mobile IPv6 built in</div>
+      </div>
+      <div class="box">
+        <span class="lbl">Address notation · worked example</span>
+        <p style="margin-bottom:6px">128 bits written as <strong>8 groups of 16-bit hexadecimal numbers separated by “:”</strong>:</p>
+        <p style="font-family:var(--mono);font-size:.78rem;margin-bottom:10px">3FFE:085B:1F1F:0000:0000:0000:00A9:1234</p>
+        <ul class="o" style="margin-bottom:0">
+          <li><strong>Leading zeros</strong> in a group may be removed → <code class="k">3FFE:85B:1F1F:0:0:0:A9:1234</code></li>
+          <li><strong>“::” replaces one or more consecutive all-zero groups</strong> (used only once!) → <code class="k">3FFE:85B:1F1F::A9:1234</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">6.7</span>Header Anatomy — IPv4 vs IPv6</h3>
+    <div class="rv">
+      <div class="bitbar" role="img" aria-label="IPv4 header fields">
+        <span class="lbl" style="display:block;margin-bottom:10px">IPv4 HEADER · ~20 bytes + options</span>
+        <div class="bb-row"><span class="bb" style="flex:4">Version</span><span class="bb del" style="flex:4">IHL</span><span class="bb del" style="flex:8">TOS</span><span class="bb chg" style="flex:16">Total Length</span></div>
+        <div class="bb-row"><span class="bb del" style="flex:16">Identification</span><span class="bb del" style="flex:3">Flags</span><span class="bb del" style="flex:13">Fragment Offset</span></div>
+        <div class="bb-row"><span class="bb chg" style="flex:8">TTL</span><span class="bb chg" style="flex:8">Protocol</span><span class="bb del" style="flex:16">Header Checksum</span></div>
+        <div class="bb-row"><span class="bb full" style="flex:32">Source Address · 32 bits</span></div>
+        <div class="bb-row"><span class="bb full" style="flex:32">Destination Address · 32 bits</span></div>
+        <div class="bb-row"><span class="bb del full" style="flex:32">Options + Padding</span></div>
+      </div>
+      <div class="bitbar" role="img" aria-label="IPv6 header fields">
+        <span class="lbl" style="display:block;margin-bottom:10px">IPv6 HEADER · FIXED 40 bytes</span>
+        <div class="bb-row"><span class="bb" style="flex:4">Version</span><span class="bb add" style="flex:8">Traffic Class</span><span class="bb add" style="flex:20">Flow Label</span></div>
+        <div class="bb-row"><span class="bb chg" style="flex:16">Payload Length</span><span class="bb chg" style="flex:8">Next Header</span><span class="bb chg" style="flex:8">Hop Limit</span></div>
+        <div class="bb-row"><span class="bb full" style="flex:32">Source Address · 128 bits</span></div>
+        <div class="bb-row"><span class="bb full" style="flex:32">Destination Address · 128 bits</span></div>
+        <div class="bblegend">
+          <span class="l1"><i></i>removed in IPv6 (6 fields)</span>
+          <span class="l2"><i></i>added in IPv6 (2 fields)</span>
+          <span><i></i>changed (3) / kept / expanded (addresses 32→128 bits)</span>
+        </div>
+      </div>
+      <h4>The three headline improvements</h4>
+      <ul class="o">
+        <li><strong>No options field</strong> — replaced by <em>extension headers</em>, giving a <strong>fixed-length 40-byte header</strong>.</li>
+        <li><strong>No header checksum</strong> — results in <strong>fast processing</strong> (link layers already check errors).</li>
+        <li><strong>No fragmentation at intermediate nodes</strong> — results in <strong>fast IP forwarding</strong> (source must fit path MTU; remember 1280-byte minimum).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 7 ============ -->
+<section class="ch" id="ch7" data-title="6LoWPAN">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">07</span>
+      <span class="lbl kicker">CHAPTER 07 · ADAPTATION LAYER</span>
+      <h2>6LoWPAN</h2>
+      <p class="lede">IPv6 over Low-power Wireless Personal Area Networks — the adapter plate that bolts the full Internet protocol suite onto tiny 802.15.4 radios. The mechanisms (compression, fragmentation, mesh addressing) are prime short-question material.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.1</span>What &amp; Why</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>6LoWPAN</strong> is the <strong>adaptation layer</strong> developed to <strong>enable IPv6 over IEEE 802.15.4 networks</strong>. It is an <strong>open standard defined in RFC 6282 by the IETF</strong>. 6Lo (IPv6 over Bluetooth etc.) later made use of 6LoWPAN as its basis.</p>
+      </div>
+      <ul class="o">
+        <li>Provides a means of carrying packet data <strong>in the form of IPv6 over IEEE 802.15.4 and other networks</strong>.</li>
+        <li>Provides <strong>end-to-end IPv6</strong> — hence direct connectivity to a huge variety of networks, <strong>including the Internet itself</strong>.</li>
+        <li>Character: <strong>very low cost, short range, low memory usage, low bit rate</strong>; comprises an <strong>edge router + sensor nodes</strong>. Even the smallest IoT devices (e.g., <em>LED streetlights</em>) can join the network and speak to the outside world.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.2</span>The MTU Mismatch — The Core Problem</h3>
+    <div class="rv">
+      <p>To send IPv6 packets over 802.15.4, packet data must be converted to a format the 802.15.4 lower layer can handle. The crunch: <strong>IPv6 requires the MTU to be at least 1280 bytes</strong>, while an 802.15.4 frame can carry only ~127 bytes — hence the two key mechanisms: <strong>fragmentation</strong> and <strong>header compression</strong>.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.3</span>Mechanism 1 — Header Compression</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>6LoWPAN uses <strong>header-compression mechanisms to reduce packet overhead</strong> when sending data over 802.15.4 links.</li>
+        <li>A typical <strong>40-byte IPv6 header</strong> would consume a <strong>significant fraction of the frame payload</strong>, wasting precious <strong>energy and bandwidth</strong>.</li>
+        <li>Compression is defined to produce a <strong>lightweight encoding of IPv6</strong> — eliding fields derivable from the 802.15.4 frame (e.g., link-layer addresses) or fixed by context.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.4</span>Mechanism 2 — Fragmentation</h3>
+    <div class="rv">
+      <p>Large IPv6 datagrams are split into link-sized fragments. The <strong>fragment header</strong> is composed of three primary fields:</p>
+      <div class="fig">
+        <div class="stack">
+          <div class="slayer"><b>Datagram size</b><span>total (un-fragmented) payload size</span></div>
+          <div class="slayer"><b>Datagram tag</b><span>identifies which datagram this fragment belongs to</span></div>
+          <div class="slayer"><b>Datagram offset</b><span>this fragment’s offset within the un-fragmented payload</span></div>
+        </div>
+        <p class="figcap"><b>Fig 7.1</b> — Fragment header fields. Size + tag let the receiver reassemble; offset says where each piece goes.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.5</span>Mechanism 3 — Mesh Addressing</h3>
+    <div class="rv">
+      <p>For link-layer (mesh-under) forwarding, the <strong>mesh address header</strong> carries three fields:</p>
+      <ul class="o">
+        <li><strong>Hop limit</strong> — limits the number of forwarding hops; <strong>decremented at each hop</strong>; once it reaches zero the packet is <strong>dropped</strong> (stops infinite loops).</li>
+        <li><strong>Source address</strong> and <strong>destination address</strong> — indicate the IP endpoints (original origin and final target, not just the current radio hop).</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.6</span>Routing — Mesh-Under vs Route-Over</h3>
+    <div class="rv">
+      <p><span class="lead-word">Routing</span> is the ability to send a data packet from one device to another, sometimes over multiple hops. Two categories are defined:</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th></th><th>Mesh-under</th><th>Route-over</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Where routing happens</strong></td><td>Below IP, at the 6LoWPAN adaptation layer</td><td>At the IP layer itself</td></tr>
+            <tr><td><strong>How</strong></td><td>Broadcasting with the IPv6 protocol; fragments travel independently per hop</td><td>Each node is an IP router; per-hop IP forwarding</td></tr>
+            <tr><td><strong>See it as</strong></td><td>The mesh looks like one big link to IPv6</td><td>A genuine multi-hop IP network</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.7</span>Networking Architecture &amp; the Edge Router</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 320" role="img" aria-label="6LoWPAN edge router architecture">
+          <defs><marker id="ah7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxF" x="20" y="46" width="270" height="230" rx="10" style="stroke-dasharray:7 5"/>
+          <text class="tS" x="155" y="70" text-anchor="middle">6LoWPAN MESH · IEEE 802.15.4</text>
+          <circle class="nd" cx="80" cy="115" r="13"/><circle class="nd" cx="170" cy="105" r="13"/><circle class="nd" cx="245" cy="135" r="13"/>
+          <circle class="nd" cx="70" cy="200" r="13"/><circle class="nd" cx="160" cy="215" r="13"/><circle class="nd" cx="240" cy="205" r="13"/>
+          <circle class="nd" cx="120" cy="160" r="13"/>
+          <line class="lnD" x1="93" y1="115" x2="157" y2="108"/><line class="lnD" x1="183" y1="108" x2="232" y2="130"/>
+          <line class="lnD" x1="93" y1="118" x2="120" y2="152"/><line class="lnD" x1="130" y1="160" x2="163" y2="203"/>
+          <line class="lnD" x1="178" y1="118" x2="130" y2="152"/><line class="lnD" x1="170" y1="216" x2="83" y2="202"/>
+          <line class="lnD" x1="230" y1="195" x2="175" y2="212"/><line class="lnD" x1="253" y1="148" x2="238" y2="192"/>
+          <text class="tS" x="80" y="245" text-anchor="middle">routers + hosts</text>
+          <text class="tS" x="80" y="259" text-anchor="middle">(sleepy devices)</text>
+          <rect class="bxS" x="358" y="120" width="150" height="84" rx="2"/>
+          <text class="tB" x="433" y="152" text-anchor="middle">6LoWPAN</text>
+          <text class="tB" x="433" y="170" text-anchor="middle">EDGE ROUTER</text>
+          <text class="tB" x="433" y="188" text-anchor="middle">(IPv6 router)</text>
+          <line class="ln" x1="290" y1="160" x2="354" y2="160" marker-end="url(#ah7)"/>
+          <line class="ln" x1="508" y1="160" x2="552" y2="160" marker-end="url(#ah7)"/>
+          <ellipse class="lnD" cx="635" cy="160" rx="66" ry="52"/>
+          <text class="t" x="635" y="150" text-anchor="middle">IPv6</text>
+          <text class="t" x="635" y="168" text-anchor="middle">INTERNET</text>
+          <text class="tS" x="635" y="188" text-anchor="middle">Ethernet · Wi-Fi</text>
+          <text class="tS" x="635" y="203" text-anchor="middle">3G · 4G</text>
+          <text class="ts" x="360" y="300" text-anchor="start">Native IP: ordinary IP routers forward 6LoWPAN datagrams like any other traffic</text>
+        </svg>
+        <p class="figcap"><b>Fig 7.2</b> — Uplink to the Internet is provided by the access point, an IPv6 router. The edge router’s workload is deliberately light.</p>
+      </div>
+      <p><span class="lead-word">Edge-router functions</span> — the exam’s three functions:</p>
+      <ol class="o">
+        <li><strong>Exchange of data between 6LoWPAN devices and the Internet</strong> (forwarding IP datagrams between the different media — Ethernet, Wi-Fi, 3G, 4G — used in the IP network).</li>
+        <li><strong>Exchange of data among devices that are part of the 6LoWPAN network</strong>.</li>
+        <li><strong>Generate and maintain the 6LoWPAN network</strong>.</li>
+      </ol>
+      <p><span class="lead-word">Device classes</span></p>
+      <ul class="o">
+        <li><strong>Routers</strong> — route data to other nodes in the 6LoWPAN.</li>
+        <li><strong>Hosts</strong> — end-point devices; <strong>sleepy devices</strong> check in with routers at regular intervals to save battery.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.8</span>Protocol Stack vs OSI</h3>
+    <div class="rv">
+      <div class="duo">
+        <div class="stackcol">
+          <span class="lbl">OSI reference</span>
+          <div class="stack">
+            <div class="slayer"><b>Application</b></div>
+            <div class="slayer"><b>Transport</b></div>
+            <div class="slayer"><b>Network</b></div>
+            <div class="slayer"><b>Data link</b></div>
+            <div class="slayer"><b>Physical</b></div>
+          </div>
+        </div>
+        <div class="stackcol">
+          <span class="lbl">6LoWPAN stack</span>
+          <div class="stack">
+            <div class="slayer"><b>Application</b><span>HTTP · CoAP · MQTT · WebSocket</span></div>
+            <div class="slayer"><b>Transport</b><span>UDP · TCP (TLS/DTLS)</span></div>
+            <div class="slayer"><b>Network</b><span>IPv6 · RPL</span></div>
+            <div class="slayer hl"><b>6LoWPAN</b><span>adaptation layer</span></div>
+            <div class="slayer"><b>MAC</b><span>IEEE 802.15.4 MAC</span></div>
+            <div class="slayer"><b>Physical</b><span>IEEE 802.15.4 PHY</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="figcap"><b>Fig 7.3</b> — Note the shading: the adaptation layer sits <em>between</em> IPv6 and the 802.15.4 MAC — its whole reason to exist.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">7.9</span>Requirements · Specs · Verdict</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Aspect</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Basic requirements</td><td>Sleep mode for battery saving · minimal memory · lowered routing overhead</td></tr>
+            <tr><td>Core features</td><td>Supports IP communication · supports large mesh networks · very low power consumption · robust communication</td></tr>
+            <tr><td>Specs</td><td>IEEE 802.15.4 in the <strong>2.4 GHz</strong> band · outdoor range ≈ <strong>200 m</strong> (max) · data rate ≈ <strong>200 kbps</strong> (max) · ≈ <strong>100 nodes</strong> (max)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="duo">
+        <div class="box" style="margin:0">
+          <span class="lbl">Advantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li>Mesh network that is <strong>robust, scalable and self-healing</strong></li>
+            <li><strong>Low-cost, secure</strong> communication for IoT devices</li>
+            <li>Uses IPv6 → <strong>directly routable to cloud platforms</strong></li>
+            <li>Offers <strong>one-to-many and many-to-one</strong> routing</li>
+            <li>Leaf nodes can <strong>sleep for long durations</strong></li>
+          </ul>
+        </div>
+        <div class="box warn" style="margin:0">
+          <span class="lbl">Disadvantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li>Comparatively <strong>less secure than ZigBee</strong></li>
+            <li><strong>Less immunity to interference</strong> than Wi-Fi / Bluetooth</li>
+            <li>Without the mesh topology, only a <strong>short range</strong></li>
+          </ul>
+        </div>
+      </div>
+      <p><span class="lead-word">Applications</span> — wireless sensor networks; home automation; smart agricultural techniques; industrial monitoring; enabling IPv6 packet transmission on networks with constrained power and reliability resources.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 8 ============ -->
+<section class="ch" id="ch8" data-title="RPL">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">08</span>
+      <span class="lbl kicker">CHAPTER 08 · INFRASTRUCTURE PROTOCOL</span>
+      <h2>RPL — IPv6 Routing Protocol</h2>
+      <p class="lede">Routing Protocol for Low power and Lossy Networks: how a 6LoWPAN mesh actually finds paths. DODAG construction is <em>the</em> diagram to practice drawing by hand.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">8.1</span>What RPL Is</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>RPL stands for <strong>R</strong>outing <strong>P</strong>rotocol for <strong>L</strong>ow power and <strong>L</strong>ossy networks — designed for <strong>heterogeneous-traffic</strong> LLNs (WPANs, WSNs, Power Line Communication).</li>
+        <li>Based on the same standard as ZigBee and 6LoWPAN: <strong>IEEE 802.15.4</strong>. Supports both <strong>many-to-one and one-to-one</strong> communication.</li>
+        <li>It is a <strong>Distance-Vector routing protocol</strong> that builds a <strong>tree-like topology called a DODAG</strong> — Destination Oriented Directed Acyclic Graph — rooted towards one or more <strong>root (sink) nodes</strong>.</li>
+        <li>DAGs are created based on a user-specified <strong>Objective Function (OF)</strong>, which defines <em>how to find the best-optimized route</em> among the sensor devices.</li>
+        <li>RPL was designed to support <strong>minimal routing needs</strong> and builds a <strong>robust topology over a lossy network</strong>; devices are connected so that <strong>no cycles exist</strong> in the connection graph.</li>
+        <li>In an RPL network <strong>each node acts as a router</strong>; routing is performed at the <strong>IP layer</strong> — every node examines each received IPv6 packet and picks the next hop from its IPv6 header.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">8.2</span>DODAG Construction — Step by Step</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 400" role="img" aria-label="DODAG tree rooted at a sink with preferred parent path">
+          <rect class="bxS" x="300" y="24" width="120" height="44" rx="2"/>
+          <text class="tB" x="360" y="50" text-anchor="middle">DODAG ROOT</text>
+          <circle class="nd" cx="180" cy="140" r="17"/><text class="tS" x="180" y="176" text-anchor="middle">router</text>
+          <circle class="nd" cx="360" cy="140" r="17"/><text class="tS" x="360" y="176" text-anchor="middle">router</text>
+          <circle class="nd" cx="540" cy="140" r="17"/><text class="tS" x="540" y="176" text-anchor="middle">router</text>
+          <circle class="nd" cx="90" cy="260" r="15"/><circle class="nd" cx="235" cy="260" r="15"/>
+          <circle class="nd" cx="400" cy="260" r="15"/><circle class="nd" cx="560" cy="260" r="15"/>
+          <circle class="nd" cx="150" cy="360" r="13"/><circle class="nd" cx="440" cy="360" r="13"/>
+          <line class="ln0" x1="330" y1="68" x2="196" y2="126"/>
+          <line class="lnT" x1="360" y1="68" x2="360" y2="123"/>
+          <line class="ln0" x1="390" y1="68" x2="524" y2="126"/>
+          <line class="ln0" x1="168" y1="152" x2="100" y2="247"/>
+          <line class="ln0" x1="192" y1="156" x2="228" y2="245"/>
+          <line class="ln0" x1="375" y1="157" x2="395" y2="245"/>
+          <line class="lnT" x1="360" y1="157" x2="360" y2="243"/>
+          <line class="ln0" x1="552" y1="156" x2="560" y2="245"/>
+          <line class="ln0" x1="232" y1="274" x2="158" y2="350"/>
+          <line class="lnT" x1="385" y1="274" x2="432" y2="350"/>
+          <text class="tS" x="620" y="70">DIO messages</text>
+          <text class="tS" x="620" y="85">flow downward</text>
+          <text class="tS" x="620" y="100">as the graph builds</text>
+          <text class="ts" x="360" y="395" text-anchor="middle">thick line = a node’s preferred parent — its default path to the root</text>
+        </svg>
+        <p class="figcap"><b>Fig 8.1</b> — DODAG topology. Each node knows its <em>parent</em> but holds no information about its children; RPL maintains at least one path from every node to the root via its preferred parent for faster paths.</p>
+      </div>
+      <ol class="o">
+        <li>The <strong>root node starts sending its location information using DIO messages</strong> (DODAG Information Object) to all LLN levels — DODAG formation begins.</li>
+        <li>Routers at each specific level <strong>register the parent path</strong> and their participation for each node.</li>
+        <li>Each node <strong>propagates its own DIO messages</strong>, and the DODAG gets built gradually.</li>
+        <li>Once constructed, the <strong>preferred parent</strong> obtained by the router is set as the <strong>default path towards the root</strong>.</li>
+      </ol>
+    </div>
+
+    <h3 class="num rv"><span class="n">8.3</span>Modes of Operation</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th></th><th>Storing mode</th><th>Non-storing mode</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Routing tables</strong></td><td><em>All</em> nodes contain the entire routing table of the RPL domain — every node knows how to reach every other node directly</td><td>Only the <strong>border router(s)</strong> hold the full table; all other nodes keep <strong>only their list of parents</strong>, used as default routes toward the border router</td></tr>
+            <tr><td><strong>Downward traffic</strong></td><td>Routed by <strong>destination IPv6 address</strong> at each hop</td><td>Nodes always send packets <strong>up to the border router</strong>, which reaches the final destination using <strong>IP source routing</strong></td></tr>
+            <tr><td><strong>Trade-off</strong></td><td>More memory/CPU per node</td><td>Abbreviated tables save <strong>memory space and CPU</strong>; longer paths</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>One-line memory hook: <em>“Storing = everyone smart · Non-storing = only the boss is smart.”</em></p>
+    </div>
+
+    <h3 class="num rv"><span class="n">8.4</span>Implementation — Contiki OS</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>RPL is implemented using the <strong>Contiki Operating System</strong> — open source, focused on <strong>low-power wireless IoT devices</strong>, first brought into the picture by <strong>Adam Dunkels</strong>.</li>
+        <li>Other similar operating systems: <strong>T-Kernel, EyeOS, LiteOS</strong>.</li>
+        <li>RPL occurs mostly in <strong>wireless sensors and networks</strong>.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">8.5</span>Main Features &amp; Advantages</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Scalability</strong> — accommodates big networks with low-power, lossy connectivity; suited to a range of IoT applications.</li>
+        <li><strong>Multipoint-to-point traffic</strong> — sends data to a single destination from several devices within the LLN as required.</li>
+        <li><strong>Quality of Service</strong> — methods for reliable packet delivery and congestion control.</li>
+        <li><strong>Adaptive</strong> — modifies routes in response to link-quality and energy-availability changes.</li>
+        <li><strong>Security</strong> — incorporates integrity protection, authentication, confidentiality and encryption within the LLN.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 9 ============ -->
+<section class="ch" id="ch9" data-title="Communication Models">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">09</span>
+      <span class="lbl kicker">CHAPTER 09 · PATTERNS</span>
+      <h2>IoT Communication Models</h2>
+      <p class="lede">Four recurring conversation shapes between devices, brokers and servers. Every protocol in the next three chapters instantiates one of these — learn the shapes and the protocols become obvious.</p>
+    </div>
+    <div class="duo">
+      <div class="rv">
+        <div class="fig" style="margin:0">
+          <svg viewBox="0 0 320 150" role="img" aria-label="Request response model">
+            <defs><marker id="ah9a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+            <circle class="nd" cx="55" cy="75" r="20"/><text class="tS" x="55" y="113" text-anchor="middle">CLIENT</text>
+            <circle class="nd" cx="265" cy="75" r="20"/><text class="tS" x="265" y="113" text-anchor="middle">SERVER</text>
+            <line class="ln" x1="80" y1="62" x2="240" y2="62" marker-end="url(#ah9a)"/><text class="tS" x="160" y="52" text-anchor="middle">request</text>
+            <line class="ln" x1="240" y1="92" x2="80" y2="92" marker-end="url(#ah9a)"/><text class="tS" x="160" y="112" text-anchor="middle"></text><text class="tS" x="160" y="130" text-anchor="middle">response (sync)</text>
+          </svg>
+          <p class="figcap"><b>01 · Request-Response</b> — direct, synchronous exchange; client initiates and awaits the reply, mirroring HTTP. Suits immediate feedback: device configuration, remote-control commands, thermostats fetching weather, platforms querying device status.</p>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="fig" style="margin:0">
+          <svg viewBox="0 0 320 150" role="img" aria-label="Push pull model">
+            <defs><marker id="ah9b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+            <circle class="nd" cx="45" cy="75" r="20"/><text class="tS" x="45" y="113" text-anchor="middle">SOURCE</text>
+            <rect class="bxS" x="130" y="52" width="60" height="46" rx="2"/><text class="tB" x="160" y="80" text-anchor="middle">HUB</text>
+            <circle class="nd" cx="275" cy="75" r="20"/><text class="tS" x="275" y="113" text-anchor="middle">CONSUMER</text>
+            <line class="ln" x1="70" y1="62" x2="126" y2="62" marker-end="url(#ah9b)"/><text class="tS" x="98" y="52" text-anchor="middle">push</text>
+            <line class="ln" x1="250" y1="92" x2="196" y2="92" marker-end="url(#ah9b)"/><text class="tS" x="223" y="130" text-anchor="middle">pull</text>
+          </svg>
+          <p class="figcap"><b>02 · Push-Pull</b> — combines proactive (push) and reactive (pull) mechanisms: data can be sent automatically or retrieved on demand. Suits systems needing both immediate notifications and scheduled updates by data type.</p>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="fig" style="margin:0">
+          <svg viewBox="0 0 320 170" role="img" aria-label="Publish subscribe model">
+            <defs><marker id="ah9c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+            <circle class="nd" cx="45" cy="50" r="16"/><circle class="nd" cx="45" cy="120" r="16"/>
+            <rect class="bxS" x="130" y="62" width="60" height="46" rx="2"/><text class="tB" x="160" y="90" text-anchor="middle">BROKER</text>
+            <circle class="nd" cx="275" cy="35" r="14"/><circle class="nd" cx="275" cy="85" r="14"/><circle class="nd" cx="275" cy="135" r="14"/>
+            <line class="ln" x1="65" y1="46" x2="126" y2="70" marker-end="url(#ah9c)"/>
+            <line class="ln" x1="65" y1="124" x2="126" y2="100" marker-end="url(#ah9c)"/>
+            <line class="ln" x1="194" y1="70" x2="258" y2="40" marker-end="url(#ah9c)"/>
+            <line class="ln" x1="194" y1="85" x2="258" y2="85" marker-end="url(#ah9c)"/>
+            <line class="ln" x1="194" y1="100" x2="258" y2="130" marker-end="url(#ah9c)"/>
+            <text class="tS" x="45" y="156" text-anchor="middle">publishers</text><text class="tS" x="275" y="165" text-anchor="middle">subscribers</text>
+          </svg>
+          <p class="figcap"><b>03 · Publish-Subscribe</b> — highly scalable, decoupled framework; producers and consumers interact only through a message broker. Asynchronous one-to-many distribution; ideal where sensor data flows continuously to multiple consumers.</p>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="fig" style="margin:0">
+          <svg viewBox="0 0 320 150" role="img" aria-label="Exclusive pair model">
+            <circle class="nd" cx="55" cy="75" r="20"/><text class="tS" x="55" y="113" text-anchor="middle">DEVICE</text>
+            <circle class="nd" cx="265" cy="75" r="20"/><text class="tS" x="265" y="113" text-anchor="middle">CONTROLLER</text>
+            <line class="lnT" x1="82" y1="75" x2="238" y2="75"/>
+            <line class="lnT" x1="82" y1="82" x2="238" y2="82"/>
+            <text class="tS" x="160" y="60" text-anchor="middle">persistent · stateful</text>
+            <text class="tS" x="160" y="130" text-anchor="middle">low latency, guaranteed delivery</text>
+          </svg>
+          <p class="figcap"><b>04 · Exclusive Pair</b> — dedicated, persistent channel between two endpoints; continuous stateful interaction via TCP or Bluetooth, connection kept alive for the whole session. Suits mission-critical, latency-sensitive uses: industrial robotics, autonomous vehicles, medical monitoring.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 10 ============ -->
+<section class="ch" id="ch10" data-title="MQTT">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">10</span>
+      <span class="lbl kicker">CHAPTER 10 · APPLICATION LAYER</span>
+      <h2>MQTT — Message Queue Telemetry Transport</h2>
+      <p class="lede">The workhorse of IoT messaging: a featherweight publish/subscribe transport that runs on TCP and survives terrible networks. Master the broker diagram, the eight characteristics and the three QoS levels and you own this chapter.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.1</span>Overview</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>MQTT is an <strong>OASIS</strong> (Organization for the Advancement of Structured Information Standards) <strong>standard messaging protocol for the IoT</strong>; developed by <strong>IBM</strong>.</li>
+        <li>Designed as an <strong>extremely lightweight publish/subscribe messaging transport</strong>, ideal for connecting remote devices with a <strong>small code footprint and minimal network bandwidth</strong>.</li>
+        <li>Used across industries: <strong>automotive, manufacturing, telecommunications, oil &amp; gas</strong>, etc. — sending data from sensors to middleware and applications.</li>
+        <li>Works <strong>on top of TCP/IP</strong>, providing reliable delivery of data. Three main components: <strong>Subscriber · Publisher · Broker</strong>.</li>
+        <li>Simple, compact, <strong>binary packet payload</strong>.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.2</span>Architecture — Broker, Topics, Pub/Sub</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 340" role="img" aria-label="MQTT publish subscribe broker architecture">
+          <defs><marker id="ah10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <circle class="nd" cx="85" cy="90" r="24"/><text class="tS" x="85" y="130" text-anchor="middle">PUBLISHER</text><text class="tS" x="85" y="145" text-anchor="middle">soil sensor</text>
+          <circle class="nd" cx="85" cy="250" r="24"/><text class="tS" x="85" y="290" text-anchor="middle">PUBLISHER</text><text class="tS" x="85" y="305" text-anchor="middle">weather node</text>
+          <rect class="bxS" x="295" y="115" width="160" height="110" rx="3"/>
+          <text class="tB" x="375" y="160" text-anchor="middle">MQTT</text>
+          <text class="tB" x="375" y="180" text-anchor="middle">BROKER</text>
+          <line class="ln" x1="115" y1="100" x2="289" y2="140" marker-end="url(#ah10)"/>
+          <text class="tS" x="185" y="98">PUBLISH</text>
+          <text class="tS" x="185" y="112">farm/field1/moisture</text>
+          <line class="ln" x1="115" y1="245" x2="289" y2="200" marker-end="url(#ah10)"/>
+          <text class="tS" x="180" y="252">PUBLISH</text>
+          <text class="tS" x="180" y="266">farm/weather/temp</text>
+          <circle class="nd" cx="620" cy="70" r="22"/><text class="tS" x="620" y="108" text-anchor="middle">dashboard</text>
+          <circle class="nd" cx="620" cy="170" r="22"/><text class="tS" x="620" y="208" text-anchor="middle">irrigation app</text>
+          <circle class="nd" cx="620" cy="270" r="22"/><text class="tS" x="620" y="308" text-anchor="middle">database</text>
+          <line class="ln" x1="461" y1="140" x2="592" y2="80" marker-end="url(#ah10)"/><text class="tS" x="530" y="92">FORWARD</text>
+          <line class="ln" x1="461" y1="170" x2="592" y2="168" marker-end="url(#ah10)"/><text class="tS" x="530" y="158">FORWARD</text>
+          <line class="ln" x1="461" y1="205" x2="592" y2="256" marker-end="url(#ah10)"/><text class="tS" x="530" y="248">FORWARD</text>
+        </svg>
+        <p class="figcap"><b>Fig 10.1</b> — The heart of MQTT. The broker is the central server: it receives published messages, filters them by topic, and forwards them to clients subscribed to those topics. A broker can handle <em>thousands of concurrently connected clients</em> depending on implementation.</p>
+      </div>
+      <ul class="o">
+        <li><strong>Topics look like file paths</strong> and can be chosen almost freely — each message is published <em>to a topic</em>; subscribers receive everything published on topics they subscribed to.</li>
+        <li>Publishers and subscribers are <strong>both MQTT clients</strong> — the same client can do both; clients talk <em>only</em> to brokers, never to each other.</li>
+        <li>Any device or programme running an MQTT library can be a client — from an <strong>Arduino microcontroller to full cloud application servers</strong>.</li>
+        <li>Publish/sub decouples producers from consumers — the <strong>third party (broker) manages all relationships</strong> — unlike the conventional client-server model that communicates directly with an endpoint.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.3</span>How It Behaves Under Failures</h3>
+    <div class="rv">
+      <ul class="o">
+        <li>When the <strong>broker and a subscribing client lose contact</strong>, the broker <strong>stores messages in a buffer</strong> and delivers them once the subscriber is back up (persistent sessions — the broker keeps all persistent clients’ sessions, including missed messages and subscriptions).</li>
+        <li>MQTT <strong>caterers for (wireless) network disruptions</strong> — a core design goal.</li>
+        <li>If the <em>publishing</em> client abruptly disconnects, the broker may cut off communication with subscribers and send them a <strong>cached message containing the publisher’s instructions</strong> — the Last Will (below).</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.4</span>The Eight Characteristics</h3>
+    <div class="rv">
+      <ol class="o">
+        <li><strong>Lightweight</strong> message queueing and transport protocol.</li>
+        <li><strong>Asynchronous</strong> communication model with messages (events).</li>
+        <li><strong>Low overhead — 2-byte header</strong> — for low-network-bandwidth applications.</li>
+        <li><strong>Publish/Subscribe (PubSub)</strong> model.</li>
+        <li><strong>Decoupling</strong> of data producer (publisher) and consumer (subscriber) through <strong>topics</strong> (message queues).</li>
+        <li><strong>Simple protocol</strong>, aimed at low complexity, low power, low-footprint implementations.</li>
+        <li>Runs on <strong>connection-oriented transport (TCP)</strong>.</li>
+        <li>Caters for <strong>(wireless) network disruptions</strong>.</li>
+      </ol>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.5</span>Quality of Service — Interactive Lab</h3>
+    <div class="rv">
+      <p>MQTT’s three delivery guarantees. Tap each level and watch the message exchange animate — the arrows that appear <em>are</em> the answer you must draw in the exam:</p>
+      <div class="qos" id="qosLab">
+        <div class="qos-tabs" role="tablist">
+          <button data-q="0" aria-pressed="true">QoS 0 · At most once</button>
+          <button data-q="1" aria-pressed="false">QoS 1 · At least once</button>
+          <button data-q="2" aria-pressed="false">QoS 2 · Exactly once</button>
+        </div>
+        <div class="qos-body">
+          <div class="qos-panel on" data-qp="0">
+            <svg viewBox="0 0 360 150">
+              <defs><marker id="mq0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+              <rect class="bxS" x="15" y="8" width="90" height="30"/><text class="tB" x="60" y="27" text-anchor="middle">SENDER</text>
+              <rect class="bxF" x="135" y="8" width="90" height="30"/><text class="t" x="180" y="27" text-anchor="middle">BROKER</text>
+              <rect class="bxF" x="255" y="8" width="90" height="30"/><text class="t" x="300" y="27" text-anchor="middle">RECEIVER</text>
+              <line class="lnD" x1="60" y1="38" x2="60" y2="130"/><line class="lnD" x1="180" y1="38" x2="180" y2="130"/><line class="lnD" x1="300" y1="38" x2="300" y2="130"/>
+              <g class="msg" style="--d:.2s"><line class="ln0" x1="60" y1="70" x2="172" y2="70"/><path d="M172 65 L182 70 L172 75 z" fill="var(--ink)"/><text class="tS" x="120" y="62" text-anchor="middle">PUBLISH</text></g>
+              <g class="msg" style="--d:.9s"><line class="ln0" x1="180" y1="105" x2="292" y2="105"/><path d="M292 100 L302 105 L292 110 z" fill="var(--ink)"/><text class="tS" x="240" y="97" text-anchor="middle">PUBLISH</text></g>
+            </svg>
+          </div>
+          <div class="qos-panel" data-qp="1">
+            <svg viewBox="0 0 360 240">
+              <defs><marker id="mq1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+              <rect class="bxS" x="15" y="8" width="90" height="30"/><text class="tB" x="60" y="27" text-anchor="middle">SENDER</text>
+              <rect class="bxF" x="135" y="8" width="90" height="30"/><text class="t" x="180" y="27" text-anchor="middle">BROKER</text>
+              <rect class="bxF" x="255" y="8" width="90" height="30"/><text class="t" x="300" y="27" text-anchor="middle">RECEIVER</text>
+              <line class="lnD" x1="60" y1="38" x2="60" y2="225"/><line class="lnD" x1="180" y1="38" x2="180" y2="225"/><line class="lnD" x1="300" y1="38" x2="300" y2="225"/>
+              <g class="msg" style="--d:.2s"><line class="ln0" x1="60" y1="60" x2="172" y2="60"/><path d="M172 55 L182 60 L172 65 z" fill="var(--ink)"/><text class="tS" x="120" y="52" text-anchor="middle">PUBLISH</text></g>
+              <g class="msg" style="--d:.7s"><line class="ln0" x1="180" y1="85" x2="68" y2="85"/><path d="M68 80 L58 85 L68 90 z" fill="var(--ink)"/><text class="tS" x="120" y="77" text-anchor="middle">PUBACK</text></g>
+              <g class="msg" style="--d:1.3s"><line class="ln0" x1="180" y1="140" x2="292" y2="140"/><path d="M292 135 L302 140 L292 145 z" fill="var(--ink)"/><text class="tS" x="240" y="132" text-anchor="middle">PUBLISH</text></g>
+              <g class="msg" style="--d:1.8s"><line class="ln0" x1="300" y1="165" x2="188" y2="165"/><path d="M188 160 L178 165 L188 170 z" fill="var(--ink)"/><text class="tS" x="240" y="157" text-anchor="middle">PUBACK</text></g>
+              <g class="msg" style="--d:2.4s"><line class="ln0" x1="60" y1="205" x2="172" y2="205"/><path d="M172 200 L182 205 L172 210 z" fill="var(--ink)"/><text class="tS" x="120" y="197" text-anchor="middle">PUBLISH (retry)</text></g>
+            </svg>
+          </div>
+          <div class="qos-panel" data-qp="2">
+            <svg viewBox="0 0 360 330">
+              <defs><marker id="mq2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+              <rect class="bxS" x="15" y="8" width="90" height="30"/><text class="tB" x="60" y="27" text-anchor="middle">SENDER</text>
+              <rect class="bxF" x="135" y="8" width="90" height="30"/><text class="t" x="180" y="27" text-anchor="middle">BROKER</text>
+              <rect class="bxF" x="255" y="8" width="90" height="30"/><text class="t" x="300" y="27" text-anchor="middle">RECEIVER</text>
+              <line class="lnD" x1="60" y1="38" x2="60" y2="315"/><line class="lnD" x1="180" y1="38" x2="180" y2="315"/><line class="lnD" x1="300" y1="38" x2="300" y2="315"/>
+              <g class="msg" style="--d:.2s"><line class="ln0" x1="60" y1="58" x2="172" y2="58"/><path d="M172 53 L182 58 L172 63 z" fill="var(--ink)"/><text class="tS" x="120" y="50" text-anchor="middle">PUBLISH</text></g>
+              <g class="msg" style="--d:.6s"><line class="ln0" x1="180" y1="80" x2="68" y2="80"/><path d="M68 75 L58 80 L68 85 z" fill="var(--ink)"/><text class="tS" x="120" y="72" text-anchor="middle">PUBREC</text></g>
+              <g class="msg" style="--d:1s"><line class="ln0" x1="60" y1="102" x2="172" y2="102"/><path d="M172 97 L182 102 L172 107 z" fill="var(--ink)"/><text class="tS" x="120" y="94" text-anchor="middle">PUBREL</text></g>
+              <g class="msg" style="--d:1.4s"><line class="ln0" x1="180" y1="124" x2="68" y2="124"/><path d="M68 119 L58 124 L68 129 z" fill="var(--ink)"/><text class="tS" x="120" y="116" text-anchor="middle">PUBCOMP</text></g>
+              <g class="msg" style="--d:2s"><line class="ln0" x1="180" y1="200" x2="292" y2="200"/><path d="M292 195 L302 200 L292 205 z" fill="var(--ink)"/><text class="tS" x="240" y="192" text-anchor="middle">PUBLISH</text></g>
+              <g class="msg" style="--d:2.4s"><line class="ln0" x1="300" y1="222" x2="188" y2="222"/><path d="M188 217 L178 222 L188 227 z" fill="var(--ink)"/><text class="tS" x="240" y="214" text-anchor="middle">PUBREC</text></g>
+              <g class="msg" style="--d:2.8s"><line class="ln0" x1="180" y1="244" x2="292" y2="244"/><path d="M292 239 L302 244 L292 249 z" fill="var(--ink)"/><text class="tS" x="240" y="236" text-anchor="middle">PUBREL</text></g>
+              <g class="msg" style="--d:3.2s"><line class="ln0" x1="300" y1="266" x2="188" y2="266"/><path d="M188 261 L178 266 L188 271 z" fill="var(--ink)"/><text class="tS" x="240" y="258" text-anchor="middle">PUBCOMP</text></g>
+            </svg>
+          </div>
+        </div>
+        <div class="qos-note" id="qosNote">
+          <strong>QoS 0 · At most once.</strong> The message is received by the subscriber a maximum of one time — or never. Sender and receiver attempt delivery, but if anything fails the message may be lost. Least network traffic overhead, least burden on client and broker — ideal for telemetry where losing a sample is fine.
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Level</th><th>Guarantee</th><th>Mechanism</th><th>Cost</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>QoS 0</strong></td><td>At most once</td><td>Fire and forget — no ACK</td><td>Least traffic &amp; burden</td><td>Telemetry where loss is tolerable</td></tr>
+            <tr><td><strong>QoS 1</strong></td><td>At least once</td><td>Sender retransmits until <strong>PUBACK</strong>; message stored &amp; retried</td><td>Duplicates possible; more overhead; sender must store</td><td>Delivery matters, duplicates don’t</td></tr>
+            <tr><td><strong>QoS 2</strong></td><td>Exactly once</td><td>4-way handshake: <strong>PUBLISH → PUBREC → PUBREL → PUBCOMP</strong></td><td>Most costly: extra overhead + complexity on both sides</td><td>Billing, commands — no dupes, no loss</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.6</span>Retained Messages · LWT · Security (MQTT-S)</h3>
+    <div class="rv">
+      <div class="kf">
+        <div class="box"><span class="lbl">Retained messages</span><b>Instant state for late joiners</b>Broker stores the last message per topic; a new subscriber receives it immediately upon subscribing — great for status updates and configuration settings.</div>
+        <div class="box"><span class="lbl">Last Will &amp; Testament</span><b>Graceful failure detection</b>Client registers a will; on an <em>unexpected disconnect</em> the broker publishes it — a mechanism for detecting client failures and handling them gracefully.</div>
+        <div class="box"><span class="lbl">Security</span><b>TLS + authentication</b>TLS encryption; username/password and client-certificate authentication — confidentiality, integrity, authenticity.</div>
+      </div>
+      <p class="figcap">Syllabus note “MQTT (Secure)”: MQTT itself lacks built-in encryption — security is layered on as <strong>TLS/SSL</strong> (Transport Layer Security / Secure Sockets Layer) plus the authentication mechanisms above.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">10.7</span>Advantages vs Disadvantages</h3>
+    <div class="rv">
+      <div class="duo">
+        <div class="box" style="margin:0">
+          <span class="lbl">Advantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li>Lightweight protocol — quick to create, efficient data transport</li>
+            <li>Minimal data packets → low network usage; effective data dispersion</li>
+            <li>Effective remote sensing &amp; control; prompt message delivery</li>
+            <li>Minimizes power consumption; maximizes network capacity</li>
+            <li><strong>Fixed header of 2 bytes</strong>, payload up to <strong>256 MB</strong></li>
+          </ul>
+        </div>
+        <div class="box warn" style="margin:0">
+          <span class="lbl">Disadvantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li><strong>Slower send cycles than CoAP</strong></li>
+            <li>Resource discovery via flexible topic subscription (CoAP has a more reliable discovery system)</li>
+            <li><strong>No built-in encryption</strong> — relies on TLS/SSL</li>
+            <li>Building an internationally scalable MQTT network is challenging</li>
+          </ul>
+        </div>
+      </div>
+      <details class="dd">
+        <summary><span class="pm"></span>Deep dive · MQTT-SN (MQTT for Sensor Networks)</summary>
+        <div class="ddc">
+          <p>For devices where even TCP is too heavy, <strong>MQTT-SN</strong> adapts MQTT to run directly over <strong>UDP or ZigBee/802.15.4</strong>: topics become short pre-registered IDs instead of strings, and there is a gateway that transparently bridges MQTT-SN clients to a normal MQTT broker. Expect it as a one-mark MCQ under “application protocols”.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 11 ============ -->
+<section class="ch" id="ch11" data-title="CoAP">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">11</span>
+      <span class="lbl kicker">CHAPTER 11 · APPLICATION LAYER</span>
+      <h2>CoAP — Constrained Application Protocol</h2>
+      <p class="lede">“The web, shrunk to fit a microcontroller.” A UDP-based, RESTful transfer protocol for constrained nodes and networks — with one method HTTP never had: Observe.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.1</span>Overview</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>CoAP</strong> is a <strong>specialized web transfer protocol for constrained nodes and constrained networks</strong>, for M2M applications. Several header functionalities are <strong>redesigned for M2M</strong>: <strong>built-in resource discovery, IP multi-casting support, a native push model, and asynchronous message exchange</strong>. Uses <strong>UDP</strong> transport, a compact binary header, and a simple request/response model.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.2</span>CoAP Stack vs HTTP Stack</h3>
+    <div class="rv">
+      <div class="duo">
+        <div class="stackcol">
+          <span class="lbl">HTTP stack</span>
+          <div class="stack">
+            <div class="slayer"><b>Application</b><span>XML</span></div>
+            <div class="slayer"><b>Transport</b><span>TCP</span></div>
+            <div class="slayer"><b>Network</b><span>IP</span></div>
+            <div class="slayer"><b>Data link</b><span>Ethernet MAC</span></div>
+            <div class="slayer"><b>Physical</b><span>Ethernet PHY</span></div>
+          </div>
+        </div>
+        <div class="stackcol">
+          <span class="lbl">CoAP stack</span>
+          <div class="stack">
+            <div class="slayer"><b>Application</b><span>XML / EXI</span></div>
+            <div class="slayer"><b>Transport</b><span>UDP</span></div>
+            <div class="slayer"><b>Network</b><span>IPv6 + 6LoWPAN</span></div>
+            <div class="slayer"><b>Data link</b><span>IEEE 802.15.4 MAC</span></div>
+            <div class="slayer"><b>Physical</b><span>IEEE 802.15.4 PHY</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="figcap"><b>Fig 11.1</b> — Every layer swaps heavyweight infrastructure for constrained-world equivalents; payloads may use EXI (Efficient XML Interchange) for compactness.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.3</span>Key Features</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>UDP-based</strong> — less overhead than TCP, efficient for low-power devices on limited bandwidth.</li>
+        <li><strong>HTTP-like (RESTful) semantics</strong> — familiar methods; resource-oriented: every object is a resource with a unique <strong>URI</strong>.</li>
+        <li><strong>Compact binary header</strong>; <strong>client-server request/response model</strong>; asynchronous messaging (no per-message TCP handshake).</li>
+        <li><strong>Reliability mechanisms</strong>: confirmable (CON) messages and acknowledgments (ACKs) — reliable delivery even on lossy networks.</li>
+        <li><strong>Resource observation</strong> — clients “observe” resources and get automatic updates on state change.</li>
+        <li><strong>Block-wise transfers</strong> — split large payloads into manageable blocks.</li>
+        <li><strong>Built-in resource discovery</strong>; <strong>multicast</strong> communication; <strong>proxy &amp; caching support</strong> (CoAP ↔ HTTP mapping lets constrained devices interwork with the broader web).</li>
+        <li><strong>Energy efficiency</strong> — minimizes energy consumption; mechanisms to determine if a device is powered on or off.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.4</span>Methods — Including Observe</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Method</th><th>Action</th><th>Success responses</th></tr></thead>
+          <tbody>
+            <tr><td><strong>GET</strong></td><td>Retrieve resource info identified by the request-URI</td><td><code class="k">2.00 OK</code></td></tr>
+            <tr><td><strong>POST</strong></td><td>Create a new subordinate resource under the parent URI</td><td><code class="k">2.01 Created</code> on success; <code class="k">2.00 OK</code> on failure</td></tr>
+            <tr><td><strong>PUT</strong></td><td>Update (or create) the resource identified by the URI with the enclosed body</td><td><code class="k">2.00 OK</code> if modified; <code class="k">2.01 Created</code> if new; error code if neither</td></tr>
+            <tr><td><strong>DELETE</strong></td><td>Delete the resource identified by the URI</td><td><code class="k">2.00 OK</code></td></tr>
+            <tr><td><strong>Observe</strong> ⭐</td><td>GET + observe option — alerts the server to push <em>every update</em> about the resource to the client; responses sent individually or <strong>piggy-backed</strong></td><td>continuous 2.05 Content pushes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box tip"><span class="lbl">The exam line</span><p style="margin:0">“The most fundamental difference between CoAP and HTTP is that CoAP defines a new method not present in HTTP: <strong>Observe</strong>.” Quote it verbatim.</p></div>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.5</span>Message Format — 4-Byte Fixed Header</h3>
+    <div class="rv">
+      <p>CoAP messages are encoded in <strong>binary</strong>. Header + payload + optional section; the <strong>header is exactly 4 bytes (32 bits), fixed for every message</strong>:</p>
+      <div class="bitbar" role="img" aria-label="CoAP message format">
+        <span class="lbl" style="display:block;margin-bottom:10px">CoAP HEADER · 32 bits fixed</span>
+        <div class="bb-row"><span class="bb" style="flex:2">Ver<br>2b</span><span class="bb" style="flex:2">Type<br>2b</span><span class="bb" style="flex:4">Option count<br>4b</span><span class="bb add" style="flex:8">Code<br>8b</span><span class="bb" style="flex:16">Message ID · 16b</span></div>
+        <div class="bb-row"><span class="bb dsh full" style="flex:32">Tokens (0–8 B) · Options (variable) · Payload (variable) — all optional</span></div>
+      </div>
+      <ul class="o">
+        <li><strong>Version (2 bits)</strong> — CoAP protocol version.</li>
+        <li><strong>Type (2 bits)</strong> — four message types: <strong>Confirmable (00), Non-confirmable (01), Acknowledgement (10), Reset (11)</strong>.</li>
+        <li><strong>Option count / token length (4 bits)</strong> — 16 possible options in the header.</li>
+        <li><strong>Code (8 bits)</strong> — whether the message is empty, a request, or a response.</li>
+        <li><strong>Message ID (16 bits)</strong> — detects duplicates and matches message types.</li>
+        <li><strong>Tokens (0–8 bytes, optional)</strong> — match a response with its request.</li>
+        <li><strong>Options (optional)</strong> — define the type of payload message.</li>
+        <li><strong>Payload (optional)</strong> — representation of the requested resource / result of the requested action.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">11.6</span>Applications</h3>
+    <div class="rv">
+      <div class="kf">
+        <div class="box"><span class="lbl">Smart grid</span><b>Real-time monitoring</b>CoAP sensors embedded in transformers; data over GPRS or 6LoWPAN — remote monitoring of power distribution &amp; generation.</div>
+        <div class="box"><span class="lbl">Defense</span><b>Intrusion sensing</b>Sensors on armory and tanks detect intrusion; transfer data under low-bandwidth networks without interference.</div>
+        <div class="box"><span class="lbl">Aviation</span><b>Aircraft utilities</b>Sensors and actuators connected via smart CoAP-based communication.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 12 ============ -->
+<section class="ch" id="ch12" data-title="REST & AMQP">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">12</span>
+      <span class="lbl kicker">CHAPTER 12 · APPLICATION LAYER</span>
+      <h2>REST, AMQP &amp; Friends</h2>
+      <p class="lede">Two more members of the application-layer family: REST — the architectural style behind every IoT HTTP API — and AMQP — the heavyweight, transactional messaging backbone of the industrial backend.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">12.1</span>REST in IoT</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition — note it is a style, not a protocol</span>
+        <p style="margin:0"><strong>REST (Representational State Transfer)</strong> is an <strong>architectural style</strong> for designing network-based software applications. It uses the <strong>stateless, request-response model of the web</strong> to create RESTful APIs, letting devices and web services communicate via standard HTTP methods, with data typically in <strong>JSON or XML</strong>.</p>
+      </div>
+      <p><span class="lead-word">How REST works in IoT — five steps</span></p>
+      <ol class="o">
+        <li><strong>Client-server architecture</strong> — a client (mobile app / web server) sends a request to a server (IoT platform or device).</li>
+        <li><strong>HTTP methods</strong> specify the action: <strong>GET</strong> retrieve · <strong>POST</strong> create · <strong>PUT</strong> update · <strong>DELETE</strong> remove.</li>
+        <li><strong>Resources &amp; URIs</strong> — each device or sensor is a resource with a unique URI.</li>
+        <li><strong>Data formats</strong> — standardized, most commonly JSON or XML.</li>
+        <li><strong>Request-response</strong> — the server processes and answers with status + requested data.</li>
+      </ol>
+      <p><span class="lead-word">Why REST is used in IoT — four reasons</span></p>
+      <ul class="o">
+        <li><strong>Simplicity</strong> — leverages the familiar HTTP protocol.</li>
+        <li><strong>Lightweight</strong> — less resource-intensive; suits devices with limited processing power.</li>
+        <li><strong>Statelessness</strong> — each request carries all information needed; no complex session state — ideal for devices that frequently connect/disconnect.</li>
+        <li><strong>Interoperability</strong> — standardized way for different devices, applications and cloud services to interact.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">12.2</span>AMQP — Advanced Message Queuing Protocol</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>AMQP</strong> is an <strong>open replacement of existing proprietary messaging middleware</strong>, providing <strong>reliability and interoperability</strong>. Developed by <strong>JPMorgan Chase</strong>. It uses a <strong>topic-based publish/subscribe model</strong> — exchanges route messages <em>directly by topic and also by headers</em>. Relies on TCP for reliable communication and secures it with <strong>TLS and SASL</strong>.</p>
+      </div>
+      <div class="fig">
+        <svg viewBox="0 0 720 320" role="img" aria-label="AMQP architecture: producer, exchange, bindings, queues, consumers">
+          <defs><marker id="ah12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxF" x="25" y="130" width="130" height="58" rx="2"/>
+          <text class="t" x="90" y="155" text-anchor="middle">PRODUCER</text>
+          <text class="tS" x="90" y="172" text-anchor="middle">(device / app)</text>
+          <rect class="bxS" x="255" y="128" width="130" height="62" rx="2"/>
+          <text class="tB" x="320" y="153" text-anchor="middle">EXCHANGE</text>
+          <text class="tB" x="320" y="170" text-anchor="middle">+ bindings</text>
+          <line class="ln" x1="155" y1="159" x2="249" y2="159" marker-end="url(#ah12)"/>
+          <text class="tS" x="202" y="149" text-anchor="middle">publish</text>
+          <rect class="bxF" x="470" y="40" width="140" height="46" rx="2"/><text class="t" x="540" y="68" text-anchor="middle">QUEUE 1</text>
+          <rect class="bxF" x="470" y="137" width="140" height="46" rx="2"/><text class="t" x="540" y="165" text-anchor="middle">QUEUE 2</text>
+          <rect class="bxF" x="470" y="234" width="140" height="46" rx="2"/><text class="t" x="540" y="262" text-anchor="middle">QUEUE 3</text>
+          <line class="ln" x1="385" y1="146" x2="464" y2="70" marker-end="url(#ah12)"/>
+          <line class="ln" x1="385" y1="159" x2="464" y2="159" marker-end="url(#ah12)"/>
+          <line class="ln" x1="385" y1="172" x2="464" y2="250" marker-end="url(#ah12)"/>
+          <text class="tS" x="424" y="96">route</text>
+          <circle class="nd" cx="668" cy="63" r="14"/><text class="tS" x="668" y="95" text-anchor="middle">consumer</text>
+          <circle class="nd" cx="668" cy="160" r="14"/><text class="tS" x="668" y="192" text-anchor="middle">consumer</text>
+          <circle class="nd" cx="668" cy="257" r="14"/><text class="tS" x="668" y="289" text-anchor="middle">consumer</text>
+          <line class="ln" x1="610" y1="63" x2="648" y2="63" marker-end="url(#ah12)"/>
+          <line class="ln" x1="610" y1="160" x2="648" y2="160" marker-end="url(#ah12)"/>
+          <line class="ln" x1="610" y1="257" x2="648" y2="257" marker-end="url(#ah12)"/>
+          <text class="ts" x="360" y="308" text-anchor="middle">queues buffer messages until consumers retrieve &amp; ack them</text>
+        </svg>
+        <p class="figcap"><b>Fig 12.1</b> — AMQP architecture. Bindings define the connection between exchange and queue, specifying how messages are routed.</p>
+      </div>
+      <p><span class="lead-word">How AMQP works in IoT — five mechanisms</span></p>
+      <ol class="o">
+        <li><strong>Broker-based architecture</strong> — a message broker manages message flow.</li>
+        <li><strong>Publish-subscribe</strong> — devices publish to an exchange, which routes to queues based on routing rules.</li>
+        <li><strong>Message queues</strong> — store messages until a consuming client application retrieves and processes them.</li>
+        <li><strong>Bindings</strong> — define the exchange↔queue connection and routing.</li>
+        <li><strong>Reliable delivery</strong> — several guarantee levels: <em>at-most-once, at-least-once, exactly-once</em>.</li>
+      </ol>
+      <p><span class="lead-word">Advantages</span> — reliability &amp; security (acknowledgments, TCP/TLS end-to-end); advanced routing via exchange types (<strong>direct, fanout, topic, headers</strong>); interoperability as an open standard; <strong>transactionality</strong> for critical data. <span class="lead-word">Considerations</span> — significant <em>overhead</em> (unsuitable for low-power edge devices — MQTT wins there); complexity suits backend/cloud/data centres; excels in industrial IoT, security-critical and fault-tolerant systems.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">12.3</span>AMQP vs HTTP — The Classic Table</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Basis</th><th>AMQP</th><th>HTTP</th></tr></thead>
+          <tbody>
+            <tr><td>Full form</td><td>Advanced Message Queuing Protocol</td><td>HyperText Transfer Protocol</td></tr>
+            <tr><td>Developed by</td><td>JPMorgan Chase</td><td>Tim Berners-Lee</td></tr>
+            <tr><td>Communication nature</td><td><strong>Asynchronous</strong></td><td><strong>Synchronous</strong></td></tr>
+            <tr><td>Usage</td><td>Easy to set up and manage</td><td>User-centric; usable in every aspect</td></tr>
+            <tr><td>Message delivery</td><td><strong>Guaranteed</strong></td><td>No guarantee</td></tr>
+            <tr><td>Interface</td><td>Publish/subscribe</td><td>Point-to-point</td></tr>
+            <tr><td>Fault tolerance</td><td>Bears server-breakdown issues on its own</td><td>Cannot react to server breakdown</td></tr>
+            <tr><td>Segmentation</td><td>Can process messages into slots/segments</td><td>No such capability</td></tr>
+            <tr><td>Character</td><td>Specific-purpose protocol</td><td>General-purpose protocol</td></tr>
+            <tr><td>Advantages</td><td>Fast, flexible, cost-effective</td><td>Well known, efficient, multi-purpose</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">12.4</span>Device-Integration Protocols at a Glance</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Protocol</th><th>One-line role</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MQTT</strong></td><td>Collects device data and communicates it to servers (Device-to-Server, D2S)</td></tr>
+            <tr><td><strong>XMPP</strong></td><td>Connects devices to <em>people</em>, via servers (Extensible Messaging and Presence Protocol)</td></tr>
+            <tr><td><strong>DDS</strong></td><td>A fast bus for integrating intelligent machines (Data Distribution Service)</td></tr>
+            <tr><td><strong>AMQP</strong></td><td>A queuing system designed to connect <em>servers to each other</em></td></tr>
+            <tr><td><strong>CoAP</strong></td><td>Optimized, RESTful web protocol for constrained devices</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 13 ============ -->
+<section class="ch" id="ch13" data-title="LoRa">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">13</span>
+      <span class="lbl kicker">CHAPTER 13 · LONG RANGE</span>
+      <h2>LoRa &amp; LoRaWAN</h2>
+      <p class="lede">Kilometres of range on a coin-cell battery, in license-free spectrum. The final protocol family of the unit — and the star of the case study.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">13.1</span>What LoRa Is</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>LoRa (Long Range)</strong> is a <strong>low data rate, low power wireless platform technology</strong> for building IoT networks — a <strong>patented digital wireless data communication technology developed by Cycleo of Grenoble, France</strong>. It uses <strong>chirp spread spectrum (CSS)</strong> modulation, which trades data rate for sensitivity — that is the secret of its range.</p>
+      </div>
+      <ul class="o">
+        <li>Transmits over <strong>license-free sub-GHz (Megahertz) radio bands</strong>: <strong>169 MHz, 433 MHz, 868 MHz (Europe), 915 MHz (North America)</strong>.</li>
+        <li>Enables <strong>very-long-range transmissions — more than 10 miles in rural areas</strong> — with <strong>low power consumption</strong>.</li>
+        <li>The <strong>LoRa Alliance</strong> developed the <strong>LoRaWAN protocol</strong> for mobile network operators who want to use unlicensed spectrum to communicate with IoT devices in their network.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">13.2</span>Star Topology — Star-of-Stars</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 350" role="img" aria-label="LoRa star topology with multiple gateways and network server">
+          <defs><marker id="ah13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <circle class="nd" cx="70" cy="70" r="14"/><text class="tS" x="70" y="46" text-anchor="middle">soil sensor</text>
+          <circle class="nd" cx="60" cy="160" r="14"/><text class="tS" x="60" y="136" text-anchor="middle">water meter</text>
+          <circle class="nd" cx="85" cy="250" r="14"/><text class="tS" x="85" y="226" text-anchor="middle">tracker</text>
+          <circle class="nd" cx="170" cy="310" r="14"/><text class="tS" x="170" y="336" text-anchor="middle">pump ctrl</text>
+          <circle class="nd" cx="175" cy="40" r="14"/><text class="tS" x="175" y="18" text-anchor="middle">weather stn</text>
+          <rect class="bxF" x="320" y="70" width="130" height="50" rx="2"/><text class="t" x="385" y="100" text-anchor="middle">GATEWAY 1</text>
+          <rect class="bxF" x="320" y="240" width="130" height="50" rx="2"/><text class="t" x="385" y="270" text-anchor="middle">GATEWAY 2</text>
+          <line class="lnD" x1="88" y1="72" x2="316" y2="92"/><line class="lnD" x1="76" y1="155" x2="316" y2="102"/>
+          <line class="lnD" x1="100" y1="244" x2="316" y2="268"/><line class="lnD" x1="185" y1="303" x2="316" y2="282"/>
+          <line class="lnD" x1="90" y1="64" x2="316" y2="262"/><line class="lnD" x1="188" y1="45" x2="318" y2="78"/>
+          <rect class="bxS" x="570" y="155" width="130" height="56" rx="2"/>
+          <text class="tB" x="635" y="178" text-anchor="middle">NETWORK</text>
+          <text class="tB" x="635" y="196" text-anchor="middle">SERVER</text>
+          <line class="ln" x1="450" y1="98" x2="590" y2="158" marker-end="url(#ah13)"/>
+          <line class="ln" x1="450" y1="262" x2="590" y2="208" marker-end="url(#ah13)"/>
+          <text class="tS" x="522" y="118" text-anchor="middle">IP backhaul</text>
+          <text class="ts" x="360" y="345" text-anchor="middle">an end node can send messages to MULTIPLE gateways</text>
+        </svg>
+        <p class="figcap"><b>Fig 13.1</b> — LoRa’s star topology: end nodes talk to gateways (LoRa radio); gateways forward to a central network server over standard IP backhaul. Uplink redundancy across gateways improves reliability.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">13.3</span>LoRaWAN</h3>
+    <div class="rv">
+      <div class="box def">
+        <span class="lbl">Definition</span>
+        <p style="margin:0"><strong>LoRaWAN</strong> is a <strong>Low Power Wide Area Network (LPWAN) specification</strong> intended for <strong>wireless, battery-operated things</strong> in a regional, national or global network. It targets key IoT requirements: <strong>secure bidirectional communication, mobility and localization services</strong>.</p>
+      </div>
+      <ul class="o">
+        <li>Provides <strong>long-range communication (up to 15 km)</strong> between sensors and base stations.</li>
+        <li><strong>Fully bidirectional</strong> — examples: street lighting, smart irrigation, energy optimization, home automation.</li>
+        <li>Deployed on <strong>cost-free ISM bands</strong> (industrial, scientific, medical) — any service provider can deploy and operate LoRaWAN networks <strong>without acquiring a frequency license</strong>.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">13.4</span>Advantages vs Disadvantages</h3>
+    <div class="rv">
+      <div class="duo">
+        <div class="box" style="margin:0">
+          <span class="lbl">LoRaWAN advantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li>Low-powered sensors cover large areas using low-power devices</li>
+            <li>Uses <strong>unlicensed ISM frequencies</strong></li>
+            <li>A <strong>single gateway handles thousands of end devices/nodes</strong> — suitable for M2M/IoT applications</li>
+            <li><strong>Governed by an alliance</strong> (vendor-neutral ecosystem)</li>
+            <li>Long range enables smart-city-scale solutions; easy to set up, fast deployment</li>
+            <li><strong>Two layers of AES security</strong> — one for the network, one for the application</li>
+          </ul>
+        </div>
+        <div class="box warn" style="margin:0">
+          <span class="lbl">LoRaWAN disadvantages</span>
+          <ul class="o" style="margin-bottom:0">
+            <li>Not for large data payloads — <strong>no audio or video support</strong></li>
+            <li><strong>Limited line-of-sight</strong> communications</li>
+            <li>Not ideal for real-time applications requiring <strong>low latency / bounded jitter</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CH 14 ============ -->
+<section class="ch" id="ch14" data-title="Case Study">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">14</span>
+      <span class="lbl kicker">CHAPTER 14 · CASE STUDY</span>
+      <h2>LoRa-Based Smart Irrigation System</h2>
+      <p class="lede">The unit’s capstone: apply everything — sensors, LoRa, gateways, servers, actuation — to one concrete farm. Structure your long answer exactly like this chapter.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">14.1</span>Problem &amp; Objective</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Problem:</strong> conventional irrigation is timer-based and blind to actual soil condition → over-watering (wasted water &amp; energy, leached nutrients) or under-watering (crop stress). Farms are large, remote, and have <strong>no power or wired connectivity in the field</strong>.</li>
+        <li><strong>Objective:</strong> a closed-loop system that measures soil moisture (and weather) per zone and opens/closes water valves automatically, communicating over kilometers on battery power.</li>
+        <li><strong>Why LoRa (the thesis of the case study):</strong> multi-kilometre range, years of battery life, license-free ISM band, one gateway serves thousands of nodes, bidirectional (downlink valve commands!) — every LoRaWAN advantage maps directly onto a farm’s constraints.</li>
+      </ul>
+    </div>
+
+    <h3 class="num rv"><span class="n">14.2</span>System Architecture</h3>
+    <div class="rv">
+      <div class="fig">
+        <svg viewBox="0 0 720 380" role="img" aria-label="Smart irrigation architecture over LoRa">
+          <defs><marker id="ah14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker></defs>
+          <rect class="bxF" x="20" y="30" width="200" height="300" rx="8" style="stroke-dasharray:6 5"/>
+          <text class="tS" x="120" y="52" text-anchor="middle">FIELD · SENSING + ACTUATION</text>
+          <circle class="nd" cx="70" cy="95" r="13"/><text class="tS" x="70" y="126" text-anchor="middle">soil moisture</text>
+          <circle class="nd" cx="165" cy="95" r="13"/><text class="tS" x="165" y="126" text-anchor="middle">temp / humidity</text>
+          <circle class="nd" cx="70" cy="185" r="13"/><text class="tS" x="70" y="216" text-anchor="middle">flow meter</text>
+          <rect class="bxS" x="115" y="255" width="95" height="42" rx="2"/><text class="tB" x="162" y="281" text-anchor="middle">VALVE</text>
+          <text class="tS" x="162" y="316" text-anchor="middle">solenoid control</text>
+          <rect class="bxF" x="355" y="150" width="120" height="56" rx="2"/><text class="t" x="415" y="173" text-anchor="middle">LoRa</text><text class="t" x="415" y="190" text-anchor="middle">GATEWAY</text>
+          <line class="ln" x1="220" y1="130" x2="351" y2="166" marker-end="url(#ah14)"/>
+          <text class="tS" x="286" y="140" text-anchor="middle">uplink · 868/915 MHz</text>
+          <line class="ln" x1="220" y1="272" x2="351" y2="192" marker-end="url(#ah14)"/>
+          <text class="tS" x="286" y="250" text-anchor="middle">downlink · valve cmd</text>
+          <rect class="bxS" x="560" y="80" width="140" height="50" rx="2"/><text class="tB" x="630" y="110" text-anchor="middle">NETWORK SERVER</text>
+          <rect class="bxF" x="560" y="185" width="140" height="50" rx="2"/><text class="t" x="630" y="208" text-anchor="middle">APPLICATION</text><text class="t" x="630" y="224" text-anchor="middle">SERVER</text>
+          <rect class="bxF" x="560" y="290" width="140" height="50" rx="2"/><text class="t" x="630" y="310" text-anchor="middle">FARMER DASHBOARD</text><text class="tS" x="630" y="328" text-anchor="middle">/ mobile app</text>
+          <line class="ln" x1="475" y1="170" x2="556" y2="112" marker-end="url(#ah14)"/>
+          <line class="ln" x1="556" y1="210" x2="475" y2="186" marker-end="url(#ah14)"/>
+          <line class="ln" x1="630" y1="235" x2="630" y2="286" marker-end="url(#ah14)"/>
+          <text class="tS" x="516" y="96" text-anchor="middle">IP backhaul</text>
+        </svg>
+        <p class="figcap"><b>Fig 14.1</b> — Four tiers: field nodes (sensors + valve controller with LoRa radio) → LoRa gateway (bridging radio ↔ IP) → network + application servers (decision logic) → user dashboard. Reference video walkthrough: youtu.be/sygF8RQSfkQ</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">14.3</span>Data Flow — The Exam Workflow</h3>
+    <div class="rv">
+      <ol class="o">
+        <li><strong>Sense:</strong> soil-moisture, temperature and humidity nodes wake on schedule, sample, and transmit small packets (a few bytes) via LoRa to the gateway — then return to <strong>deep sleep</strong> to conserve battery.</li>
+        <li><strong>Relay:</strong> the gateway (mains-powered, on a mast for line-of-sight) forwards packets over IP backhaul (Ethernet/cellular) to the <strong>network server</strong>, which de-duplicates messages received via multiple gateways.</li>
+        <li><strong>Decide:</strong> the <strong>application server</strong> compares moisture readings against crop- and zone-specific thresholds (optionally fusing weather data to skip irrigation before rain).</li>
+        <li><strong>Actuate:</strong> the server issues a <strong>bidirectional downlink command</strong> through the gateway to the valve node, opening/closing the solenoid for a computed duration.</li>
+        <li><strong>Verify &amp; visualize:</strong> flow-meter feedback confirms water delivered; the dashboard logs history, raises alerts, and lets the farmer override manually.</li>
+      </ol>
+    </div>
+
+    <h3 class="num rv"><span class="n">14.4</span>Why LoRa Fits — Mapping to Protocol Properties</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Farm constraint</th><th>LoRa/LoRaWAN property</th></tr></thead>
+          <tbody>
+            <tr><td>Fields span many km, no wires</td><td>Up to <strong>15 km</strong> range (&gt;10 miles rural)</td></tr>
+            <tr><td>No mains power at sensor positions</td><td><strong>Low power</strong> — battery life in years with sleep cycles</td></tr>
+            <tr><td>Thousands of sensor points</td><td>One gateway serves <strong>thousands of nodes</strong></td></tr>
+            <tr><td>Cost-sensitive agriculture</td><td><strong>License-free ISM bands</strong> — no spectrum fees; fast deployment</td></tr>
+            <tr><td>Valves must be remotely controllable</td><td><strong>Fully bidirectional</strong> communication</td></tr>
+            <tr><td>Tampering / spoofing risk</td><td><strong>Two-layer AES</strong> — network + application security</td></tr>
+            <tr><td>Payloads are tiny readings</td><td>Low data rate is <em>sufficient</em> — no audio/video needed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">14.5</span>Outcomes &amp; Limitations</h3>
+    <div class="rv">
+      <ul class="o">
+        <li><strong>Outcomes:</strong> major water savings (typically 30–50% in reported deployments), energy savings, improved crop yield uniformity, labor-free operation, scalable zone-by-zone expansion.</li>
+        <li><strong>Limitations (inherit from Ch 13):</strong> not suitable for high-rate data or video monitoring; latency and duty-cycle limits make sub-second valve control unrealistic; terrain can block line of sight.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARSENAL ============ -->
+<section class="ch" id="arsenal" data-title="Exam Arsenal">
+  <div class="wrap">
+    <div class="chead rv">
+      <span class="ghost" aria-hidden="true">✳</span>
+      <span class="lbl kicker">FINALE · RAPID REVISION</span>
+      <h2>Exam Arsenal</h2>
+      <p class="lede">The night-before compression of the whole unit: the protocol map, the numbers that examiners love, the comparison tables, flip cards and a question bank.</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">A</span>The IoT Protocol Architecture &amp; Categorization Map</h3>
+    <div class="rv">
+      <div class="fig">
+        <div class="stack">
+          <div class="slayer dsh"><b>Business layer</b><span>models, dashboards, analytics</span></div>
+          <div class="slayer"><b>Application layer</b><span>service discovery · service management · object abstraction · application protocols</span></div>
+          <div class="slayer"><b>Infrastructure protocols</b><span>routing · network · link · physical</span></div>
+          <div class="slayer dsh"><b>Objects</b><span>sensors, tags, devices, machines</span></div>
+        </div>
+        <div class="pillg" style="margin-top:16px;margin-bottom:0">
+          <span class="lbl">Application protocols</span>
+          <div class="pillrow"><span class="pill f">MQTT</span><span class="pill f">CoAP</span><span class="pill">AMQP</span><span class="pill">DDS</span><span class="pill">MQTT-SN</span><span class="pill">XMPP</span></div>
+        </div>
+        <div class="pillg" style="margin-bottom:0">
+          <span class="lbl">Service discovery</span>
+          <div class="pillrow"><span class="pill">mDNS</span><span class="pill">DNS-SD</span></div>
+        </div>
+        <div class="pillg" style="margin-bottom:0">
+          <span class="lbl">Infrastructure</span>
+          <div class="pillrow">
+            <span class="pill f">RPL</span><span class="lbl" style="align-self:center;margin:0 4px">routing</span>
+            <span class="pill f">6LoWPAN</span><span class="pill">IPv4</span><span class="pill f">IPv6</span><span class="lbl" style="align-self:center;margin:0 4px">network</span>
+            <span class="pill">IEEE 802.15.4</span><span class="pill">Z-Wave</span><span class="pill">LTE-A</span><span class="pill">EPC Global</span><span class="lbl" style="align-self:center;margin:0 4px">link/PHY</span>
+          </div>
+        </div>
+        <p class="figcap"><b>Fig A.1</b> — Categorization of IoT protocols by layer. In MCQs, place each protocol into exactly one of these buckets.</p>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">B</span>Key Numbers — One-Line Memory Table</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Number</th><th>Fact</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1979</strong></td><td>Modbus published by Modicon (now Schneider Electric)</td></tr>
+            <tr><td><strong>2007</strong></td><td>IEEE Std C37.1 for SCADA &amp; automation systems</td></tr>
+            <tr><td><strong>17 orgs · 9 countries</strong></td><td>IoT-A European consortium</td></tr>
+            <tr><td><strong>9 months</strong></td><td>Internet doubling period</td></tr>
+            <tr><td><strong>2<sup>32</sup> = 4,294,967,296</strong></td><td>IPv4 address space (32-bit)</td></tr>
+            <tr><td><strong>128-bit · 40-byte header · 1280-byte MTU</strong></td><td>IPv6 essentials</td></tr>
+            <tr><td><strong>2 bytes · 256 MB</strong></td><td>MQTT fixed header · max payload</td></tr>
+            <tr><td><strong>4 bytes</strong></td><td>CoAP fixed header</td></tr>
+            <tr><td><strong>240</strong></td><td>ZigBee application objects (endpoints) per node</td></tr>
+            <tr><td><strong>200 m · 200 kbps · ~100 nodes</strong></td><td>6LoWPAN practical specs (2.4 GHz)</td></tr>
+            <tr><td><strong>&gt;10 miles rural · up to 15 km</strong></td><td>LoRa / LoRaWAN range</td></tr>
+            <tr><td><strong>169 / 433 / 868 / 915 MHz</strong></td><td>LoRa license-free bands (868 EU, 915 NA)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">C</span>Head-to-Head Comparisons</h3>
+    <div class="rv">
+      <div class="tw">
+        <table>
+          <thead><tr><th>Basis</th><th>MQTT</th><th>CoAP</th></tr></thead>
+          <tbody>
+            <tr><td>Transport</td><td>TCP (connection-oriented)</td><td>UDP (lightweight)</td></tr>
+            <tr><td>Pattern</td><td>Broker pub/sub (async, decoupled)</td><td>Client-server request/response (RESTful)</td></tr>
+            <tr><td>Header</td><td>2 bytes fixed</td><td>4 bytes fixed binary</td></tr>
+            <tr><td>Reliability</td><td>QoS 0/1/2</td><td>Confirmable messages + ACKs</td></tr>
+            <tr><td>Resource discovery</td><td>Flexible topic subscription</td><td>Reliable built-in discovery</td></tr>
+            <tr><td>Send cycles</td><td>Slower</td><td>Faster</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Basis</th><th>ZigBee</th><th>6LoWPAN</th></tr></thead>
+          <tbody>
+            <tr><td>Philosophy</td><td>Own protocol suite over 802.15.4</td><td>Full IPv6 over 802.15.4</td></tr>
+            <tr><td>Internet connectivity</td><td>Via gateway translation</td><td><strong>Native, end-to-end IP</strong> — routable to cloud</td></tr>
+            <tr><td>Security (per notes)</td><td>Stronger</td><td>Comparatively less secure</td></tr>
+            <tr><td>Interference immunity</td><td>—</td><td>Less than Wi-Fi/Bluetooth</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="figcap">Plus the two in-chapter tables worth revisiting: AMQP vs HTTP (Ch 12.3) and storing vs non-storing RPL (Ch 8.3).</p>
+    </div>
+
+    <h3 class="num rv"><span class="n">D</span>Rapid Recall — Flip Cards</h3>
+    <div class="rv">
+      <p class="lbl" style="margin-bottom:14px">Tap a card to flip · term → answer</p>
+      <div class="cards" id="cards">
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 01</span><b>IoT-A</b></div><div class="fc-b"><span class="lbl">Answer</span><p>European consortium of 17 organizations from 9 countries pursuing a holistic IoT architecture; found standardization fragmented with island solutions and little cross-sector reuse.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 02</span><b>IEEE C37.1-2007</b></div><div class="fc-b"><span class="lbl">Answer</span><p>IEEE standard specification for SCADA and automation systems; SCADA = Supervisory Control And Data Acquisition, the pillar representing industrial automation.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 03</span><b>Modbus object types</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Coil (R/W, 1 bit) · Discrete input (R, 1 bit) · Input register (R, 16 bits) · Holding register (R/W, 16 bits).</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 04</span><b>ZDO</b></div><div class="fc-b"><span class="lbl">Answer</span><p>ZigBee Device Object — control &amp; management of application objects: device type, initialization (APS/NWK/security), discovery, coordinator setup, security &amp; network management.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 05</span><b>DODAG</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Destination Oriented Directed Acyclic Graph — RPL’s tree-like topology rooted at a sink node; built via DIO messages per an Objective Function; each node knows its parent, not its children.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 06</span><b>1280 bytes</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Minimum MTU IPv6 requires — the number 6LoWPAN must synthesize via fragmentation over ~127-byte 802.15.4 frames.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 07</span><b>QoS 2 handshake</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Exactly-once delivery: PUBLISH → PUBREC → PUBREL → PUBCOMP — a 4-way handshake guaranteeing no loss and no duplicates.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 08</span><b>Last Will &amp; Testament</b></div><div class="fc-b"><span class="lbl">Answer</span><p>MQTT message the client registers with the broker; published by the broker on the client’s unexpected disconnect — enables graceful failure detection.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 09</span><b>Observe method</b></div><div class="fc-b"><span class="lbl">Answer</span><p>The CoAP method absent from HTTP: GET + observe option; the server pushes every update of the resource to the client — responses direct or piggy-backed.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 10</span><b>Mesh-under vs Route-over</b></div><div class="fc-b"><span class="lbl">Answer</span><p>6LoWPAN routing categories: mesh-under routes below IP at the adaptation layer (broadcasting with IPv6); route-over routes at the IP level with every node an IP router.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 11</span><b>GENCO · TRANSCO · DISCO · ISO</b></div><div class="fc-b"><span class="lbl">Answer</span><p>The entities replacing vertically-integrated electric utilities after restructuring: Generation Co, Transmission Co, Distribution Co, Independent System Operator.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 12</span><b>Contiki OS</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Open-source OS for low-power wireless IoT devices by Adam Dunkels — the reference implementation platform for RPL. Siblings: T-Kernel, EyeOS, LiteOS.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 13</span><b>LoRaWAN security</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Two layers of AES encryption: one for the network, one for the application.</p></div></div></div>
+        <div class="fc"><div class="fc-in"><div class="fc-f"><span class="lbl">Card 14</span><b>IPv6 improvements</b></div><div class="fc-b"><span class="lbl">Answer</span><p>Fixed 40-byte header (options → extension headers) → fast parsing; no header checksum → fast processing; no fragmentation at intermediate nodes → fast forwarding.</p></div></div></div>
+      </div>
+    </div>
+
+    <h3 class="num rv"><span class="n">E</span>Question Bank — Practice Like the Paper</h3>
+    <div class="rv">
+      <div class="duo">
+        <div class="box" style="margin:0">
+          <span class="lbl">Short answer · 2–5 marks</span>
+          <ol class="o" style="margin-bottom:0">
+            <li>List the four reasons Modbus is widely used in industrial environments.</li>
+            <li>Define the three MQTT QoS levels with their handshakes.</li>
+            <li>Name ZigBee’s three addressing modes and its four network-layer functions.</li>
+            <li>What three fields make up the 6LoWPAN fragment header? And the mesh address header?</li>
+            <li>State the functions of a 6LoWPAN edge router.</li>
+            <li>Compare storing and non-storing RPL modes.</li>
+            <li>Give four advantages and three disadvantages of LoRaWAN.</li>
+            <li>Draw the CoAP header and label its fields with bit sizes.</li>
+            <li>How does CIDR differ from classful addressing? What is NAT?</li>
+            <li>Why is Observe the fundamental difference between CoAP and HTTP?</li>
+            <li>Explain header compression and why 6LoWPAN needs it.</li>
+            <li>Name the four IoT communication models with one use case each.</li>
+          </ol>
+        </div>
+        <div class="box" style="margin:0">
+          <span class="lbl">Long answer · 10+ marks</span>
+          <ol class="o" style="margin-bottom:0">
+            <li>Explain ZigBee architecture in detail: three sections, NWK, APS, ZDO, endpoints, addressing. (Ch 5)</li>
+            <li>Describe MQTT architecture with a diagram; explain broker, topics, QoS levels, retained messages and LWT. (Ch 10)</li>
+            <li>Discuss the issues surrounding IoT standardization, including the “double-edged sword” argument and the two open questions. (Ch 1)</li>
+            <li>Trace the evolution from IPv4 classful addressing to IPv6: subnetting, CIDR, NAT, IPv6 features and header comparison. (Ch 6)</li>
+            <li>Explain 6LoWPAN: need, adaptation-layer mechanisms, networking architecture, protocol stack, advantages/disadvantages. (Ch 7)</li>
+            <li>Describe RPL and DODAG construction step by step, with modes of operation. (Ch 8)</li>
+            <li>Case study: LoRa-based smart irrigation — architecture, workflow, and why LoRa fits the constraints. (Ch 14)</li>
+            <li>Compare AMQP and HTTP on all ten bases. (Ch 12.3)</li>
+            <li>Explain CoAP: features, methods, message format, and its stack versus HTTP’s. (Ch 11)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <span class="lbl">References &amp; colophon</span>
+    <p>Pethuru Raj &amp; Anupama C Raman, <em>The Internet of Things: Enabling Technologies, Platforms and Use Cases</em>, CRC Press, 2017 · Course slides: Unit 3 — IoT Protocols; Unit 3 — Protocol Architecture IoT; Unit 3 (6LoWPAN, RPL, REST, AMQP, CoAP, MQTT) · Case study video: youtu.be/sygF8RQSfkQ · kaaiot.com IoT communication models overview · wallarm.com AMQP primer.</p>
+    <p style="margin-top:8px">Set in Fraunces, Instrument Sans &amp; JetBrains Mono. Single-file, offline-capable, print-friendly. Good luck — go ace it.</p>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------- theme ---------- */
+  var root=document.documentElement, tBtn=document.getElementById('themeBtn'), tIcon=document.getElementById('themeIcon');
+  var SUN='<circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4" stroke-linecap="round"/>';
+  var MOON='<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z" stroke-linejoin="round"/>';
+  function setTheme(t){root.dataset.theme=t;try{localStorage.setItem('u3theme',t)}catch(e){}tIcon.innerHTML=(t==='dark')?MOON:SUN;}
+  var saved=null;try{saved=localStorage.getItem('u3theme')}catch(e){}
+  if(saved){setTheme(saved)}else{setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+  tBtn.addEventListener('click',function(){setTheme(root.dataset.theme==='dark'?'light':'dark')});
+  /* ---------- toc drawer ---------- */
+  var body=document.body,menu=document.getElementById('menuBtn'),back=document.getElementById('backdrop');
+  function closeToc(){body.classList.remove('toc-open')}
+  menu.addEventListener('click',function(){body.classList.toggle('toc-open')});
+  back.addEventListener('click',closeToc);
+  document.querySelectorAll('.toc a').forEach(function(a){a.addEventListener('click',function(){if(window.innerWidth<1100)closeToc()})});
+  /* ---------- progress ---------- */
+  var bar=document.getElementById('bar'),pct=document.getElementById('pct'),raf=false;
+  function onScroll(){
+    if(raf)return;raf=true;
+    requestAnimationFrame(function(){
+      var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+      p=Math.max(0,Math.min(1,p||0));
+      bar.style.width=(p*100).toFixed(1)+'%';
+      pct.textContent='READ '+Math.round(p*100)+'%';
+      raf=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  /* ---------- scrollspy ---------- */
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var secs=[].slice.call(document.querySelectorAll('section.ch[data-title]'));
+  function spy(){
+    var pos=window.scrollY+window.innerHeight*0.35,idx=-1;
+    secs.forEach(function(s,i){if(s.offsetTop<=pos)idx=i});
+    links.forEach(function(l,i){l.classList.toggle('act',i===idx)});
+  }
+  window.addEventListener('scroll',spy,{passive:true});spy();
+  /* ---------- reveal ---------- */
+  if('IntersectionObserver' in window){
+    var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{threshold:.08});
+    document.querySelectorAll('.rv').forEach(function(el){ro.observe(el)});
+  }else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')})}
+  /* ---------- QoS lab ---------- */
+  var qLab=document.getElementById('qosLab');
+  if(qLab){
+    var tabs=qLab.querySelectorAll('.qos-tabs button'),panels=qLab.querySelectorAll('.qos-panel'),note=document.getElementById('qosNote');
+    var notes=[
+      '<strong>QoS 0 · At most once.</strong> The message is received by the subscriber a maximum of one time — or never. Sender and receiver attempt delivery, but if anything fails the message may be lost. Least network traffic overhead, least burden on client and broker — ideal for telemetry where losing a sample is fine.',
+      '<strong>QoS 1 · At least once.</strong> The message will reach its intended recipient one or more times. The sender continues sending until it receives an acknowledgment (PUBACK); the recipient may therefore see duplicates. More network overhead than QoS 0, and the sender must store the message and retry if no ack arrives in reasonable time.',
+      '<strong>QoS 2 · Exactly once.</strong> The most costly level: guarantees the recipient gets the message exactly one time — never a duplicate, and eventually delivered — via the four-way PUBLISH / PUBREC / PUBREL / PUBCOMP handshake, at extra cost of network overhead and complexity on both sender and receiver.'
+    ];
+    function play(panel){panel.classList.remove('play');void panel.offsetWidth;panel.classList.add('play')}
+    tabs.forEach(function(t){
+      t.addEventListener('click',function(){
+        var q=t.getAttribute('data-q');
+        tabs.forEach(function(b){b.setAttribute('aria-pressed',b===t?'true':'false')});
+        panels.forEach(function(p){p.classList.toggle('on',p.getAttribute('data-qp')===q)});
+        note.innerHTML=notes[+q];
+        play(panels[+q]);
+      });
+    });
+    var p0=panels[0];
+    if('IntersectionObserver' in window){
+      var qo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play(p0);qo.disconnect()}})},{threshold:.3});
+      qo.observe(qLab);
+    }else{play(p0)}
+  }
+  /* ---------- flashcards ---------- */
+  document.querySelectorAll('.fc').forEach(function(c){c.addEventListener('click',function(){c.classList.toggle('flip')})});
+  /* ---------- print: open deep dives ---------- */
+  var dds=[].slice.call(document.querySelectorAll('details.dd')),wasOpen=[];
+  window.addEventListener('beforeprint',function(){wasOpen=dds.map(function(d){return d.open});dds.forEach(function(d){d.open=true})});
+  window.addEventListener('afterprint',function(){dds.forEach(function(d,i){d.open=wasOpen[i]})});
+})();
+</script>
+</body>
+</html>
