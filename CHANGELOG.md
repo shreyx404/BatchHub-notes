@@ -28,7 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Attached mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`) to all 4 notes for manifest ingestion.
 - Added topbar navigation, back-links to Notes Hub (`../../index.html`), dark mode toggles, and responsive touch layout support to all 4 notes.
 
-### Changed
+### Changed & Cleaned
+- **Repository Cleanup**: Removed obsolete `.gitkeep` placeholder files from `notes/biot/`, `notes/fds/`, `notes/oop/`, and `notes/pas/` as all subject folders are now populated and natively tracked by Git.
 - **Manifest Recompiled** (`notes.json`): Regenerated via `npm run build`, now tracks **16 published notes** across all 5 subjects (**72.7% curriculum coverage**).
 - `package.json`: Version bumped to `1.8.0`.
 - **System Documentation Synchronized**: Fully synchronized `PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, and `CHANGELOG.md` to reflect the latest state.
