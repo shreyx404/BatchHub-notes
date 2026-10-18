@@ -10,12 +10,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Ingestion of DCN Units 3 and 4 (`CB2004` IP addressing & TCP/IP Model).
 - Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
 - Ingestion of OOP Units 2, 3, and 4 (`notes/oop/` — `CB2006`).
-- FDS Unit 5 (Trees) and Unit 6 (Graphs) (`notes/fds/` — `CB2003`).
-- BIOT Unit 4 — IoT Security and Privacy (`notes/biot/` — `CB2005`).
+- FDS Unit 6 (Graphs) (`notes/fds/` — `CB2003`).
 - KaTeX mathematical formula rendering engine.
+
+## [1.8.0] - 2026-10-18
+
+### Added
+- **Basics of IoT (BIOT — CB2005) Unit 4 Ingested (Subject 100% Complete!)**:
+  - `notes/biot/BIOTU4.html`: Unit IV — IoT Security and Privacy. 11 comprehensive modules covering foundations & the CIA triad, IoT challenges, security toolkit, threat landscape & attack anatomy, learn-segment-protect paradigm, encryption techniques (AES, lightweight cryptography, asymmetric), authentication mechanisms (Zero Trust, mutual TLS, OAuth), privacy regulations & GDPR compliance, hardening best practices, and interactive revision checklist with local storage persistence.
+- **Data Communication & Networking (DCN — CB2004) Units 3 & 4 Ingested (Subject 100% Complete!)**:
+  - `notes/dcn/DCNU3.html`: Unit III — IP Addressing, Routing & Internetworking. 18 chapters covering IP fundamentals, IPv4 addressing, classful classes A–E, CIDR notation & subnetting/supernetting numericals, NAT (PAT/SNAT/DNAT), IPv6 representation & transition mechanisms, ICMP, routing protocols (RIP, OSPF, BGP), ARP/RARP mechanics, MPLS label switching, Mobile IP, and MANET routing (DSR, AODV).
+  - `notes/dcn/DCNU4.html`: Unit IV — The TCP/IP Model. 9 modules covering TCP/IP vs OSI architecture, layer encapsulation, link layer addressing, ARP protocol flow & interactive animated simulation, transport layer services, multiplexing/demultiplexing, UDP vs TCP, sliding window flow control (Go-Back-N, Selective Repeat), TCP 3-way handshake interactive player, and TCP congestion control (Slow Start, AIMD, Tahoe/Reno).
+- **Fundamentals of Data Structures (FDS — CB2003) Unit 5 Ingested (83.3% Complete!)**:
+  - `notes/fds/FDSU5.html`: Unit V — Trees. 15 comprehensive sections with 30+ SVG visuals, 25+ complete C implementations, and 14 solved problems. Covers tree terminology & numerical properties, binary tree ADT, recursive and non-recursive traversals (inorder, preorder, postorder, level-order using stacks/queues), Binary Search Tree (BST) operations (insert, search, delete 3 cases, min/max, height, mirror, copy), Expression trees & prefix/infix/postfix notation conversions, Huffman coding algorithm & prefix property, Inorder Threaded Binary Trees (ITBT) & tag mechanics, and Heaps (min/max heap, insert/delete, heap sort).
+- Attached mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`) to all 4 notes for manifest ingestion.
+- Added topbar navigation, back-links to Notes Hub (`../../index.html`), dark mode toggles, and responsive touch layout support to all 4 notes.
+
+### Changed
+- **Manifest Recompiled** (`notes.json`): Regenerated via `npm run build`, now tracks **16 published notes** across all 5 subjects (**72.7% curriculum coverage**).
+- `package.json`: Version bumped to `1.8.0`.
+- **System Documentation Synchronized**: Fully synchronized `PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, and `CHANGELOG.md` to reflect the latest state.
 
 ## [1.7.0] - 2026-09-28
 

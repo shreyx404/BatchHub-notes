@@ -60,6 +60,31 @@
     ]
   },
   {
+    "id": "biot-unit4",
+    "subject": "BIOT",
+    "unit": "Unit 4",
+    "title": "Unit IV · IoT Security & Privacy — Exam Notes",
+    "summary": "Comprehensive examination notes on IoT Unit IV — Security & Privacy: security challenges, threat landscape, cryptographic mechanisms (symmetric, asymmetric, lightweight), authentication, access control, privacy legislation (GDPR), and hardening best practices.",
+    "path": "notes/biot/BIOTU4.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/biot/BIOTU4.html",
+    "tags": [
+      "IoT",
+      "Security",
+      "Privacy",
+      "Attacks",
+      "DDoS",
+      "Mirai",
+      "Encryption",
+      "AES",
+      "RSA",
+      "ECC",
+      "Authentication",
+      "Zero Trust",
+      "Firmware",
+      "OWASP"
+    ]
+  },
+  {
     "id": "dcn-unit1",
     "subject": "DCN",
     "unit": "Unit 1",
@@ -101,6 +126,59 @@
       "Session",
       "Presentation",
       "Application"
+    ]
+  },
+  {
+    "id": "dcn-unit3",
+    "subject": "DCN",
+    "unit": "Unit 3",
+    "title": "DCN Unit 3 — IP Addressing | Complete Exam Notes",
+    "summary": "Complete examination notes on DCN Unit III — IP Addressing, Routing & Internetworking: IPv4 classful & CIDR addressing, subnetting/supernetting numericals, NAT, IPv6 transition, routing protocols (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, and MANET routing (DSR, AODV).",
+    "path": "notes/dcn/DCNU3.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU3.html",
+    "tags": [
+      "Networking",
+      "IP Addressing",
+      "IPv4",
+      "IPv6",
+      "Subnetting",
+      "Supernetting",
+      "CIDR",
+      "NAT",
+      "ICMP",
+      "Routing",
+      "RIP",
+      "OSPF",
+      "BGP",
+      "ARP",
+      "RARP",
+      "MPLS",
+      "Mobile IP",
+      "MANET"
+    ]
+  },
+  {
+    "id": "dcn-unit4",
+    "subject": "DCN",
+    "unit": "Unit 4",
+    "title": "TCP/IP Model — Unit 04 Study Notes · Data Communication & Networking",
+    "summary": "Comprehensive examination notes on DCN Unit IV — The TCP/IP Model: architectural comparison with OSI, transport layer mechanisms, UDP vs TCP, sliding window protocols (GBN, SR), TCP connection lifecycle, flow control, and Tahoe/Reno congestion control.",
+    "path": "notes/dcn/DCNU4.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU4.html",
+    "tags": [
+      "Networking",
+      "TCP/IP",
+      "OSI vs TCP/IP",
+      "Transport Layer",
+      "UDP",
+      "TCP",
+      "Flow Control",
+      "Sliding Window",
+      "Congestion Control",
+      "AIMD",
+      "Slow Start",
+      "Three-Way Handshake",
+      "TCP Timers"
     ]
   },
   {
@@ -180,6 +258,30 @@
       "Circular Queue",
       "Deque",
       "Priority Queue"
+    ]
+  },
+  {
+    "id": "fds-unit5",
+    "subject": "FDS",
+    "unit": "Unit 5",
+    "title": "Unit V · Trees — Complete Exam Notes",
+    "summary": "Comprehensive examination notes on FDS Unit V — Trees: terminology, binary tree ADT, recursive & non-recursive traversals, BST operations, expression trees, Huffman coding, threaded binary trees, and heaps with complete C implementations.",
+    "path": "notes/fds/FDSU5.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU5.html",
+    "tags": [
+      "Data Structures",
+      "Trees",
+      "Binary Trees",
+      "Traversals",
+      "Inorder",
+      "Preorder",
+      "Postorder",
+      "BST",
+      "Expression Trees",
+      "Huffman Coding",
+      "Threaded Binary Trees",
+      "Heaps",
+      "C"
     ]
   },
   {

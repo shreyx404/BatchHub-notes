@@ -31,11 +31,22 @@ BatchHub-notes/
 │   └── workflows/
 │       └── deploy.yml            # CI/CD: Automated GitHub Pages deployment
 ├── notes/                        # Subject folders (lowercase codes)
-│   ├── biot/                     # Basics of IoT (CB2005 - 4 Units)
-│   ├── dcn/                      # Data Communication and Networking (CB2004 - 4 Units)
+│   ├── biot/                     # Basics of IoT (CB2005 - 4 Units) [100% Complete]
+│   │   ├── BIOTU1.html           # Unit 1 Notes (Published)
+│   │   ├── BIOTU2.html           # Unit 2 Notes (Published)
+│   │   ├── BIOTU3.html           # Unit 3 Notes (Published)
+│   │   └── BIOTU4.html           # Unit 4 Notes (Published)
+│   ├── dcn/                      # Data Communication and Networking (CB2004 - 4 Units) [100% Complete]
 │   │   ├── DCNU1.html            # Unit 1 Notes (Published)
-│   │   └── DCNU2.html            # Unit 2 Notes (Published)
-│   ├── fds/                      # Fundamentals of Data Structures (CB2003 - 6 Units)
+│   │   ├── DCNU2.html            # Unit 2 Notes (Published)
+│   │   ├── DCNU3.html            # Unit 3 Notes (Published)
+│   │   └── DCNU4.html            # Unit 4 Notes (Published)
+│   ├── fds/                      # Fundamentals of Data Structures (CB2003 - 6 Units) [83.3%]
+│   │   ├── FDSU1.html            # Unit 1 Notes (Published)
+│   │   ├── FDSU2.html            # Unit 2 Notes (Published)
+│   │   ├── FDSU3.html            # Unit 3 Notes (Published)
+│   │   ├── FDSU4.html            # Unit 4 Notes (Published)
+│   │   └── FDSU5.html            # Unit 5 Notes (Published)
 │   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units)
 │   │   └── OOPU1.html            # Unit 1 Notes (Published)
 │   └── pas/                      # Probability and Statistics (MM0501 - 4 Units)

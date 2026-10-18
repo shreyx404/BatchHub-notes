@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="dcn-unit3">
+<meta name="note-subject" content="DCN">
+<meta name="note-unit" content="Unit 3">
+<meta name="note-tags" content="Networking, IP Addressing, IPv4, IPv6, Subnetting, Supernetting, CIDR, NAT, ICMP, Routing, RIP, OSPF, BGP, ARP, RARP, MPLS, Mobile IP, MANET">
+<meta name="note-summary" content="Complete examination notes on DCN Unit III — IP Addressing, Routing &amp; Internetworking: IPv4 classful &amp; CIDR addressing, subnetting/supernetting numericals, NAT, IPv6 transition, routing protocols (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, and MANET routing (DSR, AODV).">
+<title>DCN Unit 3 — IP Addressing | Complete Exam Notes</title>
+<meta name="description" content="Deep, exam-ready notes on IP Addressing: IPv4, IPv6, Subnetting, Supernetting, CIDR, NAT, ICMP, Routing (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, MANET (DSR, AODV).">
+<style>
+/* ============ DESIGN TOKENS ============ */
+:root{
+  --ink:#111111;
+  --ink-soft:#3d3d3d;
+  --ink-mute:#6b6b6b;
+  --paper:#ffffff;
+  --wash:#f5f5f4;
+  --wash-2:#ebebe9;
+  --line:#d9d9d6;
+  --line-strong:#111111;
+  --radius:10px;
+  --maxw:920px;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.65;
+  font-size:16px;
+  overflow-x:hidden;
+}
+::selection{background:var(--ink);color:var(--paper)}
+
+/* ============ READING PROGRESS ============ */
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--ink);z-index:100;transition:width .1s linear}
+
+/* ============ HEADER ============ */
+header.masthead{
+  padding:3.2rem 1.25rem 2.4rem;
+  border-bottom:2px solid var(--line-strong);
+  background:var(--wash);
+}
+.masthead-inner{max-width:var(--maxw);margin:0 auto}
+.eyebrow{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-mute);margin-bottom:.9rem;
+}
+.eyebrow b{color:var(--ink)}
+h1.title{
+  font-family:var(--serif);
+  font-size:clamp(1.9rem,6.5vw,3.2rem);
+  line-height:1.08;font-weight:700;letter-spacing:-.015em;
+}
+.subtitle{margin-top:1rem;font-size:.95rem;color:var(--ink-soft);max-width:38em}
+.subtitle code{font-family:var(--mono);font-size:.85em;background:var(--paper);border:1px solid var(--line);padding:.1em .4em;border-radius:4px}
+
+.meta-row{
+  margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:.5rem;
+}
+.tag{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--ink);border-radius:999px;padding:.35em .95em;background:var(--paper);
+}
+
+/* ============ STICKY NAV ============ */
+nav.toc{
+  position:sticky;top:0;z-index:50;
+  background:var(--paper);
+  border-bottom:1px solid var(--line-strong);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+nav.toc::-webkit-scrollbar{display:none}
+.toc-track{
+  display:flex;gap:.4rem;padding:.55rem .9rem;max-width:var(--maxw);margin:0 auto;
+}
+.toc a{
+  flex:0 0 auto;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:999px;padding:.4em .85em;
+  white-space:nowrap;background:var(--paper);transition:all .15s ease;
+}
+.toc a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ============ LAYOUT ============ */
+main{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem 6rem}
+
+/* ============ SECTIONS ============ */
+section.chapter{padding-top:3rem;scroll-margin-top:4.2rem}
+.chapter-head{
+  display:flex;align-items:baseline;gap:.9rem;
+  border-bottom:2px solid var(--line-strong);padding-bottom:.8rem;margin-bottom:1.8rem;
+}
+.chapter-num{
+  font-family:var(--serif);font-size:clamp(2.2rem,8vw,3.4rem);font-weight:700;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px var(--ink);
+}
+.chapter-title{
+  font-family:var(--serif);font-size:clamp(1.4rem,5vw,2rem);font-weight:700;letter-spacing:-.01em;line-height:1.15;
+}
+.chapter-kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:.4rem}
+
+/* ============ TYPOGRAPHY ============ */
+h3{
+  font-family:var(--serif);font-size:1.22rem;font-weight:700;margin:2.2rem 0 .8rem;
+  display:flex;align-items:center;gap:.6rem;line-height:1.25;
+}
+h3::before{content:"";width:1.6rem;height:2px;background:var(--ink);flex:0 0 auto}
+h4{font-size:.98rem;font-weight:700;margin:1.5rem 0 .5rem;font-family:var(--sans)}
+p{margin:.7rem 0;color:var(--ink-soft)}
+p strong,li strong{color:var(--ink)}
+ul,ol{margin:.6rem 0 .9rem 1.3rem;color:var(--ink-soft)}
+li{margin:.35rem 0}
+li::marker{color:var(--ink-mute)}
+a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+code{font-family:var(--mono);font-size:.85em;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:.08em .38em;color:var(--ink)}
+sup{font-size:.7em}
+.small{font-size:.85rem;color:var(--ink-mute)}
+hr{border:none;border-top:1px solid var(--line);margin:2.2rem 0}
+
+/* ============ CALLOUTS ============ */
+.def,.note-box,.exam-box,.warn-box{
+  border:1px solid var(--line-strong);border-radius:var(--radius);
+  padding:1rem 1.1rem;margin:1.2rem 0;background:var(--paper);position:relative;
+}
+.def{background:var(--wash)}
+.def::before{
+  content:"DEFINITION";position:absolute;top:-.55em;left:.9rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+  background:var(--ink);color:var(--paper);padding:.2em .7em;border-radius:3px;
+}
+.note-box{border-style:dashed}
+.note-box::before{
+  content:"NOTE";position:absolute;top:-.55em;left:.9rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+  background:var(--paper);border:1px solid var(--ink);color:var(--ink);padding:.2em .7em;border-radius:3px;
+}
+.exam-box{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.exam-box p,.exam-box li{color:#d8d8d6}
+.exam-box strong{color:#fff}
+.exam-box::before{
+  content:"★ EXAM CORNER";position:absolute;top:-.55em;left:.9rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+  background:var(--paper);color:var(--ink);border:1px solid var(--ink);padding:.2em .7em;border-radius:3px;
+}
+.warn-box::before{
+  content:"⚠ PITFALL";position:absolute;top:-.55em;left:.9rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+  background:var(--paper);border:1px dashed var(--ink);color:var(--ink);padding:.2em .7em;border-radius:3px;
+}
+
+/* ============ TABLES ============ */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line-strong);border-radius:var(--radius);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.87rem;min-width:520px}
+caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mute);padding:.6rem .9rem;background:var(--wash);border-bottom:1px solid var(--line)}
+th{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);text-align:left;padding:.65rem .9rem;font-weight:600;
+}
+td{padding:.6rem .9rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--wash)}
+td:first-child{color:var(--ink);font-weight:600}
+.table-tight td,.table-tight th{padding:.45rem .7rem;font-size:.82rem}
+
+/* ============ CODE / BINARY BLOCKS ============ */
+.bits{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;
+  background:var(--ink);color:var(--paper);border-radius:var(--radius);
+  padding:1rem 1.1rem;margin:1rem 0;overflow-x:auto;line-height:2;white-space:nowrap;
+}
+.bits .dim{color:#8a8a88}
+.bits .hi{background:#fff;color:#111;padding:0 .3em;border-radius:3px}
+.bits-light{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
+  background:var(--wash);border:1px solid var(--line);border-radius:var(--radius);
+  padding:.9rem 1rem;margin:1rem 0;overflow-x:auto;line-height:1.9;white-space:nowrap;color:var(--ink);
+}
+.formula{
+  font-family:var(--serif);font-size:1.05rem;text-align:center;
+  border:1px solid var(--line-strong);border-radius:var(--radius);
+  padding:1rem;margin:1.2rem 0;background:var(--wash);
+}
+.formula code{font-size:.95em;background:var(--paper)}
+
+/* ============ DETAILS / ACCORDION ============ */
+details{
+  border:1px solid var(--line);border-radius:var(--radius);
+  margin:.8rem 0;background:var(--paper);overflow:hidden;
+}
+details[open]{border-color:var(--ink)}
+summary{
+  cursor:pointer;list-style:none;
+  padding:.9rem 1.1rem;font-weight:700;font-size:.93rem;
+  display:flex;align-items:center;gap:.7rem;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+summary::-webkit-details-marker{display:none}
+summary::before{
+  content:"+";font-family:var(--mono);font-weight:400;font-size:1.15rem;
+  width:1.5rem;height:1.5rem;border:1px solid var(--ink);border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  transition:transform .2s ease;
+}
+details[open] summary::before{transform:rotate(45deg);background:var(--ink);color:var(--paper)}
+details[open] summary{border-bottom:1px solid var(--line)}
+.detail-body{padding:1rem 1.1rem 1.2rem}
+.detail-body > :first-child{margin-top:0}
+
+/* ============ FIGURES / SVG ============ */
+figure{margin:1.6rem 0}
+figcaption{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);text-align:center;margin-top:.7rem;
+}
+.svg-frame{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:.6rem;overflow-x:auto}
+.svg-frame svg{display:block;min-width:560px;width:100%;height:auto;margin:0 auto}
+
+/* ============ CARD GRID ============ */
+.card-grid{display:grid;grid-template-columns:1fr;gap:.8rem;margin:1.2rem 0}
+@media(min-width:640px){.card-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.card-grid.c3{grid-template-columns:1fr 1fr 1fr}}
+.mini-card{border:1px solid var(--line-strong);border-radius:var(--radius);padding:1rem;background:var(--paper)}
+.mini-card h5{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.5rem;color:var(--ink)}
+.mini-card p{font-size:.86rem;margin:.3rem 0}
+
+/* ============ EXAMPLE WORKED ============ */
+.example{
+  border-left:3px solid var(--ink);background:var(--wash);
+  padding:1rem 1.1rem;margin:1.2rem 0;border-radius:0 var(--radius) var(--radius) 0;
+}
+.example .ex-tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-weight:700}
+.example ol,.example ul{margin-left:1.2rem}
+.step{display:flex;gap:.8rem;margin:.7rem 0;align-items:flex-start}
+.step-num{
+  font-family:var(--mono);font-size:.72rem;font-weight:700;flex:0 0 auto;
+  width:1.6rem;height:1.6rem;border:1px solid var(--ink);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-top:.1rem;background:var(--paper);
+}
+.answer{
+  font-family:var(--mono);font-size:.88rem;background:var(--ink);color:var(--paper);
+  border-radius:6px;padding:.55rem .9rem;margin-top:.8rem;display:inline-block;
+}
+
+/* ============ KV LISTS ============ */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;font-size:.9rem;margin:.8rem 0}
+.kv dt{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;color:var(--ink);font-weight:700;padding-top:.1em}
+.kv dd{color:var(--ink-soft)}
+
+/* ============ FOOTER ============ */
+footer{
+  border-top:2px solid var(--line-strong);padding:2.5rem 1.25rem 3rem;background:var(--wash);
+}
+.footer-inner{max-width:var(--maxw);margin:0 auto;font-size:.82rem;color:var(--ink-mute)}
+.footer-inner .big{font-family:var(--serif);font-size:1.3rem;color:var(--ink);font-weight:700;margin-bottom:.5rem}
+
+/* ============ BACK TO TOP ============ */
+#toTop{
+  position:fixed;right:1rem;bottom:1rem;z-index:60;
+  width:2.8rem;height:2.8rem;border-radius:50%;
+  background:var(--ink);color:var(--paper);border:none;cursor:pointer;
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;
+  transform:translateY(8px);box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+#toTop.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+/* ============ LARGER SCREENS ============ */
+@media(min-width:900px){
+  body{font-size:17px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+  .two-col > *{margin-top:0}
+}
+@media print{
+  nav.toc,#toTop,#progress{display:none}
+  body{font-size:11pt}
+  details{break-inside:avoid}
+  details:not([open]) .detail-body{display:block}
+  section.chapter{break-inside:avoid-page}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- ================= MASTHEAD ================= -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="../../index.html" class="back-link" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);text-decoration:none;margin-bottom:1rem;font-weight:600;">← Notes Hub</a>
+    <p class="eyebrow"><b>Data Communication &amp; Networking</b> · Unit III · Second Year (I Sem)</p>
+    <h1 class="title">IP Addressing,<br>Routing &amp; Internetworking</h1>
+    <p class="subtitle">Complete exam-prep notes covering <code>IPv4</code> · <code>Classful &amp; Classless addressing</code> · <code>Subnetting / Supernetting / CIDR</code> · <code>NAT</code> · <code>IPv6</code> · <code>ICMP</code> · <code>RIP / OSPF / BGP</code> · <code>ARP &amp; RARP</code> · <code>MPLS</code> · <code>Mobile IP</code> · <code>DSR &amp; AODV</code> — with worked numericals and diagrams.</p>
+    <div class="meta-row">
+      <span class="tag">Exam Ready</span><span class="tag">Deep Notes</span><span class="tag">Monochrome</span><span class="tag">Mobile First</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STICKY TOC ================= -->
+<nav class="toc" aria-label="Table of contents">
+  <div class="toc-track">
+    <a href="#s1">01 Fundamentals</a>
+    <a href="#s2">02 IPv4 Basics</a>
+    <a href="#s3">03 Classful</a>
+    <a href="#s4">04 Classless / CIDR</a>
+    <a href="#s5">05 Subnetting</a>
+    <a href="#s6">06 Supernetting</a>
+    <a href="#s7">07 NAT</a>
+    <a href="#s8">08 IPv6</a>
+    <a href="#s9">09 IPv4 Header</a>
+    <a href="#s10">10 ICMP</a>
+    <a href="#s11">11 Routing</a>
+    <a href="#s12">12 RIP</a>
+    <a href="#s13">13 OSPF</a>
+    <a href="#s14">14 BGP</a>
+    <a href="#s15">15 ARP / RARP</a>
+    <a href="#s16">16 MPLS</a>
+    <a href="#s17">17 Mobile IP</a>
+    <a href="#s18">18 MANET</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================================================ -->
+<!-- SECTION 1 — FUNDAMENTALS -->
+<!-- ============================================================ -->
+<section class="chapter" id="s1">
+  <div class="chapter-head">
+    <span class="chapter-num">01</span>
+    <div>
+      <p class="chapter-kicker">Addressing Mechanism in the Internet</p>
+      <h2 class="chapter-title">IP Address Fundamentals</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p>An <strong>IP (Internet Protocol) address</strong> is a numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication. It is the identifier that enables a device to send or receive data packets across the internet, and it holds location-related information that makes two-way communication possible.</p>
+  </div>
+
+  <p>The internet needs a way to <strong>distinguish between different networks, routers, and websites</strong> — IP addresses provide exactly this mechanism, and each IP packet carries <strong>two addresses</strong>: the sender's (source) and the receiver's (destination).</p>
+
+  <h3>Representation</h3>
+  <ul>
+    <li>An IP address is a series of numbers <strong>segregated by dots (.)</strong>.</li>
+    <li>Expressed as <strong>four groups (octets)</strong> — e.g. <code>255.255.255.255</code> — where each group ranges from <strong>0 to 255</strong>.</li>
+    <li>Addresses are <strong>not random</strong>: they are generated mathematically and assigned by <strong>IANA</strong> (Internet Assigned Numbers Authority), a department of <strong>ICANN</strong> (Internet Corporation for Assigned Names and Numbers — a US non-profit founded in 1998 to manage internet security and availability).</li>
+  </ul>
+
+  <h3>How an IP Address Works (step-by-step)</h3>
+  <div class="step"><span class="step-num">1</span><p>Your device (computer / smartphone) connects to a <strong>network</strong> that is connected to the internet. The network gives your device internet access.</p></div>
+  <div class="step"><span class="step-num">2</span><p>At home, the device uses the network of your <strong>ISP</strong>; at work, the company network.</p></div>
+  <div class="step"><span class="step-num">3</span><p>The <strong>ISP generates the IP address</strong> for your device.</p></div>
+  <div class="step"><span class="step-num">4</span><p>Your request passes through the ISP, and the ISP delivers the response back to your device <strong>using your IP address</strong> — hence the ISP is responsible for allocation.</p></div>
+  <div class="step"><span class="step-num">5</span><p>The IP address is <strong>never permanent</strong>: restarting the modem/router or asking the ISP can change it.</p></div>
+  <div class="step"><span class="step-num">6</span><p>When travelling, the device uses <strong>different networks</strong> (café Wi-Fi, hotspot, airport), so it receives a different <strong>temporary IP from that network's ISP</strong>.</p></div>
+
+  <div class="note-box">
+    <p><strong>Key insight:</strong> an IP address is the address of a <em>connection</em>, not of the host or router itself — if the device moves to another network, its IP address changes.</p>
+  </div>
+
+  <h3>Types of IP Addresses — Public vs Private</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Public vs Private IPv4 addresses</caption>
+      <thead><tr><th>Aspect</th><th>Public (External) Address</th><th>Private (Internal) Address</th></tr></thead>
+      <tbody>
+        <tr><td>Scope</td><td><strong>Global</strong> — communication outside the network (WAN)</td><td><strong>Local</strong> — communication within the network (LAN)</td></tr>
+        <tr><td>Used for</td><td>Accessing the internet; remote access; running a home server</td><td>Devices inside home/organization (PCs, printers, smartphones)</td></tr>
+        <tr><td>Assigned by</td><td>ISP</td><td>Allocated via <strong>InterNIC</strong>; not routed on the internet</td></tr>
+        <tr><td>Cost</td><td><strong>Not free</strong></td><td><strong>Free of cost</strong></td></tr>
+        <tr><td>How to find</td><td>Google "What is my IP"</td><td>Type <code>ipconfig</code> in command prompt</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Define IP address. Differentiate public &amp; private addresses. Who assigns IP addresses and how? Why is an IP address called the "address of a connection"?</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 2 — IPv4 BASICS -->
+<!-- ============================================================ -->
+<section class="chapter" id="s2">
+  <div class="chapter-head">
+    <span class="chapter-num">02</span>
+    <div>
+      <p class="chapter-kicker">Notation · Address Space · Hierarchy</p>
+      <h2 class="chapter-title">IPv4 Addressing Basics</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p>An <strong>IPv4 address</strong> is a <strong>32-bit address</strong> that uniquely and universally defines the connection of a host or router to the Internet.</p>
+  </div>
+
+  <ul>
+    <li><strong>Unique:</strong> each address defines one and only one connection to the Internet. A device with two connections (two networks) has <strong>two IPv4 addresses</strong>.</li>
+    <li><strong>Universal:</strong> the addressing system must be accepted by any host wishing to connect to the Internet.</li>
+  </ul>
+
+  <h3>Address Space</h3>
+  <div class="formula">
+    If a protocol uses <code>b</code> bits to define an address, the address space = <code>2<sup>b</sup></code><br>
+    <span class="small">IPv4 uses 32 bits ⇒ address space = <code>2<sup>32</sup> = 4,294,967,296</code> (more than 4 billion) addresses.</span>
+  </div>
+
+  <h3>Three Notations of an IPv4 Address</h3>
+  <div class="bits">
+    Binary (base 2)&#9;&#9;10000000&#160;&#160;00001011&#160;&#160;00000011&#160;&#160;00011111<br>
+    <span class="dim">Dotted-decimal (base 10)</span>&#9;<span class="hi">128.11.3.31</span><br>
+    <span class="dim">Hexadecimal (base 16)</span>&#9;80&#160;0B&#160;03&#160;1F
+  </div>
+  <ul>
+    <li><strong>Binary notation:</strong> 32 bits shown directly, usually spaced per octet (8 bits = 1 byte).</li>
+    <li><strong>Dotted-decimal notation:</strong> each byte written in decimal (0–255), separated by dots — the human-readable format.</li>
+    <li><strong>Hexadecimal notation:</strong> each hex digit = 4 bits, so a 32-bit address has 8 hex digits; common in network programming.</li>
+  </ul>
+
+  <details>
+    <summary>Worked conversion — 128.11.3.31 to binary &amp; hex</summary>
+    <div class="detail-body">
+      <div class="table-wrap"><table class="table-tight">
+        <thead><tr><th>Octet</th><th>128</th><th>11</th><th>3</th><th>31</th></tr></thead>
+        <tbody>
+          <tr><td>Binary</td><td>10000000</td><td>00001011</td><td>00000011</td><td>00011111</td></tr>
+          <tr><td>Hex</td><td>80</td><td>0B</td><td>03</td><td>1F</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small">Rule: decimal → 8-bit binary per octet; group each 4 bits → 1 hex digit.</p>
+    </div>
+  </details>
+
+  <h3>Hierarchy in Addressing</h3>
+  <p>Like postal addresses (country → state → city → street → house) or telephone numbers (country code → area code → exchange → connection), an IPv4 address is <strong>hierarchical but divided into only two parts</strong>:</p>
+  <div class="card-grid">
+    <div class="mini-card"><h5>Prefix</h5><p>The first <code>n</code> bits — <strong>defines the network</strong> (the netid). Prefix may be fixed-length (classful, obsolete) or variable-length (classless).</p></div>
+    <div class="mini-card"><h5>Suffix</h5><p>The remaining <code>32 − n</code> bits — <strong>defines the node/host</strong> (the hostid), i.e. the connection of a device to the Internet.</p></div>
+  </div>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 110" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace">
+        <rect x="20" y="30" width="330" height="50" fill="#111"/>
+        <rect x="350" y="30" width="190" height="50" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="185" y="60" fill="#fff" font-size="15" text-anchor="middle">PREFIX — n bits (network)</text>
+        <text x="445" y="60" fill="#111" font-size="15" text-anchor="middle">SUFFIX — 32−n bits</text>
+        <text x="445" y="78" fill="#111" font-size="11" text-anchor="middle">host / node</text>
+        <text x="20" y="105" fill="#6b6b6b" font-size="11">32 bits total</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 2.1 — IPv4 hierarchical structure: prefix + suffix</figcaption>
+  </figure>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> "IPv4 is a 32-bit address — justify." Convert an address between binary / dotted-decimal / hex. Explain the hierarchical nature of IP addressing with prefix &amp; suffix.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 3 — CLASSFUL -->
+<!-- ============================================================ -->
+<section class="chapter" id="s3">
+  <div class="chapter-head">
+    <span class="chapter-num">03</span>
+    <div>
+      <p class="chapter-kicker">The Original Scheme · Now Obsolete</p>
+      <h2 class="chapter-title">Classful Addressing</h2>
+    </div>
+  </div>
+
+  <p>When the Internet started, IPv4 was designed with <strong>fixed-length prefixes</strong> to accommodate both small and large networks. Instead of one prefix length, <strong>three were designed</strong> (<code>n = 8, 16, 24</code>), and the whole address space was divided into <strong>five classes (A–E)</strong>.</p>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace">
+        <!-- Class A -->
+        <rect x="20" y="20" width="60" height="34" fill="#111"/><text x="50" y="42" fill="#fff" font-size="13" text-anchor="middle">0</text>
+        <rect x="80" y="20" width="160" height="34" fill="none" stroke="#111" stroke-width="2"/>
+        <rect x="240" y="20" width="300" height="34" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="160" y="42" fill="#111" font-size="12" text-anchor="middle">network (7 bits)</text>
+        <text x="390" y="42" fill="#111" font-size="12" text-anchor="middle">host (24 bits)</text>
+        <text x="20" y="70" fill="#111" font-size="13" font-weight="bold">Class A — 50% of space · 0.0.0.0 – 127.255.255.255</text>
+        <!-- Class B -->
+        <rect x="20" y="92" width="60" height="34" fill="#111"/><rect x="80" y="92" width="40" height="34" fill="#111"/>
+        <text x="70" y="114" fill="#fff" font-size="13" text-anchor="middle">10</text>
+        <rect x="120" y="92" width="120" height="34" fill="none" stroke="#111" stroke-width="2"/>
+        <rect x="240" y="92" width="300" height="34" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="180" y="114" fill="#111" font-size="12" text-anchor="middle">net (14)</text>
+        <text x="390" y="114" fill="#111" font-size="12" text-anchor="middle">host (16 bits)</text>
+        <text x="20" y="142" fill="#111" font-size="13" font-weight="bold">Class B — 25% of space · 128.0.0.0 – 191.255.255.255</text>
+        <!-- Class C -->
+        <rect x="20" y="164" width="90" height="34" fill="#111"/>
+        <text x="65" y="186" fill="#fff" font-size="13" text-anchor="middle">110</text>
+        <rect x="110" y="164" width="130" height="34" fill="none" stroke="#111" stroke-width="2"/>
+        <rect x="240" y="164" width="300" height="34" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="175" y="186" fill="#111" font-size="12" text-anchor="middle">net (21)</text>
+        <text x="390" y="186" fill="#111" font-size="12" text-anchor="middle">host (8 bits)</text>
+        <text x="20" y="214" fill="#111" font-size="13" font-weight="bold">Class C — 12.5% of space · 192.0.0.0 – 223.255.255.255</text>
+        <!-- Class D & E -->
+        <rect x="20" y="236" width="110" height="34" fill="none" stroke="#111" stroke-width="2"/>
+        <text x="75" y="258" fill="#111" font-size="13" text-anchor="middle">1110</text>
+        <text x="150" y="258" fill="#111" font-size="12">D — MULTICAST (224–239) — 6.25%</text>
+        <rect x="20" y="280" width="110" height="0" fill="none"/>
+        <text x="150" y="292" fill="#111" font-size="12">E — RESERVED / experimental (240–255) — 6.25%</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 3.1 — Classful addressing: leading-bit patterns define the class</figcaption>
+  </figure>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Classful addressing summary (total space = 2³² = 4,294,967,296)</caption>
+      <thead><tr><th>Class</th><th>Leading bits</th><th>Prefix length n</th><th>Netid bits</th><th>Max networks</th><th>Hosts per network</th><th>First byte</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>0</td><td>8</td><td>7</td><td>2⁷ = 128</td><td>2²⁴ = 16,777,216</td><td>0 – 127</td></tr>
+        <tr><td>B</td><td>10</td><td>16</td><td>14</td><td>2¹⁴ = 16,384</td><td>2¹⁶ = 65,536</td><td>128 – 191</td></tr>
+        <tr><td>C</td><td>110</td><td>24</td><td>21</td><td>2²¹ = 2,097,152</td><td>2⁸ = 256</td><td>192 – 223</td></tr>
+        <tr><td>D</td><td>1110</td><td colspan="2">No prefix/suffix split</td><td colspan="2">Multicast addresses</td><td>224 – 239</td></tr>
+        <tr><td>E</td><td>1111</td><td colspan="2">No prefix/suffix split</td><td colspan="2">Reserved / experimental</td><td>240 – 255</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Finding the Class of an Address</h3>
+  <div class="example">
+    <span class="ex-tag">Example — classify in binary</span>
+    <ul>
+      <li><code>00000001 00001011 00001011 11101111</code> → first bit is <strong>0</strong> → <strong>Class A</strong></li>
+      <li><code>11000001 10000011 00011011 11111111</code> → starts <strong>110</strong> → <strong>Class C</strong></li>
+      <li><code>10100111 11011011 10001011 01101111</code> → starts <strong>10</strong> → <strong>Class B</strong></li>
+      <li><code>11110011 10011011 11111011 00001111</code> → four leading <strong>1s</strong> → <strong>Class E</strong></li>
+    </ul>
+  </div>
+
+  <h3>Why Classful Addressing Became Obsolete — Address Depletion</h3>
+  <ul>
+    <li><strong>Class A flaw:</strong> only 128 networks exist, each with 16,777,216 hosts. Very few organizations are that large → <strong>massive waste</strong>.</li>
+    <li><strong>Class B flaw:</strong> designed for midsize organizations, but many addresses also remained <strong>unused</strong>.</li>
+    <li><strong>Class C flaw:</strong> only 256 addresses per network — <strong>too small</strong> for most companies.</li>
+    <li><strong>Class E:</strong> almost never used — the whole class wasted.</li>
+  </ul>
+
+  <h3>Stopgap Fixes: Subnetting &amp; Supernetting (in classful era)</h3>
+  <ul>
+    <li><strong>Subnetting:</strong> divide a class A/B block into several subnets, each with a <strong>larger prefix</strong> than the original. E.g. a class A network divided into 4 subnets → each has prefix <code>n = 10</code>. <em>Failed:</em> large organizations refused to split and share unused addresses.</li>
+    <li><strong>Supernetting:</strong> combine several class C blocks into a larger block (attractive to organizations needing &gt; 256 addresses). <em>Failed:</em> it made <strong>routing of packets more difficult</strong>.</li>
+  </ul>
+
+  <div class="note-box">
+    <p><strong>One genuine advantage of classful addressing:</strong> the class (and hence the fixed prefix length) can be read directly from the address — the prefix length is <em>inherent</em>; no extra information is needed to extract prefix and suffix. Classless addressing must carry this info separately (slash notation).</p>
+  </div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Explain classful addressing with classes A–E. Why did address depletion occur? Compute number of networks/hosts per class. Advantage of classful over classless.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 4 — CLASSLESS / CIDR -->
+<!-- ============================================================ -->
+<section class="chapter" id="s4">
+  <div class="chapter-head">
+    <span class="chapter-num">04</span>
+    <div>
+      <p class="chapter-kicker">Slash Notation · Block Extraction</p>
+      <h2 class="chapter-title">Classless Addressing (CIDR)</h2>
+    </div>
+  </div>
+
+  <p>Subnetting and supernetting did not solve depletion. The short-term fix kept IPv4 addresses but <strong>removed class privilege</strong> from distribution; the long-term fix is IPv6. The rise of <strong>ISPs</strong> in the 1990s — organizations that buy a large range of addresses and subdivide them (1, 2, 4, 8, 16…) for customers — motivated the 1996 announcement of <strong>classless addressing</strong>.</p>
+
+  <div class="def">
+    <p>In <strong>classless addressing</strong>, the whole address space is divided into <strong>variable-length blocks</strong> belonging to no class. The <strong>prefix defines the block (network)</strong>; the <strong>suffix defines the node (device)</strong>. An organization is granted one block.</p>
+  </div>
+
+  <ul>
+    <li>Block sizes must be a <strong>power of 2</strong>: 2⁰, 2¹, 2², …, 2³² addresses.</li>
+    <li>Prefix length <code>n</code> ranges from <strong>0 to 32</strong>.</li>
+    <li><strong>Small prefix ⇒ larger network; large prefix ⇒ smaller network</strong> (inverse relationship).</li>
+    <li>Classful is a <strong>special case</strong> of classless: class A ⇒ /8, class B ⇒ /16, class C ⇒ /24.</li>
+  </ul>
+
+  <h3>Slash Notation (CIDR)</h3>
+  <p>Since the prefix length is <strong>not inherent</strong> in the address, it is appended after a slash — informally <em>slash notation</em>, formally <em>Classless Inter-Domain Routing</em>.</p>
+  <div class="bits-light">12.24.76.8/8&#9;&#9;23.14.67.92/12&#9;&#9;220.8.24.255/25</div>
+
+  <h3>Extracting Information from a Block</h3>
+  <p>Given any address in the block and its prefix length <code>n</code>, three facts follow mechanically:</p>
+  <div class="step"><span class="step-num">1</span><p><strong>Number of addresses:</strong> <code>N = 2<sup>32−n</sup></code></p></div>
+  <div class="step"><span class="step-num">2</span><p><strong>First address (network address):</strong> keep the leftmost <code>n</code> bits, set the remaining <code>32−n</code> rightmost bits to <strong>0</strong>.</p></div>
+  <div class="step"><span class="step-num">3</span><p><strong>Last address:</strong> keep the leftmost <code>n</code> bits, set the remaining bits to <strong>1</strong>.</p></div>
+
+  <div class="example">
+    <span class="ex-tag">Worked example — 167.199.170.82/27</span>
+    <p>Prefix <code>n = 27</code> ⇒ suffix <code>= 32−27 = 5</code> bits.</p>
+    <ul>
+      <li><strong>Number of addresses</strong> = 2⁵ = <strong>32</strong></li>
+      <li>Binary: <code>10100111 11000111 10101010 010</code>|<code>10010</code></li>
+      <li><strong>First address</strong> → set last 5 bits to 0: <code>…01000000</code> = <code>167.199.170.64/27</code></li>
+      <li><strong>Last address</strong> → set last 5 bits to 1: <code>…01011111</code> = <code>167.199.170.95</code></li>
+    </ul>
+    <span class="answer">Block = 167.199.170.64 – 167.199.170.95 (32 addresses)</span>
+  </div>
+
+  <div class="example">
+    <span class="ex-tag">Worked example — 205.16.37.39/28</span>
+    <ul>
+      <li>Binary: <code>11001101 00010000 00100101 0010</code>|<code>0111</code></li>
+      <li>Set 4 rightmost bits to 0 → <strong>first address = 205.16.37.32</strong></li>
+      <li>Set 4 rightmost bits to 1 → <strong>last address = 205.16.37.47</strong></li>
+      <li><strong>Number of addresses</strong> = 2³²⁻²⁸ = 2⁴ = <strong>16</strong></li>
+    </ul>
+  </div>
+
+  <h3>ISP Address Allocation (Example 19.10 style)</h3>
+  <div class="example">
+    <span class="ex-tag">Problem</span>
+    <p>An ISP is granted <code>190.100.0.0/16</code> (65,536 addresses) and must serve: <strong>Group 1</strong> — 64 customers × 256 addresses; <strong>Group 2</strong> — 128 customers × 128 addresses; <strong>Group 3</strong> — 128 customers × 64 addresses. Design subblocks and find remaining addresses.</p>
+    <p><strong>Method:</strong> for each group, host bits needed = log₂(addresses per customer); prefix = 32 − host bits.</p>
+    <div class="table-wrap"><table class="table-tight">
+      <thead><tr><th>Group</th><th>Addrs/customer</th><th>Host bits</th><th>Prefix</th><th>Customers</th><th>Total allocated</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>256</td><td>8 (log₂256)</td><td>/24</td><td>64</td><td>64 × 256 = 16,384</td></tr>
+        <tr><td>2</td><td>128</td><td>7 (log₂128)</td><td>/25</td><td>128</td><td>128 × 128 = 16,384</td></tr>
+        <tr><td>3</td><td>64</td><td>6 (log₂64)</td><td>/26</td><td>128</td><td>128 × 64 = 8,192</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Granted: 65,536 &nbsp;·&nbsp; Allocated: 16,384 + 16,384 + 8,192 = <strong>40,960</strong></li>
+    </ul>
+    <span class="answer">Available after allocation = 65,536 − 40,960 = 24,576 addresses</span>
+  </div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> "What does /27 mean?" Find first address, last address, and number of addresses given an address in slash notation. ISP allocation design problem (very common, 6–8 marks).</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 5 — SUBNETTING -->
+<!-- ============================================================ -->
+<section class="chapter" id="s5">
+  <div class="chapter-head">
+    <span class="chapter-num">05</span>
+    <div>
+      <p class="chapter-kicker">Subnet Mask · AND Operation · 3 Solution Styles</p>
+      <h2 class="chapter-title">Subnetting &amp; Subnet Masking</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>Subnetting</strong> splits one network into smaller subnetworks by <strong>borrowing host bits</strong> to create network bits — i.e., <strong>lengthening the subnet mask</strong>. It improves network management, security, and reduces broadcast traffic.</p>
+  </div>
+
+  <div class="def">
+    <p>A <strong>subnet mask</strong> is a 32-bit number that divides an IP address into the <strong>network portion</strong> (bits = 1 in the mask) and the <strong>host portion</strong> (bits = 0). Routers use it to decide where to forward packets, improving performance.</p>
+  </div>
+
+  <h3>The Masking Process (bitwise AND)</h3>
+  <div class="step"><span class="step-num">1</span><p>Convert the IP address and subnet mask to binary.</p></div>
+  <div class="step"><span class="step-num">2</span><p><strong>Bitwise AND</strong> them: both bits 1 → 1, otherwise 0.</p></div>
+  <div class="step"><span class="step-num">3</span><p>The result is the <strong>network address</strong>: mask-1 bits = network, mask-0 bits = host.</p></div>
+
+  <div class="example">
+    <span class="ex-tag">Example — 192.168.1.100 with mask 255.255.255.0</span>
+    <div class="bits-light">IP&#9;11000000.10101000.00000001.01100100&#9;(192.168.1.100)<br>
+    Mask&#9;11111111.11111111.11111111.00000000&#9;(255.255.255.0)<br>
+    AND&#9;11000000.10101000.00000001.00000000&#9;(192.168.1.0 ← network)</div>
+    <p class="small">Host portion = last 8 bits (0–254 usable).</p>
+  </div>
+
+  <div class="example">
+    <span class="ex-tag">Example — find subnetwork address of 200.45.34.56, mask 255.255.240.0</span>
+    <div class="bits-light">Address&#9;11001000 00101101 00100010 00111000<br>
+    Mask&#9;&#9;11111111 11111111 11110000 00000000<br>
+    Result&#9;11001000 00101101 <b>00100000 00000000</b></div>
+    <span class="answer">Subnetwork address = 200.45.32.0</span>
+  </div>
+
+  <div class="warn-box">
+    <p>The <strong>network address</strong> (all host bits 0) and the <strong>broadcast address</strong> (all host bits 1) of every subnet are <strong>reserved</strong> — not assignable to hosts. Hence usable hosts = block size − 2.</p>
+  </div>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace">
+        <text x="20" y="24" fill="#111" font-size="14" font-weight="bold">192.168.1.0/24 → four subnets (/26, increment 64)</text>
+        <g font-size="11">
+          <rect x="20" y="40" width="120" height="42" fill="#111"/><text x="80" y="58" fill="#fff" text-anchor="middle">.0/26</text><text x="80" y="73" fill="#ccc" text-anchor="middle">.0–.63</text>
+          <rect x="148" y="40" width="120" height="42" fill="none" stroke="#111" stroke-width="2"/><text x="208" y="58" fill="#111" text-anchor="middle">.64/26</text><text x="208" y="73" fill="#6b6b6b" text-anchor="middle">.64–.127</text>
+          <rect x="276" y="40" width="120" height="42" fill="none" stroke="#111" stroke-width="2"/><text x="336" y="58" fill="#111" text-anchor="middle">.128/26</text><text x="336" y="73" fill="#6b6b6b" text-anchor="middle">.128–.191</text>
+          <rect x="404" y="40" width="120" height="42" fill="none" stroke="#111" stroke-width="2"/><text x="464" y="58" fill="#111" text-anchor="middle">.192/26</text><text x="464" y="73" fill="#6b6b6b" text-anchor="middle">.192–.255</text>
+        </g>
+        <text x="20" y="110" fill="#6b6b6b" font-size="11">borrow 2 host bits → 4 subnets · each has 2⁶−2 = 62 usable hosts</text>
+        <text x="20" y="140" fill="#111" font-size="14" font-weight="bold">Supernetting: four /24 blocks → one /22</text>
+        <g font-size="11">
+          <rect x="20" y="152" width="500" height="30" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="270" y="172" fill="#111" text-anchor="middle">192.168.0.0/22 covers 192.168.0.0 – 192.168.3.255 (4 × 256 = 1,024 addresses)</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>Fig. 5.1 — Subnetting vs supernetting at a glance</figcaption>
+  </figure>
+
+  <details>
+    <summary>STYLE 1 — Subnetting given a required number of networks</summary>
+    <div class="detail-body">
+      <p><strong>Problem:</strong> Class C network <code>209.50.1.0</code> must be broken into <strong>20 subnets</strong>.</p>
+      <div class="step"><span class="step-num">1</span><p>Convert requirement to binary: <code>20 = 00010100</code> → needs <strong>5 network bits</strong>.</p></div>
+      <div class="step"><span class="step-num">2</span><p>Convert 5 host bits to network bits in the default mask: <code>11111111.11111111.11111111.11111</code>|<code>000</code> → new mask <code>255.255.255.248</code> (/29).</p></div>
+      <div class="step"><span class="step-num">3</span><p><strong>Increment</strong> = value of the last network bit = <code>8</code>. Ranges: 209.50.1.0–7, .8–15, .16–23, … (first &amp; last address of each range unusable).</p></div>
+      <span class="answer">Mask 255.255.255.248 · 32 subnets of 8 addresses · usable hosts/subnet = 6</span>
+    </div>
+  </details>
+
+  <details>
+    <summary>STYLE 2 — Subnetting given a required number of clients</summary>
+    <div class="detail-body">
+      <p><strong>Problem:</strong> <code>209.50.1.0</code> must be broken into as many subnets as possible with <strong>≥ 50 clients</strong> each.</p>
+      <div class="step"><span class="step-num">1</span><p>Clients in binary: <code>50 = 00110010</code> → needs <strong>6 host bits</strong> ("save the clients").</p></div>
+      <div class="step"><span class="step-num">2</span><p>Reserve 6 host bits; convert the rest: <code>11111111.11111111.11111111.11</code>|<code>000000</code> → mask <code>255.255.255.192</code> (/26).</p></div>
+      <div class="step"><span class="step-num">3</span><p>Increment = <code>64</code>. Ranges: 209.50.1.0–63, .64–127, .128–191, .192–255 → <strong>4 subnets × 62 usable hosts</strong>.</p></div>
+      <span class="answer">Mask 255.255.255.192 · 4 subnets · 62 usable hosts each</span>
+    </div>
+  </details>
+
+  <details>
+    <summary>STYLE 3 — Given IP + mask, find the original network range</summary>
+    <div class="detail-body">
+      <p><strong>Problem:</strong> <code>192.168.1.58</code>, mask <code>255.255.255.240</code>. Which subnet does it belong to?</p>
+      <div class="step"><span class="step-num">1</span><p>Mask to binary: <code>11111111.11111111.11111111.1111</code>|<code>0000</code> → increment = <code>16</code>.</p></div>
+      <div class="step"><span class="step-num">2</span><p>List ranges until you pass the IP: .0–15, .16–31, .32–47, <strong>.48–63</strong>, .64–79 (passed).</p></div>
+      <span class="answer">192.168.1.58 ∈ 192.168.1.48 – 192.168.1.63 (network .48, broadcast .63)</span>
+    </div>
+  </details>
+
+  <h3>Key facts to quote in exams</h3>
+  <ul>
+    <li>In <strong>subnetting</strong> we need the <strong>first address of the subnet</strong> + <strong>subnet mask</strong> to define the range; in <strong>supernetting</strong>, the first address + <strong>supernet mask</strong>.</li>
+    <li>Subnet mask <strong>longer</strong> than default mask; supernet mask <strong>shorter</strong> than default mask.</li>
+    <li><code>192.168.1.0/24</code> with mask 255.255.255.0 → 254 usable hosts (192.168.1.1 – 192.168.1.254).</li>
+    <li>Changing mask to <code>255.255.255.128</code> splits it into two subnets: .0–127 and .128–255 — better organization and security.</li>
+    <li>Default masks: A = 255.0.0.0 (/8) · B = 255.255.0.0 (/16) · C = 255.255.255.0 (/24).</li>
+  </ul>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Find network address via ANDing (e.g. 200.45.34.56 &amp; 255.255.240.0). All three subnetting styles appear repeatedly as numericals. Why are network and broadcast addresses unusable?</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 6 — SUPERNETTING -->
+<!-- ============================================================ -->
+<section class="chapter" id="s6">
+  <div class="chapter-head">
+    <span class="chapter-num">06</span>
+    <div>
+      <p class="chapter-kicker">Route Aggregation</p>
+      <h2 class="chapter-title">Supernetting</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>Supernetting</strong> combines multiple contiguous networks into one larger network using a <strong>shorter subnet mask</strong>. Purpose: <strong>conserve IP addresses</strong> and <strong>simplify routing</strong> (route aggregation — many routes advertised as one).</p>
+  </div>
+
+  <div class="example">
+    <span class="ex-tag">Example</span>
+    <p>Networks <code>192.168.0.0/24</code>, <code>192.168.1.0/24</code>, <code>192.168.2.0/24</code>, <code>192.168.3.0/24</code> share the first <strong>22 bits</strong> (the third octet covers 000000xx). Combined block:</p>
+    <span class="answer">192.168.0.0/22 — 1,024 addresses (256 × 4)</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Subnetting vs Supernetting</caption>
+      <thead><tr><th>Feature</th><th>Subnetting</th><th>Supernetting</th></tr></thead>
+      <tbody>
+        <tr><td>Definition</td><td>Dividing one large network into smaller subnetworks</td><td>Combining smaller networks into one larger network</td></tr>
+        <tr><td>Purpose</td><td>Management, security, less broadcast traffic</td><td>Conserve addresses, simplify routing</td></tr>
+        <tr><td>Mask direction</td><td><strong>Longer</strong> mask (more network bits)</td><td><strong>Shorter</strong> mask (fewer network bits)</td></tr>
+        <tr><td>Example</td><td>192.168.1.0/24 → four /26 subnets</td><td>Four /24 blocks → one /22</td></tr>
+        <tr><td>Usage</td><td>LAN design, segmentation</td><td>Route aggregation, ISP routing (CIDR)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 7 — NAT -->
+<!-- ============================================================ -->
+<section class="chapter" id="s7">
+  <div class="chapter-head">
+    <span class="chapter-num">07</span>
+    <div>
+      <p class="chapter-kicker">Conserving IPv4 Addresses</p>
+      <h2 class="chapter-title">Network Address Translation (NAT)</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>NAT</strong> translates <strong>private IP addresses</strong> inside a network to a <strong>public IP address</strong> when communicating with the internet — allowing many devices to <strong>share a single public IP</strong>.</p>
+  </div>
+
+  <dl class="kv">
+    <dt>RFC 1918</dt><dd>Private ranges — <code>10.0.0.0/8</code> · <code>172.16.0.0/12</code> · <code>192.168.0.0/16</code> (not routable on the internet)</dd>
+    <dt>Placement</dt><dd>A <strong>NAT box</strong> (router) sits at the boundary between the private LAN and the ISP</dd>
+    <dt>Example</dt><dd>A home router NATs the private addresses of PCs, phones, tablets into one ISP-assigned public IP</dd>
+  </dl>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace" font-size="11">
+        <rect x="20" y="60" width="180" height="90" rx="6" fill="none" stroke="#111" stroke-width="2"/>
+        <text x="110" y="80" text-anchor="middle" fill="#111" font-weight="bold">PRIVATE LAN</text>
+        <text x="35" y="105" fill="#3d3d3d">PC1 192.168.1.2</text>
+        <text x="35" y="122" fill="#3d3d3d">Phone 192.168.1.3</text>
+        <text x="35" y="139" fill="#3d3d3d">TV&#9;192.168.1.4</text>
+        <rect x="230" y="70" width="100" height="70" rx="6" fill="#111"/>
+        <text x="280" y="100" text-anchor="middle" fill="#fff" font-weight="bold">NAT</text>
+        <text x="280" y="118" text-anchor="middle" fill="#bbb">box</text>
+        <line x1="200" y1="105" x2="230" y2="105" stroke="#111" stroke-width="2"/>
+        <line x1="330" y1="105" x2="360" y2="105" stroke="#111" stroke-width="2"/>
+        <polygon points="360,105 350,100 350,110" fill="#111"/>
+        <rect x="360" y="60" width="180" height="90" rx="6" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="450" y="80" text-anchor="middle" fill="#111" font-weight="bold">INTERNET</text>
+        <text x="375" y="105" fill="#3d3d3d">public: 203.0.113.7</text>
+        <text x="375" y="122" fill="#6b6b6b">one shared address</text>
+        <text x="20" y="30" fill="#111" font-size="12" font-weight="bold">Translation table maps (private IP, port) ↔ (public IP, port)</text>
+        <text x="20" y="185" fill="#6b6b6b">Return traffic is demultiplexed by port numbers back to the correct internal host.</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 7.1 — NAT placement and operation</figcaption>
+  </figure>
+
+  <h3>Advantages &amp; limitations</h3>
+  <ul>
+    <li><strong>Conserves IPv4</strong> addresses; hides internal topology (basic security); flexible internal renumbering.</li>
+    <li>Limitations: breaks true end-to-end connectivity; complicates some protocols (FTP, IPSec); the NAT box becomes a single point of failure.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 8 — IPv6 -->
+<!-- ============================================================ -->
+<section class="chapter" id="s8">
+  <div class="chapter-head">
+    <span class="chapter-num">08</span>
+    <div>
+      <p class="chapter-kicker">128-bit · Header · Address Types</p>
+      <h2 class="chapter-title">IPv6 Addressing</h2>
+    </div>
+  </div>
+
+  <h3>Why IPv6?</h3>
+  <p>IPv4's 32-bit addressing yields only <strong>4.3 billion</strong> addresses. IPv6 uses <strong>128-bit addressing</strong> = <strong>3.4 × 10³⁸ addresses (340 undecillion)</strong> — enough globally unique addresses for every networked device on the planet, keeping pace with smart devices and connectivity.</p>
+
+  <h3>Address Format</h3>
+  <ul>
+    <li><strong>8 groups</strong>, each of <strong>2 bytes (16 bits)</strong>, written in <strong>hexadecimal</strong>, separated by <strong>colons (:)</strong>. Each hex digit = 4 bits (1 nibble).</li>
+    <li>128 bits = 32 hex digits total.</li>
+  </ul>
+  <div class="example">
+    <span class="ex-tag">Decimal dotted → colon-hex conversion</span>
+    <p><code>104.230.140.100.255.255.255.255.0.0.17.128.150.10.255.255</code> (each number = one byte, 16 bytes total) becomes</p>
+    <span class="answer">68E6:8C64:FFFF:FFFF:0:1180:96A:FFFF</span>
+  </div>
+
+  <h3>Zero Compression (abbreviation)</h3>
+  <ul>
+    <li>A string of <strong>repeated zeros is replaced by a double colon (::)</strong>: <code>FF05:0:0:0:0:0:0:B3 → FF05::B3</code></li>
+    <li><code>::</code> may be applied <strong>only once</strong> in an address (otherwise ambiguity).</li>
+    <li>Leading zeros in a group may be dropped: <code>0063 → 63</code>, <code>0000 → 0</code>.</li>
+  </ul>
+
+  <h3>Structure: Network + Node Components</h3>
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace">
+        <text x="20" y="26" fill="#111" font-size="13" font-weight="bold">128 bits total</text>
+        <rect x="20" y="40" width="280" height="46" fill="#111"/>
+        <text x="160" y="62" text-anchor="middle" fill="#fff" font-size="12">NETWORK — first 64 bits (routing)</text>
+        <text x="160" y="78" text-anchor="middle" fill="#aaa" font-size="10">48-bit global prefix + 16-bit subnet</text>
+        <rect x="300" y="40" width="240" height="46" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="420" y="62" text-anchor="middle" fill="#111" font-size="12">NODE — last 64 bits</text>
+        <text x="420" y="78" text-anchor="middle" fill="#6b6b6b" font-size="10">interface identifier</text>
+        <text x="20" y="120" fill="#3d3d3d" font-size="11">The network component splits into a 48-bit global network address block and</text>
+        <text x="20" y="137" fill="#3d3d3d" font-size="11">a 16-bit subnet section controlled by network administrators (internal subnets).</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 8.1 — IPv6 address split</figcaption>
+  </figure>
+
+  <h3>Basic IPv6 Address Types</h3>
+  <div class="card-grid">
+    <div class="mini-card"><h5>Unicast</h5><p>Destination specifies a <strong>single computer</strong>. Datagram routed along the shortest path to that one interface.</p></div>
+    <div class="mini-card"><h5>Anycast</h5><p>Destination is a <strong>set of computers sharing one address</strong> (possibly at different locations). Delivered to <strong>exactly one</strong> member — the closest one.</p></div>
+    <div class="mini-card"><h5>Multicast</h5><p>Destination is a set of computers. <strong>One copy</strong> is delivered to <strong>each</strong> member of the group, using hardware multicast or broadcast where viable. (Replaces IPv4 broadcast.)</p></div>
+  </div>
+
+  <h3>IPv6 Header (fixed 40 bytes)</h3>
+  <div class="table-wrap">
+    <table class="table-tight">
+      <caption>Main IPv6 header fields</caption>
+      <thead><tr><th>Field</th><th>Size</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>Version</td><td>4 bits</td><td>IP version (= 6)</td></tr>
+        <tr><td>Traffic Class</td><td>8 bits</td><td>6 most-significant bits = Type of Service; 2 least-significant bits = Explicit Congestion Notification (ECN)</td></tr>
+        <tr><td>Flow Label</td><td>20 bits</td><td>Maintains sequential flow of packets belonging to one communication (QoS)</td></tr>
+        <tr><td>Payload Length</td><td>16 bits</td><td>How much information the packet carries in its payload</td></tr>
+        <tr><td>Next Header</td><td>8 bits</td><td>Indicates either the type of Extension Header or upper-layer protocol</td></tr>
+        <tr><td>Hop Limit</td><td>8 bits</td><td>Decremented by 1 at each hop; packet discarded at 0 (like TTL)</td></tr>
+        <tr><td>Source Address</td><td>128 bits</td><td>Address of originator</td></tr>
+        <tr><td>Destination Address</td><td>128 bits</td><td>Address of intended recipient</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-box">
+    <p><strong>Extension headers</strong> follow the fixed header and chain via the Next Header field — enabling options (routing, fragmentation, authentication…) <strong>without bloating the base header</strong>. Routers process only the fixed header unless an extension requires it.</p>
+  </div>
+
+  <h3>Advantages of IPv6</h3>
+  <div class="card-grid">
+    <div class="mini-card"><h5>Realtime transmission</h5><p>Data transmitted immediately — live streaming (e.g. cricket matches) with only 5–6 s maximum delay.</p></div>
+    <div class="mini-card"><h5>Authentication</h5><p>Verifies data received is exactly what the sender sent and came from the sender, not a third party (e.g. hash-value matching).</p></div>
+    <div class="mini-card"><h5>Encryption</h5><p>Message encrypted at the <strong>network layer</strong> even if the application layer didn't encrypt — a major advantage.</p></div>
+    <div class="mini-card"><h5>Faster routers</h5><p>Fixed <strong>40-byte base header</strong> reduces processing time vs IPv4's variable 20–60 byte header — more efficient packet transmission.</p></div>
+  </div>
+
+  <h3>Disadvantages of IPv6</h3>
+  <ul>
+    <li><strong>Transition period:</strong> with IPv4 so widespread, full migration takes a long time.</li>
+    <li><strong>Communication barrier:</strong> IPv4 and IPv6 machines <strong>cannot communicate directly</strong> with each other.</li>
+    <li><strong>No backward compatibility:</strong> IPv6 is not supported by IPv4 systems.</li>
+    <li><strong>Conversion challenges:</strong> transitioning is time-consuming.</li>
+    <li><strong>Protocol isolation:</strong> no cross-protocol communication.</li>
+  </ul>
+
+  <h3>IPv4 vs IPv6 — Master Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Side-by-side comparison (memorize rows marked ★)</caption>
+      <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+      <tbody>
+        <tr><td>★ Address length</td><td>32 bits</td><td>128 bits</td></tr>
+        <tr><td>★ Address space</td><td>2³² ≈ 4.29 × 10⁹</td><td>2¹²⁸ ≈ 3.4 × 10³⁸</td></tr>
+        <tr><td>★ Address format</td><td>Dotted decimal (numeric)</td><td>Colon hexadecimal (alphanumeric)</td></tr>
+        <tr><td>Fields / separator</td><td>4 octets, dot (.)</td><td>8 groups of 16 bits, colon (:)</td></tr>
+        <tr><td>Header size</td><td>20–60 bytes (variable)</td><td>40 bytes (fixed)</td></tr>
+        <tr><td>Header checksum</td><td>Included</td><td>Not included</td></tr>
+        <tr><td>★ Fragmentation</td><td>Sender + forwarding routers</td><td>Sender only</td></tr>
+        <tr><td>★ IPSec (security)</td><td>Optional (application-dependent)</td><td>Required / inbuilt</td></tr>
+        <tr><td>Configuration</td><td>Manual or DHCP</td><td><strong>Autoconfiguration</strong> (auto &amp; renumbering)</td></tr>
+        <tr><td>Broadcast</td><td>Broadcast supported</td><td>No broadcast — multicast &amp; anycast</td></tr>
+        <tr><td>Flow identification (QoS)</td><td>Not available</td><td><strong>Flow label</strong> field in header</td></tr>
+        <tr><td>MAC-to-IP mapping</td><td>ARP (broadcast)</td><td>NDP — Neighbor Discovery (multicast neighbor solicitation)</td></tr>
+        <tr><td>Best default gateway discovery</td><td>ICMP Router Discovery (optional)</td><td>ICMPv6 Router Solicitation / Advertisement (required)</td></tr>
+        <tr><td>All-nodes traffic on subnet</td><td>Broadcast</td><td>Link-local scope all-nodes multicast</td></tr>
+        <tr><td>Group membership</td><td>IGMP</td><td>MLD — Multicast Listener Discovery</td></tr>
+        <tr><td>Classes</td><td>Five classes (A–E), supports VLSM</td><td>No classes; no VLSM</td></tr>
+        <tr><td>End-to-end connection integrity</td><td>Unachievable (NAT breaks it)</td><td>Achievable</td></tr>
+        <tr><td>Example</td><td>176.94.29.13</td><td>2001:0000:3238:DFE1:0063:0000:0000:FEFB</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> "Why IPv6 over IPv4?" List advantages/disadvantages. Expand &amp; abbreviate IPv6 addresses (zero compression). Differentiate IPv4 vs IPv6 (8–10 marks). Explain unicast/anycast/multicast. Draw &amp; describe the IPv6 header.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 9 — IPv4 HEADER -->
+<!-- ============================================================ -->
+<section class="chapter" id="s9">
+  <div class="chapter-head">
+    <span class="chapter-num">09</span>
+    <div>
+      <p class="chapter-kicker">Datagram Format</p>
+      <h2 class="chapter-title">The IPv4 Header</h2>
+    </div>
+  </div>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace" font-size="10">
+        <!-- rows of 32 bits -->
+        <g>
+          <rect x="20" y="20" width="80" height="34" fill="#111"/><text x="60" y="40" fill="#fff" text-anchor="middle">Version (4)</text>
+          <rect x="100" y="20" width="80" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="140" y="40" fill="#111" text-anchor="middle">HLen (4)</text>
+          <rect x="180" y="20" width="200" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="280" y="40" fill="#111" text-anchor="middle">Type of Service (8)</text>
+          <rect x="380" y="20" width="160" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="460" y="40" fill="#111" text-anchor="middle">Total Length (16)</text>
+
+          <rect x="20" y="54" width="180" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="110" y="74" fill="#111" text-anchor="middle">Identification (16)</text>
+          <rect x="200" y="54" width="60" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="230" y="74" fill="#111" text-anchor="middle">Flags(3)</text>
+          <rect x="260" y="54" width="280" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="400" y="74" fill="#111" text-anchor="middle">Fragmentation Offset (13)</text>
+
+          <rect x="20" y="88" width="80" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="60" y="108" fill="#111" text-anchor="middle">TTL (8)</text>
+          <rect x="100" y="88" width="80" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="140" y="108" fill="#111" text-anchor="middle">Protocol (8)</text>
+          <rect x="180" y="88" width="360" height="34" fill="none" stroke="#111" stroke-width="2"/><text x="360" y="108" fill="#111" text-anchor="middle">Header Checksum (16)</text>
+
+          <rect x="20" y="122" width="520" height="34" fill="#111"/><text x="280" y="142" fill="#fff" text-anchor="middle">Source IP Address (32 bits)</text>
+          <rect x="20" y="156" width="520" height="34" fill="#111"/><text x="280" y="176" fill="#fff" text-anchor="middle">Destination IP Address (32 bits)</text>
+
+          <rect x="20" y="190" width="520" height="34" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/><text x="280" y="210" fill="#111" text-anchor="middle">Options (variable) + Padding</text>
+        </g>
+        <text x="20" y="245" fill="#6b6b6b" font-size="10">HLen = header length in 32-bit words (typically 5 ⇒ 20 bytes). Total = 20–60 bytes.</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 9.1 — IPv4 datagram header</figcaption>
+  </figure>
+
+  <div class="table-wrap">
+    <table class="table-tight">
+      <caption>IPv4 header field descriptions</caption>
+      <thead><tr><th>Field</th><th>Function</th></tr></thead>
+      <tbody>
+        <tr><td>Version</td><td>IP version — 4 for IPv4, 6 for IPv6</td></tr>
+        <tr><td>HLen (Header Length)</td><td>Length of header in 32-bit words; typically 5 (⇒ 20 bytes)</td></tr>
+        <tr><td>Type of Service (TOS)</td><td>Priority / quality-of-service information</td></tr>
+        <tr><td>Total Length</td><td>Entire datagram length (header + data)</td></tr>
+        <tr><td>Identification</td><td>Identifies fragments of the same original datagram</td></tr>
+        <tr><td>Flags</td><td>Control bits — e.g. "Don't Fragment", "More Fragments"</td></tr>
+        <tr><td>Fragmentation Offset</td><td>Position of this fragment within the original datagram</td></tr>
+        <tr><td>Time To Live (TTL)</td><td>Decremented at each router; packet with TTL = 0 is discarded — ensures packets eventually exit the network</td></tr>
+        <tr><td>Protocol</td><td>Demultiplexing to higher-layer protocols — TCP = 6, UDP = 17, ICMP = 1</td></tr>
+        <tr><td>Header Checksum</td><td>Ensures some header integrity; relatively weak (16 bits)</td></tr>
+        <tr><td>Options</td><td>E.g. source routing, record route; cause router performance issues; poorly supported</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Service Type field</strong> (TOS): carries priority/QoS info — e.g. precedence, delay, throughput, reliability bits. Common service types: minimize delay (telnet), maximize throughput (FTP bulk), maximize reliability (SNMP).</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 10 — ICMP -->
+<!-- ============================================================ -->
+<section class="chapter" id="s10">
+  <div class="chapter-head">
+    <span class="chapter-num">10</span>
+    <div>
+      <p class="chapter-kicker">Error Reporting · Query Messages</p>
+      <h2 class="chapter-title">ICMP — v4 &amp; v6</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>ICMP (Internet Control Message Protocol)</strong> is the companion protocol that provides <strong>error-reporting and query</strong> services for IP — which itself has <strong>no error-reporting or error-correcting mechanism</strong>. It answers: what happens if a router must discard a datagram (no route to destination, TTL = 0, …)? IP alone cannot notify the original host.</p>
+  </div>
+
+  <h3>ICMP Message Categories</h3>
+  <div class="card-grid">
+    <div class="mini-card"><h5>Error-reporting messages</h5><p>Report problems a router or host (destination) encounters when processing an IP packet — destination unreachable, source quench, time exceeded, parameter problem, redirection.</p></div>
+    <div class="mini-card"><h5>Query messages</h5><p>Help a host/network manager get specific information from a router or another host; hosts discover routers; routers help nodes redirect messages — echo request/reply, timestamp request/reply.</p></div>
+  </div>
+
+  <h3>Basic ICMP Header (common to all messages)</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <caption>Headers are 32 bits long; all contain the same three fields</caption>
+    <thead><tr><th>Field</th><th>Size</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Type</td><td>8 bits</td><td>Message type — <strong>13 types defined</strong></td></tr>
+      <tr><td>Code</td><td>8 bits</td><td>Indicates <em>why</em> the message is being sent</td></tr>
+      <tr><td>Checksum</td><td>16 bits</td><td>Standard internet checksum (field set to 0 during calculation)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>ICMPv6 — What's New</h3>
+  <ul>
+    <li>Follows the same strategy and purposes as v4, but is <strong>more complicated</strong>: some formerly independent protocols are now part of ICMPv6, and new messages were added.</li>
+    <li><strong>Informational messages:</strong> echo request &amp; echo reply — used to check whether two devices can communicate (e.g. ping).</li>
+    <li><strong>Neighbor-Discovery (ND) protocol:</strong> defines functionality for groups of messages used by nodes (hosts/routers) <strong>on the same link</strong> — replaces ARP; includes <strong>Inverse-Neighbor-Discovery (IND)</strong>.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 11 — ROUTING FUNDAMENTALS + DV -->
+<!-- ============================================================ -->
+<section class="chapter" id="s11">
+  <div class="chapter-head">
+    <span class="chapter-num">11</span>
+    <div>
+      <p class="chapter-kicker">AS · Intra/Inter-Domain · Distance Vector</p>
+      <h2 class="chapter-title">Routing Fundamentals &amp; Distance Vector Routing</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p>An internet can be so large that <strong>one routing protocol cannot update all routers</strong>. Hence the internet is divided into <strong>Autonomous Systems (AS)</strong> — a group of networks and routers under the authority of a <strong>single administration</strong>, with a <strong>single routing protocol</strong>, under single administrative control, sharing the same policy. <strong>Routing inside an AS = intra-domain routing; between ASes = inter-domain routing.</strong></p>
+  </div>
+
+  <h3>Popular Routing Protocols</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <thead><tr><th>Category</th><th>Interior (intra-AS)</th><th>Exterior (inter-AS)</th></tr></thead>
+    <tbody>
+      <tr><td>Distance vector</td><td>RIP, IGRP</td><td>BGP (path vector)</td></tr>
+      <tr><td>Link state</td><td>OSPF, IS-IS</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Distance Vector Routing (DVR)</h3>
+  <ul>
+    <li><strong>No node has complete information</strong> about the costs of all links — knowledge is gradual, built by exchanging information with <strong>neighbors</strong>.</li>
+    <li>Each node constructs a <strong>one-dimensional array</strong> ("vector") of distances/costs to all other nodes and distributes it to immediate neighbors.</li>
+    <li>Each node knows the cost of links <strong>only to its neighbors</strong>; cost of a non-existent direct link = <strong>infinity</strong>.</li>
+    <li>The <strong>least-cost route</strong> between any two nodes = route with minimum distance; each routing-table entry shows the <strong>next hop</strong>.</li>
+  </ul>
+
+  <h4>Sharing — what exactly is sent?</h4>
+  <ul>
+    <li>The <strong>third column (next hop) is useless to a neighbor</strong> — it is replaced with the sender's name on receipt. So a node sends only the <strong>first two columns</strong> of its table.</li>
+    <li>A and C are immediate neighbors: A doesn't know the distance to E, but C does — sharing lets <em>both</em> improve their tables (A learns E via C; C learns D via A).</li>
+  </ul>
+
+  <h4>Updating (Bellman-Ford idea)</h4>
+  <div class="example">
+    <span class="ex-tag">Example — C's table received at A, cost(A,C) = 2</span>
+    <ul>
+      <li>A→A via C = AC + CA = 2 + 2</li>
+      <li>A→B via C = AC + CB = 2 + 4</li>
+      <li>A→C via C = AC + CC = 2 + 0</li>
+      <li>A→D via C = AC + CD = 2 + ∞ (unreachable)</li>
+      <li>A→E via C = AC + CE = 2 + 4</li>
+    </ul>
+    <p class="small">A keeps, for each destination, the minimum over all neighbors — that defines the next hop.</p>
+  </div>
+
+  <h4>When to share the routing table</h4>
+  <dl class="kv">
+    <dt>Periodic update</dt><dd>Routing table sent to neighbors periodically — normally every <strong>30 seconds</strong></dd>
+    <dt>Triggered update</dt><dd>Sent whenever the table <strong>changes</strong>: after an update, or on detecting a failed neighboring link</dd>
+  </dl>
+
+  <h4>The Count-to-Infinity Problem</h4>
+  <div class="example">
+    <span class="ex-tag">Classic failure scenario — line topology A–B–C–D–E, metric = hop count</span>
+    <p>Suppose <strong>A goes offline</strong>:</p>
+    <ol>
+      <li>B notices its route to A (distance 1) is down — it stops hearing A's updates.</li>
+      <li><strong>But</strong> B also receives C's update; C is <em>not yet aware</em> A is down, so C claims "A is 2 hops away from me (C→B→A)".</li>
+      <li>B doesn't realize C's path to A runs <strong>through B itself</strong>, so B updates: "B→A = 2 + 1 = 3".</li>
+      <li>B forwards to C; C updates: "C→A = 3 + 1 = 4". The false metric slowly propagates…</li>
+      <li>…until it reaches infinity (RIP's hop 16). This is <strong>count-to-infinity</strong>.</li>
+    </ol>
+  </div>
+  <div class="note-box">
+    <p>Mitigations (know these): <strong>split horizon</strong> (don't advertise a route back to the neighbor you learned it from), <strong>poison reverse</strong> (advertise it back with metric ∞), hold-down timers.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 12 — RIP -->
+<!-- ============================================================ -->
+<section class="chapter" id="s12">
+  <div class="chapter-head">
+    <span class="chapter-num">12</span>
+    <div>
+      <p class="chapter-kicker">Routing Information Protocol</p>
+      <h2 class="chapter-title">RIP</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>RIP</strong> is an <strong>intra-domain (interior) routing protocol</strong> based on distance vector routing, used <strong>inside an autonomous system</strong>. Goal: teach routers how to forward packets to various networks.</p>
+  </div>
+
+  <ul>
+    <li>RIP <strong>treats all networks equal</strong> — cost of passing through a network is the same: <strong>1 hop count per network</strong>.</li>
+    <li>Each router maintains a vector (table) of <strong>minimum distances</strong> to every node; the hop count = number of networks a packet encounters en route.</li>
+    <li>Each router <strong>periodically shares its table with its neighbors</strong>. Every entry = { <strong>Destination Network Address, Hop-Count, Next-Router</strong> }.</li>
+    <li><strong>Maximum metric = 15 hops</strong>; 16 = unreachable (this is why count-to-infinity terminates at 16).</li>
+  </ul>
+
+  <h3>RIP Messages</h3>
+  <dl class="kv">
+    <dt>Request</dt><dd>Sent by a router that has <strong>just come up</strong></dd>
+    <dt>Response</dt><dd>Sent within <strong>30 s</strong> or whenever the routing table <strong>changes</strong></dd>
+  </dl>
+
+  <h3>RIP Timers</h3>
+  <dl class="kv">
+    <dt>Periodic timer</dt><dd>Routing tables exchanged every <strong>30 seconds</strong> via RIP advertisement</dd>
+    <dt>Expiration timer</dt><dd>If a router hears nothing from a neighbor for <strong>180 seconds</strong>, the neighbor is deemed <strong>unreachable</strong></dd>
+  </dl>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> "Explain RIP with messages and timers." Why is RIP limited to small networks? (15-hop limit, slow convergence, count-to-infinity.) Trace a RIP update example with costs.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 13 — LINK STATE / OSPF -->
+<!-- ============================================================ -->
+<section class="chapter" id="s13">
+  <div class="chapter-head">
+    <span class="chapter-num">13</span>
+    <div>
+      <p class="chapter-kicker">Link State Routing · OSPF</p>
+      <h2 class="chapter-title">Link State Routing &amp; OSPF</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p>In <strong>link-state routing</strong>, routers exchange messages that let <strong>each router learn the entire network topology</strong>. Each router then computes its routing table using a <strong>shortest-path computation (Dijkstra, 1959)</strong>.</p>
+  </div>
+
+  <h3>The Five Steps of Link State Routing</h3>
+  <div class="step"><span class="step-num">1</span><p><strong>Discover its neighbors</strong> and learn their network addresses.</p></div>
+  <div class="step"><span class="step-num">2</span><p><strong>Measure the delay/cost</strong> to each neighbor — echo packets are used: <code>t = arrival time − departure time; cost = t/2</code>.</p></div>
+  <div class="step"><span class="step-num">3</span><p><strong>Construct a Link State Packet (LSP)</strong> telling everything it just learned.</p></div>
+  <div class="step"><span class="step-num">4</span><p><strong>Send the LSP to all other routers</strong> (flooding).</p></div>
+  <div class="step"><span class="step-num">5</span><p><strong>Compute the shortest path</strong> to every other router (Dijkstra) and build the routing table.</p></div>
+
+  <h3>DVR vs Link State — Key Exam Table</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Distance Vector Routing</th><th>Link State Routing</th></tr></thead>
+      <tbody>
+        <tr><td>Used in <strong>small</strong> networks</td><td>Used in <strong>larger</strong> networks</td></tr>
+        <tr><td>Limited number of hops</td><td>Unlimited number of hops</td></tr>
+        <tr><td><strong>High convergence time</strong></td><td><strong>Low convergence time</strong></td></tr>
+        <tr><td>Advertises updates <strong>periodically</strong></td><td>Advertises only <strong>new changes</strong></td></tr>
+        <tr><td>Has the <strong>loop problem</strong></td><td><strong>No</strong> loop problem</td></tr>
+        <tr><td>Updates are <strong>broadcast</strong></td><td>Updates are <strong>multicast</strong></td></tr>
+        <tr><td>Advertises directly connected routers + full routing tables</td><td>Advertises updates and <strong>floods</strong> them</td></tr>
+        <tr><td>E.g. RIP, IGRP, BGP</td><td>E.g. OSPF, IS-IS</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>OSPF — Open Shortest Path First</h3>
+  <div class="def">
+    <p><strong>OSPF</strong> is an <strong>intra-domain</strong> routing protocol based on link-state routing; its domain is an autonomous system.</p>
+  </div>
+  <ul>
+    <li>Supports <strong>variety of distance metrics</strong>; dynamic algorithm that <strong>adapts automatically and quickly</strong> to topology changes.</li>
+    <li>Supports routing based on <strong>type of service</strong>; <strong>load balancing</strong> (splitting load over multiple lines); better <strong>security</strong> (prevents spoofing); supports routers connected via <strong>tunnels</strong>.</li>
+  </ul>
+
+  <h4>Areas &amp; Router Classes</h4>
+  <ul>
+    <li>OSPF divides an AS into <strong>areas</strong>; every AS has a <strong>backbone area (area 0)</strong> to which all areas connect.</li>
+  </ul>
+  <div class="card-grid">
+    <div class="mini-card"><h5>Internal routers</h5><p>Wholly within one area.</p></div>
+    <div class="mini-card"><h5>Area border routers</h5><p>Connect two or more areas.</p></div>
+    <div class="mini-card"><h5>Backbone routers</h5><p>On the backbone area.</p></div>
+    <div class="mini-card"><h5>AS boundary routers</h5><p>Talk to routers in <em>other</em> ASes.</p></div>
+  </div>
+
+  <h4>OSPF Working</h4>
+  <ol>
+    <li>On startup, the router initializes the routing protocol and uses the <strong>Hello protocol</strong> handshake to learn about neighbors.</li>
+    <li>Routers exchange <strong>database descriptions</strong> — knowledge of the routing domain carried in <strong>LSA (Link State Advertisement)</strong> messages.</li>
+    <li>Receiving router checks whether its link-state database is consistent with its peer's; if consistent, the neighbor is <strong>fully adjacent</strong>.</li>
+    <li>The router <strong>periodically advertises its link state</strong> to detect dead routers in time.</li>
+    <li>From the link-state database, each router computes a <strong>shortest-path tree with itself as root</strong> → yields the routing table.</li>
+  </ol>
+
+  <h4>OSPF Packet Types</h4>
+  <dl class="kv">
+    <dt>Hello</dt><dd>Discover and maintain neighbor relationships</dd>
+    <dt>Database Description + Link State Request</dt><dd>Used in forming adjacencies</dd>
+    <dt>Link State Update + Link State Acknowledgment</dt><dd>Reliable update mechanism</dd>
+  </dl>
+
+  <h4>OSPF Databases</h4>
+  <dl class="kv">
+    <dt>Neighbor DB</dt><dd>Initial table of neighbors learned through Hello packets</dd>
+    <dt>Link State DB</dt><dd>Identical in all routers after each router floods its neighbor database</dd>
+    <dt>Routing table</dt><dd>Built by each router using SPF technology — shortest path to all routers in the AS</dd>
+  </dl>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 14 — BGP -->
+<!-- ============================================================ -->
+<section class="chapter" id="s14">
+  <div class="chapter-head">
+    <span class="chapter-num">14</span>
+    <div>
+      <p class="chapter-kicker">Path Vector · Inter-Domain</p>
+      <h2 class="chapter-title">BGP — Border Gateway Protocol</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>BGP</strong> is the <strong>inter-domain</strong> routing protocol of the Internet, using <strong>path vector routing</strong>. It makes routing decisions based on <strong>paths, network policies, and rule-sets configured by a network administrator</strong> (not just distance).</p>
+  </div>
+
+  <dl class="kv">
+    <dt>iBGP</dt><dd>BGP running <strong>within one AS</strong> (Internal BGP)</dd>
+    <dt>eBGP</dt><dd>BGP running <strong>between different ASes</strong> (External BGP) — border/edge routers exchange information with another AS</dd>
+    <dt>Transport</dt><dd>BGP uses <strong>TCP on port 179</strong></dd>
+  </dl>
+
+  <h3>BGP Messages</h3>
+  <dl class="kv">
+    <dt>Open</dt><dd>Announces the AS ID; determines the <strong>hold timer</strong> (interval between keep-alive/update messages; zero ⇒ no keep-alive)</dd>
+    <dt>Keep_alive</dt><dd>Sent periodically to peers to ensure connectivity</dd>
+    <dt>Notification</dt><dd>Error notification; the TCP connection is closed immediately after</dd>
+    <dt>Update</dt><dd>Advertises/withdraws routes (with path attributes)</dd>
+  </dl>
+
+  <h3>Path Attributes</h3>
+  <div class="card-grid">
+    <div class="mini-card"><h5>ORIGIN</h5><p>The source of the routing information (how the route was learned — e.g. IGP/RIP/OSPF).</p></div>
+    <div class="mini-card"><h5>AS_PATH</h5><p>The list of ASes through which the destination can be reached — prevents loops, enables policy.</p></div>
+    <div class="mini-card"><h5>NEXT_HOP</h5><p>The next router to which the data packet should be sent.</p></div>
+  </div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Differentiate iBGP/eBGP. Why does BGP use TCP? List BGP messages and path attributes. Why is BGP a "path vector" protocol?</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 15 — ARP / RARP -->
+<!-- ============================================================ -->
+<section class="chapter" id="s15">
+  <div class="chapter-head">
+    <span class="chapter-num">15</span>
+    <div>
+      <p class="chapter-kicker">Logical ↔ Physical Mapping · MAC Structure</p>
+      <h2 class="chapter-title">ARP, RARP &amp; the MAC Address</h2>
+    </div>
+  </div>
+
+  <h3>The MAC Address</h3>
+  <div class="def">
+    <p>A <strong>MAC (Media Access Control) address</strong> is a <strong>48-bit</strong> unique identifier assigned to a network interface card (NIC) by its manufacturer — the <strong>physical address</strong> of a device, expressed as <strong>six octets in hex, separated by hyphens</strong> (e.g. <code>00-12-34-56-78-9A</code>).</p>
+  </div>
+  <dl class="kv">
+    <dt>First 24 bits</dt><dd><strong>OUI</strong> (Organizationally Unique Identifier) — identifies the <strong>manufacturer</strong> (e.g. 00-12-34)</dd>
+    <dt>Last 24 bits</dt><dd>Assigned by the manufacturer to uniquely identify the specific NIC in its product line</dd>
+  </dl>
+  <p><strong>Types:</strong> unicast (single interface) · multicast (group of devices) · broadcast (all devices on the network).</p>
+
+  <h3>How IP and MAC Work Together</h3>
+  <ol>
+    <li><strong>Data link layer:</strong> data is encapsulated in a <strong>frame</strong> whose header carries sender's and recipient's <strong>MAC addresses</strong>.</li>
+    <li><strong>Network layer:</strong> the frame is encapsulated within an <strong>IP packet</strong> whose header carries the <strong>IP addresses</strong>.</li>
+    <li><strong>Routing:</strong> the IP packet crosses networks based on IP addresses; at the final router, the router checks its <strong>ARP cache</strong> for the destination MAC.</li>
+    <li><strong>Delivery:</strong> if the MAC is cached, the frame is delivered; otherwise an <strong>ARP request</strong> discovers it. The destination verifies the frame's MAC matches itself and processes the data.</li>
+  </ol>
+  <div class="note-box">
+    <p><strong>Rule to remember:</strong> IP addresses <em>route</em> data across networks; MAC addresses <em>deliver</em> data to the specific device on the local network.</p>
+  </div>
+
+  <h3>ARP — Address Resolution Protocol</h3>
+  <div class="def">
+    <p>ARP <strong>associates an IP address with its physical (MAC) address</strong>. Delivering a packet requires two levels of addressing — logical (IP) and physical (MAC) — so we must map logical → physical. Static mapping is impractical; ARP does it <strong>dynamically</strong>.</p>
+  </div>
+  <ul>
+    <li><strong>ARP request is broadcast</strong>; <strong>ARP reply is unicast</strong>.</li>
+    <li>IPv4 uses ARP (broadcast); IPv6 replaces it with <strong>NDP</strong> (multicast neighbor solicitation).</li>
+  </ul>
+
+  <figure>
+    <div class="svg-frame">
+      <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,monospace" font-size="11">
+        <circle cx="70" cy="80" r="30" fill="none" stroke="#111" stroke-width="2"/>
+        <text x="70" y="76" text-anchor="middle" fill="#111">Host A</text>
+        <text x="70" y="90" text-anchor="middle" fill="#6b6b6b" font-size="9">192.168.1.100</text>
+        <circle cx="490" cy="80" r="30" fill="#111"/>
+        <text x="490" y="76" text-anchor="middle" fill="#fff">Host B</text>
+        <text x="490" y="90" text-anchor="middle" fill="#aaa" font-size="9">192.168.1.120</text>
+        <line x1="100" y1="70" x2="460" y2="55" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+        <polygon points="460,55 450,50 452,61" fill="#111"/>
+        <text x="280" y="42" text-anchor="middle" fill="#111">1. ARP Request (BROADCAST): "Who has 192.168.1.120?"</text>
+        <line x1="460" y1="105" x2="100" y2="120" stroke="#111" stroke-width="2"/>
+        <polygon points="100,120 110,115 110,126" fill="#111"/>
+        <text x="280" y="147" text-anchor="middle" fill="#111">2. ARP Reply (UNICAST): "192.168.1.120 is at 00-12-34-56-78-9A"</text>
+      </svg>
+    </div>
+    <figcaption>Fig. 15.1 — ARP operation: broadcast request, unicast reply</figcaption>
+  </figure>
+
+  <h3>RARP — Reverse ARP</h3>
+  <ul>
+    <li>RARP finds the <strong>logical (IP) address</strong> for a machine that knows only its <strong>physical address</strong>. RARP requests are broadcast; replies unicast.</li>
+    <li>Typical use: <strong>thin-client workstations</strong> (diskless machines) that must learn their IP address at boot time — the IP cannot be burned into ROM.</li>
+    <li>Since a booting diskless client usually also needs its <strong>subnet mask, router address, DNS address</strong>, etc., RARP was replaced by <strong>BOOTP</strong>, and now <strong>DHCP</strong>.</li>
+  </ul>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Draw the MAC address structure. Why do we need ARP at all (two levels of addressing)? Compare ARP vs RARP vs BOOTP/DHCP. Why is ARP request broadcast but reply unicast?</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 16 — MPLS -->
+<!-- ============================================================ -->
+<section class="chapter" id="s16">
+  <div class="chapter-head">
+    <span class="chapter-num">16</span>
+    <div>
+      <p class="chapter-kicker">Layer 2.5 Switching</p>
+      <h2 class="chapter-title">MPLS — Multi-Protocol Label Switching</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>Motivation:</strong> combine the fast <strong>forwarding algorithm used in ATM</strong> with IP. MPLS sits <strong>between Layer 2 and Layer 3</strong> (often called "Layer 2.5"), mapping <strong>IP addresses to fixed-length labels</strong> so core routers switch on labels instead of doing longest-prefix IP lookups.</p>
+  </div>
+
+  <h3>Characteristics</h3>
+  <ul>
+    <li>Mechanisms to manage traffic flows of <strong>various granularities</strong> (flow management).</li>
+    <li><strong>Independent</strong> of Layer-2 and Layer-3 protocols.</li>
+    <li>Supports <strong>ATM, Frame Relay and Ethernet</strong>.</li>
+  </ul>
+
+  <h3>MPLS Router Types</h3>
+  <div class="card-grid">
+    <div class="mini-card"><h5>LER — Label Edge Router</h5><p>Resides at the <strong>edge</strong> of the MPLS network; <strong>assigns and removes labels</strong> from packets. Supports multiple ports connected to dissimilar networks (frame relay, ATM, Ethernet).</p></div>
+    <div class="mini-card"><h5>LSR — Label Switching Router</h5><p>A <strong>high-speed core router</strong> that switches packets based on labels. <strong>ATM switches can act as LSRs without hardware changes</strong> — label switching ≈ VP/VC switching.</p></div>
+  </div>
+
+  <h3>Advantages &amp; Disadvantages</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead>
+    <tbody>
+      <tr><td>Improves packet-forwarding performance</td><td>An <strong>additional layer</strong> is added</td></tr>
+      <tr><td>Supports <strong>QoS and CoS</strong> (service differentiation)</td><td>The router must <strong>understand MPLS</strong></td></tr>
+      <tr><td>Network scalability; integrates IP &amp; ATM; interoperable networks</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 17 — MOBILE IP -->
+<!-- ============================================================ -->
+<section class="chapter" id="s17">
+  <div class="chapter-head">
+    <span class="chapter-num">17</span>
+    <div>
+      <p class="chapter-kicker">Mobility at the Network Layer</p>
+      <h2 class="chapter-title">Mobile IP</h2>
+    </div>
+  </div>
+
+  <div class="def">
+    <p><strong>Mobile IP</strong> enables hosts to <strong>stay connected to the Internet regardless of location and without changing their IP address</strong>. It requires <strong>no changes</strong> to non-mobile hosts/routers, needs only added infrastructure, has <strong>no geographical limitations</strong>, requires no modification of IP addresses, and <strong>supports security</strong>.</p>
+  </div>
+
+  <h3>Entities</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <thead><tr><th>Entity</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Mobile Node (MN)</td><td>The entity that moves between networks; assigned a permanent <strong>home address</strong> — other hosts always send packets to the home address regardless of the MN's location</td></tr>
+      <tr><td>Home Agent (HA)</td><td>A router with extra functionality on the MN's home network; holds the <strong>mobility binding</strong> (home IP ↔ Care-of Address); forwards packets to the MN when it is away using <strong>encapsulation</strong></td></tr>
+      <tr><td>Foreign Agent (FA)</td><td>Another enhanced router used to send/receive data between MN and HA; <strong>advertises itself periodically</strong></td></tr>
+      <tr><td>Care-of Address (COA)</td><td>Address identifying the MN's <strong>current location</strong> — sent by FA to HA when the MN attaches; usually the FA's own IP address</td></tr>
+      <tr><td>Correspondent Node (CN)</td><td>The end host the MN communicates with (e.g. a web server)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Support Services</h3>
+  <dl class="kv">
+    <dt>Agent Discovery</dt><dd>HA's and FA's <strong>broadcast advertisements</strong> on their networks; MNs listen and then initiate registration</dd>
+    <dt>Registration</dt><dd>When away, the MN registers its COA with its HA (via the FA); control messages are <strong>UDP to a well-known port</strong>; encapsulation/decapsulation like standard IP but with the COA</dd>
+  </dl>
+
+  <h3>Operation (sequence)</h3>
+  <ol>
+    <li>The MN listens for agent advertisements and initiates registration. If the responding agent is the HA, Mobile IP is not needed.</li>
+    <li>After the registration request, the HA acknowledges → registration complete. Re-registration happens <strong>every time the MN changes networks</strong>; there is a service lifetime and a <strong>de-registration</strong> process on returning home.</li>
+    <li>The HA <strong>intercepts all packets destined for the MN</strong> and <strong>masquerades as the MN</strong> — tunneling packets to the COA.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 18 — MANET / DSR / AODV -->
+<!-- ============================================================ -->
+<section class="chapter" id="s18">
+  <div class="chapter-head">
+    <span class="chapter-num">18</span>
+    <div>
+      <p class="chapter-kicker">Ad Hoc Networks · Reactive Routing</p>
+      <h2 class="chapter-title">Routing in MANET — DSR &amp; AODV</h2>
+    </div>
+  </div>
+
+  <p>A <strong>MANET (Mobile Ad hoc NETwork)</strong> has no fixed infrastructure — nodes cooperate to route. Many protocols exist: some invented for MANET, others adapted from wired networks; <strong>no single protocol works well in all environments</strong>. Standardization: IETF MANET working group.</p>
+
+  <h3>Protocol Taxonomy</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <thead><tr><th>Type</th><th>Strategy</th><th>Examples / trade-offs</th></tr></thead>
+    <tbody>
+      <tr><td>Proactive</td><td><strong>Always maintain routes</strong> (periodic updates)</td><td>Little/no route-determination delay; wastes bandwidth on possibly-unused routes. E.g. <strong>DSDV</strong> (destination sequenced distance vector)</td></tr>
+      <tr><td>Reactive</td><td>Determine route <strong>if and when needed</strong> — source initiates route discovery</td><td>Lower overhead but significant delay; flooding (global search); bursty control traffic. E.g. <strong>DSR</strong></td></tr>
+      <tr><td>Hybrid</td><td>Adaptive combination</td><td>E.g. <strong>ZRP</strong> (zone routing protocol)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>DSR — Dynamic Source Routing</h3>
+  <div class="def">
+    <p>When node S wants to send to D but <strong>doesn't know a route</strong>, S initiates a <strong>route discovery</strong>: it <strong>floods a Route Request (RREQ)</strong>, and <strong>each node appends its own identifier</strong> when forwarding.</p>
+  </div>
+  <ol>
+    <li>Destination D, on receiving the first RREQ, sends a <strong>Route Reply (RREP)</strong> — on the route obtained by <strong>reversing</strong> the route appended to the RREQ. The RREP carries the route S→D.</li>
+    <li>S <strong>caches the route</strong>; data packets then carry the <strong>entire route in the packet header</strong> — hence "<strong>source routing</strong>"; intermediates forward purely from the header.</li>
+    <li><strong>Route caching:</strong> every node learns routes from RREQs/RREPs/data it sees — e.g. seeing <code>[S,E,F,J,D]</code> teaches F the route <code>[F,J,D]</code>. Problem: <strong>stale caches</strong> increase overhead.</li>
+  </ol>
+
+  <details>
+    <summary>DSR — advantages &amp; disadvantages</summary>
+    <div class="detail-body">
+      <p><strong>Advantages:</strong> routes maintained only between nodes that actually communicate (less overhead); route caching reduces discovery cost; a single discovery can yield many routes (intermediate nodes reply from caches).</p>
+      <p><strong>Disadvantages:</strong> header size grows with route length (bad for small payloads); RREQ flood can reach all nodes; neighboring RREQs may collide (mitigated with random delays); <strong>route reply storm</strong> when many cached replies return; stale caches add overhead.</p>
+    </div>
+  </details>
+
+  <h3>AODV — Ad hoc On-demand Distance Vector</h3>
+  <div class="def">
+    <p>AODV improves on DSR by <strong>maintaining routing tables at nodes</strong> so data packets need <strong>no route in their headers</strong> (fixes DSR's large-header problem), while keeping the desirable feature that routes are maintained <strong>only between nodes that need to communicate</strong>.</p>
+  </div>
+  <ol>
+    <li>RREQs are forwarded similarly to DSR, but when a node rebroadcasts a RREQ it sets up a <strong>reverse path pointing toward the source</strong>. AODV assumes <strong>symmetric (bi-directional) links</strong>.</li>
+    <li>The destination replies with a <strong>RREP</strong>, which travels <strong>along the reverse path</strong>; as it passes, nodes set up the <strong>forward path</strong>.</li>
+    <li>The RREQ includes the <strong>last known destination sequence number</strong>; an intermediate node may itself send a RREP if it knows a <strong>more recent path</strong>; nodes forwarding a RREP record the next hop to the destination.</li>
+    <li><strong>Timeouts:</strong> reverse-path entries are purged after a timeout; forward-path entries if unused for an <code>active_route_timeout</code> interval.</li>
+  </ol>
+
+  <h4>Link Failure &amp; Route Error (RERR)</h4>
+  <ul>
+    <li>A neighbor is <strong>active</strong> for an entry if it sent a packet within <code>active_route_timeout</code> that was forwarded using that entry; neighbors exchange periodic <strong>hello messages</strong>.</li>
+    <li>When the next-hop link breaks, <strong>all active neighbors are informed</strong> via <strong>RERR</strong>, which also updates destination sequence numbers.</li>
+    <li>Node X, unable to forward packet P (S→D) on link (X,Y), generates a RERR; X increments the destination sequence number for D (cached at X) to <strong>N</strong> and includes it.</li>
+    <li>On receiving the RERR, <strong>S initiates a new route discovery</strong> for D using a destination sequence number <strong>≥ N</strong>. When D receives a RREQ with sequence number N, D sets its own sequence number to N unless it is already larger.</li>
+  </ul>
+
+  <h3>DSR vs AODV — Quick Contrast</h3>
+  <div class="table-wrap"><table class="table-tight">
+    <thead><tr><th>Aspect</th><th>DSR</th><th>AODV</th></tr></thead>
+    <tbody>
+      <tr><td>Route in packet header?</td><td><strong>Yes</strong> — source routing, header grows with hops</td><td><strong>No</strong> — routing tables at nodes</td></tr>
+      <tr><td>Path setup</td><td>Route cached at source only</td><td>Reverse path during RREQ flood; forward path during RREP</td></tr>
+      <tr><td>Freshness control</td><td>Route cache (can go stale)</td><td><strong>Destination sequence numbers</strong></td></tr>
+      <tr><td>Failure notification</td><td>Route error to source</td><td>RERR propagates to all active sources, sequence numbers updated</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="exam-box">
+    <p><strong>Likely questions:</strong> Explain DSR route discovery with the RREQ/RREP flow. Why does AODV avoid source routing? Compare proactive vs reactive protocols. How does AODV handle link failures (RERR, sequence numbers)?</p>
+  </div>
+
+  <hr>
+  <p class="small" style="text-align:center">— End of Unit III notes · Good luck with the exam! —</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p class="big">DCN · Unit III — IP Addressing &amp; Internetworking</p>
+    <p>Compiled from class notes &amp; slides (Data Communication &amp; Networking, Unit 3). Monochrome, mobile-first, print-friendly. Tap any heading in the top bar to jump between sections.</p>
+    <p style="margin-top:1.2rem;"><a href="../../index.html" class="back-link" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:.4em 1em;border-radius:999px;font-weight:600;">← Return to Notes Hub</a></p>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+(function(){
+  // Reading progress bar
+  var bar = document.getElementById('progress');
+  var btn = document.getElementById('toTop');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    bar.style.width = pct + '%';
+    if (h.scrollTop > 600) btn.classList.add('show'); else btn.classList.remove('show');
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  btn.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+  // Active TOC highlight
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        links.forEach(function(l){ l.style.background=''; l.style.color=''; l.style.borderColor=''; });
+        var id = '#' + e.target.id;
+        links.forEach(function(l){
+          if (l.getAttribute('href') === id){
+            l.style.background = '#111'; l.style.color = '#fff'; l.style.borderColor = '#111';
+            l.scrollIntoView({block:'nearest', inline:'center'});
+          }
+        });
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  sections.forEach(function(s){ if(s) obs.observe(s); });
+})();
+</script>
+</body>
+</html>

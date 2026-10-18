@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="note-id" content="dcn-unit4">
+<meta name="note-subject" content="DCN">
+<meta name="note-unit" content="Unit 4">
+<meta name="note-tags" content="Networking, TCP/IP, OSI vs TCP/IP, Transport Layer, UDP, TCP, Flow Control, Sliding Window, Congestion Control, AIMD, Slow Start, Three-Way Handshake, TCP Timers">
+<meta name="note-summary" content="Comprehensive examination notes on DCN Unit IV — The TCP/IP Model: architectural comparison with OSI, transport layer mechanisms, UDP vs TCP, sliding window protocols (GBN, SR), TCP connection lifecycle, flow control, and Tahoe/Reno congestion control.">
+<title>TCP/IP Model — Unit 04 Study Notes · Data Communication &amp; Networking</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23161511'/><text x='6' y='22' font-family='monospace' font-size='12' fill='%23f3f1ea'>IP</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#f3f1ea; --card:#faf8f1; --ink:#161511; --soft:#5c574b; --faint:#8f8a7b;
+  --line:#d9d5c8; --line-strong:#b6b1a0;
+  --dark:#15140f; --dark-card:#1e1d16; --dark-line:#373428; --on-dark:#ece9dd; --on-dark-soft:#a5a08f;
+  --disp:"Fraunces",Georgia,serif;
+  --body:"Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.62;font-size:16px;overflow-x:hidden}
+::selection{background:var(--ink);color:var(--paper)}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:560;line-height:1.12;letter-spacing:-.015em}
+strong{font-weight:600}
+.mono{font-family:var(--mono)}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:1.25rem}
+@media(min-width:900px){.wrap{padding-inline:2.25rem}}
+
+/* grain */
+.noise{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:3000;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* reveals */
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.65,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+.masked{overflow:hidden;display:block}
+.js .masked .mi{display:inline-block;transform:translateY(118%);transition:transform .85s cubic-bezier(.2,.65,.15,1) var(--d,0s)}
+.js .masked.in .mi{transform:none}
+
+/* ============ HEADER ============ */
+.hd{position:sticky;top:0;z-index:900;background:rgba(243,241,234,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd-in{max-width:1180px;margin-inline:auto;padding:.7rem 1.25rem;display:flex;align-items:center;gap:1rem}
+@media(min-width:900px){.hd-in{padding-inline:2.25rem}}
+.brand{font-family:var(--mono);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-decoration:none;white-space:nowrap}
+.brand em{font-style:normal;color:var(--faint);font-weight:400;margin-left:.4rem}
+.hd-nav{display:flex;gap:.15rem;overflow-x:auto;margin-left:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--soft);padding:.42rem .55rem;border:1px solid transparent;white-space:nowrap;transition:.25s}
+.hd-nav a:hover{color:var(--ink)}
+.hd-nav a.act{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pg{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--ink);transition:width .1s linear}
+
+/* ============ MASTHEAD ============ */
+.mast{position:relative;border-bottom:1px solid var(--line);overflow:hidden;
+  background-image:linear-gradient(rgba(22,21,17,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(22,21,17,.045) 1px,transparent 1px);
+  background-size:46px 46px}
+.mast-top{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between;align-items:center;padding-top:1.6rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+.mega{font-size:clamp(3.6rem,17vw,9.5rem);margin-top:1.2rem;font-weight:600}
+.mega .slash{font-weight:300;font-style:italic;color:var(--faint)}
+.mast-sub{font-family:var(--disp);font-style:italic;font-weight:400;font-size:clamp(1.05rem,3.2vw,1.5rem);color:var(--soft);max-width:34ch;margin-top:.4rem}
+.mast-grid{display:grid;gap:2.5rem;padding:2.8rem 0 3.4rem}
+@media(min-width:980px){.mast-grid{grid-template-columns:1.05fr 1.25fr;align-items:center;gap:3.5rem}}
+.mast-copy p{max-width:52ch;color:#3c3930;margin-bottom:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.2rem}
+.chip{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line-strong);background:var(--card);padding:.42rem .65rem}
+.fig-cap{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:.7rem}
+.journey{width:100%;height:auto}
+.journey text{font-family:var(--mono)}
+.journey .lbl{font-size:9px;letter-spacing:.14em;fill:var(--soft)}
+.journey .side{font-size:10px;letter-spacing:.22em;fill:var(--ink);font-weight:600}
+.journey .net{font-size:10px;letter-spacing:.3em;fill:var(--faint)}
+.journey .flowline{stroke:var(--line-strong);stroke-width:1.4;stroke-dasharray:5 7;fill:none;animation:ants 1.4s linear infinite}
+@keyframes ants{to{stroke-dashoffset:-24}}
+.journey .box{fill:var(--card);stroke:var(--line-strong);stroke-width:1}
+.journey .dot{fill:var(--ink)}
+
+/* counters */
+.counts{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--ink)}
+.count{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:1.2rem 1rem}
+.count:nth-child(2n){border-right:none}
+.count b{display:block;font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,5vw,2.7rem);line-height:1;font-variant-numeric:tabular-nums}
+.count span{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+@media(min-width:760px){.counts{grid-template-columns:repeat(6,1fr)}.count{border-right:1px solid var(--line);border-bottom:none}.count:last-child{border-right:none}}
+
+/* ============ SECTIONS ============ */
+section{padding-block:4.2rem}
+@media(min-width:900px){section{padding-block:5.5rem}}
+.sec-head{display:flex;gap:1.1rem;align-items:flex-start;border-top:1px solid var(--ink);padding-top:1.4rem;margin-bottom:2.4rem}
+.sec-no{font-family:var(--disp);font-weight:600;font-size:clamp(2.4rem,6vw,3.8rem);line-height:.85;color:transparent;-webkit-text-stroke:1.2px var(--ink);flex-shrink:0}
+.kicker{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}
+.sec-head h2{font-size:clamp(1.65rem,4.6vw,2.6rem)}
+.lede{font-size:clamp(1rem,2.4vw,1.15rem);color:#3c3930;max-width:62ch;margin-bottom:2rem}
+.prose{max-width:70ch}
+.prose p{margin-bottom:1rem}
+.prose p:last-child{margin-bottom:0}
+.note,.warn{padding:1rem 1.2rem;font-size:.92rem;margin:1.4rem 0}
+.note{border-left:3px solid var(--ink);background:#eae7dc}
+.warn{border:1px dashed var(--line-strong);background:#efece1}
+.note b,.warn b{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:.35rem}
+.card{border:1px solid var(--line);background:var(--card);border-radius:3px;transition:transform .35s cubic-bezier(.2,.65,.2,1),border-color .35s,box-shadow .35s}
+.card:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:0 16px 34px rgba(22,21,17,.09)}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}
+@media(min-width:640px){.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+.tag{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line-strong);padding:.28rem .5rem;margin:.15rem .2rem .15rem 0;background:var(--paper)}
+
+/* TOC */
+.toc{padding-block:3.2rem}
+.toc-list{list-style:none;counter-reset:toc}
+.toc-list li{counter-increment:toc;border-bottom:1px solid var(--line)}
+.toc-list a{display:flex;align-items:baseline;gap:.8rem;padding:.95rem .2rem;text-decoration:none;transition:padding-left .3s,background .3s}
+.toc-list a:hover{padding-left:.9rem;background:#eae7dd}
+.toc-list a::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-size:.68rem;color:var(--faint);min-width:1.6rem}
+.toc-t{font-family:var(--disp);font-weight:560;font-size:clamp(1.05rem,2.8vw,1.3rem)}
+.toc-d{display:none;color:var(--soft);font-size:.82rem;margin-left:.3rem}
+@media(min-width:760px){.toc-d{display:inline}}
+.toc-list .dots{flex:1;border-bottom:1px dotted var(--line-strong);transform:translateY(-4px);min-width:2rem}
+.toc-pg{font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:.1em}
+
+/* ============ LAYERS (sticky rail) ============ */
+.layers{display:block}
+.rail{position:sticky;top:53px;z-index:800;display:flex;gap:.45rem;overflow-x:auto;padding:.6rem 0;background:rgba(243,241,234,.92);backdrop-filter:blur(8px);scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail a{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.5rem .75rem;border:1px solid var(--line-strong);background:var(--card);white-space:nowrap;color:var(--soft);transition:.25s}
+.rail a.act{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media(min-width:1024px){
+  .layers{display:grid;grid-template-columns:300px 1fr;gap:3rem;align-items:start}
+  .rail{display:block;position:sticky;top:88px;background:none;padding:0;overflow:visible}
+  .rail a{display:block;white-space:normal;margin-bottom:.6rem;padding:1rem 1.1rem;text-align:left}
+  .rail a.act .r-proto{color:#b3ae9d}
+  .r-num{display:block;font-family:var(--disp);font-size:1.5rem;font-weight:600;line-height:1;margin-bottom:.3rem}
+  .r-name{display:block;font-family:var(--body);font-size:.92rem;font-weight:600;text-transform:none;letter-spacing:0;margin-bottom:.25rem}
+  .r-proto{display:block;font-size:.58rem;color:var(--faint);letter-spacing:.08em}
+}
+.layer-art{border-top:1px solid var(--line);padding:2.4rem 0 1rem;scroll-margin-top:110px}
+.layer-art:first-of-type{border-top:none;padding-top:.5rem}
+.l-head{display:flex;align-items:baseline;gap:.9rem;margin-bottom:1.1rem}
+.l-no{font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;border:1px solid var(--ink);padding:.3rem .55rem}
+.l-head h3{font-size:clamp(1.35rem,3.6vw,1.9rem)}
+.l-pos{margin-left:auto;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.deflist dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:1rem}
+.deflist dd{margin:.25rem 0 0}
+ul.clean{list-style:none;margin:.6rem 0}
+ul.clean li{padding-left:1.4rem;position:relative;margin-bottom:.55rem}
+ul.clean li::before{content:"→";position:absolute;left:0;font-family:var(--mono);font-size:.75rem;color:var(--faint)}
+ol.num{list-style:none;counter-reset:n}
+ol.num li{counter-increment:n;padding-left:2.2rem;position:relative;margin-bottom:.7rem}
+ol.num li::before{content:counter(n,decimal-leading-zero);position:absolute;left:0;top:.2em;font-family:var(--mono);font-size:.65rem;color:var(--faint)}
+
+/* encapsulation */
+.enc{border:1px solid var(--line);background:var(--card);padding:1.1rem;display:grid;gap:.7rem}
+.enc-row{display:grid;gap:.4rem}
+@media(min-width:760px){.enc-row{grid-template-columns:120px 1fr 150px;align-items:center;gap:.9rem}}
+.enc-lab{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.enc-bar{display:flex;min-width:0}
+.seg{flex:1;min-width:0;padding:.6rem .3rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.05em;text-align:center;border:1px solid var(--ink);margin-left:-1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-dark{background:var(--ink);color:var(--paper)}
+.s-mid{background:#4c483c;color:#ece9dd}
+.s-lit{background:#8b8571;color:#fff}
+.s-data{background:#f2efe4;color:var(--ink)}
+.s-tr{background:transparent;border-style:dashed;color:var(--soft)}
+.enc-pdu{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--faint);text-align:right}
+
+/* OSI mapping */
+.osi{display:grid;grid-template-columns:1fr 26px 1fr;gap:6px}
+.osi-col{display:grid;grid-template-rows:repeat(7,minmax(44px,auto));gap:5px}
+.osi .cell{border:1px solid var(--line);background:var(--card);padding:.5rem .6rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;min-width:0}
+.osi .tcp .cell{background:#e9e6da;border-color:var(--line-strong);font-weight:600;justify-content:center;text-align:center}
+.osi-mid{display:grid;grid-template-rows:repeat(7,minmax(44px,auto));gap:5px}
+.osi-mid i{display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--mono);font-size:.6rem;color:var(--faint)}
+.osi-mid i::after{content:"⟷"}
+.osi-cap{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:.5rem;text-align:center}
+
+/* ============ TABLES ============ */
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:660px}
+th,td{padding:.75rem .95rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:.88rem}
+thead th{background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:500;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase}
+tbody tr:nth-child(even){background:#f2efe5}
+tbody tr:hover{background:#e8e4d6}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:.55rem}
+
+/* ============ INTERNET LAYER / TABS ============ */
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.tabs button{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.55rem .95rem;border:1px solid var(--line-strong);background:var(--card);cursor:pointer;transition:.25s;color:var(--soft)}
+.tabs button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tabpanel{display:none}
+.tabpanel.on{display:block;animation:fadeUp .5s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.case{border:1px solid var(--line);background:var(--card);padding:1.3rem 1.4rem;position:relative}
+.case::before{content:attr(data-cap);position:absolute;top:-.6rem;left:1rem;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;padding:.25rem .6rem}
+
+/* ============ ARP ============ */
+.arp-flow{display:flex;flex-direction:column;gap:.8rem}
+@media(min-width:860px){.arp-flow{flex-direction:row;align-items:stretch}}
+.af{flex:1;border:1px solid var(--line);background:var(--card);padding:1.1rem;position:relative}
+.af .af-no{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:var(--faint)}
+.af h4{font-size:1rem;margin:.3rem 0 .4rem}
+.af p{font-size:.86rem;color:var(--soft)}
+.af-arrow{align-self:center;font-family:var(--mono);color:var(--faint);transform:rotate(90deg)}
+@media(min-width:860px){.af-arrow{transform:none}}
+.steps{display:grid;gap:1.4rem}
+@media(min-width:960px){.steps{grid-template-columns:1fr 400px;align-items:start}}
+.arpvis{border:1px solid var(--line);background:var(--card);padding:1.2rem .8rem 1rem;position:relative;min-height:250px}
+.wire{position:absolute;left:6%;right:6%;top:66px;border-top:1px dashed var(--line-strong)}
+.an{position:absolute;top:44px;transform:translateX(-50%);width:58px;text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:var(--soft);transition:.3s}
+.n1{left:11%}.n2{left:29%}.n3{left:47%}.n4{left:65%}.n5{left:89%}
+.an i{display:block;height:40px;border:1px solid var(--ink);background:#fff;margin-bottom:.4rem;position:relative;transition:.3s}
+.an i::after{content:"";position:absolute;left:18%;right:18%;top:30%;border-top:1px solid var(--line-strong);box-shadow:0 7px 0 var(--line),0 14px 0 var(--line)}
+.an.src i{outline:2px solid var(--ink);outline-offset:3px}
+.an.rx i{background:#e4e0d1;box-shadow:0 0 0 5px rgba(22,21,17,.07)}
+.an.match i,.an.gw i{background:var(--ink)}
+.an.match span,.an.gw span{color:var(--ink);font-weight:600}
+.an.ok i{outline:2px dashed var(--ink);outline-offset:3px}
+.amsg{margin-top:6.4rem;border-top:1px solid var(--line);padding-top:.95rem;font-size:.9rem;min-height:5.2rem}
+.step-ctl{display:flex;align-items:center;gap:.6rem;margin-top:1rem;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:.6rem 1.1rem;cursor:pointer;transition:.25s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+.step-n{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--soft)}
+.ticks{display:flex;gap:.35rem}
+.ticks i{width:16px;height:2px;background:var(--line-strong);transition:.3s}
+.ticks i.on{background:var(--ink)}
+.dark .btn{border-color:var(--on-dark);color:var(--on-dark)}
+.dark .btn:hover{background:var(--on-dark);color:var(--ink)}
+
+/* ============ TRANSPORT ============ */
+.fn-grid .card{padding:1.15rem}
+.fn-grid .card .fx{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:var(--faint);display:block;margin-bottom:.5rem}
+.fn-grid .card h4{font-size:1.02rem;margin-bottom:.35rem}
+.fn-grid .card p{font-size:.85rem;color:var(--soft)}
+.mux{border:1px solid var(--line);background:var(--card);padding:1.3rem;display:flex;flex-direction:column;gap:1rem;align-items:center}
+@media(min-width:820px){.mux{flex-direction:row;gap:0}}
+.mux-col{display:flex;flex-direction:column;gap:.5rem;flex:1;width:100%}
+.proc{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;border:1px solid var(--line-strong);background:var(--paper);padding:.6rem .7rem;text-align:center}
+.proc.big{background:var(--ink);color:var(--paper);border-color:var(--ink);padding:1.1rem .8rem;font-size:.62rem;line-height:1.7}
+.mux-svg{width:120px;height:150px;flex-shrink:0;display:none}
+@media(min-width:820px){.mux-svg{display:block}}
+.mux-svg path{stroke:var(--line-strong);stroke-width:1.3;fill:none;stroke-dasharray:4 6;animation:ants 1.3s linear infinite}
+.mux-arrow{font-family:var(--mono);color:var(--faint);font-size:1.2rem}
+@media(min-width:820px){.mux-arrow{display:none}}
+
+/* dark panels */
+.dark{background:var(--dark);color:var(--on-dark)}
+.dark .kicker{color:var(--on-dark-soft)}
+.dark .lede,.dark p{color:#cfcaba}
+.dark .card{background:var(--dark-card);border-color:var(--dark-line)}
+.dark .card:hover{border-color:#55513f;box-shadow:0 16px 34px rgba(0,0,0,.4)}
+.dark .tag{background:transparent;border-color:var(--dark-line);color:var(--on-dark-soft)}
+.dark .note{background:#23221a;border-left-color:var(--on-dark)}
+.dark ul.clean li::before{color:var(--on-dark-soft)}
+.dark .fn-grid .card p{color:var(--on-dark-soft)}
+
+/* handshake */
+.hs-wrap{display:grid;gap:1.5rem}
+@media(min-width:900px){.hs-wrap{grid-template-columns:1fr 1fr;align-items:center}}
+.hs-svg{width:100%;height:auto;max-width:460px;margin-inline:auto}
+.hs-svg .tl{stroke:var(--dark-line);stroke-width:2}
+.hs-svg .endlab{font-family:var(--mono);font-size:10px;letter-spacing:.24em;fill:var(--on-dark-soft)}
+.hs-svg .msg{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;fill:var(--on-dark)}
+.hs-svg .arrow{stroke:var(--on-dark);stroke-width:1.6;fill:none}
+.hs-g{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+.hs.go .hs-g.s1{opacity:1;transform:none;transition-delay:.2s}
+.hs.go .hs-g.s2{opacity:1;transform:none;transition-delay:1s}
+.hs.go .hs-g.s3{opacity:1;transform:none;transition-delay:1.8s}
+.hs.go .hs-g.s4{opacity:1;transform:none;transition-delay:2.6s}
+.hs-badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--on-dark);padding:.45rem .8rem;margin-top:1rem;opacity:.4;transition:.5s 2.8s}
+.hs.go .hs-badge{opacity:1;background:var(--on-dark);color:var(--ink)}
+
+/* header compare */
+.hc-row{display:grid;grid-template-columns:52px 1fr;gap:.9rem;align-items:center;margin-bottom:1rem}
+.hc-lab{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em}
+.hc-track{background:rgba(22,21,17,.06);border:1px solid var(--line);position:relative;height:44px}
+.dark .hc-track{background:rgba(236,233,221,.06);border-color:var(--dark-line)}
+.hc-bar{height:100%;display:flex;align-items:center;padding-inline:.7rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;white-space:nowrap;width:var(--w)}
+.js .hc-bar{width:0;transition:width 1.2s cubic-bezier(.2,.65,.2,1) .2s}
+.js .rv.in .hc-bar{width:var(--w)}
+.hc-bar.tcp{background:var(--ink);color:var(--paper)}
+.hc-bar.udp{background:#8b8571;color:#fff}
+
+/* ============ APP LAYER CARDS ============ */
+.proto-card{padding:1.4rem}
+.proto-card .pc-no{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;color:var(--faint)}
+.proto-card h3{font-size:1.4rem;margin:.35rem 0 .2rem}
+.proto-card .pc-full{font-family:var(--mono);font-size:.62rem;color:var(--soft);letter-spacing:.08em;margin-bottom:.9rem;display:block}
+.proto-card p{font-size:.9rem;color:var(--soft);margin-bottom:.7rem}
+
+/* ============ EXAM ============ */
+.recall{columns:1;column-gap:3rem;counter-reset:rc;list-style:none}
+@media(min-width:860px){.recall{columns:2}}
+.recall li{counter-increment:rc;break-inside:avoid;padding:.65rem 0 .65rem 2.4rem;border-bottom:1px dotted var(--dark-line);position:relative;font-size:.9rem;color:#d6d1c1}
+.recall li::before{content:counter(rc,decimal-leading-zero);position:absolute;left:0;top:.8rem;font-family:var(--mono);font-size:.62rem;color:var(--on-dark-soft)}
+.mne{border:1px solid var(--dark-line);background:var(--dark-card);padding:1.5rem;margin-bottom:1rem}
+.mne .m-phrase{font-family:var(--disp);font-style:italic;font-size:clamp(1.25rem,3.4vw,1.8rem);margin-bottom:.4rem}
+.mne .m-phrase b{font-style:normal;color:#fff;border-bottom:2px solid var(--on-dark)}
+.mne p{font-size:.84rem;color:var(--on-dark-soft)}
+.fcs{display:grid;gap:1rem;grid-template-columns:1fr}
+@media(min-width:620px){.fcs{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.fcs{grid-template-columns:repeat(3,1fr)}}
+.fc{perspective:1100px;cursor:pointer;min-height:190px}
+.fc-inner{position:relative;width:100%;height:100%;min-height:190px;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,.65,.2,1)}
+.fc.flip .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--dark-line);padding:1.15rem;display:flex;flex-direction:column;justify-content:space-between;gap:.8rem}
+.fc-front{background:var(--dark-card)}
+.fc-back{background:var(--on-dark);color:var(--ink);transform:rotateY(180deg)}
+.fc-face .fq{font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--on-dark-soft)}
+.fc-back .fq{color:#6d685a}
+.fc-face .ft{font-size:.98rem;font-weight:500;line-height:1.45}
+.fc-face .fh{font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+.qa{border:1px solid var(--dark-line);background:var(--dark-card);margin-bottom:.7rem}
+.qa summary{list-style:none;cursor:pointer;padding:1rem 1.2rem;font-weight:600;font-size:.94rem;display:flex;gap:.9rem;align-items:baseline}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::before{content:"Q";font-family:var(--mono);font-size:.6rem;border:1px solid var(--on-dark-soft);padding:.2rem .45rem;flex-shrink:0}
+.qa summary::after{content:"+";margin-left:auto;font-family:var(--mono);color:var(--on-dark-soft);transition:transform .3s}
+.qa[open] summary::after{transform:rotate(45deg)}
+.qa .ans{padding:0 1.2rem 1.1rem 3.1rem;color:var(--on-dark-soft);font-size:.9rem;border-top:1px dashed var(--dark-line);padding-top:.9rem;margin:0 1.2rem 0 0;padding-left:3.1rem}
+
+/* footer */
+footer{background:var(--dark);color:var(--on-dark);border-top:1px solid var(--ink);padding:4rem 0 2.5rem}
+.foot-big{font-family:var(--disp);font-weight:600;font-size:clamp(2.2rem,8vw,4.6rem);line-height:1;margin-bottom:1.6rem}
+.foot-grid{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--dark-line);padding-bottom:2rem;margin-bottom:1.5rem}
+.foot-nav{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem}
+.foot-nav a{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-soft);text-decoration:none}
+.foot-nav a:hover{color:var(--on-dark)}
+.foot-cred{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--on-dark-soft);line-height:2}
+.top-link{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--on-dark);text-decoration:none;border-bottom:1px solid var(--on-dark);padding-bottom:.2rem}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important;transition-delay:0s!important}
+  .journey .flowline,.mux-svg path{animation:none}
+}
+</style>
+</head>
+<body id="top">
+<div class="noise" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="hd">
+  <div class="hd-in">
+    <a href="../../index.html" class="back-link" style="font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--soft);margin-right:.6rem;white-space:nowrap;font-weight:600;">← Notes Hub</a>
+    <a class="brand" href="#top">TCP<span style="font-weight:300">/</span>IP <em>unit 04 · study notes</em></a>
+    <nav class="hd-nav" aria-label="Sections">
+      <a href="#s1" data-nav="s1">01 Intro</a>
+      <a href="#s2" data-nav="s2">02 Layers</a>
+      <a href="#s3" data-nav="s3">03 Internet</a>
+      <a href="#s4" data-nav="s4">04 ARP</a>
+      <a href="#s5" data-nav="s5">05 Transport</a>
+      <a href="#s6" data-nav="s6">06 App</a>
+      <a href="#s7" data-nav="s7">07 Services</a>
+      <a href="#s8" data-nav="s8">08 TCP vs UDP</a>
+      <a href="#s9" data-nav="s9">09 Exam</a>
+    </nav>
+  </div>
+  <i class="pg" id="pg"></i>
+</header>
+
+<!-- ================= MASTHEAD ================= -->
+<section class="mast" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="mast-top">
+      <span>Data Communication &amp; Networking — Unit 04</span>
+      <span>BRACT's VIT · Pune</span>
+    </div>
+    <h1 class="mega"><span id="megaT" data-text="TCP/IP">TCP/IP</span></h1>
+    <p class="mast-sub">The four-layer grammar of the Internet — how data is packetised, addressed, routed and reassembled.</p>
+
+    <div class="mast-grid">
+      <div class="mast-copy rv">
+        <p>The <strong>TCP/IP model</strong> is the fundamental framework for computer networking. Designed and developed by the <strong>Department of Defense (DoD) in the 1960s</strong>, it is a concise, four-layer version of the seven-layer OSI model — and it is <em>non-proprietary</em>, compatible with every operating system, hardware platform and network type.</p>
+        <p>These notes walk the entire unit in exam-grade depth: the layered architecture, the Data Link layer, link-layer addressing, ARP, and the Transport layer with TCP &amp; UDP — complete with diagrams, comparison tables, flashcards and a self-test.</p>
+        <div class="chips">
+          <span class="chip">Dept. of Computer Science</span>
+          <span class="chip">IoT &amp; Cybersecurity incl. Blockchain</span>
+          <span class="chip">4 Layers</span>
+          <span class="chip">9 Sections</span>
+        </div>
+      </div>
+
+      <figure class="rv" style="--d:.15s">
+        <svg class="journey" viewBox="0 0 1080 300" role="img" aria-label="Journey of a packet: down the sender's layers, across the network, up the receiver's layers">
+          <path class="flowline" d="M140 16 V206 Q140 216 150 216 H930 Q940 216 940 206 V16"/>
+          <!-- sender stack -->
+          <g>
+            <rect class="box" x="60" y="16" width="160" height="42"/><text class="lbl" x="140" y="41" text-anchor="middle">APPLICATION</text>
+            <rect class="box" x="60" y="66" width="160" height="42"/><text class="lbl" x="140" y="91" text-anchor="middle">TRANSPORT</text>
+            <rect class="box" x="60" y="116" width="160" height="42"/><text class="lbl" x="140" y="141" text-anchor="middle">INTERNET</text>
+            <rect class="box" x="60" y="166" width="160" height="42"/><text class="lbl" x="140" y="191" text-anchor="middle">NETWORK ACCESS</text>
+            <text class="side" x="140" y="245" text-anchor="middle">SENDER</text>
+            <text class="lbl" x="140" y="262" text-anchor="middle">encapsulation ↓</text>
+          </g>
+          <!-- receiver stack -->
+          <g>
+            <rect class="box" x="860" y="16" width="160" height="42"/><text class="lbl" x="940" y="41" text-anchor="middle">APPLICATION</text>
+            <rect class="box" x="860" y="66" width="160" height="42"/><text class="lbl" x="940" y="91" text-anchor="middle">TRANSPORT</text>
+            <rect class="box" x="860" y="116" width="160" height="42"/><text class="lbl" x="940" y="141" text-anchor="middle">INTERNET</text>
+            <rect class="box" x="860" y="166" width="160" height="42"/><text class="lbl" x="940" y="191" text-anchor="middle">NETWORK ACCESS</text>
+            <text class="side" x="940" y="245" text-anchor="middle">RECEIVER</text>
+            <text class="lbl" x="940" y="262" text-anchor="middle">decapsulation ↑</text>
+          </g>
+          <text class="net" x="540" y="205" text-anchor="middle">— THE NETWORK · HOP BY HOP —</text>
+          <text class="net" x="540" y="120" text-anchor="middle" opacity=".55">routers · switches · links</text>
+          <circle class="dot" r="5"><animateMotion dur="9s" repeatCount="indefinite" path="M140 16 V206 Q140 216 150 216 H930 Q940 216 940 206 V16"/></circle>
+          <circle class="dot" r="3.5" opacity=".5"><animateMotion dur="9s" begin="4.5s" repeatCount="indefinite" path="M140 16 V206 Q140 216 150 216 H930 Q940 216 940 206 V16"/></circle>
+        </svg>
+        <figcaption class="fig-cap">Fig. 01 — Journey of a packet: down the sender's stack, across the network, up the receiver's stack.</figcaption>
+      </figure>
+    </div>
+
+    <div class="counts rv">
+      <div class="count"><b data-count="4">0</b><span>TCP/IP layers</span></div>
+      <div class="count"><b data-count="7">0</b><span>OSI layers</span></div>
+      <div class="count"><b data-count="16" data-suffix="-bit">0</b><span>Port addresses</span></div>
+      <div class="count"><b data-count="65536">0</b><span>Total ports</span></div>
+      <div class="count"><b data-count="60" data-prefix="20–" data-suffix=" B">0</b><span>TCP header</span></div>
+      <div class="count"><b data-count="8" data-suffix=" B">0</b><span>UDP header</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOC ================= -->
+<section class="toc" id="toc">
+  <div class="wrap">
+    <p class="kicker rv">Index</p>
+    <ol class="toc-list rv" style="--d:.1s">
+      <li><a href="#s1"><span class="toc-t">What is TCP/IP?</span><span class="dots"></span><span class="toc-d">Origins, features &amp; how it works</span><span class="toc-pg">§01</span></a></li>
+      <li><a href="#s2"><span class="toc-t">The Layered Architecture</span><span class="dots"></span><span class="toc-d">Four layers, encapsulation, OSI mapping, link layer &amp; addressing</span><span class="toc-pg">§02</span></a></li>
+      <li><a href="#s3"><span class="toc-t">The Internet Layer &amp; IP</span><span class="dots"></span><span class="toc-d">Routing, IP, ICMP, ARP — the protocols</span><span class="toc-pg">§03</span></a></li>
+      <li><a href="#s4"><span class="toc-t">ARP in Depth</span><span class="dots"></span><span class="toc-d">Mechanism, cache behaviour, step-by-step resolution</span><span class="toc-pg">§04</span></a></li>
+      <li><a href="#s5"><span class="toc-t">The Transport Layer</span><span class="dots"></span><span class="toc-d">Functions, ports, TCP handshake, UDP</span><span class="toc-pg">§05</span></a></li>
+      <li><a href="#s6"><span class="toc-t">The Application Layer</span><span class="dots"></span><span class="toc-d">HTTP/HTTPS, SSH, NTP</span><span class="toc-pg">§06</span></a></li>
+      <li><a href="#s7"><span class="toc-t">Connection-Oriented vs Connectionless</span><span class="dots"></span><span class="toc-d">Telephone vs postal system</span><span class="toc-pg">§07</span></a></li>
+      <li><a href="#s8"><span class="toc-t">TCP vs UDP — The Showdown</span><span class="dots"></span><span class="toc-d">The complete 14-point comparison</span><span class="toc-pg">§08</span></a></li>
+      <li><a href="#s9"><span class="toc-t">Exam Corner</span><span class="dots"></span><span class="toc-d">Rapid recall, mnemonics, flashcards &amp; quiz</span><span class="toc-pg">§09</span></a></li>
+    </ol>
+  </div>
+</section>
+
+<main>
+<!-- ================= §01 INTRO ================= -->
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <div>
+        <p class="kicker scr" data-text="FOUNDATIONS">FOUNDATIONS</p>
+        <h2 class="masked"><span class="mi">What is the TCP/IP Model?</span></h2>
+      </div>
+    </div>
+
+    <div class="grid" style="gap:2.5rem">
+      <div class="prose rv">
+        <p><strong>TCP/IP</strong> stands for <strong>Transmission Control Protocol / Internet Protocol</strong> — the core protocols of the Internet. The model is a fundamental framework that defines <em>how data is transmitted over networks</em>, ensuring reliable communication between devices.</p>
+        <p>TCP/IP was designed and developed by the <strong>Department of Defense (DoD) in the 1960s</strong> and is based on standard protocols. It is a <strong>concise version of the OSI model</strong>: it contains <strong>four layers</strong>, unlike the seven layers of OSI.</p>
+        <h3 style="font-size:1.25rem;margin:1.6rem 0 .7rem">How does the TCP/IP model work?</h3>
+        <ol class="num">
+          <li>At the <strong>sender's end</strong>, the model divides the data into <strong>packets</strong>.</li>
+          <li>Packets travel through a <strong>4-layer procedure</strong> — data enters the layers in one order (top → bottom).</li>
+          <li>At the <strong>receiver's end</strong>, the same packets are processed in <strong>reverse order</strong> (bottom → top).</li>
+          <li>Packets are <strong>recombined to form the same data</strong> — this preserves the <strong>accuracy of the data</strong>.</li>
+        </ol>
+        <div class="note"><b>Exam one-liner</b>TCP/IP = DoD, 1960s · 4 layers · non-proprietary · the concise version of the OSI model (7 layers).</div>
+      </div>
+
+      <div>
+        <p class="kicker rv" style="margin-bottom:.9rem">Why TCP/IP dominates — six properties</p>
+        <div class="grid g2 fn-grid rv" style="--d:.1s">
+          <div class="card"><span class="fx">FEATURE / 01</span><h4>Non-proprietary</h4><p>Not controlled by any single company, so the IP suite can be modified easily and evolves openly.</p></div>
+          <div class="card"><span class="fx">FEATURE / 02</span><h4>Universal OS support</h4><p>Compatible with all operating systems — any system can communicate with any other.</p></div>
+          <div class="card"><span class="fx">FEATURE / 03</span><h4>Hardware agnostic</h4><p>Compatible with all types of computer hardware and networks.</p></div>
+          <div class="card"><span class="fx">FEATURE / 04</span><h4>Highly scalable</h4><p>Grows from a small LAN to the global Internet without redesign.</p></div>
+          <div class="card"><span class="fx">FEATURE / 05</span><h4>Routable</h4><p>As a routable protocol it can determine the <strong>most efficient path</strong> through the network.</p></div>
+          <div class="card"><span class="fx">FEATURE / 06</span><h4>The Internet standard</h4><p>Widely used in current Internet architecture — it is the fundamental protocol suite for data transfer.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §02 LAYERS ================= -->
+<section id="s2" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <div>
+        <p class="kicker scr" data-text="ARCHITECTURE">ARCHITECTURE</p>
+        <h2 class="masked"><span class="mi">The Layered Architecture</span></h2>
+      </div>
+    </div>
+    <p class="lede rv">The TCP/IP model stacks four layers. Each layer has specific functions managing different aspects of network communication; on the sender the data flows <em>down</em> the stack (encapsulation) and on the receiver it flows <em>up</em> (decapsulation).</p>
+
+    <div class="layers">
+      <!-- RAIL -->
+      <nav class="rail" aria-label="Layer navigation">
+        <a href="#l4" data-rail="l4"><span class="r-num">4</span><span class="r-name">Application</span><span class="r-proto">HTTP · HTTPS · SSH · NTP</span></a>
+        <a href="#l3" data-rail="l3"><span class="r-num">3</span><span class="r-name">Transport</span><span class="r-proto">TCP · UDP</span></a>
+        <a href="#l2" data-rail="l2"><span class="r-num">2</span><span class="r-name">Internet</span><span class="r-proto">IP · ICMP · ARP</span></a>
+        <a href="#l1" data-rail="l1"><span class="r-num">1</span><span class="r-name">Network Access</span><span class="r-proto">Framing · MAC · Links</span></a>
+      </nav>
+
+      <div>
+        <!-- L4 APPLICATION -->
+        <article class="layer-art rv" id="l4" data-watch="l4">
+          <div class="l-head"><span class="l-no">L4</span><h3>Application Layer</h3><span class="l-pos">Topmost layer</span></div>
+          <p>The layer closest to the user. It is a group of applications requiring network communications — this layer is responsible for <strong>generating the data and requesting connections</strong>. It acts on behalf of the sender (and the corresponding layer acts on behalf of the receiver).</p>
+          <p>Per the course material, it is responsible for <strong>end-to-end communication and error-free delivery of data</strong>, and it <strong>shields upper-layer applications from the complexities of data</strong>. Its flagship protocols: <span class="tag">HTTP</span><span class="tag">HTTPS</span><span class="tag">SSH</span><span class="tag">NTP</span> — detailed in §06.</p>
+        </article>
+
+        <!-- L3 TRANSPORT -->
+        <article class="layer-art rv" id="l3" data-watch="l3">
+          <div class="l-head"><span class="l-no">L3</span><h3>Transport Layer</h3><span class="l-pos">Host-to-host</span></div>
+          <p>The transport layer protocols <strong>exchange data-receipt acknowledgments</strong> and <strong>retransmit missing packets</strong> to ensure that packets arrive <strong>in order and without error</strong>. This end-to-end communication is the essence of the layer. Two protocols live here: <span class="tag">TCP</span><span class="tag">UDP</span></p>
+          <ul class="clean">
+            <li><strong>TCP</strong> — applications interact as if physically connected by a circuit; data flows like a character-by-character byte stream: establish connection → transmit in byte order → close connection.</li>
+            <li><strong>UDP</strong> — datagram delivery service; no connection verification; preferred for small data because it eliminates connection setup overhead.</li>
+          </ul>
+          <p style="font-size:.85rem;color:var(--soft)">→ Full deep-dive with handshake animation in <a href="#s5">§05</a>.</p>
+        </article>
+
+        <!-- L2 INTERNET -->
+        <article class="layer-art rv" id="l2" data-watch="l2">
+          <div class="l-head"><span class="l-no">L2</span><h3>Internet / Network Layer</h3><span class="l-pos">Routing heart</span></div>
+          <p>This layer <strong>parallels the functions of OSI's Network layer</strong>. It defines the protocols responsible for the <strong>logical transmission of data over the entire network</strong>. Main protocols residing here: <span class="tag">IP</span><span class="tag">ICMP</span><span class="tag">ARP</span></p>
+          <p>It routes packets of data from one device to another across a network by assigning each device a <strong>unique IP address</strong>, used to identify the device and determine the route packets should take. → Deep-dive in <a href="#s3">§03</a>; ARP in <a href="#s4">§04</a>.</p>
+        </article>
+
+        <!-- L1 NETWORK ACCESS -->
+        <article class="layer-art rv" id="l1" data-watch="l1">
+          <div class="l-head"><span class="l-no">L1</span><h3>Network Access Layer</h3><span class="l-pos">Deepest layer</span></div>
+          <p>The bottom layer, also treated in this unit as the <strong>Data Link Layer</strong> domain. It handles the physical realities of the link: <strong>error prevention</strong> and <strong>framing</strong> are provided by this layer, and it prepares data for transmission on behalf of sender and receiver.</p>
+
+          <dl class="deflist">
+            <dt>Nodes &amp; links</dt>
+            <dd>A <strong>node</strong> is any addressable device on the network (host, switch, router); a <strong>link</strong> is the communication channel connecting two or more nodes.</dd>
+            <dt>Services of the link layer</dt>
+            <dd>Framing · physical (MAC) addressing · error prevention/control · media access.</dd>
+            <dt>Categories of links</dt>
+            <dd><strong>Point-to-point</strong> — a dedicated link between exactly two nodes. <strong>Broadcast / multipoint</strong> — a shared link where many nodes compete for the medium (e.g. Ethernet, Wi-Fi).</dd>
+            <dt>Sublayers</dt>
+            <dd><strong>LLC</strong> (Logical Link Control) — interface to the network layer; flow &amp; error control. <strong>MAC</strong> (Media Access Control) — physical addressing and control of access to the medium.</dd>
+          </dl>
+
+          <div class="warn" style="margin-top:1.4rem"><b>Unit-index topic · Link-layer addressing — three types of addresses</b>
+            <strong>① Physical / MAC address</strong> — hardware address burned into the NIC, used on the local link. &nbsp;<strong>② IP (logical) address</strong> — identifies the host across the whole internet, used by the Internet layer. &nbsp;<strong>③ Port address</strong> — 16-bit address identifying the exact process/application at the Transport layer.</div>
+        </article>
+
+        <!-- ENCAPSULATION -->
+        <figure class="rv" style="margin-top:2.5rem">
+          <div class="enc">
+            <div class="enc-row"><span class="enc-lab">Application</span><div class="enc-bar"><i class="seg s-data">DATA</i></div><span class="enc-pdu">→ DATA</span></div>
+            <div class="enc-row"><span class="enc-lab">Transport</span><div class="enc-bar"><i class="seg s-mid">TCP / UDP HDR</i><i class="seg s-data">DATA</i></div><span class="enc-pdu">→ SEGMENT</span></div>
+            <div class="enc-row"><span class="enc-lab">Internet</span><div class="enc-bar"><i class="seg s-dark">IP HEADER</i><i class="seg s-mid">TCP/UDP</i><i class="seg s-data">DATA</i></div><span class="enc-pdu">→ PACKET / DATAGRAM</span></div>
+            <div class="enc-row"><span class="enc-lab">Network Access</span><div class="enc-bar"><i class="seg s-lit">FRAME HDR</i><i class="seg s-dark">IP</i><i class="seg s-mid">TCP</i><i class="seg s-data">DATA</i><i class="seg s-tr">TRAILER</i></div><span class="enc-pdu">→ FRAME</span></div>
+          </div>
+          <figcaption class="fig-cap">Fig. 02 — Encapsulation: each layer wraps the layer above with its own header. PDU names to memorise: Segment → Packet/Datagram → Frame.</figcaption>
+        </figure>
+
+        <!-- OSI MAP -->
+        <figure class="rv" style="margin-top:2.5rem">
+          <div class="osi">
+            <div>
+              <p class="osi-cap">OSI Model — 7 layers</p>
+              <div class="osi-col">
+                <div class="cell">Application</div><div class="cell">Presentation</div><div class="cell">Session</div>
+                <div class="cell">Transport</div><div class="cell">Network</div><div class="cell">Data Link</div><div class="cell">Physical</div>
+              </div>
+            </div>
+            <div class="osi-mid"><i></i><i style="visibility:hidden">x</i><i style="visibility:hidden">x</i><i></i><i></i><i></i><i style="visibility:hidden">x</i></div>
+            <div>
+              <p class="osi-cap">TCP/IP Model — 4 layers</p>
+              <div class="osi-col tcp">
+                <div class="cell" style="grid-row:1/4">Application</div>
+                <div class="cell" style="grid-row:4/5">Transport</div>
+                <div class="cell" style="grid-row:5/6">Internet</div>
+                <div class="cell" style="grid-row:6/8">Network Access</div>
+              </div>
+            </div>
+          </div>
+          <figcaption class="fig-cap">Fig. 03 — TCP/IP is the concise OSI: three upper OSI layers fold into one Application layer; Data Link + Physical fold into the Network Access layer.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §03 INTERNET LAYER ================= -->
+<section id="s3">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <div>
+        <p class="kicker scr" data-text="INTERNET LAYER">INTERNET LAYER</p>
+        <h2 class="masked"><span class="mi">The layer that routes everything</span></h2>
+      </div>
+    </div>
+    <p class="lede rv">The Internet Layer is a layer in the Internet Protocol (IP) suite — the set of protocols that define the Internet. It is responsible for <strong>routing packets of data from one device to another across a network</strong>.</p>
+
+    <div class="prose rv" style="margin-bottom:1.6rem">
+      <p>How it routes: it assigns each device a <strong>unique IP address</strong>, used to identify the device and determine the route packets should take. Each packet gets an IP address, <strong>routing tables</strong> determine the best route, and the packet is <strong>forwarded to the next hop</strong> until it reaches its destination — where all packets are reassembled.</p>
+    </div>
+
+    <div class="case rv" data-cap="Worked example — sending an e-mail" style="margin:1.8rem 0 2.2rem">
+      <ol class="num" style="margin-top:.6rem">
+        <li>You click <em>send</em> — the email is <strong>broken down into smaller packets</strong> and handed to the Internet Layer for routing.</li>
+        <li>The Internet Layer <strong>assigns an IP address to each packet</strong> and consults <strong>routing tables</strong> to determine the best route.</li>
+        <li>Each packet is <strong>forwarded to the next hop</strong> on its route until it reaches the destination.</li>
+        <li>Your friend's computer <strong>reassembles the packets into the original email</strong>.</li>
+      </ol>
+      <p style="font-size:.88rem;color:var(--soft);margin-top:.8rem">Without the Internet Layer, it would not be possible to send data across the Internet.</p>
+    </div>
+
+    <div class="tabs rv" role="tablist" aria-label="Internet layer protocols">
+      <button class="on" data-tab="t-ip" role="tab">IP — Internet Protocol</button>
+      <button data-tab="t-icmp" role="tab">ICMP</button>
+      <button data-tab="t-arp" role="tab">ARP</button>
+    </div>
+
+    <div class="tabpanel on" id="t-ip">
+      <div class="grid g2" style="gap:1.4rem;align-items:start">
+        <div class="prose">
+          <p><strong>IP</strong> is the low-level internet protocol that facilitates data communications over the internet. It is responsible for <strong>delivering packets from the source host to the destination host by looking at the IP addresses in the packet headers</strong>.</p>
+          <p>An IP packet consists of a <strong>header</strong> (routing information — source &amp; destination of the data) and the <strong>data payload</strong> itself. IP defines how to address and route each packet to ensure it reaches the right destination: each <strong>gateway</strong> computer on the network checks the IP address to decide where to forward the message.</p>
+          <p><em>(A gateway is a network node used in telecommunications that connects two networks with different transmission protocols together.)</em></p>
+          <ul class="clean">
+            <li>Provides the mechanism for delivering data <strong>from one network node to another</strong>.</li>
+            <li><strong>Connection-less</strong>: it doesn't guarantee delivery, nor provide error checking and correction.</li>
+            <li>Longer strings of data must be broken into multiple packets, sent independently, then reorganised into correct order.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card" style="padding:1.3rem;margin-bottom:1rem">
+            <span class="fx mono" style="font-size:.58rem;letter-spacing:.16em;color:var(--faint)">IP VERSIONS</span>
+            <h4 style="margin:.4rem 0 .5rem">IPv4 vs IPv6</h4>
+            <p style="font-size:.88rem;color:var(--soft)">IP has 2 versions: <strong>IPv4</strong> and <strong>IPv6</strong>. IPv4 is the one most websites are using currently — but IPv6 is <strong>growing</strong>, because the number of IPv4 addresses is limited compared to the number of users.</p>
+          </div>
+          <div class="warn"><b>Watch the wording</b>The deck notes the header of a single IP data packet as being between <strong>20 and 24 bytes</strong>, which limits packet size — hence fragmentation. It also states IP "operates at the network access layer"; in standard TCP/IP teaching IP is the defining protocol of the <strong>Internet layer</strong>. Answer per your lecture's framing if asked directly.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="t-icmp">
+      <div class="prose" style="max-width:60ch">
+        <p><strong>ICMP — Internet Control Message Protocol.</strong> It is <strong>encapsulated within IP datagrams</strong> and is responsible for <strong>providing hosts with information about network problems</strong>.</p>
+        <p>Think of ICMP as the network's diagnostic messenger: when a packet cannot reach its destination, or a router is congested, ICMP messages report the condition back to the source. (Echo requests/replies — the classic <span class="tag">ping</span> — use ICMP.)</p>
+        <div class="note"><b>Exam one-liner</b>ICMP = encapsulated inside IP datagrams · reports network problems to hosts.</div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="t-arp">
+      <div class="prose" style="max-width:60ch">
+        <p><strong>ARP — Address Resolution Protocol.</strong> Its job is to <strong>find the hardware address (MAC) of a host from a known IP address</strong>.</p>
+        <p>ARP has several types: <span class="tag">Reverse ARP</span><span class="tag">Proxy ARP</span><span class="tag">Gratuitous ARP</span><span class="tag">Inverse ARP</span></p>
+        <p style="font-size:.9rem;color:var(--soft)">→ ARP is important enough to get its own section. Continue to <a href="#s4"><strong>§04 — ARP in Depth</strong></a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §04 ARP ================= -->
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <div>
+        <p class="kicker scr" data-text="ADDRESS RESOLUTION">ADDRESS RESOLUTION</p>
+        <h2 class="masked"><span class="mi">ARP in Depth</span></h2>
+      </div>
+    </div>
+    <p class="lede rv">ARP finds the <strong>hardware address</strong> — the Media Access Control (MAC) address — <strong>of a host from its known IP address</strong>. It is the bridge between the logical world of IP and the physical world of MAC.</p>
+
+    <div class="arp-flow rv" style="margin-bottom:2.2rem">
+      <div class="af"><span class="af-no">STEP A / BROADCAST</span><h4>"Who has this IP?"</h4><p>ARP <strong>broadcasts a request packet to all the machines on the LAN</strong> and asks if any machine is using that particular IP address.</p></div>
+      <span class="af-arrow">⟶</span>
+      <div class="af"><span class="af-no">STEP B / REPLY</span><h4>"That's me — here's my MAC"</h4><p>When a machine recognises the IP address as its own, it <strong>sends a reply</strong> so ARP can <strong>update the cache</strong> for future reference and proceed with communication.</p></div>
+      <span class="af-arrow">⟶</span>
+      <div class="af"><span class="af-no">STEP C / CACHE</span><h4>Remember it</h4><p>All operating systems in an IPv4 Ethernet network keep an <strong>ARP cache</strong>. Next time, the cached IP→MAC translation is used directly — <strong>no new ARP request</strong>.</p></div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1fr;gap:1.6rem;margin-bottom:2.4rem">
+      <div class="rv">
+        <p class="kicker" style="margin-bottom:.9rem">The ARP cache — facts that get asked</p>
+        <div class="grid g2 fn-grid">
+          <div class="card"><span class="fx">CACHE / 01</span><h4>Check first</h4><p>Every time a host requests a MAC address to send a packet on the LAN, it checks its ARP cache — if the IP→MAC translation exists, <strong>a new ARP request is not entertained</strong>.</p></div>
+          <div class="card"><span class="fx">CACHE / 02</span><h4>Limited &amp; cleansed</h4><p>ARP has a <strong>limited cache size</strong> and periodically <strong>cleanses entries to free up space</strong>.</p></div>
+          <div class="card"><span class="fx">CACHE / 03</span><h4>Short memory</h4><p>Addresses tend to stay in the cache for <strong>only a few minutes</strong>.</p></div>
+          <div class="card"><span class="fx">CACHE / 04</span><h4>Fresh information</h4><p>Frequent updates enable other devices to see when a physical host <strong>changes its requested IP address</strong>.</p></div>
+          <div class="card"><span class="fx">CACHE / 05</span><h4>Garbage collection</h4><p>When cleansing, ARP detects <strong>unused entries</strong> and unsuccessful attempts to reach computers that are <strong>currently powered off</strong>.</p></div>
+          <div class="card"><span class="fx">CACHE / 06</span><h4>Universal</h4><p><strong>All operating systems</strong> in an IPv4 Ethernet network keep an ARP cache.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEPPER -->
+    <div class="steps rv">
+      <div>
+        <p class="kicker" style="margin-bottom:.9rem">How ARP works — step through the resolution</p>
+        <div class="arpvis" id="arpvis">
+          <div class="wire"></div>
+          <div class="an n1" data-n="1"><i></i><span>SRC</span></div>
+          <div class="an n2" data-n="2"><i></i><span>HOST</span></div>
+          <div class="an n3" data-n="3"><i></i><span>HOST</span></div>
+          <div class="an n4" data-n="4"><i></i><span>GATEWAY</span></div>
+          <div class="an n5" data-n="5"><i></i><span>DEST</span></div>
+          <div class="amsg" id="amsg"></div>
+        </div>
+        <div class="step-ctl">
+          <button class="btn" id="arpPrev">← Prev</button>
+          <button class="btn" id="arpNext">Next →</button>
+          <span class="step-n" id="arpCount">01 / 06</span>
+          <span class="ticks" id="arpTicks"></span>
+        </div>
+      </div>
+
+      <div>
+        <p class="kicker" style="margin-bottom:.9rem">The four types of ARP</p>
+        <div class="grid fn-grid" style="grid-template-columns:1fr">
+          <div class="card"><span class="fx">TYPE / RARP</span><h4>Reverse ARP</h4><p>The inverse question: a device that knows its own <strong>MAC</strong> asks for its <strong>IP address</strong> (classic use: diskless workstations booting).</p></div>
+          <div class="card"><span class="fx">TYPE / PROXY</span><h4>Proxy ARP</h4><p>A <strong>router/gateway answers ARP requests on behalf of another host</strong>, bridging queries across network segments.</p></div>
+          <div class="card"><span class="fx">TYPE / GRATUITOUS</span><h4>Gratuitous ARP</h4><p>A host <strong>announces its own IP→MAC mapping</strong> without being asked — useful after an IP change and for duplicate-address detection.</p></div>
+          <div class="card"><span class="fx">TYPE / INVERSE</span><h4>Inverse ARP</h4><p>Discovers a peer's address from a known virtual-circuit identifier — the operation <strong>inverse of normal ARP</strong>, used on circuits such as Frame Relay / ATM.</p></div>
+        </div>
+        <div class="note"><b>Slide vs standard</b>The lecture lists the four types by name; the definitions above are the standard meanings — quote the type names exactly as in the deck.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §05 TRANSPORT ================= -->
+<section id="s5" class="dark">
+  <div class="wrap">
+    <div class="sec-head" style="border-top-color:var(--on-dark)">
+      <span class="sec-no" style="-webkit-text-stroke-color:var(--on-dark)">05</span>
+      <div>
+        <p class="kicker scr" data-text="HOST · TO · HOST">HOST · TO · HOST</p>
+        <h2 class="masked"><span class="mi">The Transport Layer</span></h2>
+      </div>
+    </div>
+    <p class="lede rv">The host-to-host (transport) layer provides communication between hosts on a network. Its protocols exchange <strong>data-receipt acknowledgments</strong> and <strong>retransmit missing packets</strong> so packets arrive <strong>in order and without error</strong> — that is end-to-end communication.</p>
+
+    <p class="kicker rv" style="margin-bottom:.9rem">Six functions of the transport layer</p>
+    <div class="grid g3 fn-grid rv" style="--d:.1s;margin-bottom:2.6rem">
+      <div class="card"><span class="fx">F / 01</span><h4>Process-to-process delivery</h4><p>Delivers data not just host-to-host, but from the exact source <em>process</em> to the exact destination <em>process</em> — via ports.</p></div>
+      <div class="card"><span class="fx">F / 02</span><h4>End-to-end connection</h4><p>Creates a connection between devices so hosts communicate end-to-end without intermediate devices managing the conversation.</p></div>
+      <div class="card"><span class="fx">F / 03</span><h4>Multiplexing &amp; Demultiplexing</h4><p>Many sources share one network connection (mux); at the destination the data is split back to the right receivers (demux).</p></div>
+      <div class="card"><span class="fx">F / 04</span><h4>Data integrity &amp; error correction</h4><p>Checks for errors; if a packet is lost, the layer requests retransmission so all data is received correctly.</p></div>
+      <div class="card"><span class="fx">F / 05</span><h4>Congestion control</h4><p>Keeps the network free of congestion that could block the receipt of data.</p></div>
+      <div class="card"><span class="fx">F / 06</span><h4>Flow control</h4><p>Controls the size and flow rate of data so fast senders don't overwhelm slow receivers.</p></div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1fr;gap:1.6rem;margin-bottom:2.6rem">
+      <div class="case rv" data-cap="Host-to-host use cases — the classic example" style="border-color:var(--dark-line);background:var(--dark-card)">
+        <p style="margin-top:.5rem">Consider two hosts, <strong>A</strong> and <strong>B</strong>. Host A wants to send a file to host B:</p>
+        <ol class="num" style="margin-top:.8rem">
+          <li>The transport layer in A <strong>breaks the file into smaller segments</strong> (segmentation), adds <strong>error correction and flow control information</strong>, and transmits them.</li>
+          <li>Host B's transport layer receives the segments, <strong>checks for errors</strong>, and <strong>reassembles the file</strong>.</li>
+          <li>After successful transfer, host B <strong>acknowledges receipt</strong> to host A.</li>
+        </ol>
+        <p style="font-size:.85rem;color:var(--on-dark-soft);margin-top:.8rem">This covers segmentation &amp; reassembly, reliable transfer, multiplexing/demultiplexing and end-to-end communication — all in one example.</p>
+      </div>
+    </div>
+
+    <!-- MULTIPLEXING -->
+    <figure class="rv" style="margin-bottom:2.8rem">
+      <div class="mux">
+        <div class="mux-col">
+          <span class="proc">PROCESS 1 · WEB BROWSER</span>
+          <span class="proc">PROCESS 2 · E-MAIL CLIENT</span>
+          <span class="proc">PROCESS 3 · DNS QUERY</span>
+          <span class="proc">PROCESS 4 · ONLINE GAME</span>
+        </div>
+        <svg class="mux-svg" viewBox="0 0 120 208" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 26 C 60 26, 60 104, 120 104"/><path d="M0 82 C 60 82, 60 104, 120 104"/>
+          <path d="M0 130 C 60 130, 60 104, 120 104"/><path d="M0 182 C 60 182, 60 104, 120 104"/>
+        </svg>
+        <span class="mux-arrow">⌄</span>
+        <div class="mux-col"><span class="proc big">TRANSPORT LAYER<br>port numbers multiplex all processes onto ONE IP stream — and demultiplex them at the destination</span></div>
+      </div>
+      <figcaption class="fig-cap" style="color:var(--on-dark-soft)">Fig. 04 — Multiplexing: many processes, one connection. Certain connections map to certain <strong>protocol ports</strong>; each port is a positive integer address of <strong>16 bits</strong> (0–65535). These days an OS supports multiple users and processes — a programme under execution is a <strong>process</strong>.</figcaption>
+    </figure>
+
+    <!-- TCP -->
+    <div class="grid" style="grid-template-columns:1fr;gap:2.5rem">
+      <div>
+        <p class="kicker rv" style="margin-bottom:.9rem">Transmission Control Protocol</p>
+        <div class="prose rv">
+          <p><strong>TCP</strong> is a <strong>connection-oriented protocol</strong> that establishes a connection between sender and receiver before delivering data, ensuring <strong>reliable and orderly delivery of packets</strong> across networks. It is sometimes referred to as TCP/IP, since it uses IP to transport data packets — while also connecting computers, applications, web pages and web servers.</p>
+          <p>TCP understands holistically the entire stream of data these assets require, and <strong>ensures the entire volume of data needed is sent the first time</strong>. Applications interact with one another as though physically connected by a circuit — data resembles <strong>character-by-character transmission</strong> rather than separate packets: a starting point establishes the connection, the whole transmission flows in byte order, and an ending point closes the connection.</p>
+          <ul class="clean">
+            <li>Defines how applications <strong>create channels of communication</strong> across a network.</li>
+            <li>Manages how a message is assembled into smaller packets, transmitted over the internet and <strong>reassembled in the right order</strong> at the destination.</li>
+            <li>Controls the <strong>size and flow rate</strong> of data; prevents congestion and bottlenecks from out-of-order delivery.</li>
+            <li>Runs checks to ensure delivery; detects problems arising in IP and <strong>requests retransmission of lost packets</strong>.</li>
+          </ul>
+          <div class="note"><b>Why not just IP?</b>If an application sending a large amount of data used only IP, the data would be broken into many IP packets, each needing its own send/receive request (IP requests are issued per packet). With TCP, <strong>only a single request to send an entire data stream is needed</strong> — TCP handles the rest.</div>
+        </div>
+      </div>
+
+      <!-- HANDSHAKE -->
+      <div class="rv">
+        <div class="card" style="padding:1.4rem;border-color:var(--dark-line)">
+          <p class="kicker" style="margin-bottom:.6rem">Fig. 05 — The TCP three-way handshake</p>
+          <div class="hs-wrap">
+            <svg class="hs-svg hs" id="hs" viewBox="0 0 360 310" aria-label="TCP three way handshake between client and server">
+              <defs>
+                <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ece9dd"/></marker>
+              </defs>
+              <line class="tl" x1="70" y1="34" x2="70" y2="286"/><line class="tl" x1="290" y1="34" x2="290" y2="286"/>
+              <text class="endlab" x="70" y="20" text-anchor="middle">CLIENT</text>
+              <text class="endlab" x="290" y="20" text-anchor="middle">SERVER</text>
+              <g class="hs-g s1"><line class="arrow" x1="70" y1="70" x2="284" y2="112" marker-end="url(#arw)"/><text class="msg" x="178" y="76" text-anchor="middle">SYN · seq = x</text></g>
+              <g class="hs-g s2"><line class="arrow" x1="290" y1="150" x2="76" y2="192" marker-end="url(#arw)"/><text class="msg" x="182" y="152" text-anchor="middle">SYN-ACK · seq = y, ack = x+1</text></g>
+              <g class="hs-g s3"><line class="arrow" x1="70" y1="230" x2="284" y2="258" marker-end="url(#arw)"/><text class="msg" x="178" y="224" text-anchor="middle">ACK · ack = y+1</text></g>
+              <g class="hs-g s4"><line x1="70" y1="282" x2="290" y2="282" stroke="#a5a08f" stroke-width="1" stroke-dasharray="3 5"/><text class="msg" x="180" y="300" text-anchor="middle" opacity=".8">DATA FLOWS — BYTE STREAM, IN ORDER</text></g>
+            </svg>
+            <div>
+              <p style="font-size:.9rem">TCP uses handshakes such as <strong>SYN, ACK, SYN-ACK</strong> to establish a connection before any data moves — the reason it is called connection-oriented. After the handshake, acknowledgments and retransmission keep delivery reliable.</p>
+              <button class="btn" id="hsPlay" style="margin-top:1rem">▶ Play handshake</button>
+              <br><span class="hs-badge" id="hsBadge">CONNECTION ESTABLISHED</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid g2" style="margin-top:1.2rem">
+          <div class="card" style="padding:1.1rem"><span class="fx mono" style="font-size:.56rem;letter-spacing:.16em;color:var(--on-dark-soft)">TCP IDENTITY</span><p style="font-size:.85rem;margin-top:.4rem">Heavy-weight · header <strong>20–60 bytes (variable)</strong> · byte stream · no broadcasting · slower but reliable.</p></div>
+          <div class="card" style="padding:1.1rem"><span class="fx mono" style="font-size:.56rem;letter-spacing:.16em;color:var(--on-dark-soft)">WHO USES TCP</span><p style="font-size:.85rem;margin-top:.4rem">HTTP, HTTPS, FTP, SMTP, Telnet — and applications like WWW, e-mail, SSH, and streaming services (Netflix, YouTube, Spotify).</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UDP -->
+    <div style="margin-top:3rem">
+      <p class="kicker rv" style="margin-bottom:.9rem">User Datagram Protocol</p>
+      <div class="grid" style="grid-template-columns:1fr;gap:1.5rem">
+        <div class="prose rv" style="max-width:75ch">
+          <p><strong>UDP</strong> is a <strong>connectionless protocol</strong> that allows communication between two or more devices <em>without establishing any connection</em>. The sender simply sends data packets to the receiver that holds the destination address.</p>
+          <p>UDP provides a <strong>datagram delivery service</strong>: connections between receiving and sending hosts are <strong>not verified</strong>. It does <strong>not guarantee delivery</strong> to the correct destination, generates <strong>no acknowledgment</strong> about the sender's data, and does not acknowledge the receiver — hence it is an <strong>unreliable protocol</strong>. Applications transporting small amounts of data prefer UDP because it <strong>eliminates the processes of establishing and validating connections</strong>.</p>
+          <div class="grid g2" style="margin-top:1.2rem">
+            <div class="card" style="padding:1.1rem"><span class="fx mono" style="font-size:.56rem;letter-spacing:.16em;color:var(--on-dark-soft)">UDP IDENTITY</span><p style="font-size:.85rem;margin-top:.4rem">Lightweight · header <strong>8 bytes fixed</strong> · message stream · faster, simpler, more efficient · basic error-checking via <strong>checksums</strong> only · no sequencing (application layer manages order if needed) · <strong>supports broadcasting</strong>.</p></div>
+            <div class="card" style="padding:1.1rem"><span class="fx mono" style="font-size:.56rem;letter-spacing:.16em;color:var(--on-dark-soft)">WHO USES UDP</span><p style="font-size:.85rem;margin-top:.4rem">DNS, DHCP, TFTP, SNMP, RIP, VoIP — plus real-time multimedia streaming, online gaming, DNS queries, network monitoring, and routing updates (RIP exchanges routing info among routers).</p></div>
+          </div>
+        </div>
+
+        <figure class="rv">
+          <p class="kicker" style="margin-bottom:.8rem">Fig. 06 — Header size, visualised</p>
+          <div class="hc-row"><span class="hc-lab">TCP</span><div class="hc-track"><div class="hc-bar tcp" style="--w:100%">20 – 60 BYTES · VARIABLE · HEAVYWEIGHT</div></div></div>
+          <div class="hc-row"><span class="hc-lab">UDP</span><div class="hc-track"><div class="hc-bar udp" style="--w:16%">8 B · FIXED</div></div></div>
+          <figcaption class="fig-cap" style="color:var(--on-dark-soft)">Less header = less overhead = more speed. More header = control fields for reliability, sequencing, flow and acknowledgments.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §06 APPLICATION ================= -->
+<section id="s6">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">06</span>
+      <div>
+        <p class="kicker scr" data-text="APPLICATION LAYER">APPLICATION LAYER</p>
+        <h2 class="masked"><span class="mi">Where users meet the network</span></h2>
+      </div>
+    </div>
+    <p class="lede rv">The Application Layer is responsible for <strong>end-to-end communication and error-free delivery of data</strong>, and it <strong>shields upper-layer applications from the complexities of data</strong>. Three protocols headline this layer in Unit 4.</p>
+
+    <div class="grid g3 rv">
+      <div class="card proto-card">
+        <span class="pc-no">PROTO / 01</span><h3>HTTP &amp; HTTPS</h3>
+        <span class="pc-full">HYPERTEXT TRANSFER PROTOCOL (SECURE)</span>
+        <p>HTTP is used by the <strong>World Wide Web</strong> to manage communications between <strong>web browsers and servers</strong>.</p>
+        <p><strong>HTTPS = HTTP + SSL</strong> (Secure Socket Layer). It is efficient in cases where the browser needs to <strong>fill out forms, sign in, authenticate, and carry out bank transactions</strong>.</p>
+        <span class="tag">rides on TCP</span><span class="tag">port-driven</span>
+      </div>
+      <div class="card proto-card">
+        <span class="pc-no">PROTO / 02</span><h3>SSH</h3>
+        <span class="pc-full">SECURE SHELL</span>
+        <p>A <strong>terminal-emulation software similar to Telnet</strong>. SSH is preferred because of its ability to <strong>maintain an encrypted connection</strong>.</p>
+        <p>It sets up a <strong>secure session over a TCP/IP connection</strong> — the safe way to administer remote machines.</p>
+        <span class="tag">encrypted</span><span class="tag">TCP/IP session</span>
+      </div>
+      <div class="card proto-card">
+        <span class="pc-no">PROTO / 03</span><h3>NTP</h3>
+        <span class="pc-full">NETWORK TIME PROTOCOL</span>
+        <p>Used to <strong>synchronize the clocks on our computer to one standard time source</strong>.</p>
+        <p><strong>Very useful in bank transactions.</strong> Imagine without NTP: your computer reads <strong>2:30 PM</strong> while the server records <strong>2:28 PM</strong> — out of sync, the <strong>server can crash very badly</strong>.</p>
+        <span class="tag">clock sync</span><span class="tag">critical for finance</span>
+      </div>
+    </div>
+
+    <div class="grid g2 rv" style="margin-top:1.6rem;gap:1rem">
+      <div class="card" style="padding:1.2rem">
+        <p class="kicker" style="margin-bottom:.6rem">Rides on TCP</p>
+        <span class="tag">HTTP</span><span class="tag">HTTPS</span><span class="tag">FTP</span><span class="tag">SMTP</span><span class="tag">Telnet</span><span class="tag">SSH</span>
+        <p style="font-size:.82rem;color:var(--soft);margin-top:.7rem">FTP relies on TCP to transfer large files securely; SSH uses TCP for encrypted communication.</p>
+      </div>
+      <div class="card" style="padding:1.2rem">
+        <p class="kicker" style="margin-bottom:.6rem">Rides on UDP</p>
+        <span class="tag">DNS</span><span class="tag">DHCP</span><span class="tag">TFTP</span><span class="tag">SNMP</span><span class="tag">RIP</span><span class="tag">VoIP</span>
+        <p style="font-size:.82rem;color:var(--soft);margin-top:.7rem">Routing protocols like RIP utilise UDP for exchanging routing information among routers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §07 CO vs CL ================= -->
+<section id="s7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">07</span>
+      <div>
+        <p class="kicker scr" data-text="SERVICE MODELS">SERVICE MODELS</p>
+        <h2 class="masked"><span class="mi">Connection-Oriented vs Connectionless</span></h2>
+      </div>
+    </div>
+
+    <div class="grid g2 rv" style="margin-bottom:2rem;gap:1rem">
+      <div class="card" style="padding:1.4rem;text-align:center"><span style="font-size:2rem;display:block">☎</span><h3 style="font-size:1.3rem;margin:.3rem 0">Connection-Oriented</h3><p style="font-size:.85rem;color:var(--soft)">Designed on the <strong>telephone system</strong> — dial, establish the line, talk in order, hang up. <strong>TCP</strong> is the example.</p></div>
+      <div class="card" style="padding:1.4rem;text-align:center"><span style="font-size:2rem;display:block">✉</span><h3 style="font-size:1.3rem;margin:.3rem 0">Connectionless</h3><p style="font-size:.85rem;color:var(--soft)">Based on the <strong>postal system</strong> — every letter is independent, routed on its own, may arrive out of order. <strong>UDP, IP, ICMP</strong> are the examples.</p></div>
+    </div>
+
+    <div class="tscroll rv">
+      <table>
+        <thead><tr><th style="width:60px">#</th><th>Parameter</th><th>Connection-Oriented Service</th><th>Connectionless Service</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Related system</td><td>Designed and developed based on the <strong>telephone system</strong>.</td><td>Service based on the <strong>postal system</strong>.</td></tr>
+          <tr><td>2</td><td>Definition</td><td>Creates an <strong>end-to-end connection</strong> between sender and receiver <em>before</em> transmitting data over the same or different network.</td><td>Transfers data packets between sender and receiver <strong>without creating any connection</strong>.</td></tr>
+          <tr><td>3</td><td>Virtual path</td><td><strong>Creates a virtual path</strong> between sender and receiver.</td><td>Does <strong>not</strong> create any virtual connection or path.</td></tr>
+          <tr><td>4</td><td>Authentication</td><td><strong>Requires authentication</strong> before transmitting data packets.</td><td>Does <strong>not require authentication</strong> before transfer.</td></tr>
+          <tr><td>5</td><td>Packet path / order</td><td>All data packets are received <strong>in the same order</strong> as sent.</td><td><strong>Not all</strong> packets are received in the order sent.</td></tr>
+          <tr><td>6</td><td>Bandwidth</td><td>Requires <strong>higher</strong> bandwidth.</td><td>Requires <strong>low</strong> bandwidth.</td></tr>
+          <tr><td>7</td><td>Data reliability</td><td><strong>More reliable</strong> — guarantees packet transfer end-to-end with a connection.</td><td><strong>Not reliable</strong> — no guarantee of transfer.</td></tr>
+          <tr><td>8</td><td>Congestion</td><td><strong>No congestion</strong> — end-to-end connection is maintained during transmission.</td><td><strong>May be congestion</strong> — no end-to-end connection provided.</td></tr>
+          <tr><td>9</td><td>Examples</td><td><strong>TCP</strong> (Transmission Control Protocol).</td><td><strong>UDP, IP, ICMP</strong>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tbl-note rv">← swipe to scroll · source: Unit 4 lecture deck</p>
+  </div>
+</section>
+
+<!-- ================= §08 TCP vs UDP ================= -->
+<section id="s8" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">08</span>
+      <div>
+        <p class="kicker scr" data-text="THE SHOWDOWN">THE SHOWDOWN</p>
+        <h2 class="masked"><span class="mi">TCP vs UDP — 14 points, fully loaded</span></h2>
+      </div>
+    </div>
+
+    <div class="tscroll rv">
+      <table>
+        <thead><tr><th style="width:60px">#</th><th>Basis</th><th>TCP — Transmission Control Protocol</th><th>UDP — User Datagram Protocol</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Type of service</td><td><strong>Connection-oriented</strong>: devices establish a connection before transmitting data and close it afterwards.</td><td><strong>Datagram-oriented</strong>: no overhead for opening, maintaining or terminating a connection. Efficient for <strong>broadcast &amp; multicast</strong>.</td></tr>
+          <tr><td>2</td><td>Reliability</td><td><strong>Reliable</strong> — guarantees delivery of data to the destination router.</td><td>Delivery to the destination <strong>cannot be guaranteed</strong>.</td></tr>
+          <tr><td>3</td><td>Error checking</td><td><strong>Extensive</strong> error-checking — provides flow control and acknowledgment of data.</td><td><strong>Basic</strong> error-checking using <strong>checksums</strong>.</td></tr>
+          <tr><td>4</td><td>Acknowledgment</td><td>An acknowledgment segment <strong>is present</strong>.</td><td><strong>No</strong> acknowledgment segment.</td></tr>
+          <tr><td>5</td><td>Sequence</td><td><strong>Sequencing is a feature</strong> — packets arrive in order at the receiver.</td><td><strong>No sequencing</strong>; if order is required, the application layer must manage it.</td></tr>
+          <tr><td>6</td><td>Speed</td><td>Comparatively <strong>slower</strong>.</td><td><strong>Faster, simpler, more efficient</strong>.</td></tr>
+          <tr><td>7</td><td>Retransmission</td><td>Retransmission of lost packets <strong>is possible</strong>.</td><td><strong>No</strong> retransmission of lost packets.</td></tr>
+          <tr><td>8</td><td>Header length</td><td><strong>20–60 bytes</strong>, variable length.</td><td><strong>8 bytes</strong>, fixed length.</td></tr>
+          <tr><td>9</td><td>Weight</td><td><strong>Heavy-weight</strong>.</td><td><strong>Lightweight</strong>.</td></tr>
+          <tr><td>10</td><td>Handshaking</td><td>Uses handshakes: <strong>SYN, ACK, SYN-ACK</strong>.</td><td><strong>No handshake</strong> — connectionless.</td></tr>
+          <tr><td>11</td><td>Broadcasting</td><td>Does <strong>not</strong> support broadcasting.</td><td><strong>Supports</strong> broadcasting.</td></tr>
+          <tr><td>12</td><td>Protocols using it</td><td>HTTP, HTTPS, FTP, SMTP, Telnet.</td><td>DNS, DHCP, TFTP, SNMP, RIP, VoIP.</td></tr>
+          <tr><td>13</td><td>Stream type</td><td><strong>Byte stream</strong>.</td><td><strong>Message stream</strong>.</td></tr>
+          <tr><td>14</td><td>Applications</td><td>World Wide Web · E-mail · FTP (large secure file transfers) · SSH (encrypted communication) · Streaming media (Netflix, YouTube, Spotify).</td><td>Real-time multimedia streaming · Online gaming · DNS queries · Network monitoring · Routing updates (RIP).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tbl-note rv">← swipe to scroll · source: Unit 4 lecture deck</p>
+
+    <div class="grid g2 rv" style="margin-top:1.6rem;gap:1rem">
+      <div class="card" style="padding:1.3rem"><p class="kicker" style="margin-bottom:.5rem">Choose TCP when…</p><p style="font-size:.9rem;color:var(--soft)">You need <strong>reliability over speed</strong>: web pages, e-mail, file transfers, remote logins, anything where lost or out-of-order data breaks the result.</p></div>
+      <div class="card" style="padding:1.3rem"><p class="kicker" style="margin-bottom:.5rem">Choose UDP when…</p><p style="font-size:.9rem;color:var(--soft)">You need <strong>speed over reliability</strong>: live streaming, gaming, VoIP, DNS lookups, broadcasts — where a lost packet is annoying but not fatal.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= §09 EXAM ================= -->
+<section id="s9" class="dark">
+  <div class="wrap">
+    <div class="sec-head" style="border-top-color:var(--on-dark)">
+      <span class="sec-no" style="-webkit-text-stroke-color:var(--on-dark)">09</span>
+      <div>
+        <p class="kicker scr" data-text="FINAL PREP">FINAL PREP</p>
+        <h2 class="masked"><span class="mi">Exam Corner</span></h2>
+      </div>
+    </div>
+
+    <p class="kicker rv" style="margin-bottom:.8rem">Rapid recall — 18 one-liners</p>
+    <ol class="recall rv" style="margin-bottom:3rem">
+      <li>TCP/IP = <strong>Transmission Control Protocol / Internet Protocol</strong> — the core protocol suite of the Internet.</li>
+      <li>Designed &amp; developed by the <strong>Department of Defense (DoD) in the 1960s</strong>, based on standard protocols.</li>
+      <li>TCP/IP has <strong>4 layers</strong>; OSI has <strong>7</strong> — TCP/IP is the "concise version" of OSI.</li>
+      <li>Layers top → bottom: <strong>Application → Transport → Internet → Network Access</strong>.</li>
+      <li>Sender: data flows <strong>down</strong> the layers (encapsulation); receiver: <strong>up</strong> (decapsulation) — packets recombined to preserve accuracy.</li>
+      <li>Internet layer protocols: <strong>IP, ICMP, ARP</strong>. It parallels the OSI Network layer.</li>
+      <li>IP delivers packets by reading <strong>IP addresses in packet headers</strong>; versions: <strong>IPv4</strong> (dominant, limited) &amp; <strong>IPv6</strong> (growing).</li>
+      <li><strong>ICMP</strong> is encapsulated within IP datagrams; it reports <strong>network problems</strong> to hosts.</li>
+      <li><strong>ARP</strong>: finds the <strong>MAC address from a known IP address</strong>. Types: <strong>Reverse, Proxy, Gratuitous, Inverse</strong>.</li>
+      <li>All IPv4 Ethernet OSes keep an <strong>ARP cache</strong>; entries last only a few minutes; cache is checked before any new ARP broadcast.</li>
+      <li>ARP request is a <strong>broadcast to all machines on the LAN</strong>; the owner replies; cache is updated.</li>
+      <li>Transport layer = <strong>host-to-host / end-to-end</strong>; protocols: <strong>TCP &amp; UDP</strong>.</li>
+      <li>Transport functions: process-to-process delivery · end-to-end connection · multiplexing/demultiplexing · data integrity &amp; error correction · congestion control · flow control.</li>
+      <li>A port is a <strong>16-bit positive integer</strong> → 0–65535; protocols bind connections to <strong>protocol ports</strong>.</li>
+      <li><strong>TCP</strong>: connection-oriented, reliable, sequenced, byte stream, header <strong>20–60 B</strong>, heavy-weight, <strong>SYN / SYN-ACK / ACK</strong> handshake, no broadcasting.</li>
+      <li><strong>UDP</strong>: connectionless, unreliable, no ACKs or sequencing, <strong>8 B fixed header</strong>, lightweight, faster, supports broadcasting.</li>
+      <li>TCP apps: WWW, e-mail, FTP, SSH, streaming (Netflix/YouTube/Spotify). UDP apps: DNS, DHCP, TFTP, SNMP, RIP, VoIP, gaming, real-time streaming.</li>
+      <li>Application layer: <strong>HTTP/HTTPS</strong> (HTTPS = HTTP + SSL), <strong>SSH</strong> (encrypted shell over TCP/IP), <strong>NTP</strong> (clock sync — prevents the 2:30 PM vs 2:28 PM crash).</li>
+    </ol>
+
+    <p class="kicker rv" style="margin-bottom:.8rem">Mnemonics</p>
+    <div class="grid g2 rv" style="margin-bottom:3rem;gap:1rem">
+      <div class="mne"><p class="m-phrase">"<b>A</b>ll <b>T</b>raffic <b>I</b>s <b>N</b>etworked"</p><p><strong>A</strong>pplication → <strong>T</strong>ransport → <strong>I</strong>nternet → <strong>N</strong>etwork Access (top to bottom). Reverse it for the receiver's decapsulation path.</p></div>
+      <div class="mne"><p class="m-phrase">"<b>C</b>all vs <b>C</b>ard"</p><p>TCP = phone <strong>call</strong> (dial first, ordered talk, hang up). UDP = post<strong>card</strong> (fire and forget, no guarantee, fast). Also: TCP handshake order — <strong>S</strong>yn → <strong>S</strong>yn-<strong>A</strong>ck → <strong>A</strong>ck ("Send, Send-back, Answer").</p></div>
+    </div>
+
+    <p class="kicker rv" style="margin-bottom:.8rem">Flashcards — tap to flip</p>
+    <div class="fcs rv" style="margin-bottom:3rem">
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 01</span><span class="ft">What does ARP stand for — and what does it resolve?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">Address Resolution Protocol — finds the MAC (hardware) address of a host from its known IP address.</span><span class="fh">§04</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 02</span><span class="ft">Which TCP/IP layer parallels the OSI Network layer?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">The Internet Layer — logical transmission of data over the entire network.</span><span class="fh">§02</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 03</span><span class="ft">TCP header size vs UDP header size?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">TCP: 20–60 bytes (variable). UDP: 8 bytes (fixed).</span><span class="fh">§05</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 04</span><span class="ft">What is HTTPS, and when is it preferred?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">HTTP + SSL. Preferred for forms, sign-ins, authentication and bank transactions.</span><span class="fh">§06</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 05</span><span class="ft">Sequence of the TCP three-way handshake?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">SYN → SYN-ACK → ACK, then the data stream flows.</span><span class="fh">§05</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 06</span><span class="ft">Why does the unit emphasise NTP?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">It synchronises clocks to one standard time source — unsynchronised times (2:30 PM vs 2:28 PM) can crash servers during transactions.</span><span class="fh">§06</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 07</span><span class="ft">How many bits is a port number, and what does it identify?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">16 bits (0–65535). It identifies the specific process/application — enabling process-to-process delivery.</span><span class="fh">§05</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 08</span><span class="ft">IP: connection-oriented or connectionless?</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">Connectionless — best-effort delivery, no guarantee, no error checking/correction.</span><span class="fh">§03</span></div></div></div>
+      <div class="fc"><div class="fc-inner"><div class="fc-face fc-front"><span class="fq">CARD 09</span><span class="ft">TCP is a ___ stream; UDP is a ___ stream.</span><span class="fh">tap to flip ↻</span></div><div class="fc-face fc-back"><span class="fq">ANSWER</span><span class="ft">Byte stream (TCP) · Message stream (UDP).</span><span class="fh">§08</span></div></div></div>
+    </div>
+
+    <p class="kicker rv" style="margin-bottom:.8rem">Self-test — expand to check your answer</p>
+    <div class="rv">
+      <details class="qa"><summary>Which layer is responsible for delivering packets by looking at IP addresses in packet headers?</summary><p class="ans">The <strong>Internet Layer</strong>, via the Internet Protocol (IP).</p></details>
+      <details class="qa"><summary>A host announces its own IP→MAC mapping without being asked. Which ARP type is this?</summary><p class="ans"><strong>Gratuitous ARP</strong>.</p></details>
+      <details class="qa"><summary>Your ARP cache already holds the IP→MAC translation you need. What happens?</summary><p class="ans">No new ARP request is entertained — the cached translation is used directly.</p></details>
+      <details class="qa"><summary>Which transport protocol does DNS use, and why?</summary><p class="ans"><strong>UDP</strong> — DNS queries are small and need speed; UDP avoids the overhead of establishing and validating a connection.</p></details>
+      <details class="qa"><summary>Complete the analogy: connection-oriented is to telephone as connectionless is to ___?</summary><p class="ans">The <strong>postal system</strong> — each packet (letter) travels independently.</p></details>
+      <details class="qa"><summary>Name the four TCP/IP layers from top to bottom.</summary><p class="ans">Application → Transport → Internet (Network) → Network Access.</p></details>
+      <details class="qa"><summary>What makes TCP "reliable" — name at least three mechanisms.</summary><p class="ans">Acknowledgments, retransmission of lost packets, sequencing/in-order reassembly, plus flow control and congestion control.</p></details>
+      <details class="qa"><summary>Why is IPv6 growing while IPv4 is still most-used?</summary><p class="ans">IPv4 is what most websites currently use, but its address space is limited compared to the number of users — so IPv6 is growing.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="kicker" style="color:var(--on-dark-soft)">Data Communication &amp; Networking</p>
+        <p class="foot-big">End of Unit 04<span style="color:var(--on-dark-soft)">.</span></p>
+      </div>
+      <div class="foot-nav">
+        <a href="../../index.html" style="color:var(--on-dark);font-weight:600;">← Notes Hub</a><a href="#s1">Intro</a><a href="#s2">Layers</a><a href="#s3">Internet</a><a href="#s4">ARP</a><a href="#s5">Transport</a><a href="#s6">App</a><a href="#s7">Services</a><a href="#s8">TCP vs UDP</a><a href="#s9">Exam</a>
+      </div>
+    </div>
+    <p class="foot-cred">Compiled from the lecture deck "UNIT 4 — TCP/IP Model" · BRACT's Vishwakarma Institute of Technology, Pune<br>Department of Computer Science (IoT &amp; Cybersecurity including Blockchain Technology) · Study companion — verify any detail against your lecture material.</p>
+    <a class="top-link" href="#top">↑ Back to top</a>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* progress bar */
+var pg = document.getElementById('pg');
+function onScroll(){
+  var h = document.documentElement;
+  var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  pg.style.width = (p*100) + '%';
+}
+document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* remove SMIL motion for reduced motion */
+if(RM){ document.querySelectorAll('animateMotion').forEach(function(a){ a.remove(); }); }
+
+/* scramble */
+var GLYPHS = '01<>/#*+=~';
+function scramble(el){
+  var fin = el.dataset.text || el.textContent; el.dataset.text = fin;
+  if(RM){ el.textContent = fin; return; }
+  var frame = 0, total = Math.max(16, fin.length*2);
+  (function tick(){
+    frame++;
+    var prog = frame/total;
+    el.textContent = fin.split('').map(function(ch,i){
+      if(ch===' ') return ' ';
+      return (i/fin.length < prog) ? ch : GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+    }).join('');
+    if(frame < total) requestAnimationFrame(tick); else el.textContent = fin;
+  })();
+}
+scramble(document.getElementById('megaT'));
+
+/* reveal observer */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      if(e.target.hasAttribute('data-text')) scramble(e.target);
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rv, .masked, .scr').forEach(function(el){ io.observe(el); });
+
+/* counters */
+function runCount(el){
+  var target = parseInt(el.dataset.count,10), pre = el.dataset.prefix||'', suf = el.dataset.suffix||'';
+  if(RM){ el.textContent = pre + target.toLocaleString('en-US') + suf; return; }
+  var t0 = null, dur = 1100;
+  function step(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts-t0)/dur, 1), eased = 1-Math.pow(1-p,3);
+    el.textContent = pre + Math.round(target*eased).toLocaleString('en-US') + suf;
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+var cio = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); cio.unobserve(e.target);} });
+},{threshold:.4});
+document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+
+/* section spy */
+var navLinks = {};
+document.querySelectorAll('[data-nav]').forEach(function(a){ navLinks[a.dataset.nav] = a; });
+var sio = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      Object.values(navLinks).forEach(function(a){ a.classList.remove('act'); });
+      var l = navLinks[e.target.id]; if(l) l.classList.add('act');
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('main section[id]').forEach(function(s){ sio.observe(s); });
+
+/* layer rail spy */
+var railLinks = {};
+document.querySelectorAll('[data-rail]').forEach(function(a){ railLinks[a.dataset.rail] = a; });
+var rio = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      Object.values(railLinks).forEach(function(a){ a.classList.remove('act'); });
+      var l = railLinks[e.target.dataset.watch]; if(l) l.classList.add('act');
+    }
+  });
+},{rootMargin:'-25% 0px -60% 0px'});
+document.querySelectorAll('[data-watch]').forEach(function(el){ rio.observe(el); });
+
+/* tabs */
+document.querySelectorAll('.tabs button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var parent = btn.parentElement;
+    parent.querySelectorAll('button').forEach(function(b){ b.classList.remove('on'); });
+    btn.classList.add('on');
+    var sec = parent.parentElement;
+    sec.querySelectorAll('.tabpanel').forEach(function(p){ p.classList.remove('on'); });
+    document.getElementById(btn.dataset.tab).classList.add('on');
+  });
+});
+
+/* ARP stepper */
+(function(){
+  var steps = [
+    {nodes:{1:'src',2:'rx',3:'rx',4:'rx',5:'rx'}, msg:'<strong>① Broadcast:</strong> the source device broadcasts an ARP packet to <em>all devices of the source network</em> — "Who has the destination IP? Tell me."'},
+    {nodes:{1:'src',2:'rx',3:'rx',4:'rx',5:'rx'}, msg:'<strong>② Peel the frame:</strong> each device peels the <em>data link layer header</em> from the Protocol Data Unit (the <em>frame</em>) and transfers the packet up to the network layer.'},
+    {nodes:{1:'src',2:'rx',3:'rx',4:'rx',5:'rx'}, msg:'<strong>③ Validate:</strong> at the network layer, the <em>network ID of the packet</em> is validated against the <em>destination IP\u2019s network ID</em>.'},
+    {nodes:{1:'src',2:'',3:'',4:'',5:'match'}, msg:'<strong>④ Match:</strong> if the IDs are equal, that device responds to the source with the <strong>MAC address of the destination</strong>.'},
+    {nodes:{1:'src',4:'gw',5:''}, msg:'<strong>⑤ No match:</strong> the packet reaches the <em>gateway</em> of the network, which broadcasts the packet to the devices it is connected with and validates their network IDs.'},
+    {nodes:{1:'ok',5:'match'}, msg:'<strong>⑥ Resolved:</strong> the process repeats until the second-last network device in the path reaches the destination; the destination validates and ARP responds with the <strong>destination MAC address</strong>. Cache updated — communication proceeds.'}
+  ];
+  var nodes = {}, i = 0;
+  document.querySelectorAll('#arpvis .an').forEach(function(n){ nodes[n.dataset.n] = n; });
+  var msg = document.getElementById('amsg'), count = document.getElementById('arpCount'),
+      ticks = document.getElementById('arpTicks'), prev = document.getElementById('arpPrev'), next = document.getElementById('arpNext');
+  steps.forEach(function(){ ticks.appendChild(document.createElement('i')); });
+  function paint(){
+    Object.keys(nodes).forEach(function(k){ nodes[k].className = 'an n'+k; });
+    var s = steps[i];
+    Object.keys(s.nodes).forEach(function(k){ if(s.nodes[k]) nodes[k].classList.add(s.nodes[k]); });
+    msg.innerHTML = s.msg;
+    count.textContent = '0'+(i+1)+' / 0'+steps.length;
+    ticks.querySelectorAll('i').forEach(function(t,ti){ t.classList.toggle('on', ti<=i); });
+    prev.disabled = i===0; next.disabled = i===steps.length-1;
+  }
+  prev.addEventListener('click', function(){ if(i>0){ i--; paint(); } });
+  next.addEventListener('click', function(){ if(i<steps.length-1){ i++; paint(); } });
+  paint();
+})();
+
+/* handshake */
+(function(){
+  var hs = document.getElementById('hs'), btn = document.getElementById('hsPlay');
+  function play(){
+    hs.classList.remove('go');
+    void hs.getBoundingClientRect();
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ hs.classList.add('go'); }); });
+  }
+  btn.addEventListener('click', play);
+  if(RM){ hs.classList.add('go'); }
+  else{
+    var hio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ setTimeout(play, 300); hio.unobserve(hs); } });
+    },{threshold:.4});
+    hio.observe(hs);
+  }
+})();
+
+/* flashcards */
+document.querySelectorAll('.fc').forEach(function(c){
+  c.addEventListener('click', function(){ c.classList.toggle('flip'); });
+});
+</script>
+</body>
+</html>

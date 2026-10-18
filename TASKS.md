@@ -5,13 +5,13 @@
 | Phase | Description | Status | Progress |
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
-| **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | 🟡 **In Progress** | **50%** (2/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **55.6%** (10/18 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 50% |
-| **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 50% |
+| **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **66.7%** (12/18 Units) |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 70% |
+| **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 60% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **12 / 22 Units** (54.5%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **16 / 22 Units** (72.7%).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -56,8 +56,8 @@
 
 ---
 
-## Phase 2: DCN (Data Communication and Networking — CB2004) Ingestion 🟡
-
+## Phase 2: DCN (Data Communication and Networking — CB2004) Ingestion ✅ 100% Complete
+ 
 - [x] **Unit 1: Data communication and its components** (`notes/dcn/DCNU1.html`) ✅
   - [x] 5 Components of data communication, protocols, standard organizations.
   - [x] Transmission modes, bandwidth, baud rate vs bit rate, signal properties.
@@ -68,24 +68,25 @@
   - [x] 7-layer functional breakdown (Physical through Application).
   - [x] PDUs, protocols, and headers per layer.
   - [x] OSI vs. TCP/IP model comparison table.
-- [ ] **Unit 3: IP addressing** (`notes/dcn/DCNU3.html`) ⚪
-  - [ ] Internet addressing mechanism, IPv4 address structure and notation.
-  - [ ] Classful addressing (Classes A–E) and default masks.
-  - [ ] Subnetting, supernetting, CIDR notation, and subnet mask calculations.
-  - [ ] IPv6 addressing representation, address space allocation, SLAAC & auto-configuration.
-- [ ] **Unit 4: TCP/IP Model** (`notes/dcn/DCNU4.html`) ⚪
-  - [ ] TCP/IP layered architecture vs OSI.
-  - [ ] Data Link Layer: Nodes and links, categories of links, link layer addressing.
-  - [ ] Address Resolution Protocol (ARP) mechanics and cache.
-  - [ ] Transport Layer: Services, connection-oriented (TCP) vs connectionless (UDP).
-  - [ ] TCP segment format, 3-way handshake, 4-way teardown, flow/error control.
-  - [ ] UDP datagram format and checksum.
+- [x] **Unit 3: IP addressing** (`notes/dcn/DCNU3.html`) ✅
+  - [x] Internet addressing mechanism, IPv4 address structure and notation.
+  - [x] Classful addressing (Classes A–E) and default masks.
+  - [x] Subnetting, supernetting, CIDR notation, and subnet mask calculations.
+  - [x] IPv6 addressing representation, address space allocation, SLAAC & auto-configuration.
+  - [x] ICMP, Routing protocols (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, MANET (DSR, AODV).
+- [x] **Unit 4: TCP/IP Model** (`notes/dcn/DCNU4.html`) ✅
+  - [x] TCP/IP layered architecture vs OSI.
+  - [x] Data Link Layer: Nodes and links, categories of links, link layer addressing.
+  - [x] Address Resolution Protocol (ARP) mechanics, cache, and interactive animated stepper.
+  - [x] Transport Layer: Services, connection-oriented (TCP) vs connectionless (UDP).
+  - [x] TCP segment format, 3-way handshake interactive simulation, 4-way teardown, flow/error control.
+  - [x] UDP datagram format and checksum; TCP Tahoe/Reno congestion control.
 
 ---
 
 ## Phase 3: Multi-Subject Expansion 🟡
 
-### 1. Fundamentals of Data Structures (FDS — CB2003) — `notes/fds/` (6 Units) 🟡 66.7%
+### 1. Fundamentals of Data Structures (FDS — CB2003) — `notes/fds/` (6 Units) 🟡 83.3%
 - [x] **Unit 1: Introduction to Data Structures and Complexity** (`FDSU1.html`) ✅
   - [x] ADTs, classification, Big-O / Big-$\Omega$ / Big-$\Theta$ analysis, time-space trade-offs, Tower of Hanoi recursion.
 - [x] **Unit 2: Arrays and Searching & Sorting Techniques** (`FDSU2.html`) ✅
@@ -96,9 +97,9 @@
 - [x] **Unit 4: Stacks and Queues** (`FDSU4.html`) ✅
   - [x] Stack ADT, infix-to-postfix, expression evaluation, call stack recursion.
   - [x] Linear, Circular, Priority queues and Deque with real-world applications.
-- [ ] Unit 5: Trees (`FDSU5.html`)
-  - [ ] Binary trees, BST operations (insert, search, delete, mirror, height).
-  - [ ] In-order, Pre-order, Post-order (recursive/iterative), Expression trees, Huffman coding.
+- [x] **Unit 5: Trees** (`FDSU5.html`) ✅
+  - [x] Binary trees, BST operations (insert, search, delete, mirror, height).
+  - [x] In-order, Pre-order, Post-order (recursive/iterative), Expression trees, Huffman coding, Threaded binary trees, Heaps & C implementations.
 - [ ] Unit 6: Graphs (`FDSU6.html`)
   - [ ] Adjacency matrix/list, BFS, DFS, Warshall’s transitive closure, topological sorting.
   - [ ] Networking, social graphs, and attack path modelling case studies.
@@ -118,7 +119,7 @@
   - [ ] `try`/`catch`/`finally`/`throw`/`throws`, Java AWT & Swing components, layout managers.
   - [ ] Event delegation model, JDBC connectivity (MySQL/Oracle), CRUD operations, Collection framework.
 
-### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units) 🟡 75%
+### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units) ✅ 100% Complete
 - [x] **Unit 1: Introduction to IoT** (`BIOTU1.html`) ✅
   - [x] Definitions, characteristics, physical/logical design, enabling technologies, identifiers, IoT vs M2M.
 - [x] **Unit 2: Introduction of Microprocessor & Microcontroller** (`BIOTU2.html`) ✅
@@ -127,9 +128,9 @@
 - [x] **Unit 3: IP based Protocols for IoT** (`BIOTU3.html`) ✅
   - [x] IPv6, 6LoWPAN adaptation, RPL routing, REST web services, AMQP, CoAP, MQTT (pub/sub, QoS).
   - [x] Modbus, ZigBee architecture, authorization and access control in IoT.
-- [ ] Unit 4: IoT Security and Privacy (`BIOTU4.html`)
-  - [ ] Security challenges, threat landscape, encryption & authentication for constrained nodes.
-  - [ ] Privacy concerns, regulations, and security best practices (secure boot, isolation, FOTA).
+- [x] **Unit 4: IoT Security and Privacy** (`BIOTU4.html`) ✅
+  - [x] Security challenges, threat landscape, encryption & authentication for constrained nodes.
+  - [x] Privacy concerns, regulations (GDPR), and security best practices (secure boot, isolation, FOTA).
 
 ### 4. Probability and Statistics (PAS — MM0501) — `notes/pas/` (4 Units)
 - [x] **Unit 1: Descriptive Statistics** (`PASU1.html`) ✅

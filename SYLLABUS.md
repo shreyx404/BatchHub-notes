@@ -14,9 +14,9 @@
 
 | Subject No. | Course Code | Subject Code (Folder) | Course Title | Teaching Scheme (Th/Lab/Tut) | Total Credits | Exam Pattern | Total Units | Notes Status |
 |---|---|---|---|---|---|---|---|---|
-| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | 🟡 66.7% (4/6) |
-| **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
-| **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 75% (3/4) |
+| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | 🟡 83.3% (5/6) |
+| **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
+| **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | ✅ 100% (4/4) |
 | **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 25% (1/4) |
 | **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
@@ -24,7 +24,7 @@
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 12 published units across BIOT, DCN, FDS, OOP, and PAS; all 12 verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 16 published units across BIOT (4/4), DCN (4/4), FDS (5/6), OOP (1/4), and PAS (2/4); all 16 verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 
@@ -70,7 +70,7 @@
 4. **Unit 4: Stacks and Queues** (7 Hours) — `FDSU4.html` ✅ *Published*
    - *Concepts*: Stack ADT, array and linked implementation. Stack applications: expression evaluation (postfix/prefix), infix to postfix conversion, recursion using call stack. Queue ADT: operations, linear queue limitations, Circular queue, Priority queue, Double-Ended Queue (Deque). Applications of queues in real-world problems (CPU scheduling, print queues).
 
-5. **Unit 5: Trees** (7 Hours) — `FDSU5.html`
+5. **Unit 5: Trees** (7 Hours) — `FDSU5.html` ✅ *Published*
    - *Concepts*: Tree terminologies (root, node, edge, degree, height, depth). Binary trees, properties, representation. Binary Search Trees (BST): insertion, deletion, search, find height, mirror. Tree traversals: In-order, Pre-order, Post-order (recursive and non-recursive), Level-order display. Expression trees, Huffman coding algorithm. Applications in decision-making and hierarchical file systems.
 
 6. **Unit 6: Graphs** (7 Hours) — `FDSU6.html`
@@ -127,10 +127,10 @@
      - Layer 7: Application Layer (network virtual terminal, FTAM, mail services, directory services).
 
 ##### SECTION II
-3. **Unit 3: IP addressing** (7 Hours) — `DCNU3.html` 🟡 *Pending*
+3. **Unit 3: IP addressing** (7 Hours) — `DCNU3.html` ✅ *Published*
    - *Concepts*: Addressing mechanisms in the Internet. IP Addressing: IPv4 address format, dotted-decimal notation. Classful IP Address classes (Class A, B, C, D, E) and default masks. IP addressing mechanisms: Subnetting (custom subnet masks, subnet address calculations), Supernetting, Masking. CIDR notation and VLSM. IPv6 addressing: 128-bit representation (colon-hexadecimal, zero compression rule), address space allocation, unicast/multicast/anycast, IPv6 Auto-configuration (SLAAC, DHCPv6).
 
-4. **Unit 4: TCP/IP Model** (7 Hours) — `DCNU4.html` 🟡 *Pending*
+4. **Unit 4: TCP/IP Model** (7 Hours) — `DCNU4.html` ✅ *Published*
    - *Concepts*: TCP/IP Layered Architecture vs OSI model. Data Link Layer in TCP/IP: Nodes and links, services, categories of links, sub-layers. Link layer addressing: three types of addresses (physical, logical, port), Address Resolution Protocol (ARP) operation, cache, and packet format. Transport layer protocols: transport layer services, connectionless vs connection-oriented service. Transmission Control Protocol (TCP): features, segment format, 3-way handshake, 4-way teardown, flow and error control. User Datagram Protocol (UDP): features, datagram format, checksum calculation, application use cases.
 
 #### Standard Lab Practicals
@@ -181,7 +181,7 @@
 3. **Unit 3: IP based Protocols for IoT** (7 Hours) — `BIOTU3.html` ✅ *Published*
    - *Concepts*: Need for lightweight IP protocols in constrained nodes. IPv6 and 6LoWPAN (IPv6 over Low-Power Wireless Personal Area Networks - header compression, adaptation layer). RPL (Routing Protocol for Low-Power and Lossy Networks). Web services: REST architecture. Messaging protocols: AMQP (Advanced Message Queuing Protocol), CoAP (Constrained Application Protocol — REST over UDP), MQTT (Message Queuing Telemetry Transport — pub/sub, broker, QoS levels 0/1/2). Authorization and Access Control in IoT.
 
-4. **Unit 4: IoT Security and Privacy** (7 Hours) — `BIOTU4.html` 🟡 *Pending*
+4. **Unit 4: IoT Security and Privacy** (7 Hours) — `BIOTU4.html` ✅ *Published*
    - *Concepts*: Challenges and threats to IoT security (hardware vulnerabilities, unencrypted communications, botnets). Encryption and authentication techniques for constrained devices (AES, lightweight cryptography, PKI). Privacy concerns, user privacy rights, and regulatory frameworks. Best practices for securing IoT devices and deployments (secure boot, firmware updates, network isolation).
 
 #### Standard Lab Practicals

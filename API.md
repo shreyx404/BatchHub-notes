@@ -1,6 +1,6 @@
 # API & Integration Contract (`API.md`)
 
-> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
+> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v1.8.0, 16 published notes) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
 ---
 

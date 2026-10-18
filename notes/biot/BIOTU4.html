@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="note-id" content="biot-unit4">
+<meta name="note-subject" content="BIOT">
+<meta name="note-unit" content="Unit 4">
+<meta name="note-tags" content="IoT, Security, Privacy, Attacks, DDoS, Mirai, Encryption, AES, RSA, ECC, Authentication, Zero Trust, Firmware, OWASP">
+<meta name="note-summary" content="Comprehensive examination notes on IoT Unit IV — Security &amp; Privacy: security challenges, threat landscape, cryptographic mechanisms (symmetric, asymmetric, lightweight), authentication, access control, privacy legislation (GDPR), and hardening best practices.">
+<meta name="description" content="Unit IV — IoT Security and Privacy: complete exam notes with challenges, threats, encryption, authentication, privacy and best practices.">
+<title>Unit IV · IoT Security &amp; Privacy — Exam Notes</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z' fill='%23141414'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & TOKENS (mobile-first) ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#141414; --ink2:#3f3f3a; --mut:#6d6d67; --faint:#a3a39c;
+  --line:#e4e4df; --line2:#cfcfc8; --paper:#fff; --bg:#f6f6f3; --wash:#efefeb;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.68;letter-spacing:-.003em;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+::selection{background:#141414;color:#fff}
+[id]{scroll-margin-top:64px}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+@media(min-width:700px){.wrap{padding:0 32px}}
+
+/* ============ TYPE ============ */
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,10vw,72px);line-height:1.02;letter-spacing:-.015em;margin:14px 0 18px}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5.4vw,38px);line-height:1.12;letter-spacing:-.01em}
+h3.sh{display:flex;align-items:baseline;gap:10px;font-family:var(--serif);font-weight:600;font-size:clamp(1.12rem,2.6vw,1.32rem);letter-spacing:-.01em;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+h3.sh span{font-family:var(--mono);font-size:.68em;font-weight:400;color:var(--mut)}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:7px}
+li::marker{color:var(--mut)}
+strong,b{font-weight:650}
+.lead{font-size:1.05rem;color:var(--ink2)}
+mark.k{background:var(--ink);color:#fff;padding:0 5px;border-radius:3px;font-weight:500}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.kicker::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:9px;transform:translateY(.5px)}
+
+/* ============ TOP BAR ============ */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(246,246,243,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tb-in{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:10px;padding-bottom:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+.tb-brand{white-space:nowrap;font-weight:600}
+.tb-long{display:none}
+@media(min-width:600px){.tb-long{display:inline}}
+.tb-cur{color:var(--mut);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-bar{height:2px;background:var(--ink);width:0}
+
+/* ============ HERO ============ */
+.hero{padding:52px 0 8px}
+@media(min-width:980px){.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:44px;align-items:center}}
+.lede{color:var(--ink2);font-size:clamp(1rem,2.5vw,1.13rem);max-width:58ch}
+.hero-meta{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.hero-meta li{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ink);padding:5px 11px;border-radius:999px;margin:0}
+.hero-fig{margin:34px auto 0;max-width:320px}
+@media(min-width:980px){.hero-fig{margin:0;max-width:420px}}
+.hero-fig svg{display:block}
+
+/* ============ TOC ============ */
+.toc{margin-top:36px}
+.toc ol{list-style:none;counter-reset:t;margin-top:10px}
+@media(min-width:700px){.toc ol{display:grid;grid-template-columns:1fr 1fr;column-gap:36px}}
+.toc a{counter-increment:t;display:flex;gap:12px;align-items:baseline;padding:10px 2px;border-bottom:1px solid var(--line);text-decoration:none;font-size:.95rem}
+.toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:10.5px;color:var(--mut);flex:none}
+.toc a:hover span{text-decoration:underline}
+
+/* ============ MODULES ============ */
+.mod{border-top:2px solid var(--ink);margin-top:48px;padding-top:30px}
+.mhead{display:flex;gap:20px;align-items:flex-start;margin-bottom:22px}
+.mno{font-family:var(--serif);font-weight:600;font-size:clamp(46px,10vw,78px);line-height:.85;flex:none;color:transparent;-webkit-text-stroke:1.4px var(--ink)}
+@supports not (-webkit-text-stroke:1px #000){.mno{color:#d9d9d2}}
+.mhead .kicker{margin-bottom:8px}
+.mlede{color:var(--mut);margin-top:10px;max-width:62ch;font-size:.98rem}
+@media(max-width:430px){.mhead{gap:14px}}
+
+/* ============ CARDS & GRIDS ============ */
+.grid{display:grid;gap:12px;margin:18px 0}
+@media(min-width:640px){.g2{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.g3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px}
+.card .cno{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;font-weight:600;border:1.4px solid var(--ink);border-radius:999px;width:24px;height:24px;margin-bottom:10px}
+.card h4{font-size:1.02rem;font-weight:650;margin-bottom:6px;letter-spacing:-.01em}
+.card p{font-size:.92rem;color:var(--ink2);margin-bottom:8px}
+.card .why{font-size:.85rem;color:var(--mut);border-top:1px dashed var(--line2);padding-top:8px;margin:0}
+.card .why b{color:var(--ink)}
+
+/* ============ CALLOUTS ============ */
+.def,.exam,.qa,.memo{border-radius:14px;padding:15px 18px;margin:20px 0}
+.def{background:var(--wash);border:1px solid var(--line2);border-left:3px solid var(--ink);border-radius:0 12px 12px 0}
+.exam{background:var(--ink);color:#f2f2ee}
+.qa{border:1.5px dashed var(--ink);background:rgba(255,255,255,.65)}
+.memo{background:#fff;border:1px solid var(--line);border-left:4px double var(--ink);border-radius:0 12px 12px 0}
+.def .tag,.exam .tag,.qa .tag,.memo .tag{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.def .tag{color:var(--mut)} .exam .tag{color:#8f8f88} .qa .tag{color:var(--ink)} .memo .tag{color:var(--mut)}
+.def p,.exam p,.qa p{margin:0 0 8px;font-size:.97rem}
+.def p:last-child,.exam p:last-child,.qa p:last-child{margin:0}
+.exam p{color:#e9e9e4} .exam b,.exam strong{color:#fff}
+.qa p,.qa ul{font-size:.95rem}
+.exam ul{padding-left:20px;font-size:.93rem;color:#d9d9d4}
+
+/* ============ TABLES ============ */
+.tscroll{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:12px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:560px;background:#fff;font-size:.9rem}
+th{background:var(--ink);color:#fff;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:10px 12px;font-weight:600}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#fafaf7}
+td b{font-weight:650}
+
+/* ============ FIGURES ============ */
+figure.fig{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 12px 12px;margin:22px 0}
+figure.fig svg{display:block;width:100%;height:auto}
+figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:center;margin-top:10px;line-height:1.6}
+
+/* SVG vocabulary (monochrome) */
+svg .fb{fill:#fff;stroke:#141414;stroke-width:1.4}
+svg .fbd{fill:#fff;stroke:#141414;stroke-width:1.3;stroke-dasharray:6 4}
+svg .fbg{fill:#f1f1ec;stroke:#c9c9c1;stroke-width:1.1}
+svg .fbk{fill:#141414;stroke:#141414;stroke-width:1.4}
+svg .fl{stroke:#141414;stroke-width:1.4;fill:none}
+svg .flg{stroke:#c2c2ba;stroke-width:1;fill:none}
+svg .fld{stroke:#141414;stroke-width:1.3;fill:none;stroke-dasharray:5 4}
+svg .fln{stroke:#141414;stroke-width:1;fill:none}
+svg text{font-family:Inter,system-ui,sans-serif;fill:#141414}
+svg .tl{font-size:15px;font-weight:700}
+svg .t{font-size:13px;font-weight:700}
+svg .tb{font-size:12.5px;font-weight:600}
+svg .ts{font-size:11px;fill:#5c5c55}
+svg .txs{font-size:10px;fill:#5c5c55}
+svg .tu{font-size:10.5px;letter-spacing:.12em;font-weight:600;fill:#5c5c55}
+svg .tw{font-size:12px;font-weight:600;fill:#fff}
+svg .tws{font-size:10.5px;fill:#d8d8d1}
+svg .tbig{font-size:26px;font-weight:600;letter-spacing:5px}
+svg .tplus{font-size:22px;font-weight:600}
+
+/* ============ LISTS ============ */
+ol.steps{list-style:none;counter-reset:s;margin:18px 0;padding:0}
+ol.steps>li{counter-increment:s;position:relative;padding:0 0 18px 50px;margin:0}
+ol.steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border:1.6px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:12.5px;font-weight:600;background:#fff}
+ol.steps>li:not(:last-child)::after{content:"";position:absolute;left:15px;top:36px;bottom:2px;width:1.6px;background:var(--line2)}
+ol.core{list-style:none;counter-reset:c;margin:16px 0;padding:0}
+ol.core>li{counter-increment:c;position:relative;padding:10px 0 10px 46px;border-bottom:1px solid var(--line);margin:0}
+ol.core>li::before{content:counter(c,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:11.5px;font-weight:600;border:1.4px solid var(--ink);border-radius:8px;padding:2px 6px;background:#fff}
+ul.gl{list-style:none;padding:0}
+ul.gl>li{padding:10px 0;border-bottom:1px dashed var(--line);margin:0}
+.pc{display:grid;gap:12px;margin:16px 0}
+@media(min-width:640px){.pc{grid-template-columns:1fr 1fr}}
+.pros,.cons{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.pros{border-top:3px solid var(--ink)}
+.cons{border-top:3px dashed var(--ink)}
+.pc h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.pc ul{margin:0;padding-left:18px;font-size:.92rem}
+.shame{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.shame span{font-family:var(--mono);font-size:12px;border:1px dashed var(--mut);padding:4px 10px;border-radius:8px;text-decoration:line-through;color:var(--mut)}
+.news{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0}
+.news ul{list-style:none;padding:0;margin:8px 0 0}
+.news li{font-size:.92rem;color:var(--ink2);padding:7px 0 7px 20px;position:relative;border-bottom:1px dashed var(--line)}
+.news li:last-child{border-bottom:none}
+.news li::before{content:"▸";position:absolute;left:0;color:var(--ink)}
+
+/* ============ DETAILS ============ */
+details.dd{border:1px solid var(--line);border-radius:12px;background:#fff;margin:14px 0}
+details.dd summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+details.dd summary::marker{content:none}
+details.dd summary::-webkit-details-marker{display:none}
+details.dd summary::after{content:"+";font-size:15px;flex:none}
+details.dd[open] summary::after{content:"–"}
+.dd-in{padding:4px 16px 16px;border-top:1px solid var(--line);font-size:.95rem;color:var(--ink2)}
+
+/* ============ EXAM ZONE ============ */
+.terms{display:grid;gap:0}
+@media(min-width:700px){.terms{grid-template-columns:1fr 1fr;column-gap:36px}}
+.term{padding:10px 2px;border-bottom:1px solid var(--line);break-inside:avoid}
+.term b{display:block;font-size:.95rem}
+.term span{font-size:.9rem;color:var(--ink2)}
+.cklist{list-style:none;padding:0;margin:12px 0}
+.cklist li{border-bottom:1px solid var(--line);margin:0}
+.cklist label{display:flex;gap:12px;padding:11px 4px;cursor:pointer;align-items:flex-start;font-size:.95rem}
+.cklist input{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--ink);border-radius:5px;flex:none;margin-top:4px;cursor:pointer;position:relative;background:#fff}
+.cklist input:checked{background:var(--ink)}
+.cklist input:checked::after{content:"✓";color:#fff;font-size:12px;position:absolute;inset:0;display:grid;place-items:center}
+.cklist input:checked+span{color:var(--mut);text-decoration:line-through}
+.ckmeter{display:flex;align-items:center;gap:12px;margin:14px 0}
+.cktrack{flex:1;height:6px;background:var(--wash);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.ckfill{height:100%;background:var(--ink);width:0;transition:width .3s}
+.ck-count{font-family:var(--mono);font-size:11px;color:var(--mut);white-space:nowrap}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:8px 16px;cursor:pointer}
+.btn:hover{opacity:.85}
+
+/* ============ FOOTER, BUTTON, MISC ============ */
+footer{border-top:2px solid var(--ink);margin-top:56px;padding:34px 0 70px}
+.refs{list-style:none;padding:0}
+.refs li{font-size:.85rem;padding:6px 0;border-bottom:1px dashed var(--line)}
+.refs a{text-decoration:none;color:var(--ink2)}
+.refs a:hover{text-decoration:underline}
+#toTop{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:17px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+#toTop.show{opacity:1;pointer-events:auto}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+@media print{
+  .topbar,#toTop{display:none}
+  body{background:#fff}
+  .rv{opacity:1;transform:none}
+  figure.fig,.card,.def,.exam,.qa,.memo,ol.core li{break-inside:avoid}
+  .mod{margin-top:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== TOP BAR ==================== -->
+<header class="topbar">
+  <div class="wrap tb-in">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a href="../../index.html" class="back-link" style="text-decoration:none;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:600;">← Hub</a>
+      <span class="tb-brand">UNIT IV<span class="tb-long"> · IOT SECURITY &amp; PRIVACY</span></span>
+    </div>
+    <span class="tb-cur" id="curSec">— overview —</span>
+  </div>
+  <div class="tb-bar" id="bar"></div>
+</header>
+
+<main>
+<!-- ==================== HERO ==================== -->
+<section class="hero wrap" id="top">
+  <div class="hero-grid">
+    <div>
+      <p class="kicker rv">Internet of Things · Unit IV · Complete Study Notes</p>
+      <h1 class="rv">IoT Security<br>&amp; Privacy</h1>
+      <p class="lede rv">Deep, exam-ready notes covering every topic of Unit IV — the challenges and threats to IoT security, encryption and authentication techniques, privacy concerns and regulations, and best practices for securing IoT devices. Diagrams, comparison tables, memory hooks and a question bank included.</p>
+      <ul class="hero-meta rv">
+        <li>11 modules</li><li>22 diagrams</li><li>6 tables</li><li>question bank</li><li>revision tracker</li>
+      </ul>
+    </div>
+    <div class="hero-fig rv">
+      <svg viewBox="0 0 520 530" role="img" aria-label="A shield formed by a network of connected nodes">
+        <path d="M260 30 L470 105 V250 C470 370 380 455 260 500 C140 455 50 370 50 250 V105 Z" fill="#fff" stroke="#141414" stroke-width="3"/>
+        <g class="flg" stroke-width="1.3">
+          <line x1="260" y1="140" x2="185" y2="195"/><line x1="260" y1="140" x2="335" y2="195"/>
+          <line x1="260" y1="140" x2="260" y2="250"/><line x1="185" y1="195" x2="140" y2="250"/>
+          <line x1="185" y1="195" x2="260" y2="250"/><line x1="335" y1="195" x2="260" y2="250"/>
+          <line x1="335" y1="195" x2="380" y2="250"/><line x1="140" y1="250" x2="260" y2="250"/>
+          <line x1="380" y1="250" x2="260" y2="250"/><line x1="140" y1="250" x2="200" y2="320"/>
+          <line x1="260" y1="250" x2="200" y2="320"/><line x1="260" y1="250" x2="320" y2="320"/>
+          <line x1="380" y1="250" x2="320" y2="320"/><line x1="200" y1="320" x2="320" y2="320"/>
+          <line x1="200" y1="320" x2="260" y2="395"/><line x1="320" y1="320" x2="260" y2="395"/>
+        </g>
+        <g fill="#fff" stroke="#141414" stroke-width="1.7">
+          <circle cx="185" cy="195" r="8"/><circle cx="335" cy="195" r="8"/>
+          <circle cx="140" cy="250" r="8"/><circle cx="380" cy="250" r="8"/>
+          <circle cx="200" cy="320" r="8"/><circle cx="320" cy="320" r="8"/>
+        </g>
+        <g fill="#141414">
+          <circle cx="260" cy="140" r="9"/><circle cx="260" cy="250" r="9"/><circle cx="260" cy="395" r="9"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TOC ==================== -->
+<nav class="toc wrap rv" aria-label="Table of contents">
+  <p class="kicker">Contents</p>
+  <ol>
+    <li><a href="#m01"><span>Foundations — security goals &amp; the CIA triad</span></a></li>
+    <li><a href="#m02"><span>Key challenges — why IoT is hard to secure</span></a></li>
+    <li><a href="#m03"><span>Key solutions — the security toolkit</span></a></li>
+    <li><a href="#m04"><span>Security challenges — the full landscape</span></a></li>
+    <li><a href="#m05"><span>Security threats — anatomy of attacks</span></a></li>
+    <li><a href="#m06"><span>Learn → Segment → Protect</span></a></li>
+    <li><a href="#m07"><span>Encryption techniques</span></a></li>
+    <li><a href="#m08"><span>Authentication techniques</span></a></li>
+    <li><a href="#m09"><span>Privacy concerns &amp; regulations</span></a></li>
+    <li><a href="#m10"><span>IoT security best practices</span></a></li>
+    <li><a href="#m11"><span>Exam zone — revision &amp; question bank</span></a></li>
+  </ol>
+</nav>
+
+<!-- ==================== MODULE 01 ==================== -->
+<section class="mod" id="m01" data-label="01 · Foundations">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">01</div>
+    <div>
+      <p class="kicker">Module 01 · Orientation</p>
+      <h2>Foundations: Security Goals &amp; the CIA Triad</h2>
+      <p class="mlede">Before the challenges, threats and countermeasures — the vocabulary. Every topic in this unit ultimately defends one of three goals.</p>
+    </div>
+  </header>
+
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>IoT security</strong> is the practice of protecting connected devices, the networks they use, and the data they exchange from <strong>unauthorized access, manipulation and disruption</strong>.</p>
+  </div>
+
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th>Syllabus area (Unit IV)</th><th>Covered in</th></tr></thead>
+      <tbody>
+        <tr><td>Challenges and threats to IoT security</td><td><b>Modules 02, 04 &amp; 05</b></td></tr>
+        <tr><td>Encryption and authentication techniques</td><td><b>Modules 07 &amp; 08</b></td></tr>
+        <tr><td>Privacy concerns and regulations</td><td><b>Module 09</b></td></tr>
+        <tr><td>Best practices for securing IoT devices</td><td><b>Modules 03, 06 &amp; 10</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sh"><span>1.1</span>The CIA triad — your answer-writing framework</h3>
+  <p>Classical information security is organised around three goals. Learn to map every mechanism and every attack onto them — it turns scattered facts into structured answers.</p>
+  <ul>
+    <li><strong>Confidentiality</strong> — data can only be read by authorised parties. <em>Attacked by:</em> eavesdropping, unsecured networks, data exposure, lack of encryption. <em>Defended by:</em> encryption (Module 07).</li>
+    <li><strong>Integrity</strong> — data is not altered in transit or storage. <em>Attacked by:</em> tampering, spoofing, manipulated commands. <em>Defended by:</em> TLS integrity checks, digital signatures.</li>
+    <li><strong>Availability</strong> — systems remain usable when needed. <em>Attacked by:</em> botnet DDoS floods and ransomware that locks devices. <em>Defended by:</em> monitoring, updates, segmentation.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 640 350" role="img" aria-label="CIA triad diagram">
+      <path d="M320 60 L120 280 L520 280 Z" class="fl" stroke-width="1.6"/>
+      <circle cx="320" cy="60" r="7" fill="#141414"/><circle cx="120" cy="280" r="7" fill="#141414"/><circle cx="520" cy="280" r="7" fill="#141414"/>
+      <text x="320" y="38" text-anchor="middle" class="tl">CONFIDENTIALITY</text>
+      <text x="320" y="102" text-anchor="middle" class="ts">data stays secret — encryption, TLS</text>
+      <text x="120" y="312" text-anchor="middle" class="tl">INTEGRITY</text>
+      <text x="120" y="332" text-anchor="middle" class="ts">no tampering — signatures, TLS</text>
+      <text x="520" y="312" text-anchor="middle" class="tl">AVAILABILITY</text>
+      <text x="520" y="332" text-anchor="middle" class="ts">service stays up — anti-DDoS</text>
+      <rect x="238" y="188" width="164" height="34" rx="8" class="fbg"/>
+      <text x="320" y="210" text-anchor="middle" class="tb">IoT SECURITY GOALS</text>
+    </svg>
+    <figcaption>FIG. 01 — The CIA triad: every IoT security control defends one of three goals. Eavesdropping attacks confidentiality · tampering attacks integrity · DDoS attacks availability.</figcaption>
+  </figure>
+
+  <div class="def rv">
+    <span class="tag">Core vocabulary</span>
+    <p><strong>Vulnerability</strong> — a weakness (e.g., a default password). <strong>Threat</strong> — a potential attack that exploits a vulnerability (e.g., brute-force). <strong>Attack surface</strong> — the sum of all points where an attacker could attempt entry. <strong>Risk</strong> — the likelihood and impact of a threat exploiting a vulnerability.</p>
+  </div>
+
+  <div class="exam rv">
+    <span class="tag">Exam tip</span>
+    <p>Whenever a question asks “how does <em>X</em> improve IoT security?”, structure the answer around the CIA triad. Example — <b>TLS</b>: encryption → confidentiality, certificates → authenticity, tamper detection → integrity. Examiners reward the framework.</p>
+  </div>
+
+  <div class="qa rv">
+    <span class="tag">Likely exam question</span>
+    <p><b>Q.</b> Define IoT security and state the three classic security goals. <em>[2–3 marks]</em></p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 02 ==================== -->
+<section class="mod" id="m02" data-label="02 · Key challenges">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">02</div>
+    <div>
+      <p class="kicker">Module 02 · Syllabus — challenges</p>
+      <h2>Key Challenges</h2>
+      <p class="mlede">Five structural reasons why IoT security is difficult — a favourite “list the key challenges of IoT security” question.</p>
+    </div>
+  </header>
+
+  <div class="grid g2 rv">
+    <div class="card"><span class="cno">1</span><h4>Limited Resources</h4>
+      <p>Many IoT devices have <strong>constrained processing power and memory</strong>, making it difficult to implement robust security features.</p>
+      <p class="why"><b>Consequence:</b> heavy cryptography gets sacrificed for cost and battery life → this is exactly why <b>lightweight cryptography</b> exists (Module 07.4).</p>
+    </div>
+    <div class="card"><span class="cno">2</span><h4>Unsecured Networks</h4>
+      <p>Devices often connect through <strong>unsecured networks</strong>, exposing them to <strong>eavesdropping and data interception</strong>.</p>
+      <p class="why"><b>Consequence:</b> traffic crossing Wi-Fi, Bluetooth, Zigbee or public hotspots can be read in transit (man-in-the-middle).</p>
+    </div>
+    <div class="card"><span class="cno">3</span><h4>Lack of Basic Security Features</h4>
+      <p>Some devices lack fundamental security features like <strong>encryption and strong authentication</strong>, leaving them vulnerable.</p>
+      <p class="why"><b>Consequence:</b> time-to-market and cost pressure mean devices ship “insecure by default”.</p>
+    </div>
+    <div class="card"><span class="cno">4</span><h4>Data Exposure</h4>
+      <p><strong>Unencrypted data in transit or at rest</strong> can be easily intercepted and sold, leading to <strong>privacy violations</strong>.</p>
+      <p class="why"><b>Consequence:</b> IoT collects intimate data — location, health, home-activity patterns — highly valuable to attackers.</p>
+    </div>
+    <div class="card"><span class="cno">5</span><h4>Vast Attack Surface</h4>
+      <p><strong>Billions of connected devices</strong> offer a massive, easily accessible attack surface for malicious actors to exploit.</p>
+      <p class="why"><b>Consequence:</b> the attacker only needs <b>one</b> weak device to reach an entire network.</p>
+    </div>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 316" role="img" aria-label="Attack surface diagram">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <g>
+        <rect x="8" y="16" width="100" height="52" rx="8" class="fbd"/><text x="58" y="46" text-anchor="middle" class="tb">CAMERA</text>
+        <rect x="126" y="16" width="100" height="52" rx="8" class="fbd"/><text x="176" y="46" text-anchor="middle" class="tb">THERMOSTAT</text>
+        <rect x="244" y="16" width="100" height="52" rx="8" class="fbd"/><text x="294" y="46" text-anchor="middle" class="tb">LOCK</text>
+        <rect x="362" y="16" width="100" height="52" rx="8" class="fbd"/><text x="412" y="46" text-anchor="middle" class="tb">WATCH</text>
+        <rect x="480" y="16" width="100" height="52" rx="8" class="fbd"/><text x="530" y="46" text-anchor="middle" class="tb">BULB</text>
+        <rect x="598" y="16" width="100" height="52" rx="8" class="fbd"/><text x="648" y="46" text-anchor="middle" class="tb">SPEAKER</text>
+        <circle cx="104" cy="16" r="9" fill="#141414"/><text x="104" y="20" text-anchor="middle" class="tw" font-size="11">!</text>
+      </g>
+      <g>
+        <line x1="58" y1="68" x2="170" y2="204" class="fln" marker-end="url(#a2)"/>
+        <line x1="178" y1="68" x2="250" y2="204" class="fln" marker-end="url(#a2)"/>
+        <line x1="298" y1="68" x2="330" y2="204" class="fln" marker-end="url(#a2)"/>
+        <line x1="418" y1="68" x2="410" y2="204" class="fln" marker-end="url(#a2)"/>
+        <line x1="538" y1="68" x2="490" y2="204" class="fln" marker-end="url(#a2)"/>
+        <line x1="658" y1="68" x2="570" y2="204" class="fln" marker-end="url(#a2)"/>
+      </g>
+      <rect x="140" y="206" width="440" height="62" rx="10" class="fb"/>
+      <text x="360" y="230" text-anchor="middle" class="t">ENTERPRISE / HOME NETWORK</text>
+      <text x="360" y="252" text-anchor="middle" class="ts">one compromised device can endanger every other</text>
+      <text x="360" y="300" text-anchor="middle" class="ts">Every connected device is a potential entry point → the attack surface grows with every new deployment.</text>
+    </svg>
+    <figcaption>FIG. 02 — The vast attack surface: every connected device is a potential entry point.</figcaption>
+  </figure>
+
+  <div class="memo rv">
+    <span class="tag">Memory hook — “BREAD”</span>
+    <p><b>B</b>asic security missing · <b>R</b>esources limited · <b>E</b>xposure of data · <b>A</b>ttack surface vast · <b>D</b>evices on unsecured networks.</p>
+  </div>
+
+  <div class="qa rv">
+    <span class="tag">Likely exam question</span>
+    <p><b>Q.</b> List and briefly explain any five key challenges of IoT security. <em>[5 marks]</em></p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 03 ==================== -->
+<section class="mod" id="m03" data-label="03 · Key solutions">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">03</div>
+    <div>
+      <p class="kicker">Module 03 · Syllabus — solutions &amp; best practices</p>
+      <h2>Key Solutions: The Security Toolkit</h2>
+      <p class="mlede">The seven countermeasures that answer the five challenges above — a favourite “list the key solutions” question.</p>
+    </div>
+  </header>
+
+  <div class="grid g2 rv">
+    <div class="card"><span class="cno">1</span><h4>Strong Authentication</h4><p>Implement <strong>strong, unique passwords</strong> for devices and networks, and use <strong>multifactor authentication (MFA)</strong> where available.</p><p class="why"><b>Defeats:</b> brute-force attacks and default-credential takeovers.</p></div>
+    <div class="card"><span class="cno">2</span><h4>Data Encryption</h4><p>Encrypt <strong>all data, both in transit and at rest</strong>, using secure protocols like <strong>TLS/HTTPS</strong>.</p><p class="why"><b>Defeats:</b> eavesdropping and data exposure.</p></div>
+    <div class="card"><span class="cno">3</span><h4>Secure Network Development</h4><p>Create secure network environments and <strong>segment networks</strong> to limit the potential impact of a breach.</p><p class="why"><b>Effect:</b> one compromised device stays contained in its segment.</p></div>
+    <div class="card"><span class="cno">4</span><h4>Regular Updates &amp; Patch Management</h4><p>Keep all device <strong>firmware and software updated</strong> to patch vulnerabilities that could be exploited.</p><p class="why"><b>Defeats:</b> known-vulnerability attacks on outdated devices.</p></div>
+    <div class="card"><span class="cno">5</span><h4>Continuous Monitoring</h4><p>Continuously <strong>monitor devices and networks for unusual activity</strong> to detect and address potential threats promptly.</p><p class="why"><b>Effect:</b> early detection — small problems never become incidents.</p></div>
+    <div class="card"><span class="cno">6</span><h4>Secure Device Configuration</h4><p><strong>Disable unused features</strong> (like Bluetooth) and <strong>change default settings</strong> to reduce the attack surface.</p><p class="why"><b>Effect:</b> fewer open doors, fewer entry points.</p></div>
+    <div class="card"><span class="cno">7</span><h4>Public Key Infrastructure (PKI)</h4><p>Utilise <strong>PKI and digital certificates</strong> to simplify and secure the encryption and decryption of data for transactions.</p><p class="why"><b>Effect:</b> scalable cryptographic identity for millions of devices.</p></div>
+  </div>
+
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th>Challenge (Module 02)</th><th>Matching solution</th></tr></thead>
+      <tbody>
+        <tr><td>Limited resources</td><td>Lightweight cryptography; efficient protocols</td></tr>
+        <tr><td>Unsecured networks</td><td>Encryption in transit (TLS/HTTPS); VPNs</td></tr>
+        <tr><td>Lack of basic security features</td><td>Secure device configuration; strong authentication</td></tr>
+        <tr><td>Data exposure</td><td>Encryption at rest &amp; in transit; access control</td></tr>
+        <tr><td>Vast attack surface</td><td>Network segmentation; monitoring; zero trust</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam rv">
+    <span class="tag">Exam tip</span>
+    <p><b>Pair every challenge with its solution</b> in long answers — e.g., “limited resources → lightweight cryptography”, “unsecured networks → TLS/HTTPS”, “vast attack surface → segmentation + monitoring”. Pairing demonstrates understanding, not memorisation.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 04 ==================== -->
+<section class="mod" id="m04" data-label="04 · Security challenges">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">04</div>
+    <div>
+      <p class="kicker">Module 04 · Syllabus — challenges &amp; threats · Part 1</p>
+      <h2>Security Challenges: The Full Landscape</h2>
+      <p class="mlede">The complete catalogue — nine core challenges, then the extended landscape grouped by device, data, network, human and adversary level. The names alone are prime short-question material.</p>
+    </div>
+  </header>
+
+  <h3 class="sh"><span>4.1</span>The nine core challenges</h3>
+  <ol class="core rv">
+    <li><b>Weak Authentication</b> — many IoT devices use default or easily guessable passwords, making them vulnerable to unauthorized access through <b>brute-force attacks</b>.</li>
+    <li><b>Lack of Data Encryption</b> — critical and personal data transmitted by IoT devices is often unencrypted, making it vulnerable to <b>interception and theft</b>.</li>
+    <li><b>Vulnerable Firmware and Software</b> — short development cycles and low costs lead to <b>insufficient security testing</b>.</li>
+    <li><b>Insecure Communications</b> — devices and networks can lack proper security protocols, exposing <b>data and credentials</b> to attackers.</li>
+    <li><b>Maintenance and Patching Difficulties</b> — devices may have limited ability to be updated, leaving vulnerabilities <b>unpatched for extended periods</b>.</li>
+    <li><b>Expanding Attack Surface</b> — the sheer scale and diversity of devices means <b>each device is a potential entry point</b>.</li>
+    <li><b>Supply Chain Vulnerabilities</b> — flaws introduced during the <b>design or manufacturing</b> of devices and their components.</li>
+    <li><b>Physical Security Gaps</b> — devices can be targets for <b>tampering, theft or damage</b>, leading to data loss or system downtime.</li>
+    <li><b>Lack of Visibility and Management</b> — organisations struggle to identify, track and manage all connected devices → <b>“shadow IoT”</b> (unauthorized devices) and increased risk.</li>
+  </ol>
+
+  <h3 class="sh"><span>4.2</span>Device-level challenges</h3>
+  <ul class="gl rv">
+    <li><b>Weak passwords</b> — devices ship with default passwords that are too simple or widely known; users often overlook changing them, leaving devices open to unauthorized access.</li>
+    <li><b>Insecure interfaces</b> — IoT devices interface with users through web or mobile applications; poor authentication on these interfaces leads to unauthorized access and control, data breaches, privacy invasion and device manipulation.</li>
+    <li><b>Use of insecure or outdated components</b> — hardware, software or firmware that is outdated or no longer receives security updates opens the device — and the entire network — to attackers.</li>
+    <li><b>Limited device management</b> — without management systems to monitor, update and secure devices, they fall further behind against new security threats.</li>
+    <li><b>Lack of a secure update mechanism</b> — updates (for security, features, functionality) must be provided by the owner; without them devices remain susceptible. The update channel itself must also be secure — downloading updates securely.</li>
+    <li><b>Physical safety risks</b> — a major concern in manufacturing, healthcare and home automation: if devices are hacked or malfunction, unauthorized control of industrial machinery can cause accidents, and a compromised medical device can cause direct physical harm.</li>
+  </ul>
+
+  <h3 class="sh"><span>4.3</span>Data-level challenges</h3>
+  <ul class="gl rv">
+    <li><b>Lack of encryption (recap)</b> — data sent from or to a device can be easily intercepted and read when secure encrypted protocols are not used → data theft and privacy breaches.</li>
+    <li><b>Insecure data transfer and storage</b> — data sent over unencrypted channels or stored with inadequate protection leads to breaches exposing personal and confidential information.</li>
+    <li><b>Data privacy</b> — if sensitive data is not properly protected it can be intercepted or accessed by unauthorized parties; unsecured transmission/storage and physical attacks also damage data integrity.</li>
+    <li><b>Insufficient privacy protection</b> — devices without strong privacy mechanisms are susceptible to breaches exposing private information; the problem grows when a fleet mixes devices with different levels of protection.</li>
+    <li><b>Data leaks from IoT systems</b> — sensitive data seeping out through misconfigured devices, services or APIs.</li>
+  </ul>
+
+  <h3 class="sh"><span>4.4</span>Network &amp; protocol-level challenges</h3>
+  <ul class="gl rv">
+    <li><b>Insecure communications</b> (recap) — protocols and channels without proper security expose data and credentials in transit.</li>
+    <li><b>5G vulnerabilities</b> — 5G increases the speed of communication, but its increased speed and connectivity also <b>increase the attack surface</b> of IoT systems, making them targets for large-scale attacks.</li>
+    <li><b>DNS threats</b> — the Domain Name System is required for IoT connectivity: it connects IoT devices to remote servers and services. DNS threats manipulate queries and responses to redirect devices to malicious sites → compromise of sensitive data, spread of malware and hijacking of devices.</li>
+  </ul>
+
+  <p><strong>DNS vulnerabilities that enable attacks:</strong></p>
+  <ul>
+    <li><b>Incorrect DNS records</b> — typos and altered records that misdirect traffic.</li>
+    <li><b>Non-resolvable domains</b> — incorrectly configured hosts or default settings.</li>
+    <li><b>Old, outdated or unsupported software and hardware.</b></li>
+    <li><b>Open DNS resolvers</b> that can be exploited for DoS attacks.</li>
+    <li><b>Weak security settings</b> — improperly configured Access Control Lists (ACLs), unapplied security patches, and other misconfigurations.</li>
+  </ul>
+
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th>DNS attack</th><th>Mechanism</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td><b>DNS Tunneling</b></td><td>Cybercriminals encode non-DNS data — such as executable commands — into DNS queries</td><td>Evades firewalls; used for data exfiltration and remote control</td></tr>
+        <tr><td><b>DNS Spoofing &amp; Poisoning</b></td><td>DNS records are manipulated to route traffic from a legitimate website to a malicious one</td><td>Credentials stolen, malware served to the device</td></tr>
+        <tr><td><b>DNS Hijacking</b></td><td>Attackers manipulate how DNS queries are resolved so users are redirected to malicious websites</td><td>Frequently used for <b>pharming and phishing</b> attacks</td></tr>
+        <tr><td><b>DNS Denial of Service</b></td><td>Attacker bots send numerous requests through a DNS resolver, which transmits <b>amplified</b> responses to the target DNS server</td><td>Disrupts the service for legitimate users</td></tr>
+        <tr><td><b>DNS Fast Flux</b></td><td>A single malicious domain is rapidly associated with numerous, frequently changing IP addresses — sometimes <b>thousands</b></td><td>Obscures the true origin of malicious content</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 300" role="img" aria-label="DNS hijacking diagram">
+      <defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="16" y="108" width="132" height="56" rx="10" class="fb"/>
+      <text x="82" y="130" text-anchor="middle" class="tb">IoT DEVICE</text>
+      <text x="82" y="150" text-anchor="middle" class="txs">where is example.com?</text>
+      <rect x="250" y="108" width="160" height="56" rx="10" class="fb"/>
+      <text x="330" y="130" text-anchor="middle" class="tb">DNS RESOLVER</text>
+      <text x="330" y="150" text-anchor="middle" class="txs">names → IP addresses</text>
+      <line x1="148" y1="136" x2="250" y2="136" class="fl" marker-end="url(#a4)"/>
+      <text x="199" y="124" text-anchor="middle" class="txs">DNS query</text>
+      <line x1="410" y1="128" x2="560" y2="64" class="fl" marker-end="url(#a4)"/>
+      <text x="478" y="82" text-anchor="middle" class="txs">honest answer</text>
+      <rect x="560" y="36" width="144" height="52" rx="10" class="fb"/>
+      <text x="632" y="58" text-anchor="middle" class="tb">REAL SERVER</text>
+      <text x="632" y="76" text-anchor="middle" class="txs">legitimate IP</text>
+      <line x1="410" y1="156" x2="560" y2="196" class="fld" marker-end="url(#a4)"/>
+      <text x="470" y="190" text-anchor="middle" class="txs">spoofed / poisoned</text>
+      <rect x="560" y="168" width="144" height="52" rx="10" class="fbk"/>
+      <text x="632" y="190" text-anchor="middle" class="tw">MALICIOUS</text>
+      <text x="632" y="208" text-anchor="middle" class="tw">SERVER</text>
+      <path d="M560 220 C420 272 220 258 82 164" class="fld" marker-end="url(#a4)"/>
+      <text x="330" y="272" text-anchor="middle" class="txs">device silently redirected — data theft · malware · hijack</text>
+      <text x="360" y="294" text-anchor="middle" class="ts">DNS threats manipulate queries or responses to redirect IoT devices to attacker-controlled servers.</text>
+    </svg>
+    <figcaption>FIG. 04 — DNS hijacking / spoofing: a manipulated response silently redirects the device.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>4.5</span>Human &amp; organisational challenges</h3>
+  <ul class="gl rv">
+    <li><b>Shadow IoT</b> — unauthorized IoT devices connected to a network; often smart devices brought in by <b>trusted employees</b>. They are a security risk because they <b>bypass standard security measures</b>.</li>
+    <li><b>IoT security awareness</b> — users unaware of IoT security overlook secure configuration, neglect firmware updates and use weak passwords; training and enforced best practices reduce user-related risks.</li>
+    <li><b>Lack of compliance</b> — security standards and regulations exist to ensure secure, reliable IoT systems; organisations that don’t comply leave devices and networks vulnerable — and may face <b>legal consequences</b> if a data breach results from substandard security.</li>
+    <li><b>Espionage and eavesdropping</b> — IoT devices have advanced sensors and recording capabilities; once hacked they become easy tools for monitoring personal activities — a serious threat exposing confidential and critical information.</li>
+    <li><b>IoT physical security</b> — devices are susceptible to tampering, theft or destruction → unauthorized access, data loss or unplanned downtime. Tamper-proof enclosures and surveillance cameras reduce these risks.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 310" role="img" aria-label="Shadow IoT diagram">
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <ellipse cx="71" cy="145" rx="55" ry="34" class="fb"/>
+      <text x="71" y="141" text-anchor="middle" class="tb">INTERNET</text>
+      <text x="71" y="158" text-anchor="middle" class="txs">the outside</text>
+      <rect x="180" y="118" width="72" height="54" rx="8" class="fbk"/>
+      <text x="216" y="140" text-anchor="middle" class="tws">SECURITY</text>
+      <text x="216" y="156" text-anchor="middle" class="tws">CHECKPOINT</text>
+      <line x1="126" y1="145" x2="180" y2="145" class="fl" marker-end="url(#a3)"/>
+      <line x1="252" y1="145" x2="300" y2="145" class="fl" marker-end="url(#a3)"/>
+      <text x="276" y="132" text-anchor="middle" class="txs">vetted</text>
+      <rect x="300" y="36" width="396" height="224" rx="12" class="fbd"/>
+      <text x="498" y="26" text-anchor="middle" class="tu">CORPORATE NETWORK — FIREWALL · MONITORING · POLICIES</text>
+      <rect x="330" y="70" width="100" height="44" rx="8" class="fb"/><text x="380" y="96" text-anchor="middle" class="tb">SENSOR</text>
+      <rect x="450" y="70" width="100" height="44" rx="8" class="fb"/><text x="500" y="96" text-anchor="middle" class="tb">CAMERA</text>
+      <rect x="330" y="150" width="100" height="44" rx="8" class="fb"/><text x="380" y="176" text-anchor="middle" class="tb">CONTROLLER</text>
+      <rect x="450" y="150" width="120" height="50" rx="8" class="fb"/>
+      <text x="510" y="170" text-anchor="middle" class="tb">EMPLOYEE</text>
+      <text x="510" y="188" text-anchor="middle" class="ts">laptop</text>
+      <line x1="530" y1="200" x2="600" y2="214" class="fld"/>
+      <text x="548" y="212" text-anchor="middle" class="txs">bypasses controls</text>
+      <rect x="556" y="214" width="128" height="56" rx="8" class="fbd"/>
+      <text x="620" y="234" text-anchor="middle" class="tb">SMART WATCH /</text>
+      <text x="620" y="252" text-anchor="middle" class="ts">speaker — never vetted</text>
+      <text x="560" y="292" text-anchor="middle" class="ts">SHADOW IoT — unauthorized, unvetted, invisible to IT.</text>
+    </svg>
+    <figcaption>FIG. 03 — Shadow IoT: personal devices join the network unseen, bypassing the security checkpoint.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>4.6</span>Adversary-level challenges</h3>
+  <ul class="gl rv">
+    <li><b>Botnets</b> — connected devices attacked by malicious software; remotely controlled to carry out malicious activities such as stealing data. IoT devices without requisite security protocols are vulnerable to becoming part of a botnet. <em>→ Deep dive in Module 05, FIG. 07.</em></li>
+    <li><b>Ransomware</b> — malicious software that encrypts data; hackers threaten to publish the data or block access unless a ransom is paid. IoT devices are attractive targets due to the sensitive data they collect and store. <em>→ Deep dive in Module 05, FIG. 08.</em></li>
+    <li><b>Advanced Persistent Threats (APTs)</b> — complex, sophisticated attacks that enter IoT systems and remain hidden for long periods, collecting sensitive data over time and moving laterally to compromise other devices and systems.</li>
+    <li><b>Security threats (general)</b> — malware attacks, phishing and unauthorized access increasingly target IoT; cybercriminals use IoT devices to gain access to networks, disrupting normal functioning and affecting sensitive information.</li>
+    <li><b>Weak authentication &amp; authorization</b> — weak methods make unauthorized access easy, leading to data breaches and larger network intrusions.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 200" role="img" aria-label="APT timeline">
+      <line x1="30" y1="110" x2="730" y2="110" class="fl"/>
+      <g fill="#141414">
+        <circle cx="90" cy="110" r="9"/><circle cx="230" cy="110" r="9"/><circle cx="370" cy="110" r="9"/><circle cx="510" cy="110" r="9"/><circle cx="650" cy="110" r="9"/>
+      </g>
+      <g class="tw" font-size="10" text-anchor="middle">
+        <text x="90" y="114">1</text><text x="230" y="114">2</text><text x="370" y="114">3</text><text x="510" y="114">4</text><text x="650" y="114">5</text>
+      </g>
+      <g text-anchor="middle">
+        <text x="90" y="64" class="tb">INITIAL ACCESS</text><text x="90" y="132" class="txs">weak credentials or</text><text x="90" y="146" class="txs">an exposed device</text>
+        <text x="230" y="64" class="tb">FOOTHOLD</text><text x="230" y="132" class="txs">malware hides — e.g.</text><text x="230" y="146" class="txs">a Linux daemon</text>
+        <text x="370" y="64" class="tb">DWELL</text><text x="370" y="132" class="txs">stays hidden for</text><text x="370" y="146" class="txs">months, undetected</text>
+        <text x="510" y="64" class="tb">COLLECT</text><text x="510" y="132" class="txs">siphons sensitive</text><text x="510" y="146" class="txs">data over time</text>
+        <text x="650" y="64" class="tb">LATERAL MOVE</text><text x="650" y="132" class="txs">compromises other</text><text x="650" y="146" class="txs">devices &amp; systems</text>
+      </g>
+      <text x="380" y="182" text-anchor="middle" class="ts">APTs are complex, sophisticated and patient — the opposite of a smash-and-grab attack.</text>
+    </svg>
+    <figcaption>FIG. 05 — Advanced Persistent Threats: infiltrate, hide, harvest, spread.</figcaption>
+  </figure>
+
+  <details class="dd rv">
+    <summary>Deep dive — the “demon process” example from Linux</summary>
+    <div class="dd-in">
+      <p>In Linux, several regular low-priority jobs need to be executed regularly; these run as <b>daemons</b> (background processes). APT malware can disguise itself as — or operate like — such a routine “demon process” in the kernel, hiding in plain sight. Once embedded in the IoT system, it collects confidential information slowly over time and <b>moves laterally</b>, compromising other devices and systems while evading notice.</p>
+    </div>
+  </details>
+
+  <div class="exam rv">
+    <span class="tag">Exam tip</span>
+    <p>For a 10-mark “security challenges of IoT” answer, name and explain <b>8–10 challenges drawn from different groups</b> (device / data / network / human / adversary). Grouping proves understanding and prevents you from listing five variations of the same weakness.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 05 ==================== -->
+<section class="mod" id="m05" data-label="05 · Security threats">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">05</div>
+    <div>
+      <p class="kicker">Module 05 · Syllabus — challenges &amp; threats · Part 2</p>
+      <h2>Security Threats: Anatomy of Attacks</h2>
+      <p class="mlede">Challenges are weaknesses; threats are what attackers actually do with them. These five are the exam’s favourite threats.</p>
+    </div>
+  </header>
+
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p>A <strong>vulnerability</strong> is a weakness; a <strong>threat</strong> is the potential attack that exploits it; the <strong>attack surface</strong> is every place an attack could be attempted.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 200" role="img" aria-label="IoT attack kill chain">
+      <defs><marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="10" y="56" width="132" height="68" rx="10" class="fb"/>
+      <text x="76" y="80" text-anchor="middle" class="tb">RECON</text>
+      <text x="76" y="98" text-anchor="middle" class="txs">scan for devices with</text>
+      <text x="76" y="112" text-anchor="middle" class="txs">default protections</text>
+      <rect x="164" y="56" width="132" height="68" rx="10" class="fb"/>
+      <text x="230" y="80" text-anchor="middle" class="tb">ACCESS</text>
+      <text x="230" y="98" text-anchor="middle" class="txs">log in with default or</text>
+      <text x="230" y="112" text-anchor="middle" class="txs">guessed credentials</text>
+      <rect x="318" y="56" width="132" height="68" rx="10" class="fb"/>
+      <text x="384" y="80" text-anchor="middle" class="tb">CONTROL</text>
+      <text x="384" y="98" text-anchor="middle" class="txs">install malware — the</text>
+      <text x="384" y="112" text-anchor="middle" class="txs">device joins a botnet</text>
+      <rect x="472" y="56" width="132" height="68" rx="10" class="fb"/>
+      <text x="538" y="80" text-anchor="middle" class="tb">ESCALATE</text>
+      <text x="538" y="98" text-anchor="middle" class="txs">move laterally into</text>
+      <text x="538" y="112" text-anchor="middle" class="txs">the wider network</text>
+      <rect x="626" y="56" width="132" height="68" rx="10" class="fbk"/>
+      <text x="692" y="80" text-anchor="middle" class="tw">EXECUTE</text>
+      <text x="692" y="98" text-anchor="middle" class="tws">DDoS · ransomware ·</text>
+      <text x="692" y="112" text-anchor="middle" class="tws">data theft</text>
+      <line x1="142" y1="90" x2="164" y2="90" class="fl" marker-end="url(#a6)"/>
+      <line x1="296" y1="90" x2="318" y2="90" class="fl" marker-end="url(#a6)"/>
+      <line x1="450" y1="90" x2="472" y2="90" class="fl" marker-end="url(#a6)"/>
+      <line x1="604" y1="90" x2="626" y2="90" class="fl" marker-end="url(#a6)"/>
+      <text x="380" y="168" text-anchor="middle" class="ts">Most IoT attacks follow this chain — break any link and the attack fails (defence in depth).</text>
+    </svg>
+    <figcaption>FIG. 06 — Anatomy of an IoT attack: the five-stage kill chain.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>5.1</span>Ransomware &amp; malware</h3>
+  <p>Insecure devices can be infected with <strong>malware</strong> that disrupts functionality, steals data, or enables further attacks. <strong>Ransomware</strong> is the most notorious form: it <mark class="k">encrypts data</mark> and demands payment — hackers threaten to <strong>publish the data or block access unless a ransom is paid</strong>. IoT devices are attractive targets because of the <strong>sensitive data they collect and store</strong>, and because many cannot be easily restored, patched or cleaned.</p>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 300" role="img" aria-label="Ransomware flow">
+      <defs><marker id="a8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="14" y="40" width="162" height="72" rx="10" class="fb"/>
+      <text x="95" y="66" text-anchor="middle" class="tb">1 · INFILTRATE</text>
+      <text x="95" y="86" text-anchor="middle" class="txs">phishing, exposed ports,</text>
+      <text x="95" y="100" text-anchor="middle" class="txs">or a vulnerable device</text>
+      <rect x="214" y="40" width="162" height="72" rx="10" class="fb"/>
+      <text x="295" y="66" text-anchor="middle" class="tb">2 · ENCRYPT</text>
+      <text x="295" y="86" text-anchor="middle" class="txs">malware locks the device</text>
+      <text x="295" y="100" text-anchor="middle" class="txs">or encrypts its data</text>
+      <rect x="414" y="40" width="162" height="72" rx="10" class="fbk"/>
+      <text x="495" y="66" text-anchor="middle" class="tw">3 · DEMAND RANSOM</text>
+      <text x="495" y="86" text-anchor="middle" class="tws">pay — or lose the data</text>
+      <text x="495" y="100" text-anchor="middle" class="tws">/ we publish it</text>
+      <line x1="176" y1="76" x2="214" y2="76" class="fl" marker-end="url(#a8)"/>
+      <line x1="376" y1="76" x2="414" y2="76" class="fl" marker-end="url(#a8)"/>
+      <line x1="576" y1="58" x2="614" y2="38" class="fl" marker-end="url(#a8)"/>
+      <line x1="576" y1="94" x2="614" y2="106" class="fl" marker-end="url(#a8)"/>
+      <rect x="614" y="10" width="134" height="58" rx="10" class="fb"/>
+      <text x="681" y="32" text-anchor="middle" class="tb">RANSOM PAID</text>
+      <text x="681" y="48" text-anchor="middle" class="txs">maybe a key —</text>
+      <text x="681" y="60" text-anchor="middle" class="txs">no guarantee</text>
+      <rect x="614" y="96" width="134" height="58" rx="10" class="fb"/>
+      <text x="681" y="118" text-anchor="middle" class="tb">REFUSED</text>
+      <text x="681" y="134" text-anchor="middle" class="txs">data lost or</text>
+      <text x="681" y="146" text-anchor="middle" class="txs">leaked publicly</text>
+      <rect x="120" y="180" width="520" height="64" rx="10" class="fbg"/>
+      <text x="380" y="204" text-anchor="middle" class="tb">WHY IoT? devices collect &amp; store sensitive data</text>
+      <text x="380" y="226" text-anchor="middle" class="ts">health metrics · home activity · industrial data — and often can’t be restored from backups</text>
+      <text x="380" y="286" text-anchor="middle" class="ts">Double extortion = encrypt the data AND threaten to publish it.</text>
+    </svg>
+    <figcaption>FIG. 08 — The ransomware playbook — and why IoT is a prime target.</figcaption>
+  </figure>
+
+  <div class="news rv">
+    <span class="tag" style="font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:4px">In the news — real-world wake-up calls</span>
+    <ul>
+      <li>Government computers attacked with ransomware in 2017.</li>
+      <li>India tops the global malware attack chart as AI drives a ransomware surge.</li>
+      <li>New ransomware “Yurei” adopts open-source tools for double-extortion campaigns.</li>
+      <li>EU agency confirms ransomware attack behind airport disruptions.</li>
+      <li>Jaguar Land Rover production still idled as cyberattacks spread across the auto industry.</li>
+      <li>IoT and ransomware are big security risks — and health systems feel unprepared.</li>
+    </ul>
+  </div>
+
+  <h3 class="sh"><span>5.2</span>Botnets &amp; DDoS</h3>
+  <p>A <strong>botnet</strong> is a network of compromised devices (“bots”) infected with malicious software and <strong>remotely controlled</strong> by an attacker (the <em>botmaster</em>) through a <strong>command-and-control (C&amp;C) server</strong>. IoT devices that lack the requisite security protocols — especially those still on default credentials — are routinely conscripted. Botnets carry out malicious activities such as <strong>stealing data</strong> and launching large-scale <strong>Distributed Denial of Service (DDoS)</strong> attacks that flood victims with traffic and knock services offline — a direct attack on <em>availability</em>.</p>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 348" role="img" aria-label="Botnet diagram">
+      <defs><marker id="a7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <g class="flg">
+        <line x1="340" y1="107" x2="662" y2="107"/><line x1="340" y1="167" x2="662" y2="167"/>
+        <line x1="340" y1="90" x2="340" y2="184"/><line x1="424" y1="90" x2="424" y2="184"/><line x1="508" y1="90" x2="508" y2="184"/><line x1="592" y1="90" x2="592" y2="184"/><line x1="662" y1="90" x2="662" y2="184"/>
+      </g>
+      <text x="501" y="76" text-anchor="middle" class="tu">COMPROMISED IoT DEVICES — THE BOTNET</text>
+      <g>
+        <rect x="340" y="90" width="70" height="34" class="fbk"/><rect x="424" y="90" width="70" height="34" class="fbk"/><rect x="508" y="90" width="70" height="34" class="fbk"/><rect x="592" y="90" width="70" height="34" class="fbk"/>
+        <rect x="340" y="150" width="70" height="34" class="fbk"/><rect x="424" y="150" width="70" height="34" class="fbk"/><rect x="508" y="150" width="70" height="34" class="fbk"/><rect x="592" y="150" width="70" height="34" class="fbk"/>
+      </g>
+      <g class="tws" text-anchor="middle" font-size="10">
+        <text x="375" y="111">BOT</text><text x="459" y="111">BOT</text><text x="543" y="111">BOT</text><text x="627" y="111">BOT</text>
+        <text x="375" y="171">BOT</text><text x="459" y="171">BOT</text><text x="543" y="171">BOT</text><text x="627" y="171">BOT</text>
+      </g>
+      <rect x="14" y="136" width="136" height="60" rx="10" class="fbk"/>
+      <text x="82" y="158" text-anchor="middle" class="tw">ATTACKER</text>
+      <text x="82" y="176" text-anchor="middle" class="tws">(botmaster)</text>
+      <rect x="190" y="136" width="110" height="60" rx="10" class="fb"/>
+      <text x="245" y="158" text-anchor="middle" class="tb">C &amp; C</text>
+      <text x="245" y="176" text-anchor="middle" class="txs">server</text>
+      <line x1="150" y1="166" x2="190" y2="166" class="fl" marker-end="url(#a7)"/>
+      <line x1="300" y1="150" x2="340" y2="110" class="fl" marker-end="url(#a7)"/>
+      <line x1="300" y1="182" x2="340" y2="168" class="fl" marker-end="url(#a7)"/>
+      <text x="690" y="98" text-anchor="middle" class="tu">DDoS</text>
+      <rect x="676" y="116" width="78" height="108" rx="10" class="fb"/>
+      <text x="715" y="148" text-anchor="middle" class="tb">VICTIM</text>
+      <text x="715" y="166" text-anchor="middle" class="txs">service</text>
+      <text x="715" y="180" text-anchor="middle" class="txs">flooded</text>
+      <text x="715" y="194" text-anchor="middle" class="txs">offline</text>
+      <line x1="662" y1="107" x2="676" y2="142" class="fl" marker-end="url(#a7)"/>
+      <line x1="662" y1="167" x2="676" y2="172" class="fl" marker-end="url(#a7)"/>
+      <text x="380" y="312" text-anchor="middle" class="ts">Devices lacking security protocols — often still on default passwords — are conscripted as bots:</text>
+      <text x="380" y="330" text-anchor="middle" class="ts">used to steal data and to flood victims with traffic (DDoS).</text>
+    </svg>
+    <figcaption>FIG. 07 — A botnet: one attacker, one C&amp;C server, thousands of conscripted devices, one DDoS victim.</figcaption>
+  </figure>
+
+  <details class="dd rv">
+    <summary>Good to know — Mirai, the textbook botnet</summary>
+    <div class="dd-in"><p>The infamous <b>Mirai</b> botnet conscripted hundreds of thousands of IoT devices (cameras, routers, recorders) by simply trying a short list of <b>factory-default usernames and passwords</b> — a perfect illustration of Modules 02, 04 and 05 connecting: weak authentication (challenge) → botnet conscription (threat) → record-scale DDoS (impact).</p></div>
+  </details>
+
+  <h3 class="sh"><span>5.3</span>Data breaches &amp; theft</h3>
+  <p>Attackers gain access to <strong>sensitive personal or corporate data collected by IoT devices</strong> due to weak security — health records, location histories, home-occupancy patterns, industrial metrics. Consequences: identity theft, financial fraud, privacy violations and regulatory fines.</p>
+
+  <h3 class="sh"><span>5.4</span>Unauthorized access &amp; control</h3>
+  <p>Hackers can gain <strong>control of IoT devices</strong>, leading to misuse: <strong>spying through security cameras</strong>, or <strong>manipulating critical systems</strong> — thermostats, locks, medical devices, industrial actuators. This links directly to the physical-safety challenge (Module 04.2).</p>
+
+  <h3 class="sh"><span>5.5</span>Network intrusion</h3>
+  <p>A compromised IoT device can serve as an <strong>entry point (beachhead)</strong> for attackers to access an <strong>entire corporate or home network</strong> — and then move laterally to high-value systems. This is precisely why segmentation (Module 06) matters.</p>
+
+  <div class="qa rv">
+    <span class="tag">Likely exam question</span>
+    <p><b>Q.</b> Explain any five security threats in IoT with examples. <em>[5 marks]</em></p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 06 ==================== -->
+<section class="mod" id="m06" data-label="06 · Learn-Segment-Protect">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">06</div>
+    <div>
+      <p class="kicker">Module 06 · Addressing IoT security requirements</p>
+      <h2>Learn → Segment → Protect</h2>
+      <p class="mlede">The three-phase enterprise framework for addressing IoT security requirements — a guaranteed short-question topic.</p>
+    </div>
+  </header>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 360" role="img" aria-label="Learn Segment Protect cycle">
+      <defs><marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="250" y="16" width="220" height="86" rx="12" class="fb"/>
+      <circle cx="250" cy="16" r="14" class="fbk"/><text x="250" y="21" text-anchor="middle" class="tw">1</text>
+      <text x="360" y="54" text-anchor="middle" class="tl">LEARN</text>
+      <text x="360" y="74" text-anchor="middle" class="ts">complete visibility: discover,</text>
+      <text x="360" y="90" text-anchor="middle" class="ts">classify &amp; risk-profile devices</text>
+      <rect x="26" y="238" width="220" height="86" rx="12" class="fb"/>
+      <circle cx="26" cy="238" r="14" class="fbk"/><text x="26" y="243" text-anchor="middle" class="tw">2</text>
+      <text x="136" y="276" text-anchor="middle" class="tl">SEGMENT</text>
+      <text x="136" y="296" text-anchor="middle" class="ts">policy-driven groups based</text>
+      <text x="136" y="312" text-anchor="middle" class="ts">on risk profiles</text>
+      <rect x="474" y="238" width="220" height="86" rx="12" class="fb"/>
+      <circle cx="474" cy="238" r="14" class="fbk"/><text x="474" y="243" text-anchor="middle" class="tw">3</text>
+      <text x="584" y="276" text-anchor="middle" class="tl">PROTECT</text>
+      <text x="584" y="296" text-anchor="middle" class="ts">monitor · inspect · enforce</text>
+      <text x="584" y="312" text-anchor="middle" class="ts">at every point</text>
+      <path d="M300 102 C210 150 130 175 112 238" class="fl" marker-end="url(#a9)"/>
+      <path d="M246 296 C320 348 400 348 474 296" class="fl" marker-end="url(#a9)"/>
+      <path d="M560 238 C620 150 560 70 470 50" class="fld" marker-end="url(#a9)"/>
+      <text x="632" y="140" text-anchor="middle" class="txs">continuously</text>
+      <text x="360" y="182" text-anchor="middle" class="tb">IoT SECURITY</text>
+      <text x="360" y="200" text-anchor="middle" class="ts">REQUIREMENTS</text>
+    </svg>
+    <figcaption>FIG. 09 — Learn → Segment → Protect: the enterprise framework for IoT security requirements.</figcaption>
+  </figure>
+
+  <ol class="steps rv">
+    <li><strong>LEARN — build visibility.</strong> With complete network visibility, security solutions <b>authenticate and classify</b> IoT devices, build a <b>risk profile</b> for each, and assign them to IoT device groups. <em>Principle: you cannot protect what you cannot see.</em></li>
+    <li><strong>SEGMENT — contain by policy.</strong> Once the enterprise understands its IoT attack surface, devices are <b>segmented into policy-driven groups based on their risk profiles</b>. A breached smart camera cannot then reach the database server.</li>
+    <li><strong>PROTECT — enforce everywhere.</strong> Policy-driven IoT groups and internal network segmentation enable <b>monitoring, inspection and policy enforcement</b> based on activity at various points within the infrastructure.</li>
+  </ol>
+
+  <div class="exam rv">
+    <span class="tag">Exam tip — 3-mark ready-made</span>
+    <p><b>Learn</b> = visibility &amp; classification into device groups · <b>Segment</b> = policy-driven grouping by risk profile · <b>Protect</b> = monitor, inspect, enforce across the infrastructure.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 07 ==================== -->
+<section class="mod" id="m07" data-label="07 · Encryption">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">07</div>
+    <div>
+      <p class="kicker">Module 07 · Syllabus — encryption techniques</p>
+      <h2>Encryption Techniques</h2>
+      <p class="mlede">Symmetric, asymmetric, TLS and lightweight cryptography — how IoT keeps data unreadable to everyone except its intended recipient.</p>
+    </div>
+  </header>
+
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Encryption</strong> converts data into an <strong>unreadable format</strong> (ciphertext) to prevent unauthorized access.</p>
+  </div>
+
+  <ul class="rv">
+    <li><strong>Symmetric encryption</strong> — a single secret key for both encryption and decryption; speed and efficiency. Examples: <b>AES, Blowfish</b>.</li>
+    <li><strong>Asymmetric encryption</strong> — a pair of mathematically linked keys (public + private); enhanced security; underpins <b>PKI</b>.</li>
+    <li><strong>Transport Layer Security (TLS/SSL)</strong> — a widely used protocol that encrypts data <b>in transit</b> between IoT devices and servers.</li>
+    <li><strong>Lightweight cryptography</strong> — designed for resource-constrained IoT devices: strong security with minimal computational power and memory.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 364" role="img" aria-label="Encryption family tree">
+      <rect x="300" y="14" width="160" height="50" rx="10" class="fbk"/>
+      <text x="380" y="44" text-anchor="middle" class="tw">ENCRYPTION</text>
+      <g class="flg">
+        <line x1="380" y1="64" x2="128" y2="118"/><line x1="380" y1="64" x2="380" y2="118"/><line x1="380" y1="64" x2="632" y2="118"/>
+        <line x1="128" y1="208" x2="360" y2="262"/><line x1="380" y1="208" x2="380" y2="262"/><line x1="632" y1="208" x2="400" y2="262"/>
+      </g>
+      <rect x="14" y="118" width="228" height="90" rx="12" class="fb"/>
+      <text x="128" y="144" text-anchor="middle" class="tb">SYMMETRIC</text>
+      <text x="128" y="166" text-anchor="middle" class="ts">one shared secret key</text>
+      <text x="128" y="184" text-anchor="middle" class="ts">fast &amp; light — bulk data</text>
+      <text x="128" y="202" text-anchor="middle" class="tu">AES · BLOWFISH</text>
+      <rect x="266" y="118" width="228" height="90" rx="12" class="fb"/>
+      <text x="380" y="144" text-anchor="middle" class="tb">ASYMMETRIC</text>
+      <text x="380" y="166" text-anchor="middle" class="ts">public + private key pair</text>
+      <text x="380" y="184" text-anchor="middle" class="ts">secure key exchange &amp; signing</text>
+      <text x="380" y="202" text-anchor="middle" class="tu">RSA · ECC · DIFFIE–HELLMAN</text>
+      <rect x="518" y="118" width="228" height="90" rx="12" class="fb"/>
+      <text x="632" y="144" text-anchor="middle" class="tb">LIGHTWEIGHT (LWC)</text>
+      <text x="632" y="166" text-anchor="middle" class="ts">crypto tuned for tiny,</text>
+      <text x="632" y="184" text-anchor="middle" class="ts">low-power devices</text>
+      <text x="632" y="202" text-anchor="middle" class="tu">SMALL · FAST · FRUGAL</text>
+      <rect x="110" y="262" width="540" height="62" rx="10" class="fbg"/>
+      <text x="380" y="286" text-anchor="middle" class="tb">HYBRID PROTOCOLS — TLS/SSL · HTTPS · MQTT OVER TLS</text>
+      <text x="380" y="308" text-anchor="middle" class="ts">asymmetric handshake establishes trust, then a symmetric session key handles fast bulk data</text>
+      <text x="380" y="350" text-anchor="middle" class="ts">Real IoT stacks combine all three — e.g., TLS mixes asymmetric + symmetric; LWC variants run on constrained devices.</text>
+    </svg>
+    <figcaption>FIG. 10 — The encryption family in IoT — and how TLS combines its branches.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>7.1</span>Symmetric encryption</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p>Symmetric encryption uses a <strong>single, shared private key</strong> for both encrypting and decrypting data — offering <strong>speed and efficiency</strong> suitable for the large data volumes of IoT networks. Its primary challenge in IoT is <strong>securely distributing the key</strong>, which is typically solved by using asymmetric encryption to establish a temporary shared symmetric key — a <strong>session key</strong> — as seen in TLS/SSL.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 320" role="img" aria-label="Symmetric encryption flow">
+      <rect x="20" y="96" width="152" height="68" rx="10" class="fb"/>
+      <text x="96" y="122" text-anchor="middle" class="tb">IoT DEVICE</text>
+      <text x="96" y="144" text-anchor="middle" class="txs">holds secret key K</text>
+      <rect x="240" y="84" width="280" height="96" rx="10" class="fbd"/>
+      <text x="380" y="102" text-anchor="middle" class="tu">INSECURE CHANNEL</text>
+      <rect x="290" y="120" width="60" height="14" fill="#141414"/>
+      <rect x="362" y="120" width="60" height="14" fill="#141414" opacity=".55"/>
+      <rect x="434" y="120" width="60" height="14" fill="#141414" opacity=".3"/>
+      <text x="380" y="152" text-anchor="middle" class="txs">ciphertext — unreadable without K</text>
+      <rect x="588" y="96" width="152" height="68" rx="10" class="fb"/>
+      <text x="664" y="122" text-anchor="middle" class="tb">SERVER / CLOUD</text>
+      <text x="664" y="144" text-anchor="middle" class="txs">holds the same key K</text>
+      <line x1="172" y1="130" x2="240" y2="130" class="fl" marker-end="url(#a11)"/>
+      <text x="206" y="118" text-anchor="middle" class="txs">encrypt with K</text>
+      <line x1="520" y1="130" x2="588" y2="130" class="fl" marker-end="url(#a11)"/>
+      <text x="554" y="118" text-anchor="middle" class="txs">decrypt with K</text>
+      <g class="fl" stroke-width="1.6">
+        <circle cx="54" cy="212" r="8" fill="#fff"/><line x1="62" y1="212" x2="96" y2="212"/><line x1="88" y1="212" x2="88" y2="219"/><line x1="96" y1="212" x2="96" y2="220"/>
+        <circle cx="622" cy="212" r="8" fill="#fff"/><line x1="630" y1="212" x2="664" y2="212"/><line x1="656" y1="212" x2="656" y2="219"/><line x1="664" y1="212" x2="664" y2="220"/>
+      </g>
+      <text x="108" y="216" class="txs">secret key K</text>
+      <text x="676" y="216" class="txs">the very same key K</text>
+      <rect x="110" y="252" width="540" height="48" rx="10" class="fbg"/>
+      <text x="380" y="272" text-anchor="middle" class="tb">Same key encrypts and decrypts — fast and resource-friendly,</text>
+      <text x="380" y="290" text-anchor="middle" class="ts">but it must be delivered safely first: the key-distribution problem.</text>
+      <defs><marker id="a11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+    </svg>
+    <figcaption>FIG. 11 — Symmetric encryption: one shared key on both sides.</figcaption>
+  </figure>
+
+  <p><strong>How symmetric encryption works in IoT:</strong></p>
+  <ol class="steps rv">
+    <li><strong>Shared secret key</strong> — both the IoT device and the server hold the same secret key.</li>
+    <li><strong>Encryption</strong> — the device uses the shared key to encrypt outgoing data, transforming it into unreadable <b>ciphertext</b>.</li>
+    <li><strong>Decryption</strong> — the server receives the ciphertext and uses the <b>same shared key</b> to decrypt it back into readable plaintext.</li>
+  </ol>
+
+  <div class="pc rv">
+    <div class="pros"><h5>✓ Benefits for IoT</h5><ul>
+      <li><b>Speed and efficiency</b> — symmetric algorithms are generally much faster than asymmetric ones, ideal for encrypting the large amounts of data IoT devices produce.</li>
+      <li><b>Resource-friendly</b> — less processing power and memory required, crucial for constrained devices.</li>
+    </ul></div>
+    <div class="cons"><h5>✕ The central challenge</h5><ul>
+      <li><b>Key distribution</b> — the biggest hurdle: securely delivering and managing the shared secret key among numerous devices.</li>
+      <li>If the key is <b>intercepted during distribution</b>, the <b>entire system is compromised</b>.</li>
+    </ul></div>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 240" role="img" aria-label="Key distribution problem">
+      <defs><marker id="a12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <line x1="70" y1="72" x2="650" y2="72" class="fld"/>
+      <text x="70" y="54" class="txs">the device must send K…</text>
+      <text x="650" y="54" text-anchor="end" class="txs">…to the server over the network</text>
+      <g class="fl" stroke-width="1.6">
+        <circle cx="352" cy="72" r="9" fill="#fff"/><line x1="361" y1="72" x2="392" y2="72"/><line x1="384" y1="72" x2="384" y2="80"/><line x1="392" y1="72" x2="392" y2="81"/>
+      </g>
+      <line x1="360" y1="82" x2="360" y2="126" class="fl" marker-end="url(#a12)"/>
+      <rect x="296" y="128" width="128" height="52" rx="10" class="fbk"/>
+      <text x="360" y="150" text-anchor="middle" class="tw">EAVESDROPPER</text>
+      <text x="360" y="168" text-anchor="middle" class="tws">grabs K in transit</text>
+      <text x="360" y="222" text-anchor="middle" class="tb">If K is stolen during distribution, the entire system is compromised.</text>
+    </svg>
+    <figcaption>FIG. 12 — The key-distribution problem: symmetric crypto’s Achilles heel.</figcaption>
+  </figure>
+
+  <p><strong>Solutions in IoT:</strong></p>
+  <ul class="rv">
+    <li><b>Hybrid approaches</b> — IoT systems combine symmetric and asymmetric encryption to overcome the key-distribution problem.</li>
+    <li><b>TLS/SSL and HTTPS</b> — public-key cryptography establishes the initial secure connection, then a new, <b>temporary symmetric session key</b> is exchanged for the duration of the session. The session key encrypts the bulk of the communication — delivering <b>both security and efficiency</b>.</li>
+    <li><b>MQTT over TLS</b> — for devices using the MQTT messaging protocol, TLS secures the data stream using this same hybrid approach.</li>
+  </ul>
+
+  <h3 class="sh"><span>7.2</span>Asymmetric encryption</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Asymmetric (public-key) encryption</strong> employs a pair of mathematically linked keys — a <strong>public key for encryption</strong> and a <strong>private key for decryption</strong> — enabling secure communication <em>and</em> authentication in IoT: anyone can encrypt to a device, only that device can read it.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 320" role="img" aria-label="Asymmetric encryption flow">
+      <defs><marker id="a13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="20" y="96" width="186" height="66" rx="10" class="fb"/>
+      <text x="113" y="120" text-anchor="middle" class="tb">SENDER</text>
+      <text x="113" y="140" text-anchor="middle" class="txs">encrypts with the</text>
+      <text x="113" y="154" text-anchor="middle" class="txs">recipient’s PUBLIC key</text>
+      <rect x="252" y="90" width="256" height="88" rx="10" class="fbd"/>
+      <text x="380" y="108" text-anchor="middle" class="tu">INSECURE CHANNEL</text>
+      <rect x="302" y="126" width="56" height="13" fill="#141414"/>
+      <rect x="372" y="126" width="56" height="13" fill="#141414" opacity=".55"/>
+      <rect x="442" y="126" width="56" height="13" fill="#141414" opacity=".3"/>
+      <text x="380" y="158" text-anchor="middle" class="txs">ciphertext</text>
+      <rect x="554" y="96" width="186" height="66" rx="10" class="fb"/>
+      <text x="647" y="120" text-anchor="middle" class="tb">RECIPIENT</text>
+      <text x="647" y="140" text-anchor="middle" class="txs">decrypts with its own</text>
+      <text x="647" y="154" text-anchor="middle" class="txs">PRIVATE key</text>
+      <line x1="206" y1="130" x2="252" y2="130" class="fl" marker-end="url(#a13)"/>
+      <text x="229" y="118" text-anchor="middle" class="txs">encrypt</text>
+      <line x1="508" y1="130" x2="554" y2="130" class="fl" marker-end="url(#a13)"/>
+      <text x="531" y="118" text-anchor="middle" class="txs">decrypt</text>
+      <rect x="556" y="204" width="84" height="46" rx="8" class="fb"/>
+      <text x="598" y="224" text-anchor="middle" class="tb">PUBLIC</text>
+      <text x="598" y="242" text-anchor="middle" class="txs">shareable</text>
+      <rect x="656" y="204" width="84" height="46" rx="8" class="fbk"/>
+      <text x="698" y="224" text-anchor="middle" class="tw">PRIVATE</text>
+      <text x="698" y="242" text-anchor="middle" class="tws">secret</text>
+      <path d="M556 227 C400 262 220 240 120 162" class="fld" marker-end="url(#a13)"/>
+      <text x="330" y="258" text-anchor="middle" class="txs">the public key travels openly — it can’t decrypt anything by itself</text>
+      <text x="380" y="300" text-anchor="middle" class="tb">Public key encrypts → only the matching private key decrypts. No secret ever crosses the network.</text>
+    </svg>
+    <figcaption>FIG. 13 — Asymmetric encryption: public key encrypts, private key decrypts.</figcaption>
+  </figure>
+
+  <p><strong>How asymmetric encryption works in IoT:</strong></p>
+  <ol class="steps rv">
+    <li><strong>Key generation</strong> — each IoT device generates a unique pair: a <b>public key</b> (shareable widely) and a <b>private key</b> (kept secret).</li>
+    <li><strong>Secure communication</strong> — to send a message to a device, another device or server encrypts it using the <b>recipient’s public key</b>.</li>
+    <li><strong>Decryption</strong> — only the recipient, holding the corresponding <b>private key</b>, can decrypt and read the message → <b>confidentiality</b>.</li>
+  </ol>
+
+  <div class="grid g3 rv">
+    <div class="card"><h4>RSA</h4><p><b>Rivest–Shamir–Adleman</b> — an early public-key cryptosystem; versatile: used for <b>key exchange, digital signatures and certificates</b> in IoT.</p></div>
+    <div class="card"><h4>ECC</h4><p><b>Elliptic Curve Cryptography</b> — a modern approach offering security similar to RSA with <b>much smaller key sizes</b>, ideal for the limited processing power and memory of IoT devices.</p></div>
+    <div class="card"><h4>Diffie–Hellman</h4><p>A specific asymmetric technique used to <b>securely establish a shared symmetric key</b> between devices <b>without exchanging the key itself</b>.</p></div>
+  </div>
+
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th></th><th>RSA</th><th>ECC</th></tr></thead>
+      <tbody>
+        <tr><td><b>Heritage</b></td><td>Early public-key cryptosystem</td><td>Modern approach</td></tr>
+        <tr><td><b>Key sizes</b></td><td>Large keys for equivalent security</td><td>Much smaller keys for similar security</td></tr>
+        <tr><td><b>Performance</b></td><td>Heavier computation</td><td>Better performance on constrained hardware</td></tr>
+        <tr><td><b>IoT fit</b></td><td>Versatile — key exchange, signatures, certificates</td><td>Preferred for resource-constrained IoT devices</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Applications in IoT security:</strong></p>
+  <ul class="rv">
+    <li><b>Secure key exchange</b> — establishes secure channels and exchanges the symmetric keys needed for faster bulk-data encryption <b>without compromising security</b>.</li>
+    <li><b>Digital signatures</b> — the sender’s <b>private key</b> creates a signature verified with the sender’s <b>public key</b>: proves the sender’s identity (<b>authentication</b>) and confirms the message hasn’t been tampered with (<b>data integrity</b>).</li>
+    <li><b>Entity authentication</b> — devices use <b>digital certificates</b> containing their public keys to authenticate themselves to servers or other devices, verifying identity and ensuring communication with the legitimate party.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 300" role="img" aria-label="Digital signature flow">
+      <rect x="16" y="70" width="140" height="70" rx="10" class="fb"/>
+      <text x="86" y="100" text-anchor="middle" class="tb">MESSAGE</text>
+      <text x="86" y="120" text-anchor="middle" class="txs">the data itself</text>
+      <rect x="214" y="70" width="140" height="70" rx="10" class="fb"/>
+      <text x="284" y="100" text-anchor="middle" class="tb">HASH</text>
+      <text x="284" y="120" text-anchor="middle" class="txs">fixed-size digest</text>
+      <rect x="412" y="70" width="140" height="70" rx="10" class="fbk"/>
+      <text x="482" y="100" text-anchor="middle" class="tw">SIGNATURE</text>
+      <text x="482" y="118" text-anchor="middle" class="tws">digest encrypted</text>
+      <text x="482" y="132" text-anchor="middle" class="tws">with PRIVATE key</text>
+      <rect x="610" y="70" width="140" height="70" rx="10" class="fb"/>
+      <text x="680" y="100" text-anchor="middle" class="tb">VERIFY</text>
+      <text x="680" y="118" text-anchor="middle" class="txs">decrypt with sender’s</text>
+      <text x="680" y="132" text-anchor="middle" class="txs">PUBLIC key — compare</text>
+      <line x1="156" y1="105" x2="214" y2="105" class="fl" marker-end="url(#a14)"/>
+      <line x1="354" y1="105" x2="412" y2="105" class="fl" marker-end="url(#a14)"/>
+      <line x1="552" y1="105" x2="610" y2="105" class="fl" marker-end="url(#a14)"/>
+      <text x="185" y="60" text-anchor="middle" class="txs">hash</text>
+      <text x="383" y="60" text-anchor="middle" class="txs">sign with PRIVATE key</text>
+      <text x="581" y="60" text-anchor="middle" class="txs">sent with message</text>
+      <rect x="140" y="196" width="220" height="48" rx="10" class="fb"/>
+      <text x="250" y="216" text-anchor="middle" class="tb">AUTHENTICATION</text>
+      <text x="250" y="234" text-anchor="middle" class="ts">proves WHO signed it</text>
+      <rect x="400" y="196" width="220" height="48" rx="10" class="fb"/>
+      <text x="510" y="216" text-anchor="middle" class="tb">INTEGRITY</text>
+      <text x="510" y="234" text-anchor="middle" class="ts">proves it wasn’t altered</text>
+      <text x="380" y="282" text-anchor="middle" class="tb">Sign with the PRIVATE key (only the sender can) — anyone can verify with the PUBLIC key.</text>
+      <defs><marker id="a14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+    </svg>
+    <figcaption>FIG. 14 — Digital signatures: authentication + integrity in one mechanism.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>7.3</span>Transport Layer Security (TLS)</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>TLS</strong> — the successor to <strong>SSL</strong> — establishes <strong>encrypted, authenticated, and data-integrity-protected</strong> communication channels between devices and cloud platforms. It ensures the confidentiality and integrity of data in transit, preventing eavesdropping and tampering, and is a <strong>fundamental requirement for many IoT platforms</strong> for device-to-cloud communication.</p>
+  </div>
+
+  <p><strong>How TLS secures IoT communications:</strong></p>
+  <ul class="rv">
+    <li><b>Encryption</b> — TLS uses a combination of <b>symmetric and public-key encryption</b> to scramble data, making it unreadable to anyone who intercepts it in transmission.</li>
+    <li><b>Authentication</b> — <b>digital certificates</b> verify the identities of both the IoT device and the server, ensuring each is communicating with the legitimate party.</li>
+    <li><b>Data integrity</b> — TLS incorporates measures to <b>detect if data has been tampered with or altered</b> in transit, ensuring the data received is the same as the data sent.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 280" role="img" aria-label="TLS three pillars">
+      <rect x="280" y="14" width="200" height="44" rx="22" class="fbk"/>
+      <text x="380" y="41" text-anchor="middle" class="tw">TLS / SSL</text>
+      <g class="flg"><line x1="380" y1="58" x2="140" y2="92"/><line x1="380" y1="58" x2="380" y2="92"/><line x1="380" y1="58" x2="620" y2="92"/></g>
+      <rect x="30" y="92" width="220" height="140" rx="12" class="fb"/>
+      <rect x="128" y="118" width="24" height="18" rx="3" fill="none" stroke="#141414" stroke-width="1.6"/>
+      <path d="M133 118 v-7 a7 7 0 0 1 14 0 v7" fill="none" stroke="#141414" stroke-width="1.6"/>
+      <text x="140" y="166" text-anchor="middle" class="tb">ENCRYPTION</text>
+      <text x="140" y="188" text-anchor="middle" class="ts">symmetric + public-key —</text>
+      <text x="140" y="204" text-anchor="middle" class="ts">data unreadable in transit</text>
+      <rect x="270" y="92" width="220" height="140" rx="12" class="fb"/>
+      <rect x="358" y="112" width="44" height="30" rx="4" fill="none" stroke="#141414" stroke-width="1.6"/>
+      <circle cx="371" cy="127" r="5" fill="none" stroke="#141414" stroke-width="1.4"/>
+      <line x1="382" y1="122" x2="396" y2="122" stroke="#141414" stroke-width="1.4"/>
+      <line x1="382" y1="131" x2="396" y2="131" stroke="#141414" stroke-width="1.4"/>
+      <text x="380" y="166" text-anchor="middle" class="tb">AUTHENTICATION</text>
+      <text x="380" y="188" text-anchor="middle" class="ts">digital certificates verify</text>
+      <text x="380" y="204" text-anchor="middle" class="ts">device &amp; server identities</text>
+      <rect x="510" y="92" width="220" height="140" rx="12" class="fb"/>
+      <polyline points="604,126 614,136 634,110" fill="none" stroke="#141414" stroke-width="2.4"/>
+      <text x="620" y="166" text-anchor="middle" class="tb">DATA INTEGRITY</text>
+      <text x="620" y="188" text-anchor="middle" class="ts">any tampering or alteration</text>
+      <text x="620" y="204" text-anchor="middle" class="ts">en route is detected</text>
+      <text x="380" y="262" text-anchor="middle" class="tb">One protocol, three guarantees — confidentiality, identity and integrity for data in transit.</text>
+    </svg>
+    <figcaption>FIG. 15 — The three guarantees of TLS.</figcaption>
+  </figure>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 250" role="img" aria-label="TLS hybrid session">
+      <defs><marker id="a16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="22" y="48" width="214" height="150" rx="12" class="fb"/>
+      <circle cx="60" cy="48" r="14" class="fbk"/><text x="60" y="53" text-anchor="middle" class="tw">1</text>
+      <text x="129" y="92" text-anchor="middle" class="tb">HANDSHAKE</text>
+      <text x="129" y="114" text-anchor="middle" class="ts">asymmetric — public &amp;</text>
+      <text x="129" y="130" text-anchor="middle" class="ts">private keys authenticate</text>
+      <text x="129" y="146" text-anchor="middle" class="ts">both parties</text>
+      <rect x="273" y="48" width="214" height="150" rx="12" class="fb"/>
+      <circle cx="311" cy="48" r="14" class="fbk"/><text x="311" y="53" text-anchor="middle" class="tw">2</text>
+      <text x="380" y="92" text-anchor="middle" class="tb">SESSION KEY</text>
+      <text x="380" y="114" text-anchor="middle" class="ts">a fresh, temporary</text>
+      <text x="380" y="130" text-anchor="middle" class="ts">symmetric key is exchanged</text>
+      <text x="380" y="146" text-anchor="middle" class="ts">securely</text>
+      <rect x="524" y="48" width="214" height="150" rx="12" class="fb"/>
+      <circle cx="562" cy="48" r="14" class="fbk"/><text x="562" y="53" text-anchor="middle" class="tw">3</text>
+      <text x="631" y="92" text-anchor="middle" class="tb">BULK DATA</text>
+      <text x="631" y="114" text-anchor="middle" class="ts">fast symmetric encryption</text>
+      <text x="631" y="130" text-anchor="middle" class="ts">carries the whole session —</text>
+      <text x="631" y="146" text-anchor="middle" class="ts">security + efficiency</text>
+      <line x1="236" y1="120" x2="273" y2="120" class="fl" marker-end="url(#a16)"/>
+      <line x1="487" y1="120" x2="524" y2="120" class="fl" marker-end="url(#a16)"/>
+      <text x="380" y="230" text-anchor="middle" class="tb">Asymmetric to establish trust · symmetric to do the work — TLS/SSL, HTTPS, MQTT over TLS.</text>
+    </svg>
+    <figcaption>FIG. 16 — The hybrid model: asymmetric handshake, symmetric session.</figcaption>
+  </figure>
+
+  <p><strong>Why TLS is essential for IoT:</strong></p>
+  <div class="grid g2 rv">
+    <div class="card"><h4>Vulnerable devices</h4><p>IoT devices often operate in potentially insecure environments and may lack robust built-in security features — making their communications a prime target.</p></div>
+    <div class="card"><h4>Protecting sensitive data</h4><p>IoT systems handle personal data, health metrics and industrial control data that must be protected from unauthorized access.</p></div>
+    <div class="card"><h4>Preventing malicious commands</h4><p>By authenticating the source of commands and encrypting their contents, TLS prevents attackers from sending malicious instructions to devices.</p></div>
+    <div class="card"><h4>Ensuring platform compliance</h4><p>Cloud IoT services such as <b>AWS IoT Core</b> mandate TLS for all in-transit device communications with the platform.</p></div>
+  </div>
+
+  <h3 class="sh"><span>7.4</span>Lightweight cryptography (LWC)</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Lightweight cryptography</strong> provides essential security for resource-constrained IoT devices by offering <strong>computationally efficient, energy-saving, and memory-efficient</strong> algorithms — unlike traditional methods that are too demanding for small sensors and wearables. LWC algorithms are optimised for <strong>small circuit sizes and low power consumption</strong>, protecting confidentiality and integrity without draining batteries or exceeding memory and processing limits.</p>
+  </div>
+
+  <p><strong>Why LWC is needed for IoT devices:</strong></p>
+  <ul class="rv">
+    <li><b>Resource constraints</b> — smart sensors and wearables have limited power, processing and memory; traditional algorithms such as <b>AES and RSA are too resource-intensive</b>.</li>
+    <li><b>Battery life</b> — heavy algorithms consume significant energy → rapid battery drain and reduced operational lifespan.</li>
+    <li><b>Performance</b> — heavy cryptography slows real-time operations and data processing, hindering the device’s primary functions.</li>
+    <li><b>Compliance</b> — LWC helps IoT devices meet security regulations like <b>GDPR and HIPAA</b> with robust yet efficient security.</li>
+  </ul>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 336" role="img" aria-label="LWC versus traditional cryptography">
+      <defs>
+        <pattern id="h17" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#141414" stroke-width="1.6"/>
+        </pattern>
+      </defs>
+      <rect x="438" y="18" width="14" height="14" fill="#141414"/><text x="458" y="29" class="txs">Traditional (AES / RSA)</text>
+      <rect x="438" y="40" width="14" height="14" fill="url(#h17)" stroke="#141414"/><text x="458" y="51" class="txs">Lightweight (LWC)</text>
+      <text x="16" y="107" class="tb">POWER USE</text>
+      <rect x="180" y="92" width="430" height="22" fill="#141414"/><text x="618" y="107" class="txs">high</text>
+      <rect x="180" y="122" width="150" height="22" fill="url(#h17)" stroke="#141414"/><text x="338" y="137" class="txs">low</text>
+      <text x="16" y="181" class="tb">MEMORY (RAM / ROM)</text>
+      <rect x="180" y="166" width="430" height="22" fill="#141414"/><text x="618" y="181" class="txs">large</text>
+      <rect x="180" y="196" width="112" height="22" fill="url(#h17)" stroke="#141414"/><text x="300" y="211" class="txs">small</text>
+      <text x="16" y="255" class="tb">COMPUTE / LATENCY</text>
+      <rect x="180" y="240" width="414" height="22" fill="#141414"/><text x="602" y="255" class="txs">heavy</text>
+      <rect x="180" y="270" width="128" height="22" fill="url(#h17)" stroke="#141414"/><text x="316" y="285" class="txs">light</text>
+      <text x="360" y="320" text-anchor="middle" class="ts">Comparable security strength — LWC just shrinks the resource bill, letting tiny devices meet GDPR / HIPAA.</text>
+    </svg>
+    <figcaption>FIG. 17 — Lightweight cryptography vs traditional algorithms.</figcaption>
+  </figure>
+
+  <div class="grid g2 rv">
+    <div class="card"><h4>Key characteristics</h4><ul style="margin:0;padding-left:18px;font-size:.92rem">
+      <li><b>Computational efficiency</b> — faster, less compute per operation.</li>
+      <li><b>Memory efficiency</b> — smaller RAM/ROM footprint.</li>
+      <li><b>Low power consumption</b> — preserves battery; suits remote or unpowered deployments.</li>
+      <li><b>Security</b> — high protection maintained despite reduced complexity.</li>
+    </ul></div>
+    <div class="card"><h4>How LWC is used in IoT</h4><ul style="margin:0;padding-left:18px;font-size:.92rem">
+      <li><b>Data encryption</b> — protects sensor data during transmission and storage.</li>
+      <li><b>Secure communication</b> — TLS/SSL implemented with lightweight algorithms.</li>
+      <li><b>Digital signatures &amp; key exchange</b> — verifies authenticity of devices and data.</li>
+    </ul></div>
+  </div>
+
+  <details class="dd rv">
+    <summary>Good to know — the NIST lightweight standard</summary>
+    <div class="dd-in"><p>In 2023, NIST standardised the <b>ASCON</b> family as its Lightweight Cryptography standard — a one-line current-affairs point that impresses examiners when discussing LWC maturity.</p></div>
+  </details>
+
+  <h3 class="sh"><span>7.5</span>Symmetric vs asymmetric — the exam table</h3>
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th></th><th>Symmetric</th><th>Asymmetric</th></tr></thead>
+      <tbody>
+        <tr><td><b>Keys</b></td><td>One shared secret key</td><td>Public + private key pair</td></tr>
+        <tr><td><b>Speed</b></td><td>Fast</td><td>Slower</td></tr>
+        <tr><td><b>Resource demand</b></td><td>Low</td><td>High</td></tr>
+        <tr><td><b>Key distribution</b></td><td>Hard — the main problem</td><td>Easy — public key is freely shareable</td></tr>
+        <tr><td><b>Role in IoT</b></td><td>Bulk data encryption (session keys)</td><td>Handshake, key exchange, signatures, certificates</td></tr>
+        <tr><td><b>Examples</b></td><td>AES, Blowfish</td><td>RSA, ECC, Diffie–Hellman</td></tr>
+        <tr><td><b>Main weakness</b></td><td>Intercepted key compromises everything</td><td>Computationally expensive</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="memo rv">
+    <span class="tag">Memory hook</span>
+    <p><b>“Asymmetric to meet, symmetric to work.”</b> The handshake builds trust; the session key does the heavy lifting. And LWC = <b>F·S·F·S</b> — Fast, Small, Frugal, Strong.</p>
+  </div>
+
+  <div class="qa rv">
+    <span class="tag">Likely exam question</span>
+    <p><b>Q.</b> Differentiate symmetric and asymmetric encryption used in IoT, with examples. <em>[5 marks]</em> — Skeleton: definition each → key count → speed/resources → key distribution → examples → how TLS combines both.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 08 ==================== -->
+<section class="mod" id="m08" data-label="08 · Authentication">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">08</div>
+    <div>
+      <p class="kicker">Module 08 · Syllabus — authentication techniques</p>
+      <h2>Authentication Techniques</h2>
+      <p class="mlede">Encryption protects data; authentication proves identity. Six mechanisms — from pre-shared keys to zero trust.</p>
+    </div>
+  </header>
+
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Authentication</strong> confirms the <strong>identity of a device or user</strong>. Strong IoT systems combine it with encryption — TLS, for example, does both.</p>
+  </div>
+
+  <ul class="rv">
+    <li><strong>Pre-shared Keys (PSK)</strong> — a shared secret for authentication; simple, but needs robust key security.</li>
+    <li><strong>Usernames and passwords</strong> — fundamental; enhanced with multi-factor options.</li>
+    <li><strong>Two-factor authentication (2FA)</strong> — a second form of verification beyond the password.</li>
+    <li><strong>Digital certificates / PKI</strong> — public-key certificates provide digital identities and build trust.</li>
+    <li><strong>Biometrics</strong> — unique biological traits (e.g., fingerprints) for user authentication.</li>
+    <li><strong>Zero-Trust Network Access</strong> — verifies every device and user for every access request; no implicit trust.</li>
+  </ul>
+
+  <h3 class="sh"><span>8.1</span>Pre-shared keys (PSK)</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p>A <strong>Pre-Shared Key</strong> is a secret — such as a strong passphrase — shared between two devices (e.g., a device and a router) <strong>before</strong> they need to communicate. It serves as a shared secret for <strong>authentication and key derivation</strong>, proving the device’s identity and establishing encrypted communication. Security depends entirely on the <strong>strength of the PSK and how well it is managed</strong>.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 306" role="img" aria-label="PSK flow">
+      <defs><marker id="a18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <rect x="22" y="36" width="222" height="204" rx="12" class="fb"/>
+      <circle cx="60" cy="36" r="14" class="fbk"/><text x="60" y="41" text-anchor="middle" class="tw">1</text>
+      <text x="133" y="72" text-anchor="middle" class="tb">KEY PROVISIONING</text>
+      <g class="fl" stroke-width="1.6"><circle cx="133" cy="100" r="8" fill="#fff"/><line x1="141" y1="100" x2="170" y2="100"/><line x1="162" y1="100" x2="162" y2="107"/><line x1="170" y1="100" x2="170" y2="108"/></g>
+      <line x1="127" y1="110" x2="93" y2="140" class="fl" marker-end="url(#a18)"/>
+      <line x1="140" y1="110" x2="179" y2="140" class="fl" marker-end="url(#a18)"/>
+      <rect x="48" y="142" width="86" height="46" rx="8" class="fb"/><text x="91" y="162" text-anchor="middle" class="tb">IoT DEVICE</text><text x="91" y="180" text-anchor="middle" class="txs">gets the PSK</text>
+      <rect x="140" y="142" width="86" height="46" rx="8" class="fb"/><text x="183" y="162" text-anchor="middle" class="tb">ROUTER / AP</text><text x="183" y="180" text-anchor="middle" class="txs">gets the PSK</text>
+      <text x="133" y="212" text-anchor="middle" class="txs">a strong, unique PSK is</text>
+      <text x="133" y="226" text-anchor="middle" class="txs">shared securely, in advance</text>
+      <rect x="269" y="36" width="222" height="204" rx="12" class="fb"/>
+      <circle cx="307" cy="36" r="14" class="fbk"/><text x="307" y="41" text-anchor="middle" class="tw">2</text>
+      <text x="380" y="72" text-anchor="middle" class="tb">AUTHENTICATION</text>
+      <rect x="280" y="142" width="86" height="46" rx="8" class="fb"/><text x="323" y="168" text-anchor="middle" class="tb">IoT DEVICE</text>
+      <rect x="396" y="142" width="86" height="46" rx="8" class="fb"/><text x="439" y="168" text-anchor="middle" class="tb">ROUTER / AP</text>
+      <line x1="366" y1="165" x2="396" y2="165" class="fl" marker-end="url(#a18)"/>
+      <text x="380" y="120" text-anchor="middle" class="txs">join request — prove the PSK</text>
+      <text x="380" y="212" text-anchor="middle" class="txs">the PSK acts as a shared</text>
+      <text x="380" y="226" text-anchor="middle" class="txs">secret proof of identity</text>
+      <rect x="516" y="36" width="222" height="204" rx="12" class="fb"/>
+      <circle cx="554" cy="36" r="14" class="fbk"/><text x="554" y="41" text-anchor="middle" class="tw">3</text>
+      <text x="627" y="72" text-anchor="middle" class="tb">SECURE CONNECTION</text>
+      <rect x="534" y="142" width="86" height="46" rx="8" class="fb"/><text x="577" y="168" text-anchor="middle" class="tb">IoT DEVICE</text>
+      <rect x="648" y="142" width="86" height="46" rx="8" class="fb"/><text x="691" y="168" text-anchor="middle" class="tb">ROUTER / AP</text>
+      <rect x="610" y="146" width="48" height="40" rx="20" class="fld"/>
+      <line x1="622" y1="160" x2="646" y2="160" class="fl" marker-end="url(#a18)"/>
+      <line x1="646" y1="172" x2="622" y2="172" class="fl" marker-end="url(#a18)"/>
+      <text x="627" y="120" text-anchor="middle" class="txs">PSK match ⇒ derive keys</text>
+      <text x="627" y="212" text-anchor="middle" class="txs">encrypted link — only PSK</text>
+      <text x="627" y="226" text-anchor="middle" class="txs">holders can join</text>
+      <text x="380" y="290" text-anchor="middle" class="tb">Simple and cheap — but the PSK must be strong and well managed, or the whole network is at risk.</text>
+    </svg>
+    <figcaption>FIG. 18 — Pre-shared keys: provision, authenticate, connect.</figcaption>
+  </figure>
+
+  <p><strong>Use cases in IoT:</strong> <b>WPA/WPA2-PSK</b> Wi-Fi networks (the passphrase is manually entered into the device to join) and <b>device-to-device communication</b>, where complex authentication mechanisms aren’t feasible.</p>
+
+  <div class="pc rv">
+    <div class="pros"><h5>✓ Advantages</h5><ul>
+      <li><b>Simplicity</b> — a straightforward method, easy to implement and manage.</li>
+      <li><b>Cost-effective</b> — no complex public-key infrastructure required; budget-friendly.</li>
+    </ul></div>
+    <div class="cons"><h5>✕ Disadvantages</h5><ul>
+      <li><b>Key management</b> — distributing and managing PSKs across thousands of devices is a serious challenge.</li>
+      <li><b>Security vulnerability</b> — a compromised PSK can grant attackers access to the <b>entire network</b> of devices.</li>
+      <li><b>Limited scalability</b> — less suitable for large or dynamic networks.</li>
+    </ul></div>
+  </div>
+
+  <h3 class="sh"><span>8.2</span>Usernames &amp; passwords</h3>
+  <p>A critical but often <strong>weak link</strong>: many devices ship with universal default credentials that are easily exploited. You must change defaults to strong, unique passwords, use a password manager, and enable multi-factor authentication where possible.</p>
+  <p><strong>Why default credentials are a problem:</strong></p>
+  <ul class="rv">
+    <li><b>Ubiquitous and predictable</b> — the same defaults across many devices; easy for attackers to find and guess.</li>
+    <li><b>Common defaults</b> — “admin”, “user”, “default” and “root” frequently appear in the <b>top-10 passwords found in IoT attacks</b>.</li>
+    <li><b>Lack of updates</b> — many users never change them, leaving devices vulnerable.</li>
+    <li><b>Publicly available</b> — manufacturers sometimes publish default passwords online or print them on the device itself.</li>
+  </ul>
+  <div class="shame rv"><span>admin</span><span>123456</span><span>password</span><span>root</span><span>user</span><span>default</span></div>
+  <p class="rv" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)">↑ the default-password wall of shame — change these first</p>
+
+  <p><strong>How to secure your IoT devices (six steps):</strong></p>
+  <ol class="steps rv">
+    <li><strong>Change default passwords</strong> immediately during setup of any new IoT device.</li>
+    <li><strong>Use strong, unique passwords</strong> — <b>complexity</b>: mix uppercase, lowercase, numbers and special characters; <b>uniqueness</b>: a different password for each device and account.</li>
+    <li><strong>Use a password manager</strong> to generate and securely store strong, unique passwords.</li>
+    <li><strong>Enable multi-factor authentication (MFA)</strong> on IoT device accounts where available.</li>
+    <li><strong>Keep firmware updated</strong> to patch exploitable vulnerabilities.</li>
+    <li><strong>Secure your network</strong> — strong security settings on the home Wi-Fi router protect every connected device.</li>
+  </ol>
+
+  <h3 class="sh"><span>8.3</span>Two-factor authentication (2FA)</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>2FA</strong> adds a critical layer of defence by requiring <strong>two different forms of identification</strong> to access an IoT device or service — significantly stronger than single-factor (password-only) authentication. It prevents unauthorized access <strong>even if a password is stolen, phished, or malware is present</strong>.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 320" role="img" aria-label="2FA factors">
+      <rect x="22" y="18" width="222" height="158" rx="12" class="fb"/>
+      <text x="133" y="44" text-anchor="middle" class="tu">SOMETHING YOU KNOW</text>
+      <text x="133" y="106" text-anchor="middle" class="tbig">••••••</text>
+      <text x="133" y="136" text-anchor="middle" class="ts">password · PIN</text>
+      <text x="133" y="154" text-anchor="middle" class="txs">the classic first factor</text>
+      <rect x="269" y="18" width="222" height="158" rx="12" class="fb"/>
+      <text x="380" y="44" text-anchor="middle" class="tu">SOMETHING YOU HAVE</text>
+      <rect x="371" y="84" width="18" height="36" rx="4" fill="none" stroke="#141414" stroke-width="1.6"/>
+      <line x1="377" y1="89" x2="383" y2="89" stroke="#141414" stroke-width="1.4"/>
+      <line x1="376" y1="115" x2="384" y2="115" stroke="#141414" stroke-width="1.4"/>
+      <text x="380" y="140" text-anchor="middle" class="ts">phone · hardware token</text>
+      <text x="380" y="158" text-anchor="middle" class="txs">OTP generators</text>
+      <rect x="516" y="18" width="222" height="158" rx="12" class="fb"/>
+      <text x="627" y="44" text-anchor="middle" class="tu">SOMETHING YOU ARE</text>
+      <g fill="none" stroke="#141414" stroke-width="1.6">
+        <path d="M619 110 a8 8 0 0 1 16 0"/><path d="M612 110 a15 15 0 0 1 30 0"/><path d="M605 110 a22 22 0 0 1 44 0"/>
+      </g>
+      <text x="627" y="140" text-anchor="middle" class="ts">fingerprint · face · voice</text>
+      <text x="627" y="158" text-anchor="middle" class="txs">less common in IoT today</text>
+      <rect x="128" y="214" width="116" height="46" rx="10" class="fb"/><text x="186" y="242" text-anchor="middle" class="tb">KNOW</text>
+      <text x="266" y="243" text-anchor="middle" class="tplus">+</text>
+      <rect x="296" y="214" width="116" height="46" rx="10" class="fb"/><text x="354" y="242" text-anchor="middle" class="tb">HAVE</text>
+      <text x="436" y="243" text-anchor="middle" class="tplus">=</text>
+      <rect x="470" y="214" width="230" height="46" rx="10" class="fbk"/>
+      <text x="585" y="234" text-anchor="middle" class="tw">2FA</text>
+      <text x="585" y="252" text-anchor="middle" class="tws">most common IoT combo</text>
+      <text x="380" y="300" text-anchor="middle" class="ts">Any two different factor types = two-factor authentication.</text>
+    </svg>
+    <figcaption>FIG. 19 — The three authentication factors — any two make 2FA.</figcaption>
+  </figure>
+
+  <p><strong>Common implementations in IoT:</strong></p>
+  <ul class="rv">
+    <li><b>Username/password + SMS/email code</b> — the most common: the password (know) plus a one-time code sent to the registered phone or email (have).</li>
+    <li><b>Hardware tokens</b> — dedicated tokens generating <b>time-based PINs</b> entered along with the password.</li>
+    <li><b>Mobile app authenticators</b> — an alternative to SMS/email: the app generates one-time passwords directly on the smartphone.</li>
+  </ul>
+  <p><strong>Why 2FA is crucial for IoT:</strong> <b>increased protection</b> (an attacker must compromise both the password <em>and</em> the physical device); <b>mitigates password weaknesses</b> (weak, reused or compromised passwords); and IoT’s <b>broader attack surface</b> (connected homes, cities and businesses) makes robust authentication essential.</p>
+
+  <h3 class="sh"><span>8.4</span>Digital certificates &amp; PKI</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Digital certificates</strong>, issued by trusted <strong>Certificate Authorities (CAs)</strong>, authenticate devices, encrypt data, and ensure the integrity of communications within an IoT network — preventing unauthorized access and securing data exchanged between numerous, often resource-constrained, IoT devices.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 336" role="img" aria-label="PKI hierarchy">
+      <rect x="280" y="16" width="200" height="58" rx="10" class="fbk"/>
+      <text x="380" y="40" text-anchor="middle" class="tw">CERTIFICATE AUTHORITY</text>
+      <text x="380" y="58" text-anchor="middle" class="tws">trusted third party</text>
+      <g class="flg"><line x1="380" y1="74" x2="130" y2="196"/><line x1="380" y1="74" x2="380" y2="196"/><line x1="380" y1="74" x2="630" y2="196"/></g>
+      <text x="394" y="140" class="txs">issues &amp; signs</text>
+      <rect x="24" y="196" width="212" height="78" rx="10" class="fb"/>
+      <text x="130" y="222" text-anchor="middle" class="tb">IoT DEVICE A</text>
+      <text x="130" y="244" text-anchor="middle" class="ts">certificate = identity</text>
+      <text x="130" y="260" text-anchor="middle" class="ts">+ public key</text>
+      <rect x="274" y="196" width="212" height="78" rx="10" class="fb"/>
+      <text x="380" y="222" text-anchor="middle" class="tb">IoT DEVICE B</text>
+      <text x="380" y="244" text-anchor="middle" class="ts">certificate = identity</text>
+      <text x="380" y="260" text-anchor="middle" class="ts">+ public key</text>
+      <rect x="524" y="196" width="212" height="78" rx="10" class="fb"/>
+      <text x="630" y="222" text-anchor="middle" class="tb">IoT PLATFORM</text>
+      <text x="630" y="244" text-anchor="middle" class="ts">verifies certificates</text>
+      <text x="630" y="260" text-anchor="middle" class="ts">against the CA</text>
+      <text x="380" y="322" text-anchor="middle" class="tb">Only holders of valid, CA-issued certificates can join, sign and encrypt — trust that scales.</text>
+    </svg>
+    <figcaption>FIG. 20 — PKI: a trusted CA issues certificates to every device.</figcaption>
+  </figure>
+
+  <p><strong>How PKI and digital certificates work in IoT:</strong></p>
+  <ol class="steps rv">
+    <li><strong>Identity and authentication</strong> — each IoT device is assigned a unique digital certificate containing its <b>public key and identity</b>.</li>
+    <li><strong>Certificate Authority (CA)</strong> — a trusted third-party organisation verifies the device’s identity and <b>issues its digital certificate</b>.</li>
+    <li><strong>Encryption and security</strong> — the certificate’s public key encrypts data sent <b>to</b> the device; the device’s paired private key decrypts it.</li>
+    <li><strong>Integrity and trust</strong> — certificates let devices <b>digitally sign</b> communications, verifying the source and proving messages haven’t been tampered with.</li>
+    <li><strong>Secure connections</strong> — only authenticated, trusted devices can connect to the network and communicate securely.</li>
+  </ol>
+
+  <div class="grid g2 rv">
+    <div class="card"><h4>Enhanced security</h4><p>Prevents unauthorized devices from joining the network; protects data from interception or modification.</p></div>
+    <div class="card"><h4>Device &amp; user authentication</h4><p>Confirms the true identity of devices, users and services — they are who they claim to be.</p></div>
+    <div class="card"><h4>Data integrity</h4><p>Ensures data exchanged between devices has not been altered.</p></div>
+    <div class="card"><h4>Scalability</h4><p>PKI systems can manage the large number of devices in an IoT environment and secure their interactions.</p></div>
+  </div>
+
+  <h3 class="sh"><span>8.5</span>Biometrics</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p><strong>Biometrics</strong> authenticate users by <strong>unique physical or behavioural traits</strong> — like fingerprints or voice — more convenient for users and far harder for hackers to replicate than passwords. IoT systems often use <strong>multi-modal</strong> approaches for higher accuracy on resource-constrained devices.</p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 760 320" role="img" aria-label="Biometrics family tree">
+      <rect x="300" y="14" width="160" height="48" rx="10" class="fbk"/>
+      <text x="380" y="42" text-anchor="middle" class="tw">BIOMETRICS</text>
+      <g class="flg"><line x1="380" y1="62" x2="191" y2="104"/><line x1="380" y1="62" x2="569" y2="104"/></g>
+      <rect x="66" y="104" width="250" height="52" rx="10" class="fb"/>
+      <text x="191" y="126" text-anchor="middle" class="tb">PHYSIOLOGICAL</text>
+      <text x="191" y="146" text-anchor="middle" class="ts">what you are</text>
+      <rect x="444" y="104" width="250" height="52" rx="10" class="fb"/>
+      <text x="569" y="126" text-anchor="middle" class="tb">BEHAVIORAL</text>
+      <text x="569" y="146" text-anchor="middle" class="ts">what you do</text>
+      <g class="flg">
+        <line x1="191" y1="156" x2="62" y2="196"/><line x1="191" y1="156" x2="182" y2="196"/><line x1="191" y1="156" x2="302" y2="196"/>
+        <line x1="569" y1="156" x2="422" y2="196"/><line x1="569" y1="156" x2="542" y2="196"/><line x1="569" y1="156" x2="662" y2="196"/>
+      </g>
+      <g>
+        <rect x="6" y="196" width="112" height="48" rx="10" class="fb"/><text x="62" y="225" text-anchor="middle" class="tb">Fingerprint</text>
+        <rect x="126" y="196" width="112" height="48" rx="10" class="fb"/><text x="182" y="225" text-anchor="middle" class="tb">Facial</text>
+        <rect x="246" y="196" width="112" height="48" rx="10" class="fb"/><text x="302" y="225" text-anchor="middle" class="tb">Iris · Palm</text>
+        <rect x="366" y="196" width="112" height="48" rx="10" class="fb"/><text x="422" y="225" text-anchor="middle" class="tb">Voice</text>
+        <rect x="486" y="196" width="112" height="48" rx="10" class="fb"/><text x="542" y="225" text-anchor="middle" class="tb">Typing</text>
+        <rect x="606" y="196" width="112" height="48" rx="10" class="fb"/><text x="662" y="225" text-anchor="middle" class="tb">Gait</text>
+      </g>
+      <text x="191" y="272" text-anchor="middle" class="txs">strong, high-security traits</text>
+      <text x="569" y="272" text-anchor="middle" class="txs">continuous / emerging signals</text>
+      <text x="380" y="306" text-anchor="middle" class="ts">Multimodal biometrics (e.g., face + voice) significantly increase accuracy, especially in challenging conditions.</text>
+    </svg>
+    <figcaption>FIG. 22 — The biometrics family tree.</figcaption>
+  </figure>
+
+  <p><strong>How biometrics enhance IoT security:</strong></p>
+  <ul class="rv">
+    <li><b>Improved authentication</b> — identity verified via unique personal traits; a strong defence against unauthorized access and identity theft.</li>
+    <li><b>Convenience and usability</b> — no complex passwords to remember; a seamless, user-friendly experience.</li>
+    <li><b>Data protection</b> — biometric templates and hashes can be securely stored and processed <b>locally on the device</b>, improving privacy.</li>
+    <li><b>Difficult to replicate</b> — unlike passwords or keys, biometric markers are permanent and extremely hard to steal or replicate.</li>
+    <li><b>Increased accuracy</b> — multimodal biometrics (e.g., face + voice) significantly increase recognition accuracy, especially in challenging conditions.</li>
+  </ul>
+
+  <p><strong>Common types:</strong> <b>Physiological</b> — fingerprint recognition (secure device/system access), facial recognition (smart homes identifying individuals), iris/palm-vein recognition (advanced methods mapping unique patterns for high-security authentication). <b>Behavioural</b> — voice recognition (smart assistants like Alexa and Google Home), typing habits and gait analysis (emerging methods tracking unique behavioural patterns).</p>
+
+  <p><strong>Applications in IoT:</strong> <b>smart homes</b> (biometric scanners control entry and secure integrated systems); <b>smart assistants</b> (voice biometrics personalise experiences and restrict profiles on Alexa/Google Home); <b>Internet of Medical Things (IoMT)</b> (wearables monitor patient health, with secure authentication ensuring only authorised medical professionals access the data); and <b>IoT-based attendance systems</b> (secure, verifiable tracking in business organisations).</p>
+
+  <h3 class="sh"><span>8.6</span>Zero-Trust Network Access</h3>
+  <div class="def rv">
+    <span class="tag">Definition</span>
+    <p>A security model that <strong>verifies every device and user for every access request</strong> — preventing access based on implicit trust. <em>Never trust, always verify.</em></p>
+  </div>
+
+  <figure class="fig rv">
+    <svg viewBox="0 0 720 284" role="img" aria-label="Zero trust versus traditional">
+      <defs><marker id="a21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#141414"/></marker></defs>
+      <text x="360" y="20" text-anchor="middle" class="tu">TRADITIONAL — “CASTLE &amp; MOAT”</text>
+      <rect x="140" y="30" width="440" height="84" rx="12" class="fbd"/>
+      <rect x="160" y="58" width="92" height="36" rx="8" class="fb"/><text x="206" y="80" text-anchor="middle" class="tb">DEVICE</text>
+      <line x1="252" y1="76" x2="400" y2="76" class="fl" marker-end="url(#a21)"/>
+      <text x="326" y="64" text-anchor="middle" class="txs">inside the network ⇒ trusted</text>
+      <rect x="400" y="58" width="132" height="36" rx="8" class="fbg"/><text x="466" y="80" text-anchor="middle" class="tb">RESOURCE</text>
+      <text x="326" y="104" text-anchor="middle" class="txs">implicit trust = risk</text>
+      <text x="360" y="150" text-anchor="middle" class="tu">ZERO TRUST — “NEVER TRUST, ALWAYS VERIFY”</text>
+      <rect x="140" y="160" width="440" height="88" rx="12" class="fbd"/>
+      <rect x="160" y="188" width="92" height="36" rx="8" class="fb"/><text x="206" y="210" text-anchor="middle" class="tb">DEVICE</text>
+      <rect x="296" y="182" width="128" height="48" rx="8" class="fbk"/>
+      <text x="360" y="202" text-anchor="middle" class="tw">VERIFY EVERY</text>
+      <text x="360" y="220" text-anchor="middle" class="tw">REQUEST</text>
+      <line x1="252" y1="206" x2="296" y2="206" class="fl" marker-end="url(#a21)"/>
+      <line x1="424" y1="206" x2="468" y2="206" class="fl" marker-end="url(#a21)"/>
+      <rect x="468" y="188" width="100" height="36" rx="8" class="fbg"/><text x="518" y="210" text-anchor="middle" class="tb">RESOURCE</text>
+      <text x="360" y="238" text-anchor="middle" class="txs">identity · device health · context</text>
+      <text x="360" y="272" text-anchor="middle" class="ts">Zero-Trust Network Access verifies every device and user for every access request — no implicit trust anywhere.</text>
+    </svg>
+    <figcaption>FIG. 21 — Traditional perimeter trust vs zero trust.</figcaption>
+  </figure>
+
+  <h3 class="sh"><span>8.7</span>Authentication methods — comparison</h3>
+  <div class="tscroll rv">
+    <table>
+      <thead><tr><th>Method</th><th>How it proves identity</th><th>Strength</th><th>Watch-out</th></tr></thead>
+      <tbody>
+        <tr><td><b>PSK</b></td><td>Knowing a pre-shared secret</td><td>Good for small fleets</td><td>Doesn’t scale; one leak exposes all</td></tr>
+        <tr><td><b>Username + password</b></td><td>Knowing a secret</td><td>Baseline only</td><td>Defaults, weak and reused passwords</td></tr>
+        <tr><td><b>2FA / MFA</b></td><td>Password + a second factor</td><td>Strong</td><td>Needs user device / enrolment</td></tr>
+        <tr><td><b>Certificates / PKI</b></td><td>Cryptographic identity</td><td>Strongest at scale</td><td>Infrastructure &amp; lifecycle management</td></tr>
+        <tr><td><b>Biometrics</b></td><td>Who you are</td><td>Strong + great UX</td><td>Spoofing; privacy of templates</td></tr>
+        <tr><td><b>Zero trust</b></td><td>Verify every request</td><td>Architectural</td><td>Requires mature monitoring</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="memo rv">
+    <span class="tag">Memory hook — “K · H · A”</span>
+    <p>The three authentication factors: <b>Know</b> (password) · <b>Have</b> (phone/token) · <b>Are</b> (biometrics). Any two = 2FA. Most common in IoT: <b>password + one-time code</b>.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 09 ==================== -->
+<section class="mod" id="m09" data-label="09 · Privacy">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">09</div>
+    <div>
+      <p class="kicker">Module 09 · Syllabus — privacy concerns &amp; regulations</p>
+      <h2>Privacy Concerns &amp; Regulations</h2>
+      <p class="mlede">Security is protecting data from unauthorized access; privacy is the right to control how data is collected, used and shared. IoT stresses both.</p>
+    </div>
+  </header>
+
+  <div class="grid g2 rv">
+    <div class="card"><span class="cno">1</span><h4>Embedding data privacy</h4><p>Privacy must be <b>built into</b> devices and data flows from the start (“privacy by design”) — retrofitting privacy across millions of already-deployed devices is extremely hard.</p></div>
+    <div class="card"><span class="cno">2</span><h4>Proliferating devices</h4><p>Every new device is a new collector of personal data and a new potential leak point. Keeping track of <b>what is collected, where</b> gets harder as fleets grow.</p></div>
+    <div class="card"><span class="cno">3</span><h4>Increasing maintenance costs</h4><p>Keeping data protected — encryption, secure storage, audits, updates, compliance — costs money, and the bill grows with every device. Under-investment creates risk.</p></div>
+    <div class="card"><span class="cno">4</span><h4>Access control is difficult</h4><p>IoT data is touched by many parties — manufacturers, service providers, third-party analytics. Enforcing <b>fine-grained, industry-specific access control</b> is complex in many industries.</p></div>
+    <div class="card"><span class="cno">5</span><h4>A bad data culture</h4><p>Organisations that over-collect, carelessly handle and never audit data create <b>systemic privacy risk</b> regardless of the technology deployed.</p></div>
+    <div class="card"><span class="cno">6</span><h4>The ever-increasing scale of data</h4><p>Volume, velocity and variety of IoT data outpace the ability to protect it. Even harmless-looking streams (smart-meter readings) <b>aggregate into sensitive profiles</b> — when you are home, what you do.</p></div>
+  </div>
+
+  <div class="def rv">
+    <span class="tag">Regulations to name-drop</span>
+    <p><strong>GDPR</strong> (EU) — comprehensive personal-data protection with heavy fines; applies to IoT products and services handling EU residents’ data. <strong>HIPAA</strong> (US) — protects health data; governs the Internet of Medical Things (IoMT). <strong>Link:</strong> lightweight cryptography helps constrained devices meet GDPR/HIPAA-grade protection (Module 07.4), and non-compliance leaves organisations vulnerable — with possible <strong>legal consequences</strong> after a breach (Module 04.5).</p>
+  </div>
+
+  <div class="exam rv">
+    <span class="tag">Exam tip</span>
+    <p>For “privacy concerns in IoT” answers: <b>name all six headings</b>, then expand any three with an example — scale (data aggregation), culture (over-collection), cost (maintenance). Close with GDPR/HIPAA for regulation marks.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 10 ==================== -->
+<section class="mod" id="m10" data-label="10 · Best practices">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">10</div>
+    <div>
+      <p class="kicker">Module 10 · Syllabus — best practices for securing IoT devices</p>
+      <h2>IoT Security Best Practices</h2>
+      <p class="mlede">First the core hygiene checklist, then the famous “Top 10” — each with its advantages, exactly as examiners like it.</p>
+    </div>
+  </header>
+
+  <h3 class="sh"><span>10.1</span>Core hygiene — the foundation six</h3>
+  <div class="grid g3 rv">
+    <div class="card"><h4>Secure the server infrastructure</h4><p>Hardened backends protect the whole IoT estate.</p></div>
+    <div class="card"><h4>Configure a firewall</h4><p>For limited platform access — only necessary traffic passes.</p></div>
+    <div class="card"><h4>Restrict device production access</h4><p>Employees get least-privilege access to devices.</p></div>
+    <div class="card"><h4>Handle regular system backups</h4><p>Backups blunt ransomware’s leverage.</p></div>
+    <div class="card"><h4>Use encryption</h4><p>Everywhere data moves or rests.</p></div>
+    <div class="card"><h4>Monitor system &amp; business metrics</h4><p>Anomalies surface early — in operations and in security.</p></div>
+  </div>
+
+  <h3 class="sh"><span>10.2</span>The Top 10 practices</h3>
+
+  <div class="grid g2 rv">
+    <div class="card"><span class="cno">1</span><h4>Regularly update the IoT devices</h4>
+      <p>IoT devices run software to perform their functions, and that software must be regularly updated to prevent attackers from exploiting known <b>vulnerabilities</b>.</p>
+      <p class="why"><b>Advantages:</b> an effective <b>patch-management process</b> protects devices from vulnerabilities; <b>RMM solutions</b> schedule updates and patches and push them to all relevant devices automatically; the speed of addressing vulnerabilities improves — you patch far more than manual effort ever could.</p>
+    </div>
+    <div class="card"><span class="cno">2</span><h4>Enable strong authentication</h4>
+      <p>A robust password-protection strategy for IoT applications — including secure password generation and update processes. It is <b>critical to change default passwords</b>.</p>
+      <p class="why"><b>Advantages:</b> multiple authentication factors keep devices safer; encrypted <b>TLS communication</b> reduces the chance of authentication data being compromised; malicious actors find it far harder to reach internal systems.</p>
+    </div>
+    <div class="card"><span class="cno">3</span><h4>Secure IoT gateway solutions</h4>
+      <p>Gateways are the critical checkpoint between devices and the broader internet: enforce <b>stringent internet access policies</b> so only authorised traffic reaches connected devices — keeping malware out of user connections and away from sensitive data.</p>
+      <p class="why"><b>Advantages:</b> enhanced control &amp; monitoring (spot threats early, act preventively); prevention of malware intrusion; a <b>Secure Web Gateway (SWG)</b> adds application control, deep inspection of HTTPS/SSL traffic, remote browser isolation and URL filtering; protection extends to cloud and remote environments; and data privacy improves — threat monitoring prevents leaks, while <b>VPNs encrypt browsing data</b> against hackers.</p>
+    </div>
+    <div class="card"><span class="cno">4</span><h4>Monitoring</h4>
+      <p>Monitor <b>user activity, sign-in attempts, resource access and policy changes</b>. Security event monitoring and logging lets organisations detect and respond to issues in a timely manner; set up alerts and dashboards for security metrics and easy tracking.</p>
+      <p class="why"><b>Advantages:</b> keeps track of progress; detects underlying problems before they cause adverse effects; lets managers foresee breakdowns and conduct maintenance <b>before it becomes urgent</b> — minor tasks never become major issues.</p>
+    </div>
+    <div class="card"><span class="cno">5</span><h4>Securing cloud APIs</h4>
+      <p>Cloud APIs facilitate communication and data transfer between services — a compromised API can cause a significant data breach. Implement <b>authentication, encryption, tokens and API gateways</b>.</p>
+      <p class="why"><b>Advantages:</b> strong authentication + encryption keeps data secure as it crosses the internet; gateways and tokens add a control layer that blocks unauthorized interactions; the integrity of data shared between servers and devices is maintained.</p>
+    </div>
+    <div class="card"><span class="cno">6</span><h4>Track and manage the devices</h4>
+      <p>You can’t manage devices without understanding how each one works and what it does — knowing your connected devices is the ultimate step to securing the IoT infrastructure.</p>
+      <p class="why"><b>Advantages:</b> continuous monitoring software discovers and monitors devices; tracking raises alerts that protect devices from threats; productivity and safety both improve.</p>
+    </div>
+    <div class="card"><span class="cno">7</span><h4>Carefully manage the device inventory</h4>
+      <p>Device discovery and inventory improve security: knowing <b>all</b> connected devices means you can secure <b>all</b> of them — any unsecured device is a potential attack vector.</p>
+      <p class="why"><b>Advantages:</b> maintains and protects devices from threats; automated discovery tools keep you ahead even with huge device populations; every device on the network gets best-practice security.</p>
+    </div>
+    <div class="card"><span class="cno">8</span><h4>Update the credentials and passwords</h4>
+      <p>Hackers can easily obtain and exploit passwords to gain control of devices — update credentials and passwords regularly.</p>
+      <p class="why"><b>Advantages:</b> good password hygiene prevents account compromise; never reuse passwords across devices; keep any password storage encrypted and secure; add <b>multifactor authentication</b>.</p>
+    </div>
+    <div class="card"><span class="cno">9</span><h4>Understand the endpoints</h4>
+      <p>Every new IoT device — laptop, smartphone, cloud-based server — introduces a new endpoint. As device counts constantly grow, organisations struggle with effective endpoint security.</p>
+      <p class="why"><b>Advantages:</b> identifying device profiles and IoT endpoints is the foundation of secure, healthy networks; endpoint security tools strengthen coverage; users get better safety.</p>
+    </div>
+    <div class="card"><span class="cno">10</span><h4>Stay proactive with IoT security</h4>
+      <p>Manage <b>both active and inactive devices</b>; always patch and maintain. Preventative measures are far more valuable to an organisation’s integrity than reactive ones.</p>
+      <p class="why"><b>Advantages:</b> <b>SNMP solutions</b> monitor networks and raise alerts on potential problems; staying proactive keeps devices secure and the whole security practice manageable.</p>
+    </div>
+  </div>
+
+  <details class="dd rv">
+    <summary>Jargon decoder — RMM · SWG · VPN · SNMP · ACL</summary>
+    <div class="dd-in">
+      <p><b>RMM</b> — Remote Monitoring &amp; Management: schedules and automatically pushes updates/patches to all relevant devices.</p>
+      <p><b>SWG</b> — Secure Web Gateway: enforces internet access policies; features application control, deep inspection of HTTPS/SSL traffic, remote browser isolation and URL filtering.</p>
+      <p><b>VPN</b> — Virtual Private Network: encrypts browsing data, keeping internet activity private and protected from hackers.</p>
+      <p><b>SNMP</b> — Simple Network Management Protocol: monitors networks and alerts on potential problems.</p>
+      <p><b>ACL</b> — Access Control List: rules defining who or what may access a resource.</p>
+    </div>
+  </details>
+
+  <div class="memo rv">
+    <span class="tag">Memory hook — group the ten</span>
+    <p><b>Keep devices current</b> (#1 updates, #8 credentials) · <b>Know your fleet</b> (#6 track, #7 inventory, #9 endpoints) · <b>Guard the gates</b> (#3 gateways, #5 APIs) · <b>Watch everything</b> (#4 monitoring) · <b>Lock the front door</b> (#2 authentication) · <b>Stay ahead</b> (#10 proactive).</p>
+  </div>
+
+  <div class="qa rv">
+    <span class="tag">Likely exam question</span>
+    <p><b>Q.</b> List and explain the top 10 IoT security best practices with their advantages. <em>[10 marks]</em></p>
+  </div>
+ </div>
+</section>
+
+<!-- ==================== MODULE 11 ==================== -->
+<section class="mod" id="m11" data-label="11 · Exam zone">
+ <div class="wrap">
+  <header class="mhead rv">
+    <div class="mno">11</div>
+    <div>
+      <p class="kicker">Module 11 · Revision</p>
+      <h2>Exam Zone: Revision &amp; Question Bank</h2>
+      <p class="mlede">Rapid-fire definitions, mnemonics, the question bank, a model answer skeleton and a persistent revision checklist.</p>
+    </div>
+  </header>
+
+  <h3 class="sh"><span>11.1</span>Rapid-fire definitions</h3>
+  <div class="terms rv">
+    <div class="term"><b>Encryption</b><span>Converting data into an unreadable format to prevent unauthorized access.</span></div>
+    <div class="term"><b>Ciphertext</b><span>The encrypted, unreadable form of data.</span></div>
+    <div class="term"><b>Symmetric encryption</b><span>One shared secret key for encryption and decryption — AES, Blowfish.</span></div>
+    <div class="term"><b>Asymmetric encryption</b><span>Public/private key pair; public encrypts, private decrypts — RSA, ECC.</span></div>
+    <div class="term"><b>Session key</b><span>A temporary symmetric key exchanged after a TLS handshake for fast bulk encryption.</span></div>
+    <div class="term"><b>Diffie–Hellman</b><span>Establishing a shared symmetric key without ever exchanging the key itself.</span></div>
+    <div class="term"><b>Digital signature</b><span>Private-key-created, public-key-verified proof of identity and integrity.</span></div>
+    <div class="term"><b>Digital certificate</b><span>An identity + public key, issued and signed by a Certificate Authority.</span></div>
+    <div class="term"><b>CA / PKI</b><span>Trusted third party issuing certificates / the system of CAs, certificates and keys enabling trust at scale.</span></div>
+    <div class="term"><b>TLS</b><span>Protocol providing encrypted, authenticated, integrity-protected channels in transit; successor to SSL.</span></div>
+    <div class="term"><b>Lightweight cryptography</b><span>Cryptography optimised for low power, memory and compute.</span></div>
+    <div class="term"><b>PSK</b><span>A secret pre-shared between device and network for authentication and key derivation.</span></div>
+    <div class="term"><b>2FA / MFA</b><span>Authentication combining two (or more) factors: know / have / are.</span></div>
+    <div class="term"><b>Biometrics</b><span>Authentication via unique physiological or behavioural traits.</span></div>
+    <div class="term"><b>Shadow IoT</b><span>Unauthorized, unvetted devices connected to a network without IT’s knowledge.</span></div>
+    <div class="term"><b>Botnet</b><span>A network of malware-compromised, remotely controlled devices.</span></div>
+    <div class="term"><b>DDoS</b><span>Overwhelming a target with traffic from many sources — an attack on availability.</span></div>
+    <div class="term"><b>Ransomware</b><span>Malware that encrypts data and demands payment; double extortion adds a publish threat.</span></div>
+    <div class="term"><b>APT</b><span>Advanced Persistent Threat — a sophisticated attack that hides inside systems for long periods.</span></div>
+    <div class="term"><b>DNS spoofing / poisoning</b><span>Manipulating DNS records to redirect traffic from legitimate to malicious sites.</span></div>
+    <div class="term"><b>Zero trust</b><span>Verify every device and user for every request; no access based on implicit trust.</span></div>
+    <div class="term"><b>Attack surface</b><span>The sum of all points where an attacker could attempt entry.</span></div>
+  </div>
+
+  <h3 class="sh"><span>11.2</span>Mnemonics &amp; formulas</h3>
+  <ul class="rv">
+    <li><b>BREAD</b> — key challenges: Basic security missing · Resources limited · Exposure of data · Attack surface vast · Devices on unsecured networks.</li>
+    <li><b>E · A · I</b> — TLS guarantees: Encryption, Authentication, Integrity.</li>
+    <li><b>K · H · A</b> — 2FA factors: Know, Have, Are.</li>
+    <li><b>Learn → Segment → Protect</b> — visibility → policy groups → enforcement.</li>
+    <li><b>“Asymmetric to meet, symmetric to work”</b> — the TLS hybrid model.</li>
+    <li><b>F · S · F · S</b> — LWC characteristics: Fast, Small, Frugal, Strong.</li>
+  </ul>
+
+  <h3 class="sh"><span>11.3</span>Question bank</h3>
+  <div class="grid g3 rv">
+    <div class="card"><h4>2 marks</h4><ul style="margin:0;padding-left:18px;font-size:.9rem">
+      <li>Define encryption. What is ciphertext?</li>
+      <li>What is a session key?</li>
+      <li>Define shadow IoT.</li>
+      <li>What is a botnet? What is DDoS?</li>
+      <li>Define zero-trust network access.</li>
+      <li>What is DNS tunneling? Fast flux?</li>
+      <li>What is a pre-shared key?</li>
+      <li>State the three authentication factors.</li>
+    </ul></div>
+    <div class="card"><h4>5 marks</h4><ul style="margin:0;padding-left:18px;font-size:.9rem">
+      <li>List and explain the key challenges of IoT security.</li>
+      <li>Explain how TLS secures IoT communications.</li>
+      <li>Explain PSK authentication with advantages and disadvantages.</li>
+      <li>Classify biometric types with IoT examples.</li>
+      <li>Explain DNS-based threats in IoT.</li>
+      <li>Explain the Learn–Segment–Protect model.</li>
+      <li>Discuss privacy concerns in IoT.</li>
+      <li>Compare RSA and ECC.</li>
+      <li>Explain digital signatures and their role in IoT.</li>
+      <li>Explain any five security threats with examples.</li>
+    </ul></div>
+    <div class="card"><h4>10 marks</h4><ul style="margin:0;padding-left:18px;font-size:.9rem">
+      <li>Describe the encryption techniques used in IoT (symmetric, asymmetric, TLS, lightweight) with diagrams.</li>
+      <li>Describe the authentication techniques used in IoT (PSK, passwords, 2FA, PKI, biometrics, zero trust).</li>
+      <li>Explain the top 10 IoT security best practices.</li>
+      <li>Discuss the security challenges of IoT in detail.</li>
+      <li>How do biometrics enhance IoT security? Classify and give applications.</li>
+    </ul></div>
+  </div>
+
+  <h3 class="sh"><span>11.4</span>Model answer skeleton — “Describe encryption techniques in IoT” (10 marks)</h3>
+  <ol class="steps rv">
+    <li><b>Definition</b> — encryption converts data into an unreadable format to prevent unauthorized access.</li>
+    <li><b>Symmetric</b> — one shared key; working (3 steps); examples AES/Blowfish; benefits speed + resource-friendliness; challenge: key distribution.</li>
+    <li><b>Asymmetric</b> — public/private pair; working (3 steps); RSA, ECC, Diffie–Hellman; applications: key exchange, digital signatures, entity authentication.</li>
+    <li><b>TLS</b> — hybrid model (handshake → session key); three guarantees: encryption, authentication, integrity; why essential for IoT (4 reasons).</li>
+    <li><b>Lightweight cryptography</b> — why needed (resources, battery, performance, compliance); four characteristics; uses.</li>
+    <li><b>Conclusion</b> — real systems layer all three: e.g., MQTT over TLS with ECC certificates and LWC on constrained endpoints.</li>
+  </ol>
+
+  <h3 class="sh"><span>11.5</span>Revision checklist</h3>
+  <div class="ckmeter rv">
+    <div class="cktrack"><div class="ckfill" id="ckBar"></div></div>
+    <span class="ck-count" id="ckCount">0 / 13 revised</span>
+  </div>
+  <ul class="cklist" id="ckList">
+    <li><label><input type="checkbox"><span>The 5 key challenges (BREAD) and the 7 key solutions.</span></label></li>
+    <li><label><input type="checkbox"><span>The 9 core security challenges + shadow IoT.</span></label></li>
+    <li><label><input type="checkbox"><span>The 5 DNS attack types and 5 DNS vulnerabilities.</span></label></li>
+    <li><label><input type="checkbox"><span>Botnets, ransomware and the IoT attack kill chain.</span></label></li>
+    <li><label><input type="checkbox"><span>The CIA triad and mapping attacks onto it.</span></label></li>
+    <li><label><input type="checkbox"><span>Symmetric vs asymmetric — definitions, examples, trade-offs.</span></label></li>
+    <li><label><input type="checkbox"><span>The TLS hybrid model (handshake → session key) and its 3 guarantees.</span></label></li>
+    <li><label><input type="checkbox"><span>Why lightweight cryptography exists and its 4 characteristics.</span></label></li>
+    <li><label><input type="checkbox"><span>PSK: 3 working steps, 2 use cases, pros &amp; cons.</span></label></li>
+    <li><label><input type="checkbox"><span>The 3 authentication factors and common 2FA implementations.</span></label></li>
+    <li><label><input type="checkbox"><span>PKI: the 5 steps and 4 benefits; digital signatures.</span></label></li>
+    <li><label><input type="checkbox"><span>Biometrics: 5 benefits, physiological vs behavioural, 4 applications.</span></label></li>
+    <li><label><input type="checkbox"><span>Top 10 best practices + Learn–Segment–Protect + 6 privacy concerns.</span></label></li>
+  </ul>
+  <button class="btn" id="ckReset" type="button">Reset checklist</button>
+
+  <h3 class="sh"><span>11.6</span>References</h3>
+  <ul class="refs rv">
+    <li><a href="https://www.fortinet.com/resources/cyberglossary/iot-security" target="_blank" rel="noopener">fortinet.com — IoT Security (Cyberglossary)</a></li>
+    <li><a href="https://www.nexusgroup.com/what-are-the-security-challenges-of-iot/" target="_blank" rel="noopener">nexusgroup.com — What are the security challenges of IoT?</a></li>
+    <li><a href="https://www.splunk.com/en_us/blog/learn/dns-security.html" target="_blank" rel="noopener">splunk.com — DNS Security</a></li>
+    <li><a href="https://fastercapital.com/topics/encryption-and-authentication-techniques.html/1" target="_blank" rel="noopener">fastercapital.com — Encryption and authentication techniques</a></li>
+    <li><a href="https://www.cloverdx.com/blog/data-privacy-issues-and-how-to-solve-them" target="_blank" rel="noopener">cloverdx.com — Data privacy issues and how to solve them</a></li>
+  </ul>
+ </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="kicker">End of Unit IV</p>
+    <p style="margin-top:10px;font-family:var(--serif);font-size:1.3rem;font-weight:600">IoT Security &amp; Privacy — you’re ready.</p>
+    <p style="color:var(--mut);font-size:.9rem;max-width:60ch">Work through the checklist, rehearse the mnemonics, and practise the 10-mark skeletons under time pressure. Good luck in the exam.</p>
+    <p style="margin-top:20px;"><a href="../../index.html" class="back-link" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:600;border:1px solid var(--ink);padding:7px 14px;border-radius:999px;">← Return to Notes Hub</a></p>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+(function(){
+  // Reading progress bar
+  var bar=document.getElementById('bar'), topBtn=document.getElementById('toTop');
+  function onScroll(){
+    var h=document.documentElement;
+    var sc=h.scrollTop||document.body.scrollTop;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(sc/max*100):0)+'%';
+    if(topBtn) topBtn.classList.toggle('show',sc>600);
+  }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(topBtn) topBtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+
+  // Reveal-on-scroll
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.06,rootMargin:'0px 0px -24px 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  } else {
+    document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+  }
+
+  // Current section indicator
+  var cur=document.getElementById('curSec');
+  var secs=[].slice.call(document.querySelectorAll('section[data-label]'));
+  if('IntersectionObserver' in window && cur){
+    var io2=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ cur.textContent=e.target.getAttribute('data-label'); } });
+    },{rootMargin:'-42% 0px -52% 0px'});
+    secs.forEach(function(s){io2.observe(s);});
+  }
+
+  // Revision checklist (persisted)
+  var KEY='iot-unit4-checklist-v1';
+  var boxes=[].slice.call(document.querySelectorAll('#ckList input'));
+  var saved=null;
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){}
+  boxes.forEach(function(b,i){ if(saved && saved[i]) b.checked=!!saved[i]; });
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(boxes.map(function(b){return b.checked;}))); }catch(e){} }
+  function upd(){
+    var n=boxes.filter(function(b){return b.checked;}).length;
+    document.getElementById('ckCount').textContent=n+' / '+boxes.length+' revised';
+    document.getElementById('ckBar').style.width=(boxes.length?(n/boxes.length*100):0)+'%';
+  }
+  boxes.forEach(function(b){ b.addEventListener('change',function(){save();upd();}); });
+  var reset=document.getElementById('ckReset');
+  if(reset) reset.addEventListener('click',function(){ boxes.forEach(function(b){b.checked=false;}); save(); upd(); });
+  upd();
+
+  // Open all deep-dives when printing
+  window.addEventListener('beforeprint',function(){
+    document.querySelectorAll('details').forEach(function(d){d.open=true;});
+  });
+})();
+</script>
+</body>
+</html>
