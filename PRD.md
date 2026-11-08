@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.8.0  
+**Version**: 1.9.0  
 
 ---
 
@@ -92,9 +92,9 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 │  │ - Instant publish       │──┼─►│ Standalone HTML Notes            │  │
 │  └─────────────────────────┘  │  │ - notes/biot/BIOTU1–U4 (100%)    │  │
 │                               │  │ - notes/dcn/DCNU1–U4 (100%)      │  │
-│                               │  │ - notes/fds/FDSU1–U5 (83.3%)     │  │
-│                               │  │ - notes/oop/OOPU1.html           │  │
-│                               │  │ - notes/pas/PASU1, PASU2         │  │
+│                               │  │ - notes/fds/FDSU1–U6 (100%)      │  │
+│                               │  │ - notes/oop/OOPU1, OOPU2 (50%)   │  │
+│                               │  │ - notes/pas/PASU1, PASU2 (50%)   │  │
 │                               │  │ - Responsive TOC, Print CSS, etc │  │
 │                               │  └──────────────────────────────────┘  │
 └───────────────────────────────┴────────────────────────────────────────┘
@@ -182,7 +182,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 ---
 
 ## 8. Success Metrics & KPIs
-1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 16/22 units, 72.7% published across BIOT (4/4), DCN (4/4), FDS (5/6), OOP (1/4), and PAS (2/4)).
+1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 18/22 units, 81.8% published across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (2/4)).
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
 

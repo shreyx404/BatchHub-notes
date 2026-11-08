@@ -86,7 +86,7 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 npm run build
 # or: node scripts/generate-manifest.js
 ```
-Verify that `notes.json` reflects your new note with all metadata populated (currently tracking 16 published units across BIOT, DCN, FDS, OOP, and PAS).
+Verify that `notes.json` reflects your new note with all metadata populated (currently tracking 18 published units across BIOT, DCN, FDS, OOP, and PAS).
 
 ### Step 7: Update System Markdowns
 - Update [`TASKS.md`](TASKS.md) to mark the unit as complete.

@@ -41,15 +41,17 @@ BatchHub-notes/
 │   │   ├── DCNU2.html            # Unit 2 Notes (Published)
 │   │   ├── DCNU3.html            # Unit 3 Notes (Published)
 │   │   └── DCNU4.html            # Unit 4 Notes (Published)
-│   ├── fds/                      # Fundamentals of Data Structures (CB2003 - 6 Units) [83.3%]
+│   ├── fds/                      # Fundamentals of Data Structures (CB2003 - 6 Units) [100% Complete]
 │   │   ├── FDSU1.html            # Unit 1 Notes (Published)
 │   │   ├── FDSU2.html            # Unit 2 Notes (Published)
 │   │   ├── FDSU3.html            # Unit 3 Notes (Published)
 │   │   ├── FDSU4.html            # Unit 4 Notes (Published)
-│   │   └── FDSU5.html            # Unit 5 Notes (Published)
-│   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units)
-│   │   └── OOPU1.html            # Unit 1 Notes (Published)
-│   └── pas/                      # Probability and Statistics (MM0501 - 4 Units)
+│   │   ├── FDSU5.html            # Unit 5 Notes (Published)
+│   │   └── FDSU6.html            # Unit 6 Notes (Published)
+│   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [50% Complete]
+│   │   ├── OOPU1.html            # Unit 1 Notes (Published)
+│   │   └── OOPU2.html            # Unit 2 Notes (Published)
+│   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [50% Complete]
 │       ├── PASU1.html            # Unit 1 Notes (Published)
 │       └── PASU2.html            # Unit 2 Notes (Published)
 ├── templates/

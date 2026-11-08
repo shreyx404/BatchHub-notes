@@ -285,6 +285,24 @@
     ]
   },
   {
+    "id": "fds-unit6",
+    "subject": "FDS",
+    "unit": "Unit 6",
+    "title": "Unit VI · Graphs — Complete Study Notes | Fundamentals of Data Structures (CB2003)",
+    "summary": "Comprehensive examination notes on FDS Unit VI — Graphs: fundamentals, representations (adjacency matrix & list), traversals (BFS, DFS) step-by-step traces, Warshall",
+    "path": "notes/fds/FDSU6.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/fds/FDSU6.html",
+    "tags": [
+      "Data Structures",
+      "Graphs",
+      "Adjacency Matrix",
+      "Adjacency List",
+      "BFS",
+      "DFS",
+      "Warshall"
+    ]
+  },
+  {
     "id": "oop-unit1",
     "subject": "OOP",
     "unit": "Unit 1",
@@ -308,6 +326,32 @@
       "Virtual Functions",
       "Templates",
       "File Handling"
+    ]
+  },
+  {
+    "id": "oop-unit2",
+    "subject": "OOP",
+    "unit": "Unit 2",
+    "title": "Java · Unit II Master Notes — Lectures 14–21",
+    "summary": "Comprehensive examination notes on OOP Unit 2 (Java Programming, Lectures 14–21): JVM architecture, OOP concepts in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI components, and event-driven programming.",
+    "path": "notes/oop/OOPU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/oop/OOPU2.html",
+    "tags": [
+      "OOP",
+      "Java",
+      "JVM",
+      "JRE",
+      "JDK",
+      "Classes",
+      "Objects",
+      "Inheritance",
+      "Polymorphism",
+      "Interfaces",
+      "Packages",
+      "Exception Handling",
+      "AWT",
+      "Swing",
+      "Event Handling"
     ]
   },
   {

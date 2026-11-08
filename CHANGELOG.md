@@ -11,11 +11,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Planned
 - Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
-- Ingestion of OOP Units 2, 3, and 4 (`notes/oop/` — `CB2006`).
-- FDS Unit 6 (Graphs) (`notes/fds/` — `CB2003`).
+- Ingestion of OOP Units 3 and 4 (`notes/oop/` — `CB2006`).
 - KaTeX mathematical formula rendering engine.
 
-## [1.8.0] - 2026-10-18
+## [1.9.0] - 2026-11-08
+
+### Added
+- **Fundamentals of Data Structures (FDS — CB2003) Unit 6 Ingested (Subject 100% Complete!)**:
+  - `notes/fds/FDSU6.html`: Unit VI — Graphs. 3,200+ lines of comprehensive study notes covering:
+    - Graph fundamentals: directed vs undirected, weighted graphs, paths, cycles, degrees, in-degree/out-degree, subgraphs, connectedness.
+    - Graph representations: Adjacency matrix vs Adjacency list (memory footprints, algorithmic trade-offs, cache locality).
+    - Traversals: Breadth First Search (BFS) and Depth First Search (DFS) with interactive step-by-step visual tracers, call-stack visualization, and edge classification (tree, back, cross, and forward edges).
+    - Transitive Closure: Warshall's Algorithm ($O(n^3)$) with full interactive matrix detours stepper ($k = 1\dots 7$).
+    - All-Pairs Shortest Paths: Floyd-Warshall Algorithm.
+    - Directed Acyclic Graphs (DAGs) and Topological Sorting: Kahn's in-degree algorithm and DFS finish-time reversal algorithm with interactive tracer.
+    - Real-world applications: Attack path modelling, network packet routing, social network graphs, IoT network routing, and peer-to-peer blockchain topologies.
+    - Integrated metadata tags, topbar navigation with `← Notes Hub` back link, `@media print` styles, and dark/light mode toggle.
+- **Object Oriented Programming (OOP — CB2006) Unit 2 Ingested (50% Complete!)**:
+  - `notes/oop/OOPU2.html`: Unit II — Java Programming Master Notes (Lectures 14–21). 4,300+ lines covering:
+    - JVM / JRE / JDK Architecture & Bytecode execution model (`.java` → `javac` → `.class` → JVM classloader, bytecode verifier, JIT compiler).
+    - Java Language Fundamentals: Primitive types, reference types, wrappers, operators, arrays, string immutability, `StringBuilder`.
+    - Java OOP Foundations: Classes, objects, heap vs stack memory map, garbage collection basics, constructors, `this` keyword, method overloading.
+    - Inheritance & Polymorphism: `extends`, single/multilevel/hierarchical inheritance, constructor chaining with `super()`, method overriding, runtime polymorphism (dynamic method dispatch), `final` keyword, `instanceof` operator.
+    - Abstraction & Interfaces: `abstract` classes vs `interface`, multiple interface implementation, default and static methods in interfaces.
+    - Packages & Access Modifiers: Package conventions, `CLASSPATH`, access levels (`private`, default, `protected`, `public`).
+    - Exception Handling: Exception hierarchy, checked vs unchecked exceptions, `try-catch-finally`, multi-catch, nested try, `throw` vs `throws`, custom exceptions.
+    - GUI & Event Programming: AWT vs Swing architecture, container hierarchy (`JFrame`, `JPanel`), layout managers (`BorderLayout`, `FlowLayout`, `GridLayout`, `CardLayout`), event delegation model, and event listeners/adapters.
+    - Interactive in-note live search (`/` hotkey), theme toggle (dark/light), reading progress bar, off-canvas sliding TOC drawer with scrim overlay, and `@media print` support.
+
+### Changed & Cleaned
+- **Manifest Recompiled** (`notes.json`): Regenerated via `npm run build`, now indexing **18 published notes** across all 5 subjects (**81.8% curriculum coverage**).
+- `package.json`: Version bumped to `1.9.0`.
+- **System Documentation Synchronized**: Fully synchronized `PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, and `CHANGELOG.md` to reflect the latest state.
 
 ### Added
 - **Basics of IoT (BIOT — CB2005) Unit 4 Ingested (Subject 100% Complete!)**:

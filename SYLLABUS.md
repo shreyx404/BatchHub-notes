@@ -14,17 +14,17 @@
 
 | Subject No. | Course Code | Subject Code (Folder) | Course Title | Teaching Scheme (Th/Lab/Tut) | Total Credits | Exam Pattern | Total Units | Notes Status |
 |---|---|---|---|---|---|---|---|---|
-| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | 🟡 83.3% (5/6) |
+| **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | ✅ 100% (6/6) |
 | **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
 | **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | ✅ 100% (4/4) |
-| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 25% (1/4) |
+| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 50% (2/4) |
 | **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
 | **S7 (RAD)**| `HS2001` | — | Reasoning and Aptitude Development - 3 | 1 / 0 / 0 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 16 published units across BIOT (4/4), DCN (4/4), FDS (5/6), OOP (1/4), and PAS (2/4); all 16 verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 18 published units across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (2/4); all 18 verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 
@@ -73,7 +73,7 @@
 5. **Unit 5: Trees** (7 Hours) — `FDSU5.html` ✅ *Published*
    - *Concepts*: Tree terminologies (root, node, edge, degree, height, depth). Binary trees, properties, representation. Binary Search Trees (BST): insertion, deletion, search, find height, mirror. Tree traversals: In-order, Pre-order, Post-order (recursive and non-recursive), Level-order display. Expression trees, Huffman coding algorithm. Applications in decision-making and hierarchical file systems.
 
-6. **Unit 6: Graphs** (7 Hours) — `FDSU6.html`
+6. **Unit 6: Graphs** (7 Hours) — `FDSU6.html` ✅ *Published*
    - *Concepts*: Graph representations: Adjacency matrix, Adjacency list. Graph traversals: Breadth First Search (BFS), Depth First Search (DFS). Applications of graphs in networking and social media: Transitive closure (Warshall’s algorithm), Topological sorting. Applications: Networking, Social graphs, IoT network routing, Blockchain peer-to-peer networks.
    - *Case Study*: Attack path modelling using graphs.
 
@@ -225,7 +225,7 @@
 1. **Unit 1: Introduction to OOP** (7 Hours) — `OOPU1.html` *(Published)*
    - *Concepts*: Fundamentals of OOP paradigm. Introduction to Programming and C++, Differences between C and C++. Variables, Data Types, and Operators. Control Structures, Loops, and Iteration. Functions and Modular Programming. Basics of Console Input and Output streams (`cin`, `cout`). Dynamic Memory Allocation (`new`, `delete`). Introduction to Classes and Objects, Creation and Destruction of Objects. Data Members, Member Functions, Access Specifiers (`private`, `protected`, `public`). `this` Pointer. Constructors (default, parameterized, copy) and Destructors. Static Class Members and Static Member Functions. Friend Classes and Friend Functions. Function Overloading and Operator Overloading.
 
-2. **Unit 2: OOP Principles** (7 Hours) — `OOPU2.html`
+2. **Unit 2: OOP Principles** (7 Hours) — `OOPU2.html` ✅ *Published (Lectures 14–21: Java Programming Master Notes)*
    - *Concepts*: Introduction to Inheritance, Base and Derived class Constructors, Types of Inheritance (Single, Multilevel, Multiple, Hierarchical, Hybrid). Down-casting and Up-casting. Function Overriding, Virtual Functions, Polymorphism, Pure Virtual Functions, Abstract Classes, Virtual Base Classes (Diamond problem resolution). C++ Class Hierarchy. File Streams (`ifstream`, `ofstream`, `fstream`), Text File Handling, Binary File Handling. Function Templates, Class Templates. Standard Template Library (STL): containers (`vector`, `list`, `map`), iterators, algorithms.
 
 ##### SECTION II: Java Programming

@@ -24,15 +24,17 @@ BatchHub-notes/
 │   │   ├── DCNU2.html             ← Unit 2: OSI 7-Layer Reference Model
 │   │   ├── DCNU3.html             ← Unit 3: IP Addressing & Routing (IPv4, CIDR, Subnetting, IPv6)
 │   │   └── DCNU4.html             ← Unit 4: TCP/IP Model (Transport, ARP, TCP/UDP, Flow & Congestion)
-│   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units) [83.3%]
+│   ├── fds/                       ← Fundamentals of Data Structures (CB2003 - 6 Units) [100% COMPLETE]
 │   │   ├── FDSU1.html             ← Unit 1: Data Structures & Analysis of Algorithms
 │   │   ├── FDSU2.html             ← Unit 2: Arrays, Searching & Sorting Techniques
 │   │   ├── FDSU3.html             ← Unit 3: Linked Lists (SLL, DLL, CLL)
 │   │   ├── FDSU4.html             ← Unit 4: Stacks and Queues
-│   │   └── FDSU5.html             ← Unit 5: Trees (Binary Trees, BST, Huffman, Threaded Trees, Heaps)
-│   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
-│   │   └── OOPU1.html             ← Unit 1: Introduction to OOP with C++
-│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units)
+│   │   ├── FDSU5.html             ← Unit 5: Trees (Binary Trees, BST, Huffman, Threaded Trees, Heaps)
+│   │   └── FDSU6.html             ← Unit 6: Graphs (Representations, BFS, DFS, Warshall, Floyd, Topo Sort)
+│   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java) [50%]
+│   │   ├── OOPU1.html             ← Unit 1: Introduction to OOP with C++
+│   │   └── OOPU2.html             ← Unit 2: Java Programming Master Notes (JVM, OOP, GUI, Events)
+│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [50%]
 │       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
 │       └── PASU2.html             ← Unit 2: Probability Basics & Distributions
 ├── templates/note-template.html   ← Reusable editorial note template
@@ -76,13 +78,13 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 
 | Folder Code | Course Code | Full Course Title | Teaching Scheme | Credits | Scope | Notes Status |
 |---|---|---|---|---|---|---|
-| **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | 🟡 5/6 Units (83.3%) |
+| **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | ✅ 6/6 Units (100%) |
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
 | **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
-| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 1/4 Units (25%) |
+| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 2/4 Units (50%) |
 | **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
  
-**Total Academic Scope**: **22 Units** (16 published, 6 planned).
+**Total Academic Scope**: **22 Units** (18 published, 4 planned).
 
 ---
 
