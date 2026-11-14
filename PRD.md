@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 1.9.0  
+**Version**: 2.3.0  
 
 ---
 
@@ -132,7 +132,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
   - `note-unit`: Unit number (e.g., `Unit 2`)
   - `note-tags`: Comma-delimited keywords
   - `note-summary`: High-level summary of covered concepts
-  - `<title>`: Full browser title
+  - `<title>`: Normalized document title matching the uppercase filename without extension (e.g. `BIOTU1`, `DCNU3`, `OOPU1`) for archive-wide uniformity
 - Generates `notes.json` formatted with consistent indentation and sorted by subject and unit.
 - Zero external npm runtime dependencies (uses Node.js built-in `fs` and `path`).
 

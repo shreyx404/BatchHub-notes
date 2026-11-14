@@ -118,12 +118,6 @@
   - [x] Exception handling: `try-catch-finally`, multi-catch, checked vs unchecked exceptions, `throw`/`throws`, custom exceptions.
   - [x] GUI & Event Programming: AWT vs Swing, layout managers (`BorderLayout`, `FlowLayout`, `GridLayout`), event delegation model & listeners.
   - [x] In-note search (`/` hotkey), theme toggle (dark/light), reading progress bar, off-canvas TOC drawer, copyable code snippets, `@media print`.
-  *(Covered in OOPU2.html)*
-  - [ ] Java Collections Framework (`ArrayList`, `Vector`, `LinkedList`, `HashSet`, `TreeSet`, `HashMap`), Generics, Iterators.
-  - [ ] Multithreading basics, Thread lifecycle, synchronization.
-
-  - [ ] JDBC architecture, drivers, `DriverManager`, `Connection`, `Statement`, `PreparedStatement`, `ResultSet`, CRUD operations.
-  - [ ] Advanced Swing components, dialogs, menus, table models.
 
 ### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units) ✅ 100% Complete
 - [x] **Unit 1: Introduction to IoT** (`BIOTU1.html`) ✅
@@ -138,7 +132,7 @@
   - [x] Security challenges, threat landscape, encryption & authentication for constrained nodes.
   - [x] Privacy concerns, regulations (GDPR), and security best practices (secure boot, isolation, FOTA).
 
-### 4. Probability and Statistics (PAS — MM0501) — `notes/pas/` (4 Units)
+### 4. Probability and Statistics (PAS — MM0501) — `notes/pas/` (4 Units) ✅ 100% Complete
 - [x] **Unit 1: Descriptive Statistics** (`PASU1.html`) ✅
   - [x] Qualitative/quantitative data, frequency distributions, visualizations (histograms, box plots).
   - [x] Measures of central tendency (mean, median, mode) and dispersion (variance, SD, CV).
@@ -150,7 +144,6 @@
   - [x] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).
   - [x] Point Estimation, Confidence Intervals (Z & t), margin of error, sample size determination.
   - [x] Hypothesis testing framework, Quality Control, and tolerances.
-  - [ ] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).
 - [x] **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (`PASU4.html`) ✅
   - [x] Point & interval estimation (confidence intervals). Null/alternative hypotheses, Type I/II errors.
   - [x] One-sample $Z$-test and $t$-test, Chi-Square ($\chi^2$) goodness of fit & independence tests.
@@ -160,6 +153,8 @@
 
 ## Phase 4: Reader & Portal Enhancements 🟡
 
+- [x] **Global Note Title Uniformity**:
+  - Normalized all 20 HTML note files so that their `<title>` tag strictly matches their uppercase filename (e.g. `BIOTU1`, `DCNU3`, `PASU4`), eliminating inconsistent title casing and aligning manifest indexing across the archive.
 - [x] **Cross-Device Responsive Architecture & Mobile Optimization Overhaul**:
   - Engineered off-canvas sliding TOC drawers with trigger buttons and dark scrim backdrop across notes (`DCNU2`, `OOPU1`, `PASU1`, `PASU2`, and `templates/note-template.html`).
   - Implemented 3-tier responsive breakpoints (960px, 640px, 375px) with `clamp()` typography and fluid layout conversions.

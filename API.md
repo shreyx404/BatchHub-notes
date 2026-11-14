@@ -1,6 +1,6 @@
 ﻿# API & Integration Contract (`API.md`)
 
-> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v1.9.0, 18 published notes) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
+> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v2.3.0, 20 published notes covering all 22 units — 100% curriculum complete) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
 ---
 
@@ -103,8 +103,8 @@ The central manifest is located at the root of the deployment:
     "id": "dcn-unit1",
     "subject": "DCN",
     "unit": "Unit 1",
-    "title": "DCN · Unit I — Examination Notes",
-    "summary": "Complete examination notes on Data Communication & Networking Unit 1 — covering communication components, transmission modes, signals, error detection (VRC, LRC, Checksum, CRC stepper), network topologies, and IEEE 802 standards.",
+    "title": "DCNU1",
+    "summary": "Comprehensive notes covering networking fundamentals, data communication components, transmission modes, network topologies, transmission media, and network types.",
     "path": "notes/dcn/DCNU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU1.html",
     "tags": [
@@ -123,8 +123,8 @@ The central manifest is located at the root of the deployment:
     "id": "dcn-unit2",
     "subject": "DCN",
     "unit": "Unit 2",
-    "title": "Unit II — The OSI Reference Model · DCN Examination Notes",
-    "summary": "Comprehensive examination notes on the OSI 7-Layer Reference Model — layer functions, PDUs, protocols, interactive layer explorer, encapsulation stepper, and design comparisons.",
+    "title": "DCNU2",
+    "summary": "Deep-dive notes on the OSI Reference Model: all 7 layers, encapsulation, PDUs, protocol mapping, and comparison with the TCP/IP model.",
     "path": "notes/dcn/DCNU2.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU2.html",
     "tags": [
@@ -146,9 +146,9 @@ The central manifest is located at the root of the deployment:
   {
     "id": "oop-unit1",
     "subject": "OOP",
-    "unit": "Unit 1",
-    "title": "Object Oriented Programming — Complete Notes",
-    "summary": "Complete lecture notes for CB2006 Unit 1 covering Object Oriented Programming in C++: OOP foundations, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.",
+    "unit": "Units 1 & 2",
+    "title": "OOPU1",
+    "summary": "Complete Units 1 & 2 notes on Object Oriented Programming in C++ — classes, objects, inheritance, polymorphism, encapsulation, constructors, destructors, operator overloading, and templates.",
     "path": "notes/oop/OOPU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/oop/OOPU1.html",
     "tags": [
@@ -173,8 +173,8 @@ The central manifest is located at the root of the deployment:
     "id": "pas-unit1",
     "subject": "PAS",
     "unit": "Unit 1",
-    "title": "MM0501 · Unit I — Complete Study Notes · Data, Visualization, Central Tendency & Dispersion",
-    "summary": "Complete study notes for MM0501 Unit 1 covering Descriptive Statistics: data classification, visualization pipelines, measures of central tendency, dispersion metrics, box plots, and skewness.",
+    "title": "PASU1",
+    "summary": "Complete Unit I notes on data organization, visualization techniques, measures of central tendency and dispersion for engineering statistics.",
     "path": "notes/pas/PASU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU1.html",
     "tags": [

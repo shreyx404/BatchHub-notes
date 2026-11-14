@@ -31,10 +31,10 @@ BatchHub-notes/
 │   │   ├── FDSU4.html             ← Unit 4: Stacks and Queues
 │   │   ├── FDSU5.html             ← Unit 5: Trees (Binary Trees, BST, Huffman, Threaded Trees, Heaps)
 │   │   └── FDSU6.html             ← Unit 6: Graphs (Representations, BFS, DFS, Warshall, Floyd, Topo Sort)
-│   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java) [50%]
-│   │   ├── OOPU1.html             ← Unit 1: Introduction to OOP with C++
+│   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java) [100% COMPLETE]
+│   │   ├── OOPU1.html             ← Units 1 & 2: Introduction to OOP with C++
 │   │   └── OOPU2.html             ← Units 3 & 4: Java Programming (JVM, OOP, GUI, Events, Lectures 14-21)
-│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [100%]
+│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [100% COMPLETE]
 │       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
 │       ├── PASU2.html             ← Unit 2: Probability Basics & Distributions
 │       ├── PASU3.html             ← Unit 3: Normal Distribution, Sampling & Statistical Inference
@@ -83,10 +83,10 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 | **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | ✅ 6/6 Units (100%) |
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
 | **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
-| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 2/4 Units (50%) |
+| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
 | **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
  
-**Total Academic Scope**: **22 Units** (18 published, 4 planned).
+**Total Academic Scope**: **22 Units** (22/22 published across 20 files — 100% COMPLETE).
 
 ---
 
@@ -128,8 +128,10 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 <meta name="note-unit"    content="Unit 3">
 <meta name="note-tags"    content="Networking, IP Addressing, Subnetting, IPv4, IPv6">
 <meta name="note-summary" content="Complete guide to IP addressing, classful routing, subnetting, CIDR, and IPv6.">
-<title>Unit III — IP Addressing | DCN Notes</title>
+<title>DCNU3</title>
 ```
+
+> **Uniformity Rule**: The `<title>` tag MUST strictly match the filename without the `.html` extension (e.g. `<title>DCNU3</title>`).
 
 ### Step 3: Write content using standardized components
 

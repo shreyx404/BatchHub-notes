@@ -62,8 +62,9 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 <meta name="note-unit"    content="Unit 3">
 <meta name="note-tags"    content="Networking, TCP, UDP, Transport Layer">
 <meta name="note-summary" content="Complete guide to Transport Layer protocols, sliding window flow control, and TCP 3-way handshake.">
-<title>Unit III — Transport Layer Protocols | DCN Notes</title>
+<title>DCNU3</title>
 ```
+> **Uniformity Rule**: The `<title>` tag MUST strictly match the filename without the `.html` extension (e.g. `<title>DCNU3</title>`).
 
 ### Step 4: Author the Academic Content
 - Adhere strictly to the unit scope outlined in [`SYLLABUS.md`](SYLLABUS.md).
@@ -114,6 +115,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) stand
 Before submitting your pull request or committing to `main`:
 
 - [ ] Does the note contain all mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`)?
+- [ ] Does the `<title>` tag strictly match the filename without `.html` (e.g. `<title>DCNU3</title>`) for archive uniformity?
 - [ ] Does `npm run build` (or `node scripts/generate-manifest.js`) run cleanly and produce valid JSON in `notes.json`?
 - [ ] Has the note been verified across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **Desktop** viewports?
 - [ ] Does the mobile floating TOC drawer (`.menu-btn`) and backdrop scrim (`.scrim`) open and close smoothly without horizontal layout shifts?

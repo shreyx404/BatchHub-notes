@@ -131,8 +131,8 @@ The build script parses all HTML files under `notes/` without parsing the full D
     "id": "dcn-unit1",
     "subject": "DCN",
     "unit": "Unit 1",
-    "title": "DCN Unit I — Complete Notes",
-    "summary": "Complete introduction to Data Communication & Networks...",
+    "title": "DCNU1",
+    "summary": "Comprehensive notes covering networking fundamentals, data communication components, transmission modes, network topologies, transmission media, and network types.",
     "path": "notes/dcn/DCNU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU1.html",
     "tags": ["Networking", "Data Communication", "Fundamentals", "Signals", "Transmission"]

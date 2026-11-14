@@ -10,19 +10,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Ingestion of OOP Units 3 and 4 (`notes/oop/` — `CB2006`).
 - KaTeX mathematical formula rendering engine.
+- In-note search shortcuts and client-side reading progress tracking.
+
+## [2.3.0] - 2026-11-14
+
+### Added
+- **Global Note Title Uniformity Overhaul**:
+  - Normalized `<title>` tags across all 20 note HTML files to match their uppercase filename without extension (`BIOTU1`, `BIOTU2`, `BIOTU3`, `BIOTU4`, `DCNU1`, `DCNU2`, `DCNU3`, `DCNU4`, `FDSU1`, `FDSU2`, `FDSU3`, `FDSU4`, `FDSU5`, `FDSU6`, `OOPU1`, `OOPU2`, `PASU1`, `PASU2`, `PASU3`, `PASU4`).
+  - Standardized `templates/note-template.html` with explicit `<title>SUBJECTUN</title>` standard and guidance.
+  - Added title tag uniformity requirement to contributor guidelines (`CONTRIBUTING.md`), operational manual (`AGENTS.md`), and style guide (`STYLEGUIDE.md`).
+- **Comprehensive Documentation Suite & Version Synchronization (v2.3.0)**:
+  - Bumped project version to `2.3.0` across `package.json`, `PRD.md`, and `API.md`.
+  - Fully updated and synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
+  - Aligned OOP syllabus mappings across `SYLLABUS.md` and `TASKS.md` reflecting `OOPU1.html` (Units 1 & 2: C++) and `OOPU2.html` (Units 3 & 4: Java).
+  - Updated `README.md` curriculum completion matrix and tree to reflect 100% completion across all 22 units.
+
+### Changed
+- Regenerated canonical `notes.json` manifest via `npm run build` (20 notes indexed with clean uniform titles).
 
 ## [2.2.0] - 2026-11-14
 
 ### Added
 - **Object Oriented Programming (OOP - CB2006) Curriculum Fully Covered (100% Complete)**:
-  - 
-otes/oop/OOPU1.html covers Units 1 & 2 (C++): OOP foundations, classes, objects, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, file handling.
-  - 
-otes/oop/OOPU2.html covers Units 3 & 4 (Java Lectures 14-21): JVM architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI, event-driven programming.
-  - Updated meta 
-ote-unit in OOPU1 (Unit 1 → Units 1 & 2) and OOPU2 (Unit 2 → Units 3 & 4).
+  - `notes/oop/OOPU1.html` covers Units 1 & 2 (C++): OOP foundations, classes, objects, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, file handling.
+  - `notes/oop/OOPU2.html` covers Units 3 & 4 (Java Lectures 14-21): JVM architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI, event-driven programming.
+  - Updated meta `note-unit` in OOPU1 (Unit 1 → Units 1 & 2) and OOPU2 (Unit 2 → Units 3 & 4).
 - **SYLLABUS 100% COMPLETE**: All 22 curriculum units across all 5 subjects now fully published (20 HTML files covering 22 units).
 
 ### Changed

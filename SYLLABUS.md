@@ -221,18 +221,18 @@
 
 #### Unit Breakdown & Scope (4 Units)
 
-##### SECTION I: C++ Programming
-1. **Unit 1: Introduction to OOP** (7 Hours) — `OOPU1.html` *(Published)*
+##### SECTION I: C++ Programming (Units 1 & 2) — `OOPU1.html` ✅ *Published*
+1. **Unit 1: Introduction to OOP** (7 Hours)
    - *Concepts*: Fundamentals of OOP paradigm. Introduction to Programming and C++, Differences between C and C++. Variables, Data Types, and Operators. Control Structures, Loops, and Iteration. Functions and Modular Programming. Basics of Console Input and Output streams (`cin`, `cout`). Dynamic Memory Allocation (`new`, `delete`). Introduction to Classes and Objects, Creation and Destruction of Objects. Data Members, Member Functions, Access Specifiers (`private`, `protected`, `public`). `this` Pointer. Constructors (default, parameterized, copy) and Destructors. Static Class Members and Static Member Functions. Friend Classes and Friend Functions. Function Overloading and Operator Overloading.
 
-2. **Unit 2: OOP Principles** (7 Hours) — `OOPU2.html` ✅ *Published (Lectures 14–21: Java Programming Master Notes)*
+2. **Unit 2: OOP Principles** (7 Hours)
    - *Concepts*: Introduction to Inheritance, Base and Derived class Constructors, Types of Inheritance (Single, Multilevel, Multiple, Hierarchical, Hybrid). Down-casting and Up-casting. Function Overriding, Virtual Functions, Polymorphism, Pure Virtual Functions, Abstract Classes, Virtual Base Classes (Diamond problem resolution). C++ Class Hierarchy. File Streams (`ifstream`, `ofstream`, `fstream`), Text File Handling, Binary File Handling. Function Templates, Class Templates. Standard Template Library (STL): containers (`vector`, `list`, `map`), iterators, algorithms.
 
-##### SECTION II: Java Programming
-3. **Unit 3: Fundamentals of Java Programming and Object-Oriented Concepts** (7 Hours) — `OOPU3.html`
+##### SECTION II: Java Programming (Units 3 & 4) — `OOPU2.html` ✅ *Published (Lectures 14–21: Java Programming Master Notes)*
+3. **Unit 3: Fundamentals of Java Programming and Object-Oriented Concepts** (7 Hours)
    - *Concepts*: Introduction to Java, History and Features of Java, Comparison with C and C++. JDK, JRE, and JVM architecture. First Java Program, Data types, Variables, Constants, Literals, Operators, Strings, Arrays. Control Flow statements. OOP in Java: Classes and Objects, Getters/Setters, Methods, `Scanner` class. Constructors, `super` and `this` keywords. Access Modifiers, `static` keyword. Encapsulation, Data protection. Inheritance in Java: types, `extends` and `implements` keywords. Polymorphism: Compile-time (Method Overloading) vs Runtime (Method Overriding). Static and Dynamic Binding. Abstraction: Interfaces and Abstract classes, abstract vs non-abstract methods. Memory management in Java (Heap vs Stack, Garbage Collection basics). Packages and import mechanisms.
 
-4. **Unit 4: Exception Handling, GUI and Database Programming in Java** (7 Hours) — `OOPU4.html`
+4. **Unit 4: Exception Handling, GUI and Database Programming in Java** (7 Hours)
    - *Concepts*: Exception Handling: `try`, `catch`, `finally` blocks, Multiple catch, Nested `try`, `throw` and `throws` keywords. `final` vs `finally` vs `finalize`. Designing Graphical User Interfaces in Java: Components and Containers, Layout Managers (`FlowLayout`, `BorderLayout`, `GridLayout`). AWT Components, Window Menus. Extending GUI features using Swing Components (`JFrame`, `JButton`, `JTextField`, etc.). Java Utilities (`java.util` package). Event-Driven Programming in Java: Event-handling mechanism, Delegation Event Model, Event Classes, Event Sources, Event Listeners. JDBC: JDBC Drivers, steps to connect to Database, connectivity with MySQL / Oracle, `DriverManager`. Types of JDBC statements: `Statement`, `PreparedStatement`, `CallableStatement`, `ResultSet`, CRUD operations. Java Collections Framework: Collections of Objects, Collection Types, `List` (`ArrayList`, `Vector`), `Set` (`HashSet`, `TreeSet`), `Queue`, `Map` (`HashMap`), Hashing mechanism.
 
 #### Standard Lab Practicals

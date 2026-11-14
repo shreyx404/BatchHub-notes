@@ -28,7 +28,8 @@ The system loads two primary typefaces from Google Fonts:
 
 | Element | Font Family | Weight | Size | Line Height | Usage |
 |---|---|---|---|---|---|
-| **Document Title (`h1`)** | `IBM Plex Sans` | 600–700 | 36px–38px | 1.15 | Single top-level document heading |
+| **Page Title (`<title>`)** | — | — | — | — | Strictly identical to the filename without `.html` (e.g. `DCNU1`, `FDSU3`) for uniform tab titles |
+| **Document Title (`h1`)** | `IBM Plex Sans` | 600–700 | 36px–38px | 1.15 | Single top-level document heading in body |
 | **Section Heading (`h2`)** | `IBM Plex Sans` | 600 | 22px | 1.3 | Major chapter / topic divisions |
 | **Sub-heading (`h3`)** | `IBM Plex Sans` | 600 | 15px–16px | 1.4 | Specific mechanisms / concepts |
 | **Minor Heading (`h4`)** | `IBM Plex Mono` | 600 | 13px | 1.4 | Protocol names, parameters |

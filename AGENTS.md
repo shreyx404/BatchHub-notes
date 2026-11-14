@@ -49,11 +49,13 @@ BatchHub-notes/
 │   │   ├── FDSU5.html            # Unit 5 Notes (Published)
 │   │   └── FDSU6.html            # Unit 6 Notes (Published)
 │   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [100% Complete]
-│   │   ├── OOPU1.html            # Unit 1 Notes (Published)
-│   │   └── OOPU2.html            # Unit 2 Notes (Published)
+│   │   ├── OOPU1.html            # Units 1 & 2 Notes (C++ Programming) (Published)
+│   │   └── OOPU2.html            # Units 3 & 4 Notes (Java Programming) (Published)
 │   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [100% Complete]
 │       ├── PASU1.html            # Unit 1 Notes (Published)
-│       └── PASU2.html            # Unit 2 Notes (Published)
+│       ├── PASU2.html            # Unit 2 Notes (Published)
+│       ├── PASU3.html            # Unit 3 Notes (Published)
+│       └── PASU4.html            # Unit 4 Notes (Published)
 ├── templates/
 │   └── note-template.html        # Gold-standard baseline for new notes
 ├── scripts/
@@ -86,7 +88,7 @@ When instructed to generate notes for a given subject and unit, execute the foll
   - Descriptive slug: `unit<N>-<topic-slug>.html` (e.g., `unit3-ip-addressing.html`)
 
 ### Step 2: Head & Meta Tags Setup
-The `<head>` section must define these exact meta tags:
+The `<head>` section must define these exact meta tags, and the `<title>` tag MUST strictly match the filename without the `.html` extension (for archival uniformity):
 
 ```html
 <!DOCTYPE html>
@@ -99,7 +101,7 @@ The `<head>` section must define these exact meta tags:
 <meta name="note-unit"    content="Unit 3">
 <meta name="note-tags"    content="Networking, IP Addressing, IPv4, IPv6, Subnetting, CIDR">
 <meta name="note-summary" content="Comprehensive notes on IP Addressing: IPv4 classes, subnetting, supernetting, CIDR, and IPv6 representation and auto-configuration.">
-<title>Unit III — IP Addressing | DCN Notes</title>
+<title>DCNU3</title>
 ```
 
 ### Step 3: Design Tokens & CSS Classes
@@ -180,6 +182,7 @@ git push origin main
 Before completing any task or reporting back to the user:
 - [ ] Has `node scripts/generate-manifest.js` (or `npm run build`) been run?
 - [ ] Does `notes.json` contain every note with valid `id`, `subject`, `unit`, `title`, `path`, and `url`?
+- [ ] Does the `<title>` tag of each note file strictly match the filename without `.html` (e.g. `<title>DCNU3</title>`)?
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
 - [ ] Does `@media print` exist in the note CSS so students can cleanly export to PDF?
 - [ ] Are mobile and tablet responsive styles present (reading progress bar, off-canvas TOC drawer with trigger button and backdrop scrim)?
