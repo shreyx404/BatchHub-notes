@@ -10,9 +10,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Ingestion of PAS Units 3 and 4 (`MM0501` Normal Distribution, Sampling & Estimation, Hypothesis Testing).
 - Ingestion of OOP Units 3 and 4 (`notes/oop/` — `CB2006`).
 - KaTeX mathematical formula rendering engine.
+
+## [2.1.0] - 2026-11-14
+
+### Added
+- **Probability and Statistics (PAS — MM0501) Units 3 & 4 Ingested (Subject 100% Complete!)**:
+  - `notes/pas/PASU3.html`: Unit III — Normal Distribution, Sampling & Statistical Inference. 3,105 lines covering:
+    - Normal Distribution: Bell curve properties, Z-scores, standard normal table, area calculations.
+    - Sampling Theory: Sample mean/variance distributions, Standard Error, Central Limit Theorem (CLT).
+    - Point Estimation: Unbiased estimators, MLE, method of moments, estimator properties.
+    - Confidence Intervals: Z-interval and t-interval construction, margin of error, sample size determination.
+    - Hypothesis Testing: Null/alternative hypotheses, Type I & Type II errors, critical regions.
+    - P-values, Quality Control, Normal approximation to Binomial and Poisson distributions.
+  - `notes/pas/PASU4.html`: Unit IV — Statistical Inference & Regression. 2,663 lines covering:
+    - Statistical Estimation: Point and interval estimation, degrees of freedom.
+    - Hypothesis-Testing Framework: Z-test and t-test (one/two sample), test statistics, rejection regions.
+    - Chi-Square (χ²) tests: Goodness of fit and independence/contingency table tests.
+    - One-Way ANOVA (F-test): Between/within group variance, F-distribution, post-hoc analysis.
+    - Correlation: Pearson correlation coefficient, scatter plots, interpretation.
+    - Regression & Least-Squares Curve Fitting: Simple linear regression, method of least squares, residual analysis.
+
+### Changed
+- PAS subject progress updated from 50% → 100% Complete (4/4 Units published).
+- Overall curriculum progress: 20/22 Units published (90.9%).
+- Injected mandatory manifest meta tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`) into both PASU3 and PASU4.
+- `notes.json` regenerated — now indexes **20 notes** total.
+- All system markdowns updated to reflect latest state.
 
 ## [1.9.0] - 2026-11-08
 

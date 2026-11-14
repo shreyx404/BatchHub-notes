@@ -402,5 +402,48 @@
       "Exponential",
       "Bayes Theorem"
     ]
+  },
+  {
+    "id": "pas-unit3",
+    "subject": "PAS",
+    "unit": "Unit 3",
+    "title": "Unit III · Statistics — Complete Exam Notes",
+    "summary": "Complete exam notes for MM0501 Unit 3 covering Normal Distribution, Sampling Theory, Central Limit Theorem, Point Estimation, Confidence Intervals, Hypothesis Testing, P-values, and Quality Control.",
+    "path": "notes/pas/PASU3.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU3.html",
+    "tags": [
+      "Statistics",
+      "Normal Distribution",
+      "Central Limit Theorem",
+      "Sampling",
+      "Point Estimation",
+      "Confidence Intervals",
+      "Hypothesis Testing",
+      "P-values",
+      "Quality Control",
+      "Normal Approximation"
+    ]
+  },
+  {
+    "id": "pas-unit4",
+    "subject": "PAS",
+    "unit": "Unit 4",
+    "title": "Unit IV · Statistics for Engineers — Exam Notes",
+    "summary": "Complete exam notes for MM0501 Unit 4 covering Statistical Inference and Regression: estimation, hypothesis testing, Z & t tests, chi-square, ANOVA, correlation, regression, and least-squares curve fitting.",
+    "path": "notes/pas/PASU4.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/pas/PASU4.html",
+    "tags": [
+      "Statistics",
+      "Statistical Estimation",
+      "Hypothesis Testing",
+      "Z-Test",
+      "t-Test",
+      "Chi-Square",
+      "ANOVA",
+      "Correlation",
+      "Regression",
+      "Least-Squares",
+      "Curve Fitting"
+    ]
   }
 ]

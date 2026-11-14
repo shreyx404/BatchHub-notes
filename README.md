@@ -1,4 +1,4 @@
-# BatchHub Notes Archive
+﻿# BatchHub Notes Archive
 
 Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)** — deployed automatically to GitHub Pages. Engineered for pure distraction-free reading with seamless responsive design across Mobile, Tablet, and Desktop devices.
 
@@ -34,9 +34,11 @@ BatchHub-notes/
 │   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java) [50%]
 │   │   ├── OOPU1.html             ← Unit 1: Introduction to OOP with C++
 │   │   └── OOPU2.html             ← Unit 2: Java Programming Master Notes (JVM, OOP, GUI, Events)
-│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [50%]
+│   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [100%]
 │       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
-│       └── PASU2.html             ← Unit 2: Probability Basics & Distributions
+│       ├── PASU2.html             ← Unit 2: Probability Basics & Distributions
+│       ├── PASU3.html             ← Unit 3: Normal Distribution, Sampling & Statistical Inference
+│       └── PASU4.html             ← Unit 4: Statistical Inference & Regression
 ├── templates/note-template.html   ← Reusable editorial note template
 ├── scripts/generate-manifest.js   ← Scans notes/ and compiles notes.json
 ├── index.html                     ← Standalone index portal with live search
@@ -82,7 +84,7 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
 | **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
 | **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | 🟡 2/4 Units (50%) |
-| **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | 🟡 2/4 Units (50%) |
+| **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
  
 **Total Academic Scope**: **22 Units** (18 published, 4 planned).
 

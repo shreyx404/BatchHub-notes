@@ -1,4 +1,4 @@
-# Academic Syllabus & Curriculum Reference (`SYLLABUS.md`)
+﻿# Academic Syllabus & Curriculum Reference (`SYLLABUS.md`)
 
 > **Institution**: Bansilal Ramnath Agarwal Charitable Trust's **Vishwakarma Institute of Technology, Pune**  
 > *(An Autonomous Institute affiliated to Savitribai Phule Pune University)*  
@@ -18,13 +18,13 @@
 | **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
 | **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | ✅ 100% (4/4) |
 | **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 50% (2/4) |
-| **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | 🟡 50% (2/4) |
+| **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
 | **S7 (RAD)**| `HS2001` | — | Reasoning and Aptitude Development - 3 | 1 / 0 / 0 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 18 published units across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (2/4); all 18 verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 20 published units across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (4/4); all 20 verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 
@@ -287,10 +287,10 @@
    - *Concepts*: Basic probability rules: Axioms of probability, Complement rule, Addition rule. Conditional Probability & Independence of events, Multiplication rule. Bayes’ Theorem and its engineering diagnostic applications. Random Variables: Discrete and Continuous random variables. Probability Mass Function (PMF), Probability Density Function (PDF), Cumulative Distribution Function (CDF). Mathematical Expectation, Variance, and their algebraic properties. Discrete distributions: Bernoulli, Binomial ($B(n, p)$), Poisson ($\text{Pois}(\lambda)$). Continuous distributions: Uniform, Exponential. Applications in engineering and component reliability.
 
 ##### SECTION II
-3. **Unit 3: Normal Distribution & Sampling Theory** (6 Hours) — `PASU3.html` 🟡 *Pending*
+3. **Unit 3: Normal Distribution & Sampling Theory** (6 Hours) — `PASU3.html` ✅ *Published*
    - *Concepts*: Normal (Gaussian) Distribution: Standard normal distribution, $Z$-scores, Properties of the bell curve. Tests involving the Normal distribution, One-Tailed and Two-Tailed tests, $P$-value. Special applications of normal distribution (engineering tolerances, quality control). Normal approximation to Binomial and Poisson distributions. Sampling Theory: Random sampling, Sample mean, Sample variance. Sampling distribution of the sample mean. Standard Error (SE). Central Limit Theorem (CLT) — intuitive explanation, significance, and numerical applications.
 
-4. **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (8 Hours) — `PASU4.html` 🟡 *Pending*
+4. **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (8 Hours) — `PASU4.html` ✅ *Published*
    - *Concepts*:
      - **Estimation**: Point estimation, properties of good estimators (unbiasedness, consistency, efficiency). Interval estimation: Confidence Intervals for mean ($\sigma$ known and $\sigma$ unknown).
      - **Hypothesis Testing**: Null ($H_0$) and Alternative ($H_1$) hypotheses, Type I ($\alpha$) and Type II ($\beta$) errors, Level of significance. One-sample $Z$-test and $t$-test.

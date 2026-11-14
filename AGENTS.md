@@ -1,4 +1,4 @@
-# AGENTS.md — Agent & Contributor Operational Manual
+﻿# AGENTS.md — Agent & Contributor Operational Manual
 
 > **Scope**: This document defines the operating protocols, architectural invariants, code conventions, and workflows for autonomous AI agents (such as Antigravity, Claude, Copilot) and human contributors modifying or expanding **`BatchHub-notes`**.
 
@@ -51,7 +51,7 @@ BatchHub-notes/
 │   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [50% Complete]
 │   │   ├── OOPU1.html            # Unit 1 Notes (Published)
 │   │   └── OOPU2.html            # Unit 2 Notes (Published)
-│   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [50% Complete]
+│   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [100% Complete]
 │       ├── PASU1.html            # Unit 1 Notes (Published)
 │       └── PASU2.html            # Unit 2 Notes (Published)
 ├── templates/

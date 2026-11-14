@@ -1,4 +1,4 @@
-# Project Tasks & Roadmap (`TASKS.md`)
+﻿# Project Tasks & Roadmap (`TASKS.md`)
 
 ## Status Dashboard
 
@@ -6,12 +6,12 @@
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **77.8%** (14/18 Units) |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **90.9%** (20/22 Units) |
 | **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 75% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 65% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **18 / 22 Units** (81.8%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **20 / 22 Units** (90.9%).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -145,13 +145,16 @@
 - [x] **Unit 2: Probability Basics and distributions** (`PASU2.html`) ✅
   - [x] Probability axioms, conditional probability, Bayes’ theorem, random variables (PMF, PDF, CDF).
   - [x] Expectation and variance. Discrete (Bernoulli, Binomial, Poisson) & Continuous (Uniform, Exponential).
-- [ ] Unit 3: Normal Distribution & Sampling Theory (`PASU3.html`)
-  - [ ] Normal distribution properties, $Z$-scores, $P$-values, normal approximation to Binomial/Poisson.
+- [x] **Unit 3: Normal Distribution & Sampling Theory** (`PASU3.html`) ✅
+  - [x] Normal distribution properties, $Z$-scores, $P$-values, normal approximation to Binomial/Poisson.
+  - [x] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).
+  - [x] Point Estimation, Confidence Intervals (Z & t), margin of error, sample size determination.
+  - [x] Hypothesis testing framework, Quality Control, and tolerances.
   - [ ] Sampling distributions, sample mean/variance, Standard Error, Central Limit Theorem (CLT).
-- [ ] Unit 4: Estimation, Hypothesis Testing, Correlation & Regression (`PASU4.html`)
-  - [ ] Point & interval estimation (confidence intervals). Null/alternative hypotheses, Type I/II errors.
-  - [ ] One-sample $Z$-test and $t$-test, Chi-Square ($\chi^2$) goodness of fit & independence tests.
-  - [ ] One-Way ANOVA ($F$-test), Pearson correlation, regression lines, and method of least squares.
+- [x] **Unit 4: Estimation, Hypothesis Testing, Correlation & Regression** (`PASU4.html`) ✅
+  - [x] Point & interval estimation (confidence intervals). Null/alternative hypotheses, Type I/II errors.
+  - [x] One-sample $Z$-test and $t$-test, Chi-Square ($\chi^2$) goodness of fit & independence tests.
+  - [x] One-Way ANOVA ($F$-test), Pearson correlation, regression lines, and method of least squares.
 
 ---
 
