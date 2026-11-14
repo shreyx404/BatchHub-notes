@@ -163,6 +163,7 @@
   - Implemented interactive light/dark mode switcher icon button and functionality across 100% of notes (all 20 notes and note template).
   - High-contrast, WCAG AAA compliant dual design tokens (`html[data-theme="dark"]`, `html.dark`, `html[data-theme="light"]`, `html.light`).
   - Dynamic vector Sun/Moon SVG icons, `<head>` anti-flash guard, and synchronized `localStorage` preference (`batchhub-theme`).
+  - Automated headless Chromium CDP testing across 100% of notes (all 20 notes): verified button existence, click event toggle to light, toggle back to dark, and zero console errors.
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
 - [ ] **Local Reading State**: Save scroll position and completed section checkboxes in `localStorage`.
 - [ ] **Interactive Code Sandboxes**: Lightweight runnable code snippets for OOP and FDS examples.

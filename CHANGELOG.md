@@ -26,6 +26,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **System Documentation Suite Synchronization (v2.4.0)**:
   - Updated all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) reflecting the universal light/dark theme system.
 
+### Fixed
+- **Navigation Anchor QuerySelector Guard in FDSU3 and FDSU4**:
+  - Fixed unhandled `DOMException: Failed to execute 'querySelector' on 'Document': '../../index.html'` thrown by sidebar and chip navigation scripts when encountering relative back-link URLs.
+  - Restricted selector queries strictly to hash fragments (`a[href^="#"]`) with `try...catch` fallback guards, unblocking event listeners and achieving a 100% test pass rate (20/20 notes passed with 0 console errors) in automated Chromium headless browser testing.
+
 ## [2.3.0] - 2026-11-14
 
 ### Added

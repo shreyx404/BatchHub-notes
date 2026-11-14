@@ -2724,8 +2724,8 @@ document.querySelectorAll('.code .copy').forEach(function(btn){
     var p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
     bar.style.width=(p*100)+'%';
   },{passive:true});
-  var links=[].slice.call(document.querySelectorAll('.toc a'));
-  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  var links=[].slice.call(document.querySelectorAll('.toc a[href^="#"]'));
+  var secs=links.map(function(a){try{return document.querySelector(a.getAttribute('href'));}catch(e){return null;}}).filter(Boolean);
   var spy=new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(e.isIntersecting){

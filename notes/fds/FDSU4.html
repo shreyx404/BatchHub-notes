@@ -2192,8 +2192,8 @@ d.pop_back();        // d: 10</pre>
     prog.style.width = (p * 100) + '%';
   }, {passive:true});
 
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
-  var secs = chips.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip[href^="#"]'));
+  var secs = chips.map(function(a){ try { return document.querySelector(a.getAttribute('href')); } catch(e) { return null; } }).filter(Boolean);
   if ('IntersectionObserver' in window && secs.length) {
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
