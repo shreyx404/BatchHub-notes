@@ -1,4 +1,4 @@
-﻿# Project Tasks & Roadmap (`TASKS.md`)
+# Project Tasks & Roadmap (`TASKS.md`)
 
 ## Status Dashboard
 
@@ -7,7 +7,7 @@
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
 | **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ✅ **Completed** | **100%** (22/22 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 75% |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 85% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 65% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
@@ -159,9 +159,11 @@
   - Engineered off-canvas sliding TOC drawers with trigger buttons and dark scrim backdrop across notes (`DCNU2`, `OOPU1`, `PASU1`, `PASU2`, and `templates/note-template.html`).
   - Implemented 3-tier responsive breakpoints (960px, 640px, 375px) with `clamp()` typography and fluid layout conversions.
   - Eliminated horizontal viewport blowouts across all tables, frame diagrams (`.anat`), checkpoints (`.ckpt`), and pipelines (`.pipe`) with strict zero-overflow verification (`scrollWidth === innerWidth` at 360px, 390px, and 500px).
+- [x] **Universal Light / Dark Mode Toggle**:
+  - Implemented interactive light/dark mode switcher icon button and functionality across 100% of notes (all 20 notes and note template).
+  - High-contrast, WCAG AAA compliant dual design tokens (`html[data-theme="dark"]`, `html.dark`, `html[data-theme="light"]`, `html.light`).
+  - Dynamic vector Sun/Moon SVG icons, `<head>` anti-flash guard, and synchronized `localStorage` preference (`batchhub-theme`).
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
-- [ ] **In-Note Keyword Search**: Quick `Ctrl+K` or search bar within long-form notes.
-- [ ] **Dark / Light Mode Toggle**: Optional light theme toggle for high-glare environments.
 - [ ] **Local Reading State**: Save scroll position and completed section checkboxes in `localStorage`.
 - [ ] **Interactive Code Sandboxes**: Lightweight runnable code snippets for OOP and FDS examples.
 

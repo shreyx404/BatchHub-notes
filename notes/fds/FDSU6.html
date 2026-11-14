@@ -2924,8 +2924,11 @@ DC   → [ — ]</pre>
 
   /* ---------------- theme ---------------- */
   var savedTheme = null;
-  try { savedTheme = localStorage.getItem('graphs-theme'); } catch (e) {}
-  if (savedTheme) { document.documentElement.setAttribute('data-theme', savedTheme); }
+  try { savedTheme = localStorage.getItem('batchhub-theme') || localStorage.getItem('graphs-theme'); } catch (e) {}
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  }
 
   var tbtn = document.getElementById('themeToggle');
   if (tbtn) {
@@ -2935,7 +2938,8 @@ DC   → [ — ]</pre>
       var effective = cur || (sysDark ? 'dark' : 'light');
       var nextT = effective === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nextT);
-      try { localStorage.setItem('graphs-theme', nextT); } catch (e) {}
+      document.documentElement.classList.toggle('dark', nextT === 'dark');
+      try { localStorage.setItem('batchhub-theme', nextT); localStorage.setItem('graphs-theme', nextT); } catch (e) {}
     });
   }
 

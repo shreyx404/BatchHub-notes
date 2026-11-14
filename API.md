@@ -1,6 +1,6 @@
-﻿# API & Integration Contract (`API.md`)
+# API & Integration Contract (`API.md`)
 
-> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v2.3.0, 20 published notes covering all 22 units — 100% curriculum complete) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
+> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v2.4.0, 20 published notes covering all 22 units — 100% curriculum complete with universal light/dark mode switcher) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
 ---
 
@@ -274,6 +274,11 @@ All notes automatically adapt their viewport within the iframe: on viewports or 
 ### 5.1 Security Headers
 - **X-Frame-Options**: GitHub Pages serves static files with open framing headers (`ALLOWALL`), allowing seamless embedding on `https://batch-hub-red.vercel.app`.
 - **CORS**: Cross-Origin Resource Sharing is enabled for static JSON endpoints on GitHub Pages, permitting `fetch('https://shreyx404.github.io/BatchHub-notes/notes.json')` from client-side React components in BatchHub without proxying.
+
+### 5.2 Theme State Synchronization (`batchhub-theme`)
+Every note reads and persists the active theme preference via `localStorage.getItem('batchhub-theme')` / `localStorage.setItem('batchhub-theme', 'light' | 'dark')`. 
+- **Direct Visits**: User theme choice persists across all note navigations and page reloads.
+- **Embedded Visits**: When embedded via `<iframe>` in BatchHub, notes can sync or inherit theme preferences via standard web storage on the note origin.
 
 ---
 

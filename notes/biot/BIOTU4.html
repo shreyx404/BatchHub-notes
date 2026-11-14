@@ -15,6 +15,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Inter:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('iot-unit4-theme');
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  if (t === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
 <style>
 /* ============ RESET & TOKENS (mobile-first) ============ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -25,6 +35,27 @@
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
+html[data-theme="dark"], html.dark {
+  --ink:#f0f0eb; --ink2:#c5c5be; --mut:#8e8e86; --faint:#5a5a54;
+  --line:#2a2a26; --line2:#3a3a34; --paper:#161614; --bg:#0e0e0c; --wash:#1c1c19;
+}
+html[data-theme="dark"] .topbar, html.dark .topbar { background:rgba(14,14,12,.92); }
+html[data-theme="dark"] .memo, html.dark .memo,
+html[data-theme="dark"] table, html.dark table { background:var(--paper); }
+html[data-theme="dark"] mark.k, html.dark mark.k { background:var(--ink); color:var(--bg); }
+.theme-btn {
+  background:transparent; border:1px solid var(--line2); color:var(--ink);
+  width:32px; height:32px; border-radius:8px; display:inline-flex;
+  align-items:center; justify-content:center; cursor:pointer;
+  transition:all .2s; flex:none; padding:0;
+}
+.theme-btn:hover { border-color:var(--ink); background:var(--wash); }
+.theme-btn svg { width:16px; height:16px; }
+.theme-btn .ic-sun { display:none; }
+.theme-btn .ic-moon { display:block; }
+html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display:block; }
+html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display:none; }
+@media print { .theme-btn { display:none!important; } }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.68;letter-spacing:-.003em;-webkit-font-smoothing:antialiased}
 img,svg{max-width:100%}
@@ -227,7 +258,13 @@ footer{border-top:2px solid var(--ink);margin-top:56px;padding:34px 0 70px}
       <a href="../../index.html" class="back-link" style="text-decoration:none;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:600;">← Hub</a>
       <span class="tb-brand">UNIT IV<span class="tb-long"> · IOT SECURITY &amp; PRIVACY</span></span>
     </div>
-    <span class="tb-cur" id="curSec">— overview —</span>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="tb-cur" id="curSec">— overview —</span>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
   <div class="tb-bar" id="bar"></div>
 </header>
@@ -1894,6 +1931,28 @@ footer{border-top:2px solid var(--ink);margin-top:56px;padding:34px 0 70px}
   window.addEventListener('beforeprint',function(){
     document.querySelectorAll('details').forEach(function(d){d.open=true;});
   });
+
+  // Theme switcher
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('iot-unit4-theme', t);
+    } catch(e){}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+  }
 })();
 </script>
 </body>

@@ -4355,12 +4355,14 @@
 
         /* ---- theme ---- */
         var html = document.documentElement;
-        var savedT = localStorage.getItem('iot-u2-theme');
-        if (savedT) { html.dataset.theme = savedT; }
-        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { html.dataset.theme = 'dark'; }
+        var savedT = localStorage.getItem('batchhub-theme') || localStorage.getItem('iot-u2-theme');
+        if (savedT) { html.dataset.theme = savedT; html.classList.toggle('dark', savedT === 'dark'); }
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { html.dataset.theme = 'dark'; html.classList.add('dark'); }
         $('#themeBtn').addEventListener('click', function () {
             var t = html.dataset.theme === 'dark' ? 'light' : 'dark';
-            html.dataset.theme = t; localStorage.setItem('iot-u2-theme', t);
+            html.dataset.theme = t;
+            html.classList.toggle('dark', t === 'dark');
+            try { localStorage.setItem('batchhub-theme', t); localStorage.setItem('iot-u2-theme', t); } catch(e){}
         });
 
         /* ---- progress bar + back-to-top ---- */

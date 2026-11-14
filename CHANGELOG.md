@@ -1,4 +1,4 @@
-﻿# Changelog (`CHANGELOG.md`)
+# Changelog (`CHANGELOG.md`)
 
 All notable changes to the **BatchHub Notes Archive** (`BatchHub-notes`) will be documented in this file.
 
@@ -12,6 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - KaTeX mathematical formula rendering engine.
 - In-note search shortcuts and client-side reading progress tracking.
+
+## [2.4.0] - 2026-11-14
+
+### Added
+- **Archive-Wide Universal Light/Dark Mode Switcher & Synchronized Themes**:
+  - Implemented interactive light/dark mode switcher icon button and functionality to all notes previously lacking it (`BIOTU4`, `DCNU1`, `DCNU2`, `DCNU3`, `DCNU4`, `FDSU1`, `FDSU2`, `FDSU3`, `FDSU4`, `OOPU1`, `PASU1`, `PASU2`, `PASU3`, `PASU4`), bringing theme switching to 100% of notes across the archive.
+  - Implemented dual-theme design tokens (`html[data-theme="dark"]`, `html.dark`, `html[data-theme="light"]`, `html.light`) across all notes with high-contrast, WCAG AAA compliant palettes for text, cards, tables, diagrams, and callouts.
+  - Added SVG Sun/Moon dynamic vector icons to the switcher buttons that dynamically reflect the active theme state.
+  - Added inline anti-flash script in `<head>` across all notes to eliminate Flash of Unstyled Theme (FOUT) upon initial page load.
+  - Added universal theme preference synchronization using shared `localStorage` key `batchhub-theme`, while preserving full backward compatibility with legacy note-specific keys.
+  - Updated standard template `templates/note-template.html` with light mode tokens, responsive theme switcher button, anti-flash script, and event listener.
+- **System Documentation Suite Synchronization (v2.4.0)**:
+  - Updated all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) reflecting the universal light/dark theme system.
 
 ## [2.3.0] - 2026-11-14
 

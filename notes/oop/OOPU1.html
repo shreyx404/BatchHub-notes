@@ -9,6 +9,16 @@
 <meta name="note-tags" content="OOP, C++, Classes, Objects, Constructors, Destructors, Memory Map, Friend Functions, Function Overloading, Operator Overloading, Inheritance, Polymorphism, Virtual Functions, Templates, File Handling">
 <meta name="note-summary" content="Complete lecture notes for CB2006 Units 1 & 2 covering Object Oriented Programming in C++: OOP foundations, classes, objects, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.">
 <title>OOPU1</title>
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('oop-u1-theme');
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  if (t === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
 <style>
   :root{
     --bg:#ffffff;
@@ -20,6 +30,44 @@
     --soft2:#eeeeee;
     --code:#f5f5f5;
   }
+  html[data-theme="dark"], html.dark {
+    --bg: #0e0e0e;
+    --fg: #ededed;
+    --muted: #9a9a9a;
+    --faint: #6a6a6a;
+    --line: #282828;
+    --soft: #181818;
+    --soft2: #222222;
+    --code: #161616;
+  }
+  html[data-theme="dark"] table, html.dark table { background: var(--soft); }
+  .theme-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: transform .15s, border-color .2s, background .2s;
+    padding: 0;
+  }
+  .theme-btn:hover { transform: scale(1.05); border-color: var(--fg); }
+  .theme-btn:active { transform: scale(.95); }
+  .theme-btn svg { width: 17px; height: 17px; }
+  .theme-btn .ic-sun { display: none; }
+  .theme-btn .ic-moon { display: block; }
+  html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display: block; }
+  html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display: none; }
+  @media print { .theme-btn { display: none !important; } }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -343,6 +391,10 @@
 
 <div class="progress-bar" id="progressBar"></div>
 <button class="menu-btn" id="menuBtn" aria-label="Open contents">☰ contents</button>
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+  <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
 <div class="scrim" id="scrim"></div>
 
 <header class="top">
@@ -3903,6 +3955,28 @@ void main() {
     });
     scrim.addEventListener('click', closeMenu);
     toc.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  }
+
+  // Theme switcher
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('oop-u1-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
   }
 </script>
 

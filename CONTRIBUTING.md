@@ -1,4 +1,4 @@
-﻿# Contributing Guide (`CONTRIBUTING.md`)
+# Contributing Guide (`CONTRIBUTING.md`)
 
 Welcome to the **BatchHub Notes Archive** (`BatchHub-notes`)! This repository hosts static HTML notes for the VIT Pune student batch and directly powers the notes module in [BatchHub](https://batch-hub-red.vercel.app).
 
@@ -120,6 +120,7 @@ Before submitting your pull request or committing to `main`:
 - [ ] Has the note been verified across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **Desktop** viewports?
 - [ ] Does the mobile floating TOC drawer (`.menu-btn`) and backdrop scrim (`.scrim`) open and close smoothly without horizontal layout shifts?
 - [ ] Are all data tables and formula blocks responsive (`overflow-x: auto; -webkit-overflow-scrolling: touch;`) with zero horizontal page blowout on narrow screens?
+- [ ] Does the note contain an interactive light/dark mode switcher (`#themeBtn`) with dynamic Sun/Moon SVG icons, `<head>` anti-flash guard, and synchronized `batchhub-theme` storage?
 - [ ] Does `@media print` render cleanly in Print Preview without background fills or clipped tables?
 - [ ] Have all system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) been updated?
 - [ ] Is `git status` clean and ready for push?

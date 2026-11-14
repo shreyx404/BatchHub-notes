@@ -4137,15 +4137,16 @@ public class Example {
     if (m) m.setAttribute("content", t === "dark" ? "#0E0E0E" : "#FAFAFA");
   }
   var stored = null;
-  try { stored = localStorage.getItem(TKEY); } catch (e) {}
+  try { stored = localStorage.getItem("batchhub-theme") || localStorage.getItem(TKEY); } catch (e) {}
   if (stored) applyTheme(stored);
   else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) applyTheme("dark");
 
   var themeBtn = d.getElementById("themeBtn");
   if (themeBtn) themeBtn.addEventListener("click", function () {
     var dark = root.getAttribute("data-theme") === "dark";
-    applyTheme(dark ? "light" : "dark");
-    try { localStorage.setItem(TKEY, dark ? "light" : "dark"); } catch (e) {}
+    var next = dark ? "light" : "dark";
+    applyTheme(next);
+    try { localStorage.setItem("batchhub-theme", next); localStorage.setItem(TKEY, next); } catch (e) {}
   });
 
   /* ---------------- build the table of contents ---------------- */

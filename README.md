@@ -1,4 +1,4 @@
-﻿# BatchHub Notes Archive
+# BatchHub Notes Archive
 
 Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)** — deployed automatically to GitHub Pages. Engineered for pure distraction-free reading with seamless responsive design across Mobile, Tablet, and Desktop devices.
 
@@ -161,6 +161,11 @@ The template includes predefined components with dark editorial styling:
   <div class="callout-label">📝 Exam Note</div>
   <p>Frequently tested 5/10 mark questions.</p>
 </div>
+
+<!-- Theme Switcher -->
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme">
+  <!-- Dynamic Sun/Moon SVG icons -->
+</button>
 ```
 
 ### Step 4: Update Manifest, Sync System Markdowns & Push

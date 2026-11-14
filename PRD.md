@@ -1,4 +1,4 @@
-﻿# Product Requirements Document (PRD)
+# Product Requirements Document (PRD)
 
 ## Project: BatchHub Notes Archive (`BatchHub-notes`)
 
@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 2.3.0  
+**Version**: 2.4.0  
 
 ---
 
@@ -146,6 +146,10 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
   - All data comparison tables, frequency distributions, and formula blocks wrapped or styled with `display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;` to eliminate horizontal page scroll blowouts on small screens.
 - **Fluid Typography**: Uses `clamp()` for responsive headings to prevent text clipping and excessive wrapping on narrow mobile screens.
 - **Mobile Touch Usability**: Ensures min 40–44px touch targets on all buttons and pills; search inputs enforce `font-size: 16px` on mobile to eliminate iOS Safari viewport auto-zooming.
+- **Universal Light / Dark Theme Switcher**:
+  - Interactive topbar or floating switcher button (`#themeBtn`) featuring dynamic vector Sun/Moon icons on 100% of curriculum notes.
+  - Cross-note synchronized preference stored in `localStorage` (`batchhub-theme`), with zero-layout-shift and zero flash-of-unstyled-theme (FOUT) via `<head>` anti-flash guard.
+  - Complete dual design token support (`html[data-theme="light"]` / `html[data-theme="dark"]`).
 - **Callout Box System**:
   - `callout key`: Core concepts & definitions (Warm gold theme)
   - `callout tip`: Practical study tips & shortcuts (Emerald green theme)

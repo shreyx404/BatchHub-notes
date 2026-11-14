@@ -10,6 +10,16 @@
 <meta name="note-summary" content="Complete examination notes on DCN Unit III — IP Addressing, Routing &amp; Internetworking: IPv4 classful &amp; CIDR addressing, subnetting/supernetting numericals, NAT, IPv6 transition, routing protocols (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, and MANET routing (DSR, AODV).">
 <title>DCNU3</title>
 <meta name="description" content="Deep, exam-ready notes on IP Addressing: IPv4, IPv6, Subnetting, Supernetting, CIDR, NAT, ICMP, Routing (RIP, OSPF, BGP), ARP/RARP, MPLS, Mobile IP, MANET (DSR, AODV).">
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('dcn-u3-theme');
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  if (t === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
 <style>
 /* ============ DESIGN TOKENS ============ */
 :root{
@@ -27,6 +37,44 @@
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
 }
+html[data-theme="dark"], html.dark {
+  --ink: #f0f0f2;
+  --ink-soft: #c6c6cc;
+  --ink-mute: #888890;
+  --paper: #0e0e11;
+  --wash: #17171c;
+  --wash-2: #22222a;
+  --line: #2b2b33;
+  --line-strong: #f0f0f2;
+}
+html[data-theme="dark"] table, html.dark table { background: var(--paper); }
+.theme-btn {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 101;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  transition: transform .15s, border-color .2s, background .2s;
+  padding: 0;
+}
+.theme-btn:hover { transform: scale(1.05); border-color: var(--ink); }
+.theme-btn:active { transform: scale(.95); }
+.theme-btn svg { width: 17px; height: 17px; }
+.theme-btn .ic-sun { display: none; }
+.theme-btn .ic-moon { display: block; }
+html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display: block; }
+html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display: none; }
+@media print { .theme-btn { display: none !important; } }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
@@ -291,6 +339,10 @@ footer{
 </head>
 <body>
 <div id="progress"></div>
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+  <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
 
 <!-- ================= MASTHEAD ================= -->
 <header class="masthead">
@@ -1601,7 +1653,7 @@ footer{
         var id = '#' + e.target.id;
         links.forEach(function(l){
           if (l.getAttribute('href') === id){
-            l.style.background = '#111'; l.style.color = '#fff'; l.style.borderColor = '#111';
+            l.style.background = 'var(--ink)'; l.style.color = 'var(--paper)'; l.style.borderColor = 'var(--ink)';
             l.scrollIntoView({block:'nearest', inline:'center'});
           }
         });
@@ -1609,6 +1661,28 @@ footer{
     });
   }, {rootMargin:'-30% 0px -60% 0px'});
   sections.forEach(function(s){ if(s) obs.observe(s); });
+
+  // Theme switcher
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('dcn-u3-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+  }
 })();
 </script>
 </body>

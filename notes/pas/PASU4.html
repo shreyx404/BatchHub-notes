@@ -11,6 +11,16 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="description" content="Unit IV exam notes: Statistical estimation, hypothesis testing, Z & t tests, chi-square, ANOVA, correlation, regression and least-squares curve fitting — deep, visual, mobile-first study notes.">
 <title>PASU4</title>
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('pas-u4-theme');
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  if (t === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
 <style>
 /* ============================================================
    UNIT IV · STATISTICS FOR ENGINEERS — EXAM NOTES
@@ -33,6 +43,45 @@
   --pad:clamp(18px,5vw,40px);
   --maxw:76ch;
 }
+html[data-theme="dark"], html.dark {
+  --ink:#f0f0f0;
+  --text:#d6d6d6;
+  --soft:#a8a8a8;
+  --mute:#7e7e7e;
+  --ghost:#3c3c3c;
+  --line:#282828;
+  --line2:#383838;
+  --bg:#0e0e0e;
+  --paper:#161616;
+  --paper2:#1e1e1e;
+}
+html[data-theme="dark"] .topbar, html.dark .topbar { background: rgba(14, 14, 14, 0.92); }
+html[data-theme="dark"] .toc, html.dark .toc,
+html[data-theme="dark"] .tb-btn, html.dark .tb-btn,
+html[data-theme="dark"] table, html.dark table { background: var(--paper); }
+.theme-btn {
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+  padding: 0;
+  flex: none;
+  margin-left: 6px;
+}
+.theme-btn:hover { background: var(--ink); color: var(--bg); }
+.theme-btn svg { width: 14px; height: 14px; }
+.theme-btn .ic-sun { display: none; }
+.theme-btn .ic-moon { display: block; }
+html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display: block; }
+html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display: none; }
+@media print { .theme-btn { display: none !important; } }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){
@@ -450,6 +499,10 @@ code.inline{font:600 .85em/1 var(--mono);background:var(--paper2);border-radius:
   <button class="tb-btn" id="printBtn" aria-label="Print these notes">
     <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 0h8v4H3zM1 4h12v7h-3v3H4v-3H1zM4 9h6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
     Print
+  </button>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+    <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>
 </header>
 
@@ -2662,6 +2715,28 @@ new = pd.DataFrame({<span class="s2">"Irradiance"</span>: [800], <span class="s2
     window.addEventListener("resize", upd);
     upd();
   });
+
+  // theme switcher
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('pas-u4-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+  }
 })();
 </script>
 </body>

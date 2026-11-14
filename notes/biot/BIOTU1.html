@@ -1909,8 +1909,9 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
   var root=document.documentElement;
   function setTheme(t){
     root.classList.toggle('dark',t==='dark');
-    try{localStorage.setItem('iotnotes-theme',t)}catch(_){}}
-  var saved=null; try{saved=localStorage.getItem('iotnotes-theme')}catch(_){}
+    root.setAttribute('data-theme', t);
+    try{localStorage.setItem('batchhub-theme',t); localStorage.setItem('iotnotes-theme',t);}catch(_){}}
+  var saved=null; try{saved=localStorage.getItem('batchhub-theme')||localStorage.getItem('iotnotes-theme');}catch(_){}
   if(saved){setTheme(saved)}
   else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){setTheme('dark')}
   $('#themeBtn').addEventListener('click',function(){

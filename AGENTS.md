@@ -1,4 +1,4 @@
-﻿# AGENTS.md — Agent & Contributor Operational Manual
+# AGENTS.md — Agent & Contributor Operational Manual
 
 > **Scope**: This document defines the operating protocols, architectural invariants, code conventions, and workflows for autonomous AI agents (such as Antigravity, Claude, Copilot) and human contributors modifying or expanding **`BatchHub-notes`**.
 
@@ -183,6 +183,7 @@ Before completing any task or reporting back to the user:
 - [ ] Has `node scripts/generate-manifest.js` (or `npm run build`) been run?
 - [ ] Does `notes.json` contain every note with valid `id`, `subject`, `unit`, `title`, `path`, and `url`?
 - [ ] Does the `<title>` tag of each note file strictly match the filename without `.html` (e.g. `<title>DCNU3</title>`)?
+- [ ] Does every note HTML file include an interactive light/dark mode switcher icon button and functionality (`#themeBtn`) with anti-flash script and synchronized storage (`batchhub-theme`)?
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
 - [ ] Does `@media print` exist in the note CSS so students can cleanly export to PDF?
 - [ ] Are mobile and tablet responsive styles present (reading progress bar, off-canvas TOC drawer with trigger button and backdrop scrim)?

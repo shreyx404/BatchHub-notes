@@ -13,6 +13,15 @@
 <meta name="note-tags"    content="Tag1, Tag2, Tag3">       <!-- comma-separated -->
 <meta name="note-summary" content="Brief one-line summary"> <!-- shown on index card -->
 <title>SUBJECTUN</title> <!-- Must match the HTML file name without .html (e.g. DCNU1, BIOTU2) for archive-wide uniformity -->
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme');
+  if (t === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('light');
+  }
+})();
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
 
@@ -40,6 +49,57 @@
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'IBM Plex Sans', sans-serif;
   }
+
+  html[data-theme="light"], html.light {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface2: #f2f2f2;
+    --border: #e2e2e2;
+    --border2: #d0d0d0;
+    --text: #181818;
+    --text-dim: #666;
+    --text-dimmer: #999;
+    --accent: #111;
+    --mark: #e8e8e8;
+    --warm: #a67c1e;
+    --tip-bg: rgba(92,184,120,0.1);
+    --tip-border: rgba(92,184,120,0.35);
+    --tip-text: #2e7d32;
+    --warn-bg: rgba(232,160,80,0.1);
+    --warn-border: rgba(232,160,80,0.35);
+    --warn-text: #b26a00;
+    --exam-bg: rgba(120,140,232,0.1);
+    --exam-border: rgba(120,140,232,0.35);
+    --exam-text: #4d62cd;
+  }
+
+  .theme-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: transform .15s, border-color .2s, background .2s;
+    padding: 0;
+  }
+  .theme-btn:hover { transform: scale(1.05); border-color: var(--text); }
+  .theme-btn:active { transform: scale(.95); }
+  .theme-btn svg { width: 17px; height: 17px; }
+  .theme-btn .ic-sun { display: block; }
+  .theme-btn .ic-moon { display: none; }
+  html[data-theme="light"] .theme-btn .ic-sun, html.light .theme-btn .ic-sun { display: none; }
+  html[data-theme="light"] .theme-btn .ic-moon, html.light .theme-btn .ic-moon { display: block; }
+  @media print { .theme-btn { display: none !important; } }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -447,6 +507,12 @@
 <!-- Reading Progress -->
 <div class="progress-bar" id="progressBar"></div>
 
+<!-- Theme Switcher -->
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+  <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
 <!-- Mobile TOC Toggle & Scrim -->
 <button class="toc-toggle" id="tocToggle" aria-label="Toggle Table of Contents">☰</button>
 <div class="scrim" id="scrim"></div>
@@ -605,6 +671,29 @@ document.querySelectorAll('.sidebar a').forEach(a => a.addEventListener('click',
 
   window.addEventListener('scroll', update);
   update();
+})();
+
+// ── Theme switcher ──
+(function () {
+  const themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('light');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light' || document.documentElement.classList.contains('light');
+      setTheme(isLight ? 'dark' : 'light');
+    });
+  }
 })();
 </script>
 

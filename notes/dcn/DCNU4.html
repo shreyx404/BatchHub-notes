@@ -13,6 +13,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('dcn-u4-theme');
+  if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+  if (t === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
 <style>
 /* ============ TOKENS ============ */
 :root{
@@ -23,6 +33,49 @@
   --body:"Space Grotesk","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
 }
+html[data-theme="dark"], html.dark {
+  --paper:#0f0e0c;
+  --card:#161512;
+  --ink:#ece9dd;
+  --soft:#a5a08f;
+  --faint:#6e695d;
+  --line:#2c2a23;
+  --line-strong:#454238;
+  --dark:#0a0907;
+  --dark-card:#12110e;
+  --dark-line:#26241e;
+  --on-dark:#ece9dd;
+  --on-dark-soft:#a5a08f;
+}
+html[data-theme="dark"] .hd, html.dark .hd {
+  background: rgba(15, 14, 12, 0.86);
+}
+html[data-theme="dark"] .an i, html.dark .an i {
+  background: var(--card);
+}
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--soft);
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 8px;
+  flex: none;
+  transition: all .2s;
+  padding: 0;
+}
+.theme-btn:hover { color: var(--ink); border-color: var(--ink); }
+.theme-btn svg { width: 15px; height: 15px; }
+.theme-btn .ic-sun { display: none; }
+.theme-btn .ic-moon { display: block; }
+html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display: block; }
+html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display: none; }
+@media print { .theme-btn { display: none !important; } }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.62;font-size:16px;overflow-x:hidden}
@@ -363,6 +416,10 @@ footer{background:var(--dark);color:var(--on-dark);border-top:1px solid var(--in
       <a href="#s8" data-nav="s8">08 TCP vs UDP</a>
       <a href="#s9" data-nav="s9">09 Exam</a>
     </nav>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
   </div>
   <i class="pg" id="pg"></i>
 </header>
@@ -1228,6 +1285,30 @@ document.querySelectorAll('.tabs button').forEach(function(btn){
 document.querySelectorAll('.fc').forEach(function(c){
   c.addEventListener('click', function(){ c.classList.toggle('flip'); });
 });
+
+/* theme switcher */
+(function () {
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('dcn-u4-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+  }
+})();
 </script>
 </body>
 </html>

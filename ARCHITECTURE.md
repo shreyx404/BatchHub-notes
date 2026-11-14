@@ -1,4 +1,4 @@
-﻿# System Architecture (`ARCHITECTURE.md`)
+# System Architecture (`ARCHITECTURE.md`)
 
 ## 1. High-Level Architecture Overview
 
@@ -88,6 +88,11 @@
 Each note is an independent, single-file HTML document requiring zero external runtime framework dependencies:
 - **Head Assets**: Preconnected typography (Google Fonts `IBM Plex Sans`, `IBM Plex Mono`, `Fraunces`, `Newsreader`).
 - **Internal Styles**: Self-contained CSS utilizing CSS variables for theme consistency.
+- **Universal Dual-Theme Switcher & Storage Sync**:
+  - Topbar or floating switcher button (`#themeBtn`) featuring dynamic SVG Sun and Moon icons across 100% of notes.
+  - Dual CSS design token sets (`html[data-theme="dark"]` / `html[data-theme="light"]`) ensuring optimal WCAG AAA contrast for reading and diagram comprehension.
+  - Zero-FOUT inline anti-flash script in `<head>` inspecting `localStorage.getItem('batchhub-theme')` or system color-scheme preference before first paint.
+  - Centralized preference persistence in `localStorage` (`batchhub-theme`), providing seamless theme synchronization across notes.
 - **Reading Progress Tracking**: Tiny vanilla JavaScript scroll listener updates the fixed top progress bar (`#progressBar`).
 - **Active Section Highlighting**: IntersectionObserver or bounding-rect computation continuously tracks scroll position to highlight active sections in the TOC.
 - **Cross-Device Responsive Engine**:

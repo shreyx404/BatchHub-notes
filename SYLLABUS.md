@@ -1,4 +1,4 @@
-﻿# Academic Syllabus & Curriculum Reference (`SYLLABUS.md`)
+# Academic Syllabus & Curriculum Reference (`SYLLABUS.md`)
 
 > **Institution**: Bansilal Ramnath Agarwal Charitable Trust's **Vishwakarma Institute of Technology, Pune**  
 > *(An Autonomous Institute affiliated to Savitribai Phule Pune University)*  
@@ -24,7 +24,7 @@
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 22/22 units published (20 files) across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4), and PAS (4/4) — CURRICULUM 100% COMPLETE; all 20 files verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 22/22 units published (20 files) across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4), and PAS (4/4) — CURRICULUM 100% COMPLETE; all 20 files equipped with universal light/dark mode switcher and responsive architecture).
 
 ---
 

@@ -15,6 +15,16 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap"
         rel="stylesheet">
+    <script>
+        (function(){
+            var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('fds-u1-theme');
+            if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+            if (t === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
     <style>
         :root {
             --paper: #F5F4EF;
@@ -32,6 +42,49 @@
             --disp: 'Fraunces', Georgia, serif;
             --mono: 'IBM Plex Mono', ui-monospace, monospace;
         }
+
+        html[data-theme="dark"], html.dark {
+            --paper: #0f0e0c;
+            --panel: #161512;
+            --ink: #eeebe3;
+            --ink2: #c4c0b6;
+            --ink3: #8a877a;
+            --line: #2c2a24;
+            --line2: #3f3c34;
+            --wash: #1b1a16;
+            --wash2: #24221c;
+            --code: #141310;
+            --code-ink: #ddd8ce;
+        }
+        html[data-theme="dark"] .card, html.dark .card,
+        html[data-theme="dark"] table, html.dark table { background: var(--panel); }
+        .theme-btn {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 100;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--line);
+            background: var(--paper);
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            transition: transform .15s, border-color .2s, background .2s;
+            padding: 0;
+        }
+        .theme-btn:hover { transform: scale(1.05); border-color: var(--ink); }
+        .theme-btn:active { transform: scale(.95); }
+        .theme-btn svg { width: 17px; height: 17px; }
+        .theme-btn .ic-sun { display: none; }
+        .theme-btn .ic-moon { display: block; }
+        html[data-theme="dark"] .theme-btn .ic-sun, html.dark .theme-btn .ic-sun { display: block; }
+        html[data-theme="dark"] .theme-btn .ic-moon, html.dark .theme-btn .ic-moon { display: none; }
+        @media print { .theme-btn { display: none !important; } }
 
         * {
             box-sizing: border-box;
@@ -857,6 +910,10 @@
 
 <body>
     <div id="pbar"></div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
 
     <div class="layout">
 
@@ -4923,6 +4980,30 @@ int main() {
             document.querySelectorAll('.mcq-opt').forEach(o => o.classList.remove('right', 'wrong'));
         });
         upd();
+
+        /* ---------- theme switcher ---------- */
+        (function () {
+            var themeBtn = document.getElementById('themeBtn');
+            function setTheme(t) {
+                if (t === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    document.documentElement.classList.remove('dark');
+                }
+                try {
+                    localStorage.setItem('batchhub-theme', t);
+                    localStorage.setItem('fds-u1-theme', t);
+                } catch (e) {}
+            }
+            if (themeBtn) {
+                themeBtn.addEventListener('click', function () {
+                    var isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark');
+                    setTheme(isDark ? 'light' : 'dark');
+                });
+            }
+        })();
     </script>
 </body>
 

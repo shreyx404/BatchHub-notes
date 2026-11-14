@@ -2493,13 +2493,19 @@ void inorderThreaded(tnode* root) {
 
   /* theme toggle */
   var tbtn = doc.getElementById('themeBtn');
-  try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch(e){}
-  tbtn.addEventListener('click', function(){
-    var cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    var next = cur === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch(e){}
-  });
+  try {
+    var saved = localStorage.getItem('batchhub-theme') || localStorage.getItem('theme');
+    if (saved) { root.setAttribute('data-theme', saved); root.classList.toggle('dark', saved === 'dark'); }
+  } catch(e){}
+  if (tbtn) {
+    tbtn.addEventListener('click', function(){
+      var cur = root.getAttribute('data-theme') === 'dark' || root.classList.contains('dark') ? 'dark' : 'light';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      root.classList.toggle('dark', next === 'dark');
+      try { localStorage.setItem('batchhub-theme', next); localStorage.setItem('theme', next); } catch(e){}
+    });
+  }
 
   /* reading progress */
   var bar = doc.getElementById('progress');

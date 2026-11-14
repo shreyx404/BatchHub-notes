@@ -1,4 +1,4 @@
-﻿# Visual & Editorial Style Guide (`STYLEGUIDE.md`)
+# Visual & Editorial Style Guide (`STYLEGUIDE.md`)
 
 > **Scope**: This document defines the visual design system, CSS variable tokens, UI widget patterns, and editorial tone guidelines for all academic notes hosted in `BatchHub-notes`.
 >
@@ -80,7 +80,40 @@ Every note HTML file must include the standardized `:root` design token block in
   --mono: 'IBM Plex Mono', monospace;
   --sans: 'IBM Plex Sans', sans-serif;
 }
+
+/* Light Mode Overrides */
+html[data-theme="light"], html.light {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface2: #f2f2f2;
+  --surface3: #e8e8e8;
+  --border: #e2e2e2;
+  --border2: #d0d0d0;
+  --text: #181818;
+  --text-dim: #666666;
+  --text-dimmer: #999999;
+  --accent: #111111;
+  --warm: #a67c1e;
+  --tip-bg: rgba(92, 184, 120, 0.1);
+  --tip-border: rgba(92, 184, 120, 0.35);
+  --tip-text: #2e7d32;
+  --warn-bg: rgba(232, 160, 80, 0.1);
+  --warn-border: rgba(232, 160, 80, 0.35);
+  --warn-text: #b26a00;
+  --exam-bg: rgba(120, 140, 232, 0.1);
+  --exam-border: rgba(120, 140, 232, 0.35);
+  --exam-text: #4d62cd;
+}
 ```
+
+### 3.1 Universal Theme Switcher Pattern
+
+Every note must implement an interactive light/dark mode switcher:
+- **Button Element**: `<button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme">` containing dual SVG icons (`.ic-sun`, `.ic-moon`).
+- **Dynamic Icons**: Moon icon displayed during light mode; Sun icon displayed during dark mode.
+- **Anti-Flash Guard**: Inline script placed in `<head>` inspecting `localStorage.getItem('batchhub-theme')` or `prefers-color-scheme: dark` prior to render to eliminate FOUT.
+- **Unified Sync**: Saves active mode to `localStorage.setItem('batchhub-theme', mode)` and legacy subject key.
+- **Print Optimization**: Automatically suppressed during printing via `@media print { .theme-btn { display: none !important; } }`.
 
 ---
 

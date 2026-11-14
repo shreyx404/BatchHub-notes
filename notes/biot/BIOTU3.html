@@ -2010,8 +2010,8 @@ footer p{font-size:.8rem;color:var(--muted)}
   var root=document.documentElement, tBtn=document.getElementById('themeBtn'), tIcon=document.getElementById('themeIcon');
   var SUN='<circle cx="12" cy="12" r="4.2"/><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4" stroke-linecap="round"/>';
   var MOON='<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z" stroke-linejoin="round"/>';
-  function setTheme(t){root.dataset.theme=t;try{localStorage.setItem('u3theme',t)}catch(e){}tIcon.innerHTML=(t==='dark')?MOON:SUN;}
-  var saved=null;try{saved=localStorage.getItem('u3theme')}catch(e){}
+  function setTheme(t){root.dataset.theme=t;root.classList.toggle('dark',t==='dark');try{localStorage.setItem('batchhub-theme',t);localStorage.setItem('u3theme',t)}catch(e){}tIcon.innerHTML=(t==='dark')?MOON:SUN;}
+  var saved=null;try{saved=localStorage.getItem('batchhub-theme')||localStorage.getItem('u3theme')}catch(e){}
   if(saved){setTheme(saved)}else{setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
   tBtn.addEventListener('click',function(){setTheme(root.dataset.theme==='dark'?'light':'dark')});
   /* ---------- toc drawer ---------- */

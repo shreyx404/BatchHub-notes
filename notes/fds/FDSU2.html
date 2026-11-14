@@ -11,6 +11,15 @@
 <title>FDSU2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('batchhub-theme') || localStorage.getItem('fds-u2-theme');
+  if (t === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('light');
+  }
+})();
+</script>
 <style>
 /* ============================================================
    MOBILE-FIRST MONOCHROME STUDY NOTES
@@ -33,6 +42,49 @@
   --mono:'JetBrains Mono', Consolas, monospace;
   --w:42rem;
 }
+html[data-theme="light"], html.light {
+  --bg: #f8f8f6;
+  --bg2: #f0f0ec;
+  --surface: #ffffff;
+  --surface2: #f2f2ee;
+  --line: #deded8;
+  --line-soft: #e8e8e2;
+  --txt: #151515;
+  --txt-dim: #454545;
+  --dim: #606060;
+  --faint: #888884;
+  --white: #111111;
+  --code-bg: #f2f1ec;
+}
+html[data-theme="light"] .topbar, html.light .topbar {
+  background: rgba(248, 248, 246, 0.92);
+}
+html[data-theme="light"] table, html.light table,
+html[data-theme="light"] .callout, html.light .callout {
+  background: var(--surface);
+}
+.theme-btn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--txt);
+  width: 34px;
+  height: 34px;
+  border-radius: .4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+  padding: 0;
+  flex: none;
+}
+.theme-btn:hover { background: var(--surface2); }
+.theme-btn svg { width: 17px; height: 17px; }
+.theme-btn .ic-sun { display: block; }
+.theme-btn .ic-moon { display: none; }
+html[data-theme="light"] .theme-btn .ic-sun, html.light .theme-btn .ic-sun { display: none; }
+html[data-theme="light"] .theme-btn .ic-moon, html.light .theme-btn .ic-moon { display: block; }
+@media print { .theme-btn { display: none !important; } }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:4.5rem;-webkit-text-size-adjust:100%}
 body{
@@ -360,6 +412,10 @@ footer{
     <button class="menu-btn" id="menuBtn" aria-label="Open contents">☰ <span class="mb-label">CONTENTS</span></button>
     <div class="brand">Unit II <em>· Data Structures</em></div>
     <div class="top-right">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark / light theme" title="Toggle theme" type="button">
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
       <a class="top-link" href="../../index.html">← NOTES HUB</a>
       <a class="top-link" href="#cheat">CHEAT-SHEET</a>
       <a class="top-link" href="#exam">EXAM Q&A</a>
@@ -2337,6 +2393,30 @@ window.addEventListener('scroll', () => {
   const h = document.documentElement.scrollHeight - window.innerHeight;
   if (h > 0) document.getElementById('reading-bar').style.width = (window.scrollY / h * 100) + '%';
 }, { passive: true });
+
+/* ---------- theme switcher ---------- */
+(function () {
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    if (t === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove('light');
+    }
+    try {
+      localStorage.setItem('batchhub-theme', t);
+      localStorage.setItem('fds-u2-theme', t);
+    } catch (e) {}
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var isLight = document.documentElement.getAttribute('data-theme') === 'light' || document.documentElement.classList.contains('light');
+      setTheme(isLight ? 'dark' : 'light');
+    });
+  }
+})();
 </script>
 </body>
 </html>
