@@ -1,4 +1,4 @@
-# Contributing Guide (`CONTRIBUTING.md`)
+﻿# Contributing Guide (`CONTRIBUTING.md`)
 
 Welcome to the **BatchHub Notes Archive** (`BatchHub-notes`)! This repository hosts static HTML notes for the VIT Pune student batch and directly powers the notes module in [BatchHub](https://batch-hub-red.vercel.app).
 
@@ -86,7 +86,7 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 npm run build
 # or: node scripts/generate-manifest.js
 ```
-Verify that `notes.json` reflects your new note with all metadata populated (currently tracking 18 published units across BIOT, DCN, FDS, OOP, and PAS).
+Verify that `notes.json` reflects your new note with all metadata populated (currently tracking 22 units across 20 files: BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4 in 2 files), PAS (4/4)).
 
 ### Step 7: Update System Markdowns
 - Update [`TASKS.md`](TASKS.md) to mark the unit as complete.

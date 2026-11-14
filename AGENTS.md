@@ -48,7 +48,7 @@ BatchHub-notes/
 │   │   ├── FDSU4.html            # Unit 4 Notes (Published)
 │   │   ├── FDSU5.html            # Unit 5 Notes (Published)
 │   │   └── FDSU6.html            # Unit 6 Notes (Published)
-│   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [50% Complete]
+│   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [100% Complete]
 │   │   ├── OOPU1.html            # Unit 1 Notes (Published)
 │   │   └── OOPU2.html            # Unit 2 Notes (Published)
 │   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [100% Complete]

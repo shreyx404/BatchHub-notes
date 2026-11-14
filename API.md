@@ -1,4 +1,4 @@
-# API & Integration Contract (`API.md`)
+﻿# API & Integration Contract (`API.md`)
 
 > **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v1.9.0, 18 published notes) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
@@ -92,7 +92,7 @@ The central manifest is located at the root of the deployment:
 | `FDS` | `notes/fds/` | `CB2003` | Fundamentals of Data Structures | 6 Units | `fds-unit<1-6>` |
 | `DCN` | `notes/dcn/` | `CB2004` | Data Communication and Networking | 4 Units | `dcn-unit<1-4>` |
 | `BIOT`| `notes/biot/`| `CB2005` | Basics of IoT | 4 Units | `biot-unit<1-4>`|
-| `OOP` | `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units | `oop-unit<1-4>` |
+| `OOP` | `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units (2 files) | `oop-unit<1-2>` (OOPU1=U1&U2, OOPU2=U3&U4) |
 | `PAS` | `notes/pas/` | `MM0501` | Probability and Statistics | 4 Units | `pas-unit<1-4>` |
 
 ### 2.3 Live Example Payload

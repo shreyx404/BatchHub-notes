@@ -17,14 +17,14 @@
 | **S1** | `CB2003` | **`fds`** | **Fundamentals of Data Structures** | 3 / 2 / 0 | 4 | CP(20) + LAB(40) + ESE TH(40) | **6 Units** | ✅ 100% (6/6) |
 | **S2** | `CB2004` | **`dcn`** | **Data Communication and Networking** | 2 / 0 / 1 | 3 | CVV(20) + CP(30) + GD/PPT(10) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
 | **S3** | `CB2005` | **`biot`** | **Basics of IoT** | 2 / 2 / 0 | 3 | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | ✅ 100% (4/4) |
-| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | 🟡 50% (2/4) |
+| **S4** | `CB2006` | **`oop`** | **Object Oriented Programming** | 1 / 2 / 0 | 3 (2 Th+Lab) | CVV(20) + CP(30) + GD/PPT(10) + ESE TH(40) | **4 Units** | ✅ 100% (4/4) |
 | **S5 (MDM)**| `MM0501` | **`pas`** | **Probability and Statistics** | 2 / 0 / 1 | 3 | CVV(20) + CP(20) + HA(20) + MSE(40) | **4 Units** | ✅ 100% (4/4) |
 | **S6 (HSS)**| `HS2002` | — | From Campus to Corporate - 1 | 2 / 0 / 0 | 2 | MSE(R)(50) + ESE(R)(50) | 3 Verticals | Reference |
 | **S7 (RAD)**| `HS2001` | — | Reasoning and Aptitude Development - 3 | 1 / 0 / 0 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S8 (DT)** | `CB2001` / `IR2101` | — | Design Thinking – 1 / Int'l Tech Front | 0 / 0 / 1 | 1 | Direct Evaluation (100) | 2 Sections | Reference |
 | **S9 (EDI)**| `CB2002` / `IR2102` | — | Engineering Design & Innovation – 1 | 0 / 4 / 0 | 2 | MSE(R)(30) + ESE(R)(70) | 2 Sections | Reference |
 
-**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 20 published units across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (4/4); all 20 verified with full Mobile, Tablet, and Desktop responsive architecture).
+**Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 22/22 units published (20 files) across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4), and PAS (4/4) — CURRICULUM 100% COMPLETE; all 20 files verified with full Mobile, Tablet, and Desktop responsive architecture).
 
 ---
 

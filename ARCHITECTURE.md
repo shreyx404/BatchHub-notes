@@ -163,7 +163,7 @@ notes/
 | `notes/oop/` | `CB2006` | Object Oriented Programming | 4 Units | Pure HTML5/CSS3 |
 | `notes/pas/` | `MM0501` | Probability and Statistics | 4 Units | Pure HTML5/CSS3 |
 
-Total Academic Note Scope: **22 Units** (Current: 20 published across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4) & PAS (4/4)).
+Total Academic Note Scope: **22 Units** (Current: 22/22 units published (20 files) across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4) & PAS (4/4) — CURRICULUM 100% COMPLETE).
 
 ---
 

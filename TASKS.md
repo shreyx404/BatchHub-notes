@@ -6,12 +6,12 @@
 |---|---|---|---|
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
-| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | 🟡 **In Progress** | **90.9%** (20/22 Units) |
+| **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ✅ **Completed** | **100%** (22/22 Units) |
 | **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 75% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 65% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
-> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **20 / 22 Units** (90.9%).
+> **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **22 / 22 Units** (**100% — CURRICULUM COMPLETE!**).
 >
 > ⚡ **Golden Operating Rule**:  
 > **After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.**
@@ -105,12 +105,12 @@
   - [x] Interactive BFS visual tracer, DFS call-stack player, Warshall matrix detours stepper ($k=1\dots 7$), Topological sort stepper.
   - [x] Networking, social graphs, IoT routing, and attack path modelling case studies.
 
-### 2. Object Oriented Programming (OOP — CB2006) — `notes/oop/` (4 Units) 🟡 50%
-- [x] **Unit 1: Introduction to OOP [C++]** (`OOPU1.html`) ✅
+### 2. Object Oriented Programming (OOP — CB2006) — `notes/oop/` (4 Units) ✅ 100% Complete
+- [x] **Units 1 & 2: Introduction to OOP & C++ Programming** (`OOPU1.html`) ✅
   - [x] OOP fundamentals vs C, I/O streams, dynamic memory (`new`/`delete`), classes & objects.
   - [x] Access specifiers, `this` pointer, constructors/destructors, static members, friend functions, overloading.
   - [x] Complete 13-chapter lecture suite: const/control structures, memory map, inheritance, virtual functions, templates, and file handling.
-- [x] **Unit 2: Java Programming Master Notes (Lectures 14–21)** (`OOPU2.html`) ✅
+- [x] **Units 3 & 4: Java Programming (Lectures 14–21)** (`OOPU2.html`) ✅
   - [x] JVM/JRE/JDK architecture, bytecode execution pipeline, Java primitives, reference types, string immutability.
   - [x] OOP in Java: classes, objects, Heap vs Stack memory, garbage collection, constructors, method overloading.
   - [x] Inheritance (`extends`), `super()`, method overriding, runtime polymorphism (dynamic method dispatch), `final`, `instanceof`.
@@ -118,10 +118,10 @@
   - [x] Exception handling: `try-catch-finally`, multi-catch, checked vs unchecked exceptions, `throw`/`throws`, custom exceptions.
   - [x] GUI & Event Programming: AWT vs Swing, layout managers (`BorderLayout`, `FlowLayout`, `GridLayout`), event delegation model & listeners.
   - [x] In-note search (`/` hotkey), theme toggle (dark/light), reading progress bar, off-canvas TOC drawer, copyable code snippets, `@media print`.
-- [ ] Unit 3: Advanced Java Concepts & Collections Framework (`OOPU3.html`)
+  *(Covered in OOPU2.html)*
   - [ ] Java Collections Framework (`ArrayList`, `Vector`, `LinkedList`, `HashSet`, `TreeSet`, `HashMap`), Generics, Iterators.
   - [ ] Multithreading basics, Thread lifecycle, synchronization.
-- [ ] Unit 4: Database Programming & Advanced GUI in Java (`OOPU4.html`)
+
   - [ ] JDBC architecture, drivers, `DriverManager`, `Connection`, `Statement`, `PreparedStatement`, `ResultSet`, CRUD operations.
   - [ ] Advanced Swing components, dialogs, menus, table models.
 

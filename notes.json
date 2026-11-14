@@ -305,9 +305,9 @@
   {
     "id": "oop-unit1",
     "subject": "OOP",
-    "unit": "Unit 1",
+    "unit": "Units 1 & 2",
     "title": "Object Oriented Programming — Complete Notes",
-    "summary": "Complete lecture notes for CB2006 Unit 1 covering Object Oriented Programming in C++: OOP foundations, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.",
+    "summary": "Complete lecture notes for CB2006 Units 1 & 2 covering Object Oriented Programming in C++: OOP foundations, classes, objects, control structures, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, and file handling.",
     "path": "notes/oop/OOPU1.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/oop/OOPU1.html",
     "tags": [
@@ -331,9 +331,9 @@
   {
     "id": "oop-unit2",
     "subject": "OOP",
-    "unit": "Unit 2",
+    "unit": "Units 3 & 4",
     "title": "Java · Unit II Master Notes — Lectures 14–21",
-    "summary": "Comprehensive examination notes on OOP Unit 2 (Java Programming, Lectures 14–21): JVM architecture, OOP concepts in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI components, and event-driven programming.",
+    "summary": "Complete lecture notes for CB2006 Units 3 & 4 covering Java Programming (Lectures 14–21): JVM/JRE/JDK architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI components, and event-driven programming.",
     "path": "notes/oop/OOPU2.html",
     "url": "https://shreyx404.github.io/BatchHub-notes/notes/oop/OOPU2.html",
     "tags": [

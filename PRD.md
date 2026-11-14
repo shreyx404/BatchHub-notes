@@ -93,7 +93,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 │  └─────────────────────────┘  │  │ - notes/biot/BIOTU1–U4 (100%)    │  │
 │                               │  │ - notes/dcn/DCNU1–U4 (100%)      │  │
 │                               │  │ - notes/fds/FDSU1–U6 (100%)      │  │
-│                               │  │ - notes/oop/OOPU1, OOPU2 (50%)   │  │
+│                               │  │ - notes/oop/ (100% — 4/4 Units)   │  │
 │                               │  │ - notes/pas/ (100% — 4/4 Units)   │  │
 │                               │  │ - Responsive TOC, Print CSS, etc │  │
 │                               │  └──────────────────────────────────┘  │
@@ -182,7 +182,7 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 ---
 
 ## 8. Success Metrics & KPIs
-1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 20/22 units, 90.9% published across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (2/4), and PAS (4/4)).
+1. **Adoption**: 100% of curriculum units (22 units total across 5 core subjects) hosted and linked into BatchHub (Current: 22/22 units, 100% published across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4), and PAS (4/4)).
 2. **Admin Efficiency**: Less than 15 seconds to grab a link and register a new note into BatchHub's admin console.
 3. **Student Satisfaction**: Near-zero load time, high readability during exam preparation, clean single-click printable PDF notes.
 

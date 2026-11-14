@@ -33,7 +33,7 @@ BatchHub-notes/
 │   │   └── FDSU6.html             ← Unit 6: Graphs (Representations, BFS, DFS, Warshall, Floyd, Topo Sort)
 │   ├── oop/                       ← Object Oriented Programming (CB2006 - 4 Units: C++ & Java) [50%]
 │   │   ├── OOPU1.html             ← Unit 1: Introduction to OOP with C++
-│   │   └── OOPU2.html             ← Unit 2: Java Programming Master Notes (JVM, OOP, GUI, Events)
+│   │   └── OOPU2.html             ← Units 3 & 4: Java Programming (JVM, OOP, GUI, Events, Lectures 14-21)
 │   └── pas/                       ← Probability and Statistics (MM0501 - 4 Units) [100%]
 │       ├── PASU1.html             ← Unit 1: Descriptive Statistics & Visualizations
 │       ├── PASU2.html             ← Unit 2: Probability Basics & Distributions

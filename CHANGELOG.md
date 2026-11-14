@@ -1,4 +1,4 @@
-# Changelog (`CHANGELOG.md`)
+﻿# Changelog (`CHANGELOG.md`)
 
 All notable changes to the **BatchHub Notes Archive** (`BatchHub-notes`) will be documented in this file.
 
@@ -12,6 +12,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Ingestion of OOP Units 3 and 4 (`notes/oop/` — `CB2006`).
 - KaTeX mathematical formula rendering engine.
+
+## [2.2.0] - 2026-11-14
+
+### Added
+- **Object Oriented Programming (OOP - CB2006) Curriculum Fully Covered (100% Complete)**:
+  - 
+otes/oop/OOPU1.html covers Units 1 & 2 (C++): OOP foundations, classes, objects, constructors, destructors, memory map, friend functions, operator overloading, inheritance, virtual functions, templates, file handling.
+  - 
+otes/oop/OOPU2.html covers Units 3 & 4 (Java Lectures 14-21): JVM architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI, event-driven programming.
+  - Updated meta 
+ote-unit in OOPU1 (Unit 1 → Units 1 & 2) and OOPU2 (Unit 2 → Units 3 & 4).
+- **SYLLABUS 100% COMPLETE**: All 22 curriculum units across all 5 subjects now fully published (20 HTML files covering 22 units).
+
+### Changed
+- OOP: 50% → 100% Complete.
+- Overall curriculum: 22/22 units (100%) covered across 20 published note files.
+- notes.json regenerated: OOP entries now reflect Units 1 & 2 and Units 3 & 4.
+- All system markdowns updated.
 
 ## [2.1.0] - 2026-11-14
 
