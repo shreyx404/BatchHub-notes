@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `audio/biot/BIOTU4.mp3` (`1:04:46`, 44.48 MB)
     - `audio/oop/OOPU1.mp3` (`1:20:33`, 55.31 MB)
     - `audio/oop/OOPU2.mp3` (`28:28`, 19.55 MB)
-  - Executed `npm run audio:sync` to inject `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and the self-contained **Audio Note Bar** into `BIOTU1.html`–`BIOTU4.html`, `OOPU1.html`, and `OOPU2.html`, and rebuilt `notes.json` (20 notes indexed, 6 with `audioPath`/`audioUrl`/`audioDuration`).
+  - Executed `npm run audio:sync` with per-note adaptive monochrome/editorial theme matching (`resolveThemeProfile` in `scripts/sync-audio.js`, `#audioBar`-scoped specificity, and container-width alignment) to inject `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and the **Audio Note Bar** into `BIOTU1.html`–`BIOTU4.html`, `OOPU1.html`, and `OOPU2.html`, and rebuilt `notes.json` (20 notes indexed, 6 with `audioPath`/`audioUrl`/`audioDuration`).
   - Verified real MP3 playback, `+15s` seeking, `1.5x` speed control, dark/light theme adaptation, `@media print` suppression, and zero horizontal overflow on `#audioBar` across `1280px`, `768px`, `375px`, and `320px` in headless Chrome CDP across `index.html` and all 6 synced notes.
   - Synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
 

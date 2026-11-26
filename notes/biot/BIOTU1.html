@@ -274,36 +274,31 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
 
 <!-- BATCHHUB-AUDIO-STYLE:START -->
 <style id="batchhub-audio-style">
-  .audio-bar {
-    --ab-surface: var(--surface, var(--card, var(--panel, var(--paper, var(--bg, #111111)))));
-    --ab-surface2: var(--surface2, var(--surface-2, var(--wash, var(--soft, var(--panel2, #181818)))));
-    --ab-border: var(--border, var(--line, var(--hair, #252525)));
-    --ab-border2: var(--border2, var(--line2, var(--line-strong, var(--border, #2e2e2e))));
-    --ab-text: var(--text, var(--txt, var(--ink, var(--fg, #e8e8e8))));
-    --ab-dim: var(--text-dim, var(--txt-dim, var(--ink2, var(--ink-2, var(--muted, var(--mut, var(--soft, #888888)))))));
-    --ab-warm: var(--warm, #a67c1e);
-    --ab-warm-ink: #ffffff;
-    --ab-mono: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
-    --ab-sans: var(--sans, system-ui, sans-serif);
+  #audioBar {
+    --ab-surface: var(--paper);
+    --ab-surface2: var(--wash);
+    --ab-border: var(--line);
+    --ab-border2: var(--line2);
+    --ab-text: var(--ink);
+    --ab-dim: var(--ink-soft);
+    --ab-accent: var(--inv);
+    --ab-accent-ink: var(--inv-ink);
+    --ab-mono: var(--mono);
+    --ab-sans: var(--sans);
     --ab-pct: 0%;
     background: var(--ab-surface);
-    border: 1px solid var(--ab-border);
-    border-left: 3px solid var(--ab-warm);
-    border-radius: 8px;
+    border: 1px solid var(--ab-border); border-left: 3px solid var(--ab-accent);
+    border-radius: var(--rad);
+    box-shadow: none;
     padding: 16px 20px;
-    margin: 24px auto;
-    width: calc(100% - 32px);
-    max-width: 920px;
+    margin: 22px auto;
+    width: 100%; max-width: 100%;
     box-sizing: border-box;
     font-family: var(--ab-sans);
     color: var(--ab-text);
   }
-  html[data-theme="dark"] .audio-bar, html.dark .audio-bar, [data-theme="dark"] .audio-bar {
-    --ab-warm: var(--warm, #e8c47c);
-    --ab-warm-ink: #0a0a0a;
-  }
-  .audio-bar[hidden] { display: none !important; }
-  .ab-head {
+  #audioBar[hidden] { display: none !important; }
+  #audioBar .ab-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -311,13 +306,13 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     flex-wrap: wrap;
     margin-bottom: 12px;
   }
-  .ab-label-group {
+  #audioBar .ab-label-group {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     min-width: 0;
   }
-  .ab-badge {
+  #audioBar .ab-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -326,24 +321,31 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ab-warm);
+    color: var(--ab-accent);
   }
-  .ab-status {
+  #audioBar .ab-badge svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+  }
+  #audioBar .ab-status {
     font-family: var(--ab-mono);
     font-size: 10px;
     color: var(--ab-dim);
     letter-spacing: 0.04em;
   }
-  .ab-rates {
+  #audioBar .ab-rates {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     background: var(--ab-surface2);
     border: 1px solid var(--ab-border);
     border-radius: 6px;
     padding: 2px;
   }
-  .ab-rate {
+  #audioBar .ab-rate {
     appearance: none;
     border: none;
     background: transparent;
@@ -356,32 +358,33 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     min-height: 26px;
+    line-height: 1.2;
   }
-  .ab-rate:hover { color: var(--ab-text); }
-  .ab-rate[aria-pressed="true"] {
-    background: var(--ab-warm);
-    color: var(--ab-warm-ink);
+  #audioBar .ab-rate:hover { color: var(--ab-text); }
+  #audioBar .ab-rate[aria-pressed="true"] {
+    background: var(--ab-accent);
+    color: var(--ab-accent-ink);
     font-weight: 600;
   }
-  .ab-controls {
+  #audioBar .ab-controls {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
   }
-  .ab-transport {
+  #audioBar .ab-transport {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     flex-shrink: 0;
   }
-  .ab-play {
+  #audioBar .ab-play {
     width: 38px;
     height: 38px;
     border-radius: 50%;
     border: none;
-    background: var(--ab-warm);
-    color: var(--ab-warm-ink);
+    background: var(--ab-accent);
+    color: var(--ab-accent-ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -390,13 +393,18 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     transition: transform 0.15s, opacity 0.15s;
     padding: 0;
   }
-  .ab-play:hover { opacity: 0.9; transform: scale(1.04); }
-  .ab-play:active { transform: scale(0.96); }
-  .ab-play svg { width: 16px; height: 16px; }
-  .ab-play .ab-ic-pause { display: none; }
-  .ab-play.is-playing .ab-ic-play { display: none; }
-  .ab-play.is-playing .ab-ic-pause { display: block; }
-  .ab-skip {
+  #audioBar .ab-play:hover { opacity: 0.88; transform: scale(1.04); }
+  #audioBar .ab-play:active { transform: scale(0.96); }
+  #audioBar .ab-play svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    stroke: none;
+  }
+  #audioBar .ab-play .ab-ic-pause { display: none; }
+  #audioBar .ab-play.is-playing .ab-ic-play { display: none; }
+  #audioBar .ab-play.is-playing .ab-ic-pause { display: block; }
+  #audioBar .ab-skip {
     height: 34px;
     padding: 0 9px;
     border-radius: 6px;
@@ -410,53 +418,55 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     transition: color 0.15s, border-color 0.15s;
     white-space: nowrap;
   }
-  .ab-skip:hover { color: var(--ab-text); border-color: var(--ab-warm); }
-  .ab-progress-wrap {
+  #audioBar .ab-skip:hover { color: var(--ab-text); border-color: var(--ab-accent); }
+  #audioBar .ab-progress-wrap {
     flex: 1 1 180px;
     min-width: 0;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .ab-seek {
+  #audioBar .ab-seek {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
     min-width: 0;
     height: 6px;
     border-radius: 999px;
+    border: none;
+    padding: 0;
+    margin: 0;
     background: linear-gradient(
       to right,
-      var(--ab-warm) 0%,
-      var(--ab-warm) var(--ab-pct),
+      var(--ab-accent) 0%,
+      var(--ab-accent) var(--ab-pct),
       var(--ab-border2) var(--ab-pct),
       var(--ab-border2) 100%
     );
     outline: none;
     cursor: pointer;
-    margin: 0;
   }
-  .ab-seek::-webkit-slider-thumb {
+  #audioBar .ab-seek::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--ab-warm);
+    background: var(--ab-accent);
     border: 2px solid var(--ab-surface);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     cursor: pointer;
   }
-  .ab-seek::-moz-range-thumb {
+  #audioBar .ab-seek::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--ab-warm);
+    background: var(--ab-accent);
     border: 2px solid var(--ab-surface);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     cursor: pointer;
   }
-  .ab-time {
+  #audioBar .ab-time {
     font-family: var(--ab-mono);
     font-size: 11px;
     font-variant-numeric: tabular-nums;
@@ -465,15 +475,15 @@ footer{padding:2.4rem 0 3rem;color:var(--muted);font:500 .66rem/1.9 var(--mono);
     flex-shrink: 0;
   }
   @media (max-width: 560px) {
-    .audio-bar { padding: 14px; margin: 18px auto; }
-    .ab-progress-wrap { order: -1; flex: 1 1 100%; width: 100%; }
-    .ab-controls { justify-content: space-between; }
-    .ab-play { width: 42px; height: 42px; }
-    .ab-skip { min-height: 38px; min-width: 44px; padding: 0 10px; }
-    .ab-rate { min-height: 30px; min-width: 36px; padding: 4px 7px; }
+    #audioBar { padding: 14px; margin: 18px auto; }
+    #audioBar .ab-progress-wrap { order: -1; flex: 1 1 100%; width: 100%; }
+    #audioBar .ab-controls { justify-content: space-between; }
+    #audioBar .ab-play { width: 42px; height: 42px; }
+    #audioBar .ab-skip { min-height: 38px; min-width: 44px; padding: 0 10px; }
+    #audioBar .ab-rate { min-height: 30px; min-width: 36px; padding: 4px 7px; }
   }
   @media print {
-    .audio-bar { display: none !important; }
+    #audioBar { display: none !important; }
   }
 </style>
 <!-- BATCHHUB-AUDIO-STYLE:END -->

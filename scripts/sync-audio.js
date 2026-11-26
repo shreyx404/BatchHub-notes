@@ -31,49 +31,125 @@ const MARKER_PLAYER_END = '<!-- BATCHHUB-AUDIO-PLAYER:END -->';
 const MARKER_SCRIPT_START = '<!-- BATCHHUB-AUDIO-SCRIPT:START -->';
 const MARKER_SCRIPT_END = '<!-- BATCHHUB-AUDIO-SCRIPT:END -->';
 
-function buildInjectedStyle(isDarkDefault) {
-  const lightWarm = '#a67c1e';
-  const darkWarm = '#e8c47c';
-  const defaultWarm = isDarkDefault ? darkWarm : lightWarm;
-  const altSelector = isDarkDefault
-    ? 'html[data-theme="light"] .audio-bar, html.light .audio-bar, [data-theme="light"] .audio-bar'
-    : 'html[data-theme="dark"] .audio-bar, html.dark .audio-bar, [data-theme="dark"] .audio-bar';
-  const altWarm = isDarkDefault ? lightWarm : darkWarm;
-  const defaultInkOnWarm = isDarkDefault ? '#0a0a0a' : '#ffffff';
-  const altInkOnWarm = isDarkDefault ? '#ffffff' : '#0a0a0a';
+function resolveThemeProfile(html, isInnerColumn) {
+  const headEnd = html.search(/<\/head>/i);
+  const head = headEnd !== -1 ? html.slice(0, headEnd) : html;
+  const defined = new Set([...head.matchAll(/(--[a-zA-Z0-9_-]+)\s*:/g)].map(m => m[1]));
+  const pick = (candidates, fallback) => {
+    for (const v of candidates) {
+      if (defined.has(v)) return `var(${v})`;
+    }
+    return fallback;
+  };
 
+  const hasWarm = defined.has('--warm');
+  const hasCard = defined.has('--card');
+  const isBoxyShadow = /\.box\s*\{[^}]*box-shadow\s*:\s*[3-8]px\s+[3-8]px\s+0/i.test(head);
+  const isBlueprintBorder = /\.card\s*\{[^}]*border\s*:\s*1\.5px\s+solid\s+var\(--ink\)/i.test(head);
+  const isDoubleLeftMemo = /\.memo\s*\{[^}]*border-left\s*:\s*4px\s+double\s+var\(--ink\)/i.test(head);
+
+  // Primary elevated card surface
+  const surface = pick(
+    ['--surface', '--card', '--panel', '--paper', '--soft', '--bg'],
+    '#111111'
+  );
+
+  // Secondary control well surface (avoid --soft when it is a text color like DCNU1/DCNU4/PASU2)
+  const softIsText = /--soft\s*:\s*#[0-9a-f]{3,6}/i.test(head) && (defined.has('--wash') || defined.has('--panel') || defined.has('--paper'));
+  const surface2Candidates = [
+    '--surface2', '--surface-2', '--softer', '--soft2', '--wash', '--paper2', '--paper-2', '--panel2'
+  ];
+  if (hasCard && defined.has('--panel')) surface2Candidates.push('--panel');
+  if (hasCard && defined.has('--paper')) surface2Candidates.push('--paper');
+  if (!softIsText) surface2Candidates.push('--soft');
+  if (defined.has('--code')) surface2Candidates.push('--code');
+  surface2Candidates.push('--bg');
+  const surface2 = pick(surface2Candidates, '#181818');
+
+  const border = pick(['--border', '--line', '--hair'], '#252525');
+  const border2 = pick(['--border2', '--line2', '--line-2', '--line-strong', '--line', '--hair'], '#2e2e2e');
+  const text = pick(['--ink', '--fg', '--txt', '--text'], '#e8e8e8');
+  const dim = pick(
+    ['--text-dim', '--txt-dim', '--ink-soft', '--ink2', '--ink-2', '--fg2', '--muted', '--mut', '--ink-mute', '--mute', '--g2', '--soft'],
+    '#888888'
+  );
+
+  let accent, accentInk;
+  if (hasWarm) {
+    accent = 'var(--warm)';
+    accentInk = pick(['--bg', '--paper'], '#0a0a0a');
+  } else {
+    accent = pick(['--inv', '--hl', '--ink', '--fg', '--white', '--txt', '--text'], '#161616');
+    accentInk = pick(['--inv-ink', '--hl-ink', '--card', '--surface', '--panel', '--paper', '--bg'], '#ffffff');
+  }
+
+  const mono = pick(['--mono'], "'IBM Plex Mono', ui-monospace, monospace");
+  const sans = pick(['--sans', '--body', '--serif'], 'system-ui, sans-serif');
+
+  let radius = pick(['--rad', '--radius', '--r-m', '--r'], '');
+  if (!radius) {
+    if (isBoxyShadow || isBlueprintBorder) radius = '3px';
+    else if (/border-radius\s*:\s*1[2-8]px/i.test(head)) radius = '12px';
+    else radius = '8px';
+  }
+
+  let widthRule = 'width: 100%; max-width: 100%;';
+  if (!isInnerColumn) {
+    let maxWidth = '860px';
+    if (defined.has('--max')) maxWidth = 'calc(var(--max) - 40px)';
+    else if (defined.has('--maxw')) maxWidth = 'var(--maxw)';
+    else if (/\.top\s*\{[^}]*max-width\s*:\s*1180px/i.test(head)) maxWidth = '1116px';
+    else if (/\.hero\s*\{[^}]*max-width\s*:\s*1140px/i.test(head)) maxWidth = '1104px';
+    else if (/\.wrap\s*\{[^}]*max-width\s*:\s*880px/i.test(head)) maxWidth = '816px';
+    widthRule = `width: calc(100% - 32px); max-width: ${maxWidth};`;
+  }
+
+  let borderRules = 'border: 1px solid var(--ab-border); border-left: 3px solid var(--ab-accent);';
+  let shadowRule = 'none';
+  if (isBoxyShadow) {
+    borderRules = 'border: 1.5px solid var(--ab-accent);';
+    shadowRule = '4px 4px 0 var(--ab-border2)';
+  } else if (isBlueprintBorder) {
+    borderRules = 'border: 1.5px solid var(--ab-accent);';
+    shadowRule = '0 2px 0 var(--ab-border)';
+  } else if (isDoubleLeftMemo) {
+    borderRules = 'border: 1px solid var(--ab-border); border-left: 4px double var(--ab-accent);';
+  }
+
+  return {
+    surface, surface2, border, border2, text, dim,
+    accent, accentInk, mono, sans, radius, widthRule, borderRules, shadowRule
+  };
+}
+
+function buildInjectedStyle(profile) {
   return `${MARKER_STYLE_START}
 <style id="batchhub-audio-style">
-  .audio-bar {
-    --ab-surface: var(--surface, var(--card, var(--panel, var(--paper, var(--bg, #111111)))));
-    --ab-surface2: var(--surface2, var(--surface-2, var(--wash, var(--soft, var(--panel2, #181818)))));
-    --ab-border: var(--border, var(--line, var(--hair, #252525)));
-    --ab-border2: var(--border2, var(--line2, var(--line-strong, var(--border, #2e2e2e))));
-    --ab-text: var(--text, var(--txt, var(--ink, var(--fg, #e8e8e8))));
-    --ab-dim: var(--text-dim, var(--txt-dim, var(--ink2, var(--ink-2, var(--muted, var(--mut, var(--soft, #888888)))))));
-    --ab-warm: var(--warm, ${defaultWarm});
-    --ab-warm-ink: ${defaultInkOnWarm};
-    --ab-mono: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
-    --ab-sans: var(--sans, system-ui, sans-serif);
+  #audioBar {
+    --ab-surface: ${profile.surface};
+    --ab-surface2: ${profile.surface2};
+    --ab-border: ${profile.border};
+    --ab-border2: ${profile.border2};
+    --ab-text: ${profile.text};
+    --ab-dim: ${profile.dim};
+    --ab-accent: ${profile.accent};
+    --ab-accent-ink: ${profile.accentInk};
+    --ab-mono: ${profile.mono};
+    --ab-sans: ${profile.sans};
     --ab-pct: 0%;
     background: var(--ab-surface);
-    border: 1px solid var(--ab-border);
-    border-left: 3px solid var(--ab-warm);
-    border-radius: 8px;
+    ${profile.borderRules}
+    border-radius: ${profile.radius};
+    box-shadow: ${profile.shadowRule};
     padding: 16px 20px;
-    margin: 24px auto;
-    width: calc(100% - 32px);
-    max-width: 920px;
+    margin: 22px auto;
+    ${profile.widthRule}
     box-sizing: border-box;
     font-family: var(--ab-sans);
     color: var(--ab-text);
   }
-  ${altSelector} {
-    --ab-warm: var(--warm, ${altWarm});
-    --ab-warm-ink: ${altInkOnWarm};
-  }
-  .audio-bar[hidden] { display: none !important; }
-  .ab-head {
+  #audioBar[hidden] { display: none !important; }
+  #audioBar .ab-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -81,13 +157,13 @@ function buildInjectedStyle(isDarkDefault) {
     flex-wrap: wrap;
     margin-bottom: 12px;
   }
-  .ab-label-group {
+  #audioBar .ab-label-group {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     min-width: 0;
   }
-  .ab-badge {
+  #audioBar .ab-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -96,24 +172,31 @@ function buildInjectedStyle(isDarkDefault) {
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ab-warm);
+    color: var(--ab-accent);
   }
-  .ab-status {
+  #audioBar .ab-badge svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+  }
+  #audioBar .ab-status {
     font-family: var(--ab-mono);
     font-size: 10px;
     color: var(--ab-dim);
     letter-spacing: 0.04em;
   }
-  .ab-rates {
+  #audioBar .ab-rates {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
     background: var(--ab-surface2);
     border: 1px solid var(--ab-border);
     border-radius: 6px;
     padding: 2px;
   }
-  .ab-rate {
+  #audioBar .ab-rate {
     appearance: none;
     border: none;
     background: transparent;
@@ -126,32 +209,33 @@ function buildInjectedStyle(isDarkDefault) {
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     min-height: 26px;
+    line-height: 1.2;
   }
-  .ab-rate:hover { color: var(--ab-text); }
-  .ab-rate[aria-pressed="true"] {
-    background: var(--ab-warm);
-    color: var(--ab-warm-ink);
+  #audioBar .ab-rate:hover { color: var(--ab-text); }
+  #audioBar .ab-rate[aria-pressed="true"] {
+    background: var(--ab-accent);
+    color: var(--ab-accent-ink);
     font-weight: 600;
   }
-  .ab-controls {
+  #audioBar .ab-controls {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
   }
-  .ab-transport {
+  #audioBar .ab-transport {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     flex-shrink: 0;
   }
-  .ab-play {
+  #audioBar .ab-play {
     width: 38px;
     height: 38px;
     border-radius: 50%;
     border: none;
-    background: var(--ab-warm);
-    color: var(--ab-warm-ink);
+    background: var(--ab-accent);
+    color: var(--ab-accent-ink);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -160,13 +244,18 @@ function buildInjectedStyle(isDarkDefault) {
     transition: transform 0.15s, opacity 0.15s;
     padding: 0;
   }
-  .ab-play:hover { opacity: 0.9; transform: scale(1.04); }
-  .ab-play:active { transform: scale(0.96); }
-  .ab-play svg { width: 16px; height: 16px; }
-  .ab-play .ab-ic-pause { display: none; }
-  .ab-play.is-playing .ab-ic-play { display: none; }
-  .ab-play.is-playing .ab-ic-pause { display: block; }
-  .ab-skip {
+  #audioBar .ab-play:hover { opacity: 0.88; transform: scale(1.04); }
+  #audioBar .ab-play:active { transform: scale(0.96); }
+  #audioBar .ab-play svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    stroke: none;
+  }
+  #audioBar .ab-play .ab-ic-pause { display: none; }
+  #audioBar .ab-play.is-playing .ab-ic-play { display: none; }
+  #audioBar .ab-play.is-playing .ab-ic-pause { display: block; }
+  #audioBar .ab-skip {
     height: 34px;
     padding: 0 9px;
     border-radius: 6px;
@@ -180,53 +269,55 @@ function buildInjectedStyle(isDarkDefault) {
     transition: color 0.15s, border-color 0.15s;
     white-space: nowrap;
   }
-  .ab-skip:hover { color: var(--ab-text); border-color: var(--ab-warm); }
-  .ab-progress-wrap {
+  #audioBar .ab-skip:hover { color: var(--ab-text); border-color: var(--ab-accent); }
+  #audioBar .ab-progress-wrap {
     flex: 1 1 180px;
     min-width: 0;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .ab-seek {
+  #audioBar .ab-seek {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
     min-width: 0;
     height: 6px;
     border-radius: 999px;
+    border: none;
+    padding: 0;
+    margin: 0;
     background: linear-gradient(
       to right,
-      var(--ab-warm) 0%,
-      var(--ab-warm) var(--ab-pct),
+      var(--ab-accent) 0%,
+      var(--ab-accent) var(--ab-pct),
       var(--ab-border2) var(--ab-pct),
       var(--ab-border2) 100%
     );
     outline: none;
     cursor: pointer;
-    margin: 0;
   }
-  .ab-seek::-webkit-slider-thumb {
+  #audioBar .ab-seek::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--ab-warm);
+    background: var(--ab-accent);
     border: 2px solid var(--ab-surface);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     cursor: pointer;
   }
-  .ab-seek::-moz-range-thumb {
+  #audioBar .ab-seek::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--ab-warm);
+    background: var(--ab-accent);
     border: 2px solid var(--ab-surface);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     cursor: pointer;
   }
-  .ab-time {
+  #audioBar .ab-time {
     font-family: var(--ab-mono);
     font-size: 11px;
     font-variant-numeric: tabular-nums;
@@ -235,15 +326,15 @@ function buildInjectedStyle(isDarkDefault) {
     flex-shrink: 0;
   }
   @media (max-width: 560px) {
-    .audio-bar { padding: 14px; margin: 18px auto; }
-    .ab-progress-wrap { order: -1; flex: 1 1 100%; width: 100%; }
-    .ab-controls { justify-content: space-between; }
-    .ab-play { width: 42px; height: 42px; }
-    .ab-skip { min-height: 38px; min-width: 44px; padding: 0 10px; }
-    .ab-rate { min-height: 30px; min-width: 36px; padding: 4px 7px; }
+    #audioBar { padding: 14px; margin: 18px auto; }
+    #audioBar .ab-progress-wrap { order: -1; flex: 1 1 100%; width: 100%; }
+    #audioBar .ab-controls { justify-content: space-between; }
+    #audioBar .ab-play { width: 42px; height: 42px; }
+    #audioBar .ab-skip { min-height: 38px; min-width: 44px; padding: 0 10px; }
+    #audioBar .ab-rate { min-height: 30px; min-width: 36px; padding: 4px 7px; }
   }
   @media print {
-    .audio-bar { display: none !important; }
+    #audioBar { display: none !important; }
   }
 </style>
 ${MARKER_STYLE_END}`;
@@ -504,10 +595,20 @@ function upsertMetaTag(html, name, content) {
   return html;
 }
 
-function isDarkDefaultTheme(html) {
-  // Light-first notes define html[data-theme="dark"] or html.dark; dark-first notes define html[data-theme="light"] {
-  return /(?:^|[^(:])\bhtml\[data-theme=["']light["']\][^{]*\{/im.test(html) ||
-    /(?:^|[^(:])\bhtml\.light\b[^{]*\{/im.test(html);
+function isInsideInnerColumn(html, insertIdx) {
+  const headEnd = html.search(/<\/head>/i);
+  const head = headEnd !== -1 ? html.slice(0, headEnd) : '';
+  const before = html.slice(Math.max(0, insertIdx - 6000), insertIdx);
+  for (const cls of ['wrap', 'content', 'inner', 'main']) {
+    const marker = `<div class="${cls}"`;
+    const pos = before.lastIndexOf(marker);
+    if (pos === -1) continue;
+    const hasColumnCss = new RegExp(`\\.${cls}\\s*\\{[^}]*(?:max-width|padding)`, 'i').test(head);
+    if (!hasColumnCss) continue;
+    const afterOpen = before.slice(pos);
+    if (findBalancedEnd(afterOpen, 0, 'div') === -1) return true;
+  }
+  return false;
 }
 
 function syncHtmlFile(filePath, { clean = false } = {}) {
@@ -535,17 +636,20 @@ function syncHtmlFile(filePath, { clean = false } = {}) {
 
   // Only inject standalone style/player/script if note doesn't already ship native #audioBar outside markers
   if (!updated.includes('id="audioBar"')) {
-    const styleBlock = buildInjectedStyle(isDarkDefaultTheme(updated));
+    const heroInsertIdx = findHeroInsertOffset(updated);
+    if (heroInsertIdx === -1) return 'skipped';
+
+    const innerColumn = isInsideInnerColumn(updated, heroInsertIdx);
+    const profile = resolveThemeProfile(updated, innerColumn);
+    const styleBlock = buildInjectedStyle(profile);
     const playerBlock = buildInjectedPlayerHtml(audio.audioPath || audio.audioUrl, audio.audioDuration);
     const scriptBlock = buildInjectedScript();
+
+    updated = updated.slice(0, heroInsertIdx) + `\n${playerBlock}\n` + updated.slice(heroInsertIdx);
 
     const headCloseIdx = updated.search(/<\/head>/i);
     if (headCloseIdx === -1) return 'skipped';
     updated = updated.slice(0, headCloseIdx) + `\n${styleBlock}\n` + updated.slice(headCloseIdx);
-
-    const heroInsertIdx = findHeroInsertOffset(updated);
-    if (heroInsertIdx === -1) return 'skipped';
-    updated = updated.slice(0, heroInsertIdx) + `\n${playerBlock}\n` + updated.slice(heroInsertIdx);
 
     const bodyCloseIdx = updated.lastIndexOf('</body>');
     if (bodyCloseIdx === -1) return 'skipped';

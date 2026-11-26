@@ -233,7 +233,7 @@ Always nest tables inside `<div class="table-wrap">` to guarantee mobile horizon
 
 ### 4.5 Audio Note Bar (`.audio-bar`)
 Use the zero-dependency **Audio Note Bar** directly beneath `.hero` for spoken/podcast unit summaries:
-- **Theme Token Mapping**: Styled exclusively via `--surface`, `--surface2`, `--border`, `--border2`, `--warm`, `--text`, `--text-dim`, `--mono`, and `--sans` (with fallback token mapping for legacy notes), adapting automatically across dark and light mode (`batchhub-theme`).
+- **Theme Token Mapping**: On template-based notes (`--warm`), styled via `--surface`, `--surface2`, `--border`, `--border2`, `--warm`, `--text`, `--text-dim`, `--mono`, and `--sans`. On existing monochrome editorial notes (`BIOTU1`–`U4`, `OOPU1`–`U2`, etc.), `scripts/sync-audio.js` (`resolveThemeProfile`) automatically maps `--ab-*` tokens, borders, shadows, radius, and width directly to each note's native CSS variables (`--paper`/`--card`/`--panel`/`--ink`/`--fg`/`--inv`/`--hl`), adapting seamlessly across dark and light mode (`batchhub-theme`).
 - **Required Controls**:
   - Play / Pause toggle (`#abPlay`) with SVG play/pause state swap
   - `-15s` / `+15s` skip buttons (`#abBack15`, `#abFwd15`)
