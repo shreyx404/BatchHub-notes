@@ -1,719 +1,853 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BatchHub Notes Archive</title>
-<meta name="description" content="Centralized archive of academic notes for BatchHub — browse, search, and copy links for instant integration.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #08080a;
-    --surface: #0f0f12;
-    --surface2: #151519;
-    --surface3: #1a1a1f;
-    --border: #222228;
-    --border2: #2c2c34;
-    --text: #e4e4e8;
-    --text-dim: #8a8a96;
-    --text-dimmer: #4a4a56;
-    --accent: #f5f5f7;
-    --warm: #e8c47c;
-    --warm-dim: #c4a060;
-    --warm-bg: rgba(232,196,124,0.06);
-    --warm-border: rgba(232,196,124,0.15);
-    --success: #5cb878;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
-    --radius: 8px;
-    --radius-lg: 12px;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
-    font-weight: 400;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ─── LAYOUT ─── */
-  .container {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  /* ─── HEADER ─── */
-  .header {
-    padding: 56px 0 48px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    color: var(--text-dimmer);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .header-eyebrow .dot {
-    width: 6px;
-    height: 6px;
-    background: var(--warm);
-    border-radius: 50%;
-    animation: pulse-dot 2.5s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
-  }
-  .header h1 {
-    font-size: 38px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--accent);
-    line-height: 1.1;
-    margin-bottom: 14px;
-  }
-  .header-sub {
-    font-size: 15px;
-    color: var(--text-dim);
-    font-weight: 300;
-    max-width: 560px;
-    line-height: 1.65;
-  }
-  .header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    padding: 6px 14px;
-    background: var(--warm-bg);
-    border: 1px solid var(--warm-border);
-    border-radius: 20px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--warm);
-    letter-spacing: 0.04em;
-  }
-  .header-badge .count {
-    font-weight: 600;
-    font-size: 13px;
-  }
-
-  /* ─── CONTROLS ─── */
-  .controls {
-    padding: 28px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .search-wrap {
-    position: relative;
-  }
-  .search-wrap svg {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-dimmer);
-    pointer-events: none;
-  }
-  .search-input {
-    width: 100%;
-    padding: 13px 18px 13px 46px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 400;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .search-input::placeholder { color: var(--text-dimmer); }
-  .search-input:focus {
-    border-color: var(--warm-border);
-    box-shadow: 0 0 0 3px rgba(232,196,124,0.06);
-  }
-
-  /* ─── FILTER PILLS ─── */
-  .filter-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .filter-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--text-dimmer);
-    text-transform: uppercase;
-    margin-right: 4px;
-  }
-  .pill {
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--text-dim);
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-  }
-  .pill:hover {
-    border-color: var(--border2);
-    color: var(--text);
-    background: var(--surface2);
-  }
-  .pill.active {
-    background: var(--warm-bg);
-    border-color: var(--warm-border);
-    color: var(--warm);
-  }
-  .filter-divider {
-    width: 1px;
-    height: 18px;
-    background: var(--border2);
-    margin: 0 2px;
-  }
-  .pill-audio {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    border-color: var(--warm-border);
-  }
-  .pill-audio.active {
-    background: var(--warm);
-    border-color: var(--warm);
-    color: var(--bg);
-    font-weight: 600;
-  }
-
-  /* ─── NOTES GRID ─── */
-  .notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 16px;
-    padding: 8px 0 80px;
-  }
-  .note-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-    animation: cardIn 0.4s ease-out both;
-  }
-  .note-card:hover {
-    border-color: var(--border2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  }
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .card-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .audio-badge {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: var(--warm-bg);
-    border: 1px solid var(--warm-border);
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--warm);
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
-  .subject-badge {
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: var(--surface3);
-    border: 1px solid var(--border2);
-    color: var(--warm);
-  }
-  .unit-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dimmer);
-    letter-spacing: 0.06em;
-  }
-
-  .card-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: -0.01em;
-    line-height: 1.35;
-  }
-  .card-summary {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-weight: 300;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .tag {
-    padding: 2px 8px;
-    background: var(--surface3);
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dimmer);
-    letter-spacing: 0.03em;
-  }
-
-  /* ─── INLINE CARD AUDIO PLAYER ─── */
-  .card-audio {
-    --ca-pct: 0%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-  .card-audio-btn {
-    appearance: none;
-    border: 1px solid var(--warm-border);
-    background: var(--warm-bg);
-    color: var(--warm);
-    border-radius: 5px;
-    padding: 4px 9px;
-    min-height: 28px;
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    flex-shrink: 0;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-  }
-  .card-audio-btn:hover,
-  .card-audio-btn.playing {
-    background: var(--warm);
-    border-color: var(--warm);
-    color: var(--bg);
-  }
-  .card-audio-track {
-    flex: 1 1 80px;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-  }
-  .card-audio-seek {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    min-width: 0;
-    height: 4px;
-    border-radius: 999px;
-    background: linear-gradient(
-      to right,
-      var(--warm) 0%,
-      var(--warm) var(--ca-pct),
-      var(--border2) var(--ca-pct),
-      var(--border2) 100%
-    );
-    outline: none;
-    cursor: pointer;
-  }
-  .card-audio-seek::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--warm);
-    cursor: pointer;
-  }
-  .card-audio-seek::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: none;
-    background: var(--warm);
-    cursor: pointer;
-  }
-  .card-audio-time {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-variant-numeric: tabular-nums;
-    color: var(--text-dim);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .card-audio-open {
-    color: var(--text-dimmer);
-    text-decoration: none;
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1;
-    padding: 4px;
-    flex-shrink: 0;
-    transition: color 0.15s;
-  }
-  .card-audio-open:hover { color: var(--warm); }
-
-  .card-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-    margin-top: auto;
-  }
-  .btn {
-    flex: 1 1 auto;
-    padding: 9px 14px;
-    border-radius: 6px;
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    border: none;
-    white-space: nowrap;
-  }
-  .btn-read {
-    background: var(--accent);
-    color: var(--bg);
-  }
-  .btn-read:hover {
-    background: #fff;
-    box-shadow: 0 2px 12px rgba(245,245,247,0.15);
-  }
-  .btn-copy {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-  }
-  .btn-copy:hover {
-    border-color: var(--warm-border);
-    color: var(--warm);
-    background: var(--warm-bg);
-  }
-  .btn-copy.copied {
-    border-color: rgba(92,184,120,0.3);
-    color: var(--success);
-    background: rgba(92,184,120,0.06);
-  }
-  .btn-reset {
-    margin-top: 14px;
-    flex: initial;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    color: var(--text);
-  }
-  .btn-reset:hover {
-    border-color: var(--warm-border);
-    color: var(--warm);
-  }
-
-  /* ─── EMPTY STATE ─── */
-  .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 80px 20px;
-  }
-  .empty-state .icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-    opacity: 0.3;
-  }
-  .empty-state h3 {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--text-dim);
-    margin-bottom: 6px;
-  }
-  .empty-state p {
-    font-size: 13px;
-    color: var(--text-dimmer);
-  }
-
-  /* ─── TOAST ─── */
-  .toast {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    padding: 12px 24px;
-    background: var(--surface2);
-    border: 1px solid rgba(92,184,120,0.3);
-    border-radius: var(--radius);
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--success);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    pointer-events: none;
-    opacity: 0;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ─── FOOTER ─── */
-  .footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dimmer);
-    letter-spacing: 0.04em;
-  }
-  .footer a {
-    color: var(--warm-dim);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .footer a:hover { color: var(--warm); }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 768px) {
-    .search-input {
-      font-size: 16px; /* Prevents iOS Safari auto-zoom on input focus */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BatchHub Notes Archive</title>
+  <meta name="description"
+    content="Centralized archive of academic notes for BatchHub — browse, search, and copy links for instant integration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08080a;
+      --surface: #0f0f12;
+      --surface2: #151519;
+      --surface3: #1a1a1f;
+      --border: #222228;
+      --border2: #2c2c34;
+      --text: #e4e4e8;
+      --text-dim: #8a8a96;
+      --text-dimmer: #4a4a56;
+      --accent: #f5f5f7;
+      --warm: #e8c47c;
+      --warm-dim: #c4a060;
+      --warm-bg: rgba(232, 196, 124, 0.06);
+      --warm-border: rgba(232, 196, 124, 0.15);
+      --success: #5cb878;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --radius: 8px;
+      --radius-lg: 12px;
     }
-  }
 
-  @media (max-width: 640px) {
-    .container { padding: 0 16px; }
-    .header { padding: 36px 0 28px; }
-    .header h1 { font-size: clamp(24px, 7vw, 32px); }
-    .notes-grid { grid-template-columns: 1fr; gap: 16px; }
-    .note-card { padding: 20px; }
-    .card-actions { flex-direction: column; }
-    .btn { min-height: 40px; }
-    .pill { min-height: 32px; padding: 6px 14px; }
-    .filter-divider { display: none; }
-    .card-audio { flex-wrap: wrap; }
-    .card-audio-btn { min-height: 34px; }
-    .footer { flex-direction: column; gap: 8px; text-align: center; }
-  }
-</style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 400;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--text-dimmer);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .header-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--warm);
+      border-radius: 50%;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.3);
+      }
+    }
+
+    .header h1 {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .header-sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      font-weight: 300;
+      max-width: 560px;
+      line-height: 1.65;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 6px 14px;
+      background: var(--warm-bg);
+      border: 1px solid var(--warm-border);
+      border-radius: 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--warm);
+      letter-spacing: 0.04em;
+    }
+
+    .header-badge .count {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* ─── CONTROLS ─── */
+    .controls {
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dimmer);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 18px 13px 46px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 400;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dimmer);
+    }
+
+    .search-input:focus {
+      border-color: var(--warm-border);
+      box-shadow: 0 0 0 3px rgba(232, 196, 124, 0.06);
+    }
+
+    /* ─── FILTER PILLS ─── */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dimmer);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .pill {
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .pill:hover {
+      border-color: var(--border2);
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    .pill.active {
+      background: var(--warm-bg);
+      border-color: var(--warm-border);
+      color: var(--warm);
+    }
+
+    .filter-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border2);
+      margin: 0 2px;
+    }
+
+    .pill-audio {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-color: var(--warm-border);
+    }
+
+    .pill-audio.active {
+      background: var(--warm);
+      border-color: var(--warm);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    /* ─── NOTES GRID ─── */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+      padding: 8px 0 80px;
+    }
+
+    .note-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      animation: cardIn 0.4s ease-out both;
+    }
+
+    .note-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .audio-badge {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--warm-bg);
+      border: 1px solid var(--warm-border);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--warm);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .subject-badge {
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--surface3);
+      border: 1px solid var(--border2);
+      color: var(--warm);
+    }
+
+    .unit-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.06em;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    .card-summary {
+      font-size: 13px;
+      color: var(--text-dim);
+      font-weight: 300;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      padding: 2px 8px;
+      background: var(--surface3);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── INLINE CARD AUDIO PLAYER ─── */
+    .card-audio {
+      --ca-pct: 0%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .card-audio-btn {
+      appearance: none;
+      border: 1px solid var(--warm-border);
+      background: var(--warm-bg);
+      color: var(--warm);
+      border-radius: 5px;
+      padding: 4px 9px;
+      min-height: 28px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .card-audio-btn:hover,
+    .card-audio-btn.playing {
+      background: var(--warm);
+      border-color: var(--warm);
+      color: var(--bg);
+    }
+
+    .card-audio-track {
+      flex: 1 1 80px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-audio-seek {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      min-width: 0;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(to right,
+          var(--warm) 0%,
+          var(--warm) var(--ca-pct),
+          var(--border2) var(--ca-pct),
+          var(--border2) 100%);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .card-audio-seek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--warm);
+      cursor: pointer;
+    }
+
+    .card-audio-seek::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: var(--warm);
+      cursor: pointer;
+    }
+
+    .card-audio-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-dim);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-audio-open {
+      color: var(--text-dimmer);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1;
+      padding: 4px;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .card-audio-open:hover {
+      color: var(--warm);
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .btn {
+      flex: 1 1 auto;
+      padding: 9px 14px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-read {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .btn-read:hover {
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(245, 245, 247, 0.15);
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    .btn-copy:hover {
+      border-color: var(--warm-border);
+      color: var(--warm);
+      background: var(--warm-bg);
+    }
+
+    .btn-copy.copied {
+      border-color: rgba(92, 184, 120, 0.3);
+      color: var(--success);
+      background: rgba(92, 184, 120, 0.06);
+    }
+
+    .btn-reset {
+      margin-top: 14px;
+      flex: initial;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+    }
+
+    .btn-reset:hover {
+      border-color: var(--warm-border);
+      color: var(--warm);
+    }
+
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: var(--text-dimmer);
+    }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      padding: 12px 24px;
+      background: var(--surface2);
+      border: 1px solid rgba(92, 184, 120, 0.3);
+      border-radius: var(--radius);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dimmer);
+      letter-spacing: 0.04em;
+    }
+
+    .footer a {
+      color: var(--warm-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: var(--warm);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .search-input {
+        font-size: 16px;
+        /* Prevents iOS Safari auto-zoom on input focus */
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .header {
+        padding: 36px 0 28px;
+      }
+
+      .header h1 {
+        font-size: clamp(24px, 7vw, 32px);
+      }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .note-card {
+        padding: 20px;
+      }
+
+      .card-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        min-height: 40px;
+      }
+
+      .pill {
+        min-height: 32px;
+        padding: 6px 14px;
+      }
+
+      .filter-divider {
+        display: none;
+      }
+
+      .card-audio {
+        flex-wrap: wrap;
+      }
+
+      .card-audio-btn {
+        min-height: 34px;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <!-- ─── HEADER ─── -->
-  <header class="header">
-    <div class="header-eyebrow">
-      <span class="dot"></span>
-      <span>BatchHub · Notes Archive</span>
-    </div>
-    <h1>Notes Archive</h1>
-    <p class="header-sub">
-      Centralized repository of formatted academic notes. Search, preview, and copy direct links for instant integration into BatchHub.
-    </p>
-    <div class="header-badge">
-      <span class="count" id="noteCount">—</span>
-      <span id="noteCountLabel">notes published</span>
-    </div>
-  </header>
+    <!-- ─── HEADER ─── -->
+    <header class="header">
+      <div class="header-eyebrow">
+        <span class="dot"></span>
+        <span>BatchHub · Notes Archive</span>
+      </div>
+      <h1>Notes Archive</h1>
+      <p class="header-sub">
+        Centralized repository of formatted academic notes. Search, preview, and copy direct links for instant
+        integration into BatchHub.
+      </p>
+      <div class="header-badge">
+        <span class="count" id="noteCount">—</span>
+        <span id="noteCountLabel">notes published</span>
+      </div>
+    </header>
 
-  <!-- ─── CONTROLS ─── -->
-  <div class="controls">
-    <div class="search-wrap">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" class="search-input" id="searchInput" placeholder="Search notes by title, subject, unit, or tag…">
+    <!-- ─── CONTROLS ─── -->
+    <div class="controls">
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input type="text" class="search-input" id="searchInput"
+          placeholder="Search notes by title, subject, unit, or tag…">
+      </div>
+      <div class="filter-row" id="filterRow">
+        <span class="filter-label">Subject</span>
+        <button class="pill active" data-filter="all">All</button>
+        <span class="filter-divider" id="audioDivider" aria-hidden="true"></span>
+        <button class="pill pill-audio" id="audioFilterPill" data-audio-filter="true" type="button"
+          aria-pressed="false">🎧 Audio Available</button>
+      </div>
     </div>
-    <div class="filter-row" id="filterRow">
-      <span class="filter-label">Subject</span>
-      <button class="pill active" data-filter="all">All</button>
-      <span class="filter-divider" id="audioDivider" aria-hidden="true"></span>
-      <button class="pill pill-audio" id="audioFilterPill" data-audio-filter="true" type="button" aria-pressed="false">🎧 Audio Available</button>
+
+    <!-- ─── NOTES GRID ─── -->
+    <div class="notes-grid" id="notesGrid">
+      <div class="empty-state">
+        <div class="icon">📄</div>
+        <h3>Loading notes…</h3>
+        <p>Fetching manifest</p>
+      </div>
     </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+      <span>BatchHub Notes Archive</span>
+      <a href="https://batch-hub-red.vercel.app" target="_blank">Open BatchHub →</a>
+    </footer>
+
   </div>
 
-  <!-- ─── NOTES GRID ─── -->
-  <div class="notes-grid" id="notesGrid">
-    <div class="empty-state">
-      <div class="icon">📄</div>
-      <h3>Loading notes…</h3>
-      <p>Fetching manifest</p>
-    </div>
+  <!-- ─── TOAST ─── -->
+  <div class="toast" id="toast">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+    <span id="toastMsg">Link copied!</span>
   </div>
 
-  <!-- ─── FOOTER ─── -->
-  <footer class="footer">
-    <span>BatchHub Notes Archive</span>
-    <a href="https://batch-hub-red.vercel.app" target="_blank">Open BatchHub →</a>
-  </footer>
+  <script>
+    (function () {
+      const BASE_URL = 'https://shreyx404.github.io/BatchHub-notes';
+      const grid = document.getElementById('notesGrid');
+      const searchInput = document.getElementById('searchInput');
+      const filterRow = document.getElementById('filterRow');
+      const audioDivider = document.getElementById('audioDivider');
+      const audioFilterPill = document.getElementById('audioFilterPill');
+      const noteCountEl = document.getElementById('noteCount');
+      const noteCountLabel = document.getElementById('noteCountLabel');
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
 
-</div>
+      let allNotes = [];
+      let activeFilter = 'all';
+      let audioOnly = false;
+      let searchQuery = '';
 
-<!-- ─── TOAST ─── -->
-<div class="toast" id="toast">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-  <span id="toastMsg">Link copied!</span>
-</div>
+      // Shared single-stream audio player state across portal cards
+      const sharedAudio = new Audio();
+      sharedAudio.preload = 'metadata';
+      let playingNoteId = null;
 
-<script>
-(function () {
-  const BASE_URL = 'https://shreyx404.github.io/BatchHub-notes';
-  const grid = document.getElementById('notesGrid');
-  const searchInput = document.getElementById('searchInput');
-  const filterRow = document.getElementById('filterRow');
-  const audioDivider = document.getElementById('audioDivider');
-  const audioFilterPill = document.getElementById('audioFilterPill');
-  const noteCountEl = document.getElementById('noteCount');
-  const noteCountLabel = document.getElementById('noteCountLabel');
-  const toast = document.getElementById('toast');
-  const toastMsg = document.getElementById('toastMsg');
-
-  let allNotes = [];
-  let activeFilter = 'all';
-  let audioOnly = false;
-  let searchQuery = '';
-
-  // Shared single-stream audio player state across portal cards
-  const sharedAudio = new Audio();
-  sharedAudio.preload = 'metadata';
-  let playingNoteId = null;
-
-  function fmtTime(sec) {
-    if (!Number.isFinite(sec) || sec < 0) return '0:00';
-    const s = Math.floor(sec);
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const r = s % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
-    return `${m}:${String(r).padStart(2, '0')}`;
-  }
-
-  // ── Fetch manifest ──
-  fetch('notes.json')
-    .then(r => r.json())
-    .then(notes => {
-      allNotes = notes;
-      noteCountEl.textContent = notes.length;
-      const audioTotal = notes.filter(n => Boolean(n.audioUrl)).length;
-      if (noteCountLabel && audioTotal > 0) {
-        noteCountLabel.textContent = `notes published · ${audioTotal} with audio`;
+      function fmtTime(sec) {
+        if (!Number.isFinite(sec) || sec < 0) return '0:00';
+        const s = Math.floor(sec);
+        const h = Math.floor(s / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const r = s % 60;
+        if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
+        return `${m}:${String(r).padStart(2, '0')}`;
       }
-      buildFilters(notes);
-      renderNotes();
-    })
-    .catch(() => {
-      grid.innerHTML = `
+
+      // ── Fetch manifest ──
+      fetch('notes.json')
+        .then(r => r.json())
+        .then(notes => {
+          allNotes = notes;
+          noteCountEl.textContent = notes.length;
+          const audioTotal = notes.filter(n => Boolean(n.audioUrl)).length;
+          if (noteCountLabel && audioTotal > 0) {
+            noteCountLabel.textContent = `notes published · ${audioTotal} with audio`;
+          }
+          buildFilters(notes);
+          renderNotes();
+        })
+        .catch(() => {
+          grid.innerHTML = `
         <div class="empty-state">
           <div class="icon">⚠️</div>
           <h3>Could not load notes.json</h3>
           <p>Run <code>npm run build</code> to generate the manifest.</p>
         </div>`;
-    });
+        });
 
-  // ── Build subject filter pills ──
-  function buildFilters(notes) {
-    const subjects = [...new Set(notes.map(n => n.subject))].sort();
-    for (const subj of subjects) {
-      const pill = document.createElement('button');
-      pill.className = 'pill';
-      pill.dataset.filter = subj;
-      pill.textContent = subj;
-      filterRow.insertBefore(pill, audioDivider);
-    }
-  }
+      // ── Build subject filter pills ──
+      function buildFilters(notes) {
+        const subjects = [...new Set(notes.map(n => n.subject))].sort();
+        for (const subj of subjects) {
+          const pill = document.createElement('button');
+          pill.className = 'pill';
+          pill.dataset.filter = subj;
+          pill.textContent = subj;
+          filterRow.insertBefore(pill, audioDivider);
+        }
+      }
 
-  // ── Render notes grid ──
-  function renderNotes() {
-    const q = searchQuery.toLowerCase();
-    const filtered = allNotes.filter(note => {
-      if (activeFilter !== 'all' && note.subject !== activeFilter) return false;
-      if (audioOnly && !note.audioUrl) return false;
-      if (!q) return true;
-      const haystack = [note.title, note.subject, note.unit, note.summary, ...note.tags].join(' ').toLowerCase();
-      return haystack.includes(q);
-    });
+      // ── Render notes grid ──
+      function renderNotes() {
+        const q = searchQuery.toLowerCase();
+        const filtered = allNotes.filter(note => {
+          if (activeFilter !== 'all' && note.subject !== activeFilter) return false;
+          if (audioOnly && !note.audioUrl) return false;
+          if (!q) return true;
+          const haystack = [note.title, note.subject, note.unit, note.summary, ...note.tags].join(' ').toLowerCase();
+          return haystack.includes(q);
+        });
 
-    if (filtered.length === 0) {
-      const emptyTitle = audioOnly && allNotes.every(n => !n.audioUrl)
-        ? 'No audio summaries published yet'
-        : 'No notes found';
-      const emptySub = audioOnly && allNotes.every(n => !n.audioUrl)
-        ? 'Audio summaries will appear here once added to audio/<subject>/.'
-        : 'Try adjusting your search or filter.';
-      grid.innerHTML = `
+        if (filtered.length === 0) {
+          const emptyTitle = audioOnly && allNotes.every(n => !n.audioUrl)
+            ? 'No audio summaries published yet'
+            : 'No notes found';
+          const emptySub = audioOnly && allNotes.every(n => !n.audioUrl)
+            ? 'Audio summaries will appear here once added to audio/<subject>/.'
+            : 'Try adjusting your search or filter.';
+          grid.innerHTML = `
         <div class="empty-state">
           <div class="icon">${audioOnly ? '🎧' : '🔍'}</div>
           <h3>${emptyTitle}</h3>
           <p>${emptySub}</p>
           <button type="button" class="btn btn-reset" data-reset-filters="true">Reset Filters</button>
         </div>`;
-      return;
-    }
+          return;
+        }
 
-    const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+        const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
 
-    grid.innerHTML = filtered.map((note, i) => {
-      const hasAudio = Boolean(note.audioUrl);
-      const isPlayingThis = hasAudio && playingNoteId === note.id && !sharedAudio.paused;
-      const durLabel = note.audioDuration ? ` · ${esc(note.audioDuration)}` : '';
-      const timeInit = note.audioDuration ? `0:00 / ${esc(note.audioDuration)}` : '0:00';
-      return `
+        grid.innerHTML = filtered.map((note, i) => {
+          const hasAudio = Boolean(note.audioUrl);
+          const isPlayingThis = hasAudio && playingNoteId === note.id && !sharedAudio.paused;
+          const durLabel = note.audioDuration ? ` · ${esc(note.audioDuration)}` : '';
+          const timeInit = note.audioDuration ? `0:00 / ${esc(note.audioDuration)}` : '0:00';
+          return `
       <div class="note-card" style="animation-delay: ${i * 0.06}s">
         <div class="card-top">
           <span class="subject-badge">${esc(note.subject)}</span>
@@ -749,188 +883,189 @@
         </div>
       </div>
     `;
-    }).join('');
+        }).join('');
 
-    syncActiveCardAudioUI();
-  }
-
-  function esc(str) {
-    const d = document.createElement('div');
-    d.textContent = str == null ? '' : String(str);
-    return d.innerHTML;
-  }
-
-  function syncActiveCardAudioUI() {
-    grid.querySelectorAll('.card-audio').forEach(box => {
-      const id = box.dataset.audioId;
-      const btn = box.querySelector('.card-audio-btn');
-      const icon = box.querySelector('.ca-icon');
-      const label = box.querySelector('.ca-label');
-      const seek = box.querySelector('.card-audio-seek');
-      const timeEl = box.querySelector('.card-audio-time');
-      const note = allNotes.find(n => n.id === id);
-      const fallbackDur = note && note.audioDuration ? note.audioDuration : '';
-
-      if (id === playingNoteId) {
-        const isPlaying = !sharedAudio.paused && !sharedAudio.ended;
-        btn.classList.toggle('playing', isPlaying);
-        icon.textContent = isPlaying ? '⏸' : '▶';
-        label.textContent = isPlaying ? 'Pause' : 'Listen';
-        const dur = Number.isFinite(sharedAudio.duration) && sharedAudio.duration > 0 ? sharedAudio.duration : 0;
-        const cur = Number.isFinite(sharedAudio.currentTime) ? sharedAudio.currentTime : 0;
-        const pct = dur > 0 ? Math.min(100, Math.max(0, (cur / dur) * 100)) : 0;
-        seek.value = Math.round(pct * 10);
-        box.style.setProperty('--ca-pct', pct.toFixed(2) + '%');
-        timeEl.textContent = dur > 0 ? `${fmtTime(cur)} / ${fmtTime(dur)}` : (fallbackDur ? `${fmtTime(cur)} / ${fallbackDur}` : fmtTime(cur));
-      } else {
-        btn.classList.remove('playing');
-        icon.textContent = '▶';
-        label.textContent = 'Listen';
-        seek.value = 0;
-        box.style.setProperty('--ca-pct', '0%');
-        timeEl.textContent = fallbackDur ? `0:00 / ${fallbackDur}` : '0:00';
+        syncActiveCardAudioUI();
       }
-    });
-  }
 
-  // ── Copy link handler ──
-  function fallbackCopy(text) {
-    return new Promise((resolve, reject) => {
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.setAttribute('readonly', '');
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        const ok = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (ok) resolve();
-        else reject(new Error('Clipboard copy failed'));
-      } catch (err) {
-        reject(err);
+      function esc(str) {
+        const d = document.createElement('div');
+        d.textContent = str == null ? '' : String(str);
+        return d.innerHTML;
       }
-    });
-  }
 
-  function handleCopy(btn) {
-    const url = btn.dataset.copyUrl;
-    const baseLabel = btn.dataset.copyLabel || 'Copy Link';
-    const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
-    const doWrite = (navigator.clipboard && navigator.clipboard.writeText)
-      ? navigator.clipboard.writeText(url).catch(() => fallbackCopy(url))
-      : fallbackCopy(url);
-    doWrite.then(() => {
-      btn.classList.add('copied');
-      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Copied!`;
-      showToast(`Copied: ${url}`);
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = `${copyIcon} ${esc(baseLabel)}`;
-      }, 2500);
-    }).catch(() => {
-      showToast('Copy failed — copy manually from address bar');
-    });
-  }
+      function syncActiveCardAudioUI() {
+        grid.querySelectorAll('.card-audio').forEach(box => {
+          const id = box.dataset.audioId;
+          const btn = box.querySelector('.card-audio-btn');
+          const icon = box.querySelector('.ca-icon');
+          const label = box.querySelector('.ca-label');
+          const seek = box.querySelector('.card-audio-seek');
+          const timeEl = box.querySelector('.card-audio-time');
+          const note = allNotes.find(n => n.id === id);
+          const fallbackDur = note && note.audioDuration ? note.audioDuration : '';
 
-  // ── Toast ──
-  function showToast(msg) {
-    toastMsg.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(showToast._timer);
-    showToast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
-  }
-
-  // ── Delegated Grid Actions (Play, Copy, Reset) ──
-  grid.addEventListener('click', (e) => {
-    const resetBtn = e.target.closest('[data-reset-filters]');
-    if (resetBtn) {
-      activeFilter = 'all';
-      audioOnly = false;
-      searchQuery = '';
-      searchInput.value = '';
-      filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
-      if (audioFilterPill) {
-        audioFilterPill.classList.remove('active');
-        audioFilterPill.setAttribute('aria-pressed', 'false');
+          if (id === playingNoteId) {
+            const isPlaying = !sharedAudio.paused && !sharedAudio.ended;
+            btn.classList.toggle('playing', isPlaying);
+            icon.textContent = isPlaying ? '⏸' : '▶';
+            label.textContent = isPlaying ? 'Pause' : 'Listen';
+            const dur = Number.isFinite(sharedAudio.duration) && sharedAudio.duration > 0 ? sharedAudio.duration : 0;
+            const cur = Number.isFinite(sharedAudio.currentTime) ? sharedAudio.currentTime : 0;
+            const pct = dur > 0 ? Math.min(100, Math.max(0, (cur / dur) * 100)) : 0;
+            seek.value = Math.round(pct * 10);
+            box.style.setProperty('--ca-pct', pct.toFixed(2) + '%');
+            timeEl.textContent = dur > 0 ? `${fmtTime(cur)} / ${fmtTime(dur)}` : (fallbackDur ? `${fmtTime(cur)} / ${fallbackDur}` : fmtTime(cur));
+          } else {
+            btn.classList.remove('playing');
+            icon.textContent = '▶';
+            label.textContent = 'Listen';
+            seek.value = 0;
+            box.style.setProperty('--ca-pct', '0%');
+            timeEl.textContent = fallbackDur ? `0:00 / ${fallbackDur}` : '0:00';
+          }
+        });
       }
-      renderNotes();
-      return;
-    }
 
-    const copyBtn = e.target.closest('[data-copy-url]');
-    if (copyBtn) {
-      handleCopy(copyBtn);
-      return;
-    }
+      // ── Copy link handler ──
+      function fallbackCopy(text) {
+        return new Promise((resolve, reject) => {
+          try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (ok) resolve();
+            else reject(new Error('Clipboard copy failed'));
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
 
-    const playBtn = e.target.closest('[data-play-note]');
-    if (playBtn) {
-      const noteId = playBtn.dataset.playNote;
-      const note = allNotes.find(n => n.id === noteId);
-      if (!note || !note.audioUrl) return;
-      const targetSrc = note.audioPath || note.audioUrl;
+      function handleCopy(btn) {
+        const url = btn.dataset.copyUrl;
+        const baseLabel = btn.dataset.copyLabel || 'Copy Link';
+        const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+        const doWrite = (navigator.clipboard && navigator.clipboard.writeText)
+          ? navigator.clipboard.writeText(url).catch(() => fallbackCopy(url))
+          : fallbackCopy(url);
+        doWrite.then(() => {
+          btn.classList.add('copied');
+          btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Copied!`;
+          showToast(`Copied: ${url}`);
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = `${copyIcon} ${esc(baseLabel)}`;
+          }, 2500);
+        }).catch(() => {
+          showToast('Copy failed — copy manually from address bar');
+        });
+      }
 
-      if (playingNoteId === noteId) {
-        if (sharedAudio.paused) {
-          sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
-        } else {
-          sharedAudio.pause();
+      // ── Toast ──
+      function showToast(msg) {
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+
+      // ── Delegated Grid Actions (Play, Copy, Reset) ──
+      grid.addEventListener('click', (e) => {
+        const resetBtn = e.target.closest('[data-reset-filters]');
+        if (resetBtn) {
+          activeFilter = 'all';
+          audioOnly = false;
+          searchQuery = '';
+          searchInput.value = '';
+          filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
+          if (audioFilterPill) {
+            audioFilterPill.classList.remove('active');
+            audioFilterPill.setAttribute('aria-pressed', 'false');
+          }
+          renderNotes();
+          return;
         }
-      } else {
-        playingNoteId = noteId;
-        sharedAudio.src = targetSrc;
-        sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
-      }
-      syncActiveCardAudioUI();
-    }
-  });
 
-  grid.addEventListener('input', (e) => {
-    const seekInput = e.target.closest('[data-seek-note]');
-    if (!seekInput) return;
-    const noteId = seekInput.dataset.seekNote;
-    if (playingNoteId !== noteId || !Number.isFinite(sharedAudio.duration) || sharedAudio.duration <= 0) return;
-    const pct = parseFloat(seekInput.value) / 1000;
-    sharedAudio.currentTime = pct * sharedAudio.duration;
-    syncActiveCardAudioUI();
-  });
+        const copyBtn = e.target.closest('[data-copy-url]');
+        if (copyBtn) {
+          handleCopy(copyBtn);
+          return;
+        }
 
-  sharedAudio.addEventListener('play', syncActiveCardAudioUI);
-  sharedAudio.addEventListener('pause', syncActiveCardAudioUI);
-  sharedAudio.addEventListener('ended', syncActiveCardAudioUI);
-  sharedAudio.addEventListener('loadedmetadata', syncActiveCardAudioUI);
-  sharedAudio.addEventListener('timeupdate', syncActiveCardAudioUI);
-  sharedAudio.addEventListener('error', () => {
-    showToast('Audio file could not be loaded');
-    syncActiveCardAudioUI();
-  });
+        const playBtn = e.target.closest('[data-play-note]');
+        if (playBtn) {
+          const noteId = playBtn.dataset.playNote;
+          const note = allNotes.find(n => n.id === noteId);
+          if (!note || !note.audioUrl) return;
+          const targetSrc = note.audioPath || note.audioUrl;
 
-  // ── Search ──
-  searchInput.addEventListener('input', (e) => {
-    searchQuery = e.target.value;
-    renderNotes();
-  });
+          if (playingNoteId === noteId) {
+            if (sharedAudio.paused) {
+              sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
+            } else {
+              sharedAudio.pause();
+            }
+          } else {
+            playingNoteId = noteId;
+            sharedAudio.src = targetSrc;
+            sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
+          }
+          syncActiveCardAudioUI();
+        }
+      });
 
-  // ── Filter pills ──
-  filterRow.addEventListener('click', (e) => {
-    const pill = e.target.closest('.pill');
-    if (!pill) return;
-    if (pill.dataset.audioFilter) {
-      audioOnly = !audioOnly;
-      pill.classList.toggle('active', audioOnly);
-      pill.setAttribute('aria-pressed', audioOnly ? 'true' : 'false');
-      renderNotes();
-      return;
-    }
-    filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    activeFilter = pill.dataset.filter;
-    renderNotes();
-  });
-})();
-</script>
+      grid.addEventListener('input', (e) => {
+        const seekInput = e.target.closest('[data-seek-note]');
+        if (!seekInput) return;
+        const noteId = seekInput.dataset.seekNote;
+        if (playingNoteId !== noteId || !Number.isFinite(sharedAudio.duration) || sharedAudio.duration <= 0) return;
+        const pct = parseFloat(seekInput.value) / 1000;
+        sharedAudio.currentTime = pct * sharedAudio.duration;
+        syncActiveCardAudioUI();
+      });
+
+      sharedAudio.addEventListener('play', syncActiveCardAudioUI);
+      sharedAudio.addEventListener('pause', syncActiveCardAudioUI);
+      sharedAudio.addEventListener('ended', syncActiveCardAudioUI);
+      sharedAudio.addEventListener('loadedmetadata', syncActiveCardAudioUI);
+      sharedAudio.addEventListener('timeupdate', syncActiveCardAudioUI);
+      sharedAudio.addEventListener('error', () => {
+        showToast('Audio file could not be loaded');
+        syncActiveCardAudioUI();
+      });
+
+      // ── Search ──
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderNotes();
+      });
+
+      // ── Filter pills ──
+      filterRow.addEventListener('click', (e) => {
+        const pill = e.target.closest('.pill');
+        if (!pill) return;
+        if (pill.dataset.audioFilter) {
+          audioOnly = !audioOnly;
+          pill.classList.toggle('active', audioOnly);
+          pill.setAttribute('aria-pressed', audioOnly ? 'true' : 'false');
+          renderNotes();
+          return;
+        }
+        filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeFilter = pill.dataset.filter;
+        renderNotes();
+      });
+    })();
+  </script>
 
 </body>
+
 </html>

@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Master Portal Audio Support (`index.html`)**:
   - Added **`🎧 Audio Available`** toggle filter pill in `#filterRow`.
   - Added `🎧 Audio` badge, compact inline play/listen player with scrub slider, and **"Copy Audio URL"** button alongside **"Copy Link"** on cards with `audioUrl` (plus clipboard `execCommand` fallback).
+  - Normalized formatting and trailing newline in `index.html` and ensured clean zero-byte `.gitkeep` placeholders in `audio/<subject>/`.
 - **System Documentation Suite Synchronization (v2.5.0)**:
   - Bumped `package.json` to `2.5.0` and synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
 
