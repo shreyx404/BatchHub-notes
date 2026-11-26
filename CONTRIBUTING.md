@@ -92,7 +92,7 @@ npm run audio:process  # Optional: converts audio-raw/**/*.wav -> audio/<subject
 npm run audio:sync     # Optional: injects Audio Note Bar into matching notes & rebuilds notes.json
 npm run build          # Or directly run node scripts/generate-manifest.js
 ```
-Verify that `notes.json` reflects your new note (and `audioPath`/`audioUrl`/`audioDuration` when audio exists) with all metadata populated (currently tracking 22 units across 20 files: BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4 in 2 files), PAS (4/4)).
+Verify that `notes.json` reflects your new note (and `audioPath`/`audioUrl`/`audioDuration` when audio exists) with all metadata populated (currently tracking 22 units across 20 files: BIOT (4/4 + 4/4 Audio), DCN (4/4), FDS (6/6), OOP (4/4 in 2 files + 2/2 Audio), PAS (4/4)).
 
 ### Step 7: Update System Markdowns
 - Update [`TASKS.md`](TASKS.md) to mark the unit as complete.

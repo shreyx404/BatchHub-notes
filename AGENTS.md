@@ -32,11 +32,11 @@ BatchHub-notes/
 │   └── workflows/
 │       └── deploy.yml            # CI/CD: Automated GitHub Pages deployment
 ├── audio/                        # Speech-optimized .mp3 / .m4a audio notes
-│   ├── biot/                     # Basics of IoT audio summaries
-│   ├── dcn/                      # DCN audio summaries (e.g. dcn-unit2.mp3)
-│   ├── fds/                      # FDS audio summaries
-│   ├── oop/                      # OOP audio summaries
-│   └── pas/                      # PAS audio summaries
+│   ├── biot/                     # Basics of IoT audio (BIOTU1–U4.mp3 published)
+│   ├── dcn/                      # DCN audio summaries (pending)
+│   ├── fds/                      # FDS audio summaries (pending)
+│   ├── oop/                      # OOP audio summaries (OOPU1–U2.mp3 published)
+│   └── pas/                      # PAS audio summaries (pending)
 ├── audio-raw/                    # [GITIGNORED] Staging folder for raw .wav inputs
 ├── notes/                        # Subject folders (lowercase codes)
 │   ├── biot/                     # Basics of IoT (CB2005 - 4 Units) [100% Complete]

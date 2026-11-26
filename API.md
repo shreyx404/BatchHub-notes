@@ -1,6 +1,6 @@
 # API & Integration Contract (`API.md`)
 
-> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, audio streaming endpoints, and iframe embedding interfaces between **`BatchHub-notes`** (v2.5.0, 20 published notes covering all 22 units — 100% curriculum complete with universal light/dark mode switcher and Audio Notes architecture) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
+> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, audio streaming endpoints, and iframe embedding interfaces between **`BatchHub-notes`** (v2.5.1, 20 published notes covering all 22 units — 100% curriculum complete with universal light/dark mode switcher and Audio Notes live for BIOT 4/4 & OOP 2/2) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
 ---
 

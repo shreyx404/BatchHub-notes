@@ -12,7 +12,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - KaTeX mathematical formula rendering engine.
 - In-note search shortcuts and client-side reading progress tracking.
-- Unit `.mp3` audio summary recordings across core subjects.
+- Unit `.mp3` audio summary recordings for DCN, FDS, and PAS.
+
+## [2.5.1] - 2026-11-26
+
+### Added
+- **BIOT (Units 1–4) & OOP (Units 1–4) Audio Notes Published (6/20 Notes Live)**:
+  - Converted 6 raw `.wav` recordings (moved into gitignored `audio-raw/`) to speech-optimized `96 kbps` / `44.1 kHz` mono `.mp3` files via `npm run audio:process` (`ffmpeg` 9.1, ~75% size reduction):
+    - `audio/biot/BIOTU1.mp3` (`1:11:59`, 49.43 MB)
+    - `audio/biot/BIOTU2.mp3` (`57:32`, 39.50 MB)
+    - `audio/biot/BIOTU3.mp3` (`1:19:19`, 54.46 MB)
+    - `audio/biot/BIOTU4.mp3` (`1:04:46`, 44.48 MB)
+    - `audio/oop/OOPU1.mp3` (`1:20:33`, 55.31 MB)
+    - `audio/oop/OOPU2.mp3` (`28:28`, 19.55 MB)
+  - Executed `npm run audio:sync` to inject `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and the self-contained **Audio Note Bar** into `BIOTU1.html`–`BIOTU4.html`, `OOPU1.html`, and `OOPU2.html`, and rebuilt `notes.json` (20 notes indexed, 6 with `audioPath`/`audioUrl`/`audioDuration`).
+  - Verified real MP3 playback, `+15s` seeking, `1.5x` speed control, dark/light theme adaptation, `@media print` suppression, and zero horizontal overflow on `#audioBar` across `1280px`, `768px`, `375px`, and `320px` in headless Chrome CDP across `index.html` and all 6 synced notes.
+  - Synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
 
 ## [2.5.0] - 2026-11-26
 

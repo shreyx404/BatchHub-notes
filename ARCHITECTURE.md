@@ -179,10 +179,10 @@ To maintain strict parity with VIT Pune's CSE-IoTCSBT (Pattern A-25) curriculum 
 
 ```
 notes/ & audio/
-├── biot/     # Basics of IoT (CB2005 - 4 Units)
+├── biot/     # Basics of IoT (CB2005 - 4 Units; 4/4 Audio MP3s live)
 ├── dcn/      # Data Communication and Networking (CB2004 - 4 Units)
 ├── fds/      # Fundamentals of Data Structures (CB2003 - 6 Units)
-├── oop/      # Object Oriented Programming (CB2006 - 4 Units: C++ & Java)
+├── oop/      # Object Oriented Programming (CB2006 - 4 Units: C++ & Java; 2/2 Audio MP3s live)
 └── pas/      # Probability and Statistics (MM0501 - 4 Units)
 ```
 

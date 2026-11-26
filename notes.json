@@ -17,7 +17,10 @@
       "RFID",
       "M2M",
       "WSN"
-    ]
+    ],
+    "audioPath": "audio/biot/BIOTU1.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/biot/BIOTU1.mp3",
+    "audioDuration": "1:11:59"
   },
   {
     "id": "biot-unit2",
@@ -35,7 +38,10 @@
       "8085 Pin Diagram",
       "8051 MCU",
       "Memory Interfacing"
-    ]
+    ],
+    "audioPath": "audio/biot/BIOTU2.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/biot/BIOTU2.mp3",
+    "audioDuration": "57:32"
   },
   {
     "id": "biot-unit3",
@@ -57,7 +63,10 @@
       "IPv6",
       "Modbus",
       "ZigBee"
-    ]
+    ],
+    "audioPath": "audio/biot/BIOTU3.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/biot/BIOTU3.mp3",
+    "audioDuration": "1:19:19"
   },
   {
     "id": "biot-unit4",
@@ -82,7 +91,10 @@
       "Zero Trust",
       "Firmware",
       "OWASP"
-    ]
+    ],
+    "audioPath": "audio/biot/BIOTU4.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/biot/BIOTU4.mp3",
+    "audioDuration": "1:04:46"
   },
   {
     "id": "dcn-unit1",
@@ -326,7 +338,10 @@
       "Virtual Functions",
       "Templates",
       "File Handling"
-    ]
+    ],
+    "audioPath": "audio/oop/OOPU1.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/oop/OOPU1.mp3",
+    "audioDuration": "1:20:33"
   },
   {
     "id": "oop-unit2",
@@ -352,7 +367,10 @@
       "AWT",
       "Swing",
       "Event Handling"
-    ]
+    ],
+    "audioPath": "audio/oop/OOPU2.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/oop/OOPU2.mp3",
+    "audioDuration": "28:28"
   },
   {
     "id": "pas-unit1",

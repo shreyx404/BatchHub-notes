@@ -14,11 +14,11 @@ Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)*
 BatchHub-notes/
 ├── .github/workflows/deploy.yml   ← Auto-deploy to GitHub Pages on push to main
 ├── audio/                         ← Speech-optimized .mp3/.m4a audio summaries
-│   ├── biot/                      ← Basics of IoT audio summaries
-│   ├── dcn/                       ← DCN audio summaries (e.g. dcn-unit2.mp3)
-│   ├── fds/                       ← FDS audio summaries
-│   ├── oop/                       ← OOP audio summaries
-│   └── pas/                       ← PAS audio summaries
+│   ├── biot/                      ← BIOTU1–U4.mp3 (4/4 live)
+│   ├── dcn/                       ← DCN audio summaries (pending)
+│   ├── fds/                       ← FDS audio summaries (pending)
+│   ├── oop/                       ← OOPU1–U2.mp3 (2/2 live)
+│   └── pas/                       ← PAS audio summaries (pending)
 ├── audio-raw/                     ← [GITIGNORED] Staging folder for raw .wav files
 ├── notes/                         ← Subject folders (mirrors BatchHub database)
 │   ├── biot/                      ← Basics of IoT (CB2005 - 4 Units) [100% COMPLETE]
@@ -93,8 +93,8 @@ The repository hosts notes for the 5 core technical courses in the Second Year (
 |---|---|---|---|---|---|---|
 | **`fds`** | `CB2003` | **Fundamentals of Data Structures** | 3 Th / 2 Lab | 4 | **6 Units** | ✅ 6/6 Units (100%) |
 | **`dcn`** | `CB2004` | **Data Communication and Networking** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
-| **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
-| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100%) |
+| **`biot`** | `CB2005` | **Basics of IoT** | 2 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100% + 🎧 4/4 Audio) |
+| **`oop`** | `CB2006` | **Object Oriented Programming** | 1 Th / 2 Lab | 3 | **4 Units** | ✅ 4/4 Units (100% + 🎧 2/2 Audio) |
 | **`pas`** | `MM0501` | **Probability and Statistics** | 2 Th / 1 Tut | 3 | **4 Units** | ✅ 4/4 Units (100%) |
  
 **Total Academic Scope**: **22 Units** (22/22 published across 20 files — 100% COMPLETE).

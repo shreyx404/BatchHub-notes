@@ -7,7 +7,7 @@
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
 | **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ✅ **Completed** | **100%** (22/22 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements (Responsive, Theme, Audio Notes) | 🟡 **In Progress** | 92% |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive, Theme, Audio Notes) | 🟡 **In Progress** | 95% |
 | **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 70% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
@@ -170,7 +170,10 @@
   - Extended `scripts/generate-manifest.js` (`notes.json`) to support `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and auto-detected `.mp3`/`.m4a` files, emitting optional `audioPath`, `audioUrl`, and `audioDuration` fields.
   - Designed and integrated the zero-dependency **Audio Note Bar** in `templates/note-template.html` (Play/Pause, seek/scrub bar, time display, `-15s`/`+15s` skip, `1x`–`2x` speed selector, dark/light token adaptation, `320px` responsive layout, `@media print` suppression).
   - Updated `index.html` with **`🎧 Audio Available`** filter pill, `🎧 Audio` card badges, inline compact audio player toggle, and **"Copy Audio URL"** clipboard button.
-- [ ] **Populate Unit Audio Recordings**: Convert and ingest unit `.mp3` audio summaries into `audio/<subject>/` and run `npm run audio:sync` when recordings are provided.
+- [~] **Populate Unit Audio Recordings** *(6/20 files live)*:
+  - [x] **BIOT (`CB2005`)**: `BIOTU1.mp3` (`1:11:59`), `BIOTU2.mp3` (`57:32`), `BIOTU3.mp3` (`1:19:19`), `BIOTU4.mp3` (`1:04:46`) encoded from raw `.wav` via `npm run audio:process` and synced via `npm run audio:sync`.
+  - [x] **OOP (`CB2006`)**: `OOPU1.mp3` (`1:20:33`), `OOPU2.mp3` (`28:28`) encoded and synced via `npm run audio:sync`.
+  - [ ] **DCN, FDS, PAS**: Pending raw audio recordings.
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
 - [ ] **Local Reading State**: Save scroll position and completed section checkboxes in `localStorage`.
 - [ ] **Interactive Code Sandboxes**: Lightweight runnable code snippets for OOP and FDS examples.
