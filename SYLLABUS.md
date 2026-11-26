@@ -26,6 +26,8 @@
 
 **Total Core Note Deliverables**: **22 Units** across the 5 primary technical subjects (Current: 22/22 units published (20 files) across BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4), and PAS (4/4) — CURRICULUM 100% COMPLETE; all 20 files equipped with universal light/dark mode switcher and responsive architecture).
 
+> **Audio Companion Mapping (`audio/<subject>/`)**: Spoken unit summaries follow the exact same canonical folder taxonomy (`biot`, `dcn`, `fds`, `oop`, `pas`) and map to syllabus units via `<note-id>.mp3`/`.m4a` (e.g., `audio/dcn/dcn-unit2.mp3`) or `<FILENAME>.mp3`/`.m4a` (e.g., `audio/fds/FDSU1.mp3`).
+
 ---
 
 ## 2. Detailed Technical Subject Syllabi

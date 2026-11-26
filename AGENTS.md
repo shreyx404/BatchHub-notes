@@ -9,17 +9,18 @@
 `BatchHub-notes` hosts high-performance, distraction-free, standalone academic HTML notes linked directly into **BatchHub** (`https://batch-hub-red.vercel.app/notes`).
 
 ### 🔴 Non-Negotiable Invariants
-1. **Zero Runtime Frameworks**: NEVER introduce React, Vue, Svelte, Tailwind CSS, or npm runtime dependencies into the notes or portal. All notes must remain pure, standalone HTML5/CSS3.
-2. **Deterministic Manifest**: Whenever an HTML note is created, renamed, moved, or deleted, `node scripts/generate-manifest.js` (or `npm run build`) MUST be executed to keep `notes.json` in sync.
-3. **Canonical Subjects Only**: The repository strictly mirrors the official VIT Pune CSE-IoTCSBT (Pattern A-25) curriculum subjects:
+1. **Zero Runtime Frameworks**: NEVER introduce React, Vue, Svelte, Tailwind CSS, or npm runtime dependencies into the notes or portal. All notes, scripts, and audio players must remain pure, standalone HTML5/CSS3/Vanilla JS and Node.js built-ins.
+2. **Deterministic Manifest**: Whenever an HTML note or `audio/` file is created, renamed, moved, or deleted, `node scripts/generate-manifest.js` (or `npm run build`) MUST be executed to keep `notes.json` in sync.
+3. **Never Commit Raw `.wav` Files**: Large uncompressed `.wav` files MUST stay inside the gitignored `audio-raw/` staging folder and NEVER be committed to GitHub. Convert them with `npm run audio:process` (`ffmpeg` → `96 kbps` / `44.1 kHz` `.mp3` in `audio/<subject>/`).
+4. **Canonical Subjects Only**: The repository strictly mirrors the official VIT Pune CSE-IoTCSBT (Pattern A-25) curriculum subjects:
    - `biot` — Basics of IoT (`CB2005`, 4 Units)
    - `dcn`  — Data Communication and Networking (`CB2004`, 4 Units)
    - `fds`  — Fundamentals of Data Structures (`CB2003`, 6 Units)
    - `oop`  — Object Oriented Programming (`CB2006`, 4 Units: C++ & Java)
    - `pas`  — Probability and Statistics (`MM0501`, 4 Units)
    Do not introduce unauthorized subjects without an approved update to the PRD. Total core syllabus scope is **22 Units**.
-4. **Mandatory Metadata Tags**: Every note HTML file MUST include the required `<meta>` tags in its `<head>` for manifest extraction.
-5. **Mandatory System Markdown Synchronization & Push**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.
+5. **Mandatory Metadata Tags**: Every note HTML file MUST include the required `<meta>` tags in its `<head>` for manifest extraction (`note-audio` and `note-audio-duration` are optional).
+6. **Mandatory System Markdown Synchronization & Push**: After every task or any updation, modify all the system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) to reflect the latest state, and push the entire codebase to GitHub `main`.
 
 ---
 
@@ -30,6 +31,13 @@ BatchHub-notes/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml            # CI/CD: Automated GitHub Pages deployment
+├── audio/                        # Speech-optimized .mp3 / .m4a audio notes
+│   ├── biot/                     # Basics of IoT audio summaries
+│   ├── dcn/                      # DCN audio summaries (e.g. dcn-unit2.mp3)
+│   ├── fds/                      # FDS audio summaries
+│   ├── oop/                      # OOP audio summaries
+│   └── pas/                      # PAS audio summaries
+├── audio-raw/                    # [GITIGNORED] Staging folder for raw .wav inputs
 ├── notes/                        # Subject folders (lowercase codes)
 │   ├── biot/                     # Basics of IoT (CB2005 - 4 Units) [100% Complete]
 │   │   ├── BIOTU1.html           # Unit 1 Notes (Published)
@@ -57,11 +65,14 @@ BatchHub-notes/
 │       ├── PASU3.html            # Unit 3 Notes (Published)
 │       └── PASU4.html            # Unit 4 Notes (Published)
 ├── templates/
-│   └── note-template.html        # Gold-standard baseline for new notes
+│   └── note-template.html        # Gold-standard baseline for new notes (with Audio Note Bar)
 ├── scripts/
-│   └── generate-manifest.js      # Zero-dependency manifest compiler
-├── index.html                    # Master index & portal with live search
-├── notes.json                    # Auto-generated index of all notes
+│   ├── audio-utils.js            # Shared audio discovery, MP3/M4A duration & meta helpers
+│   ├── generate-manifest.js      # Zero-dependency manifest compiler (notes + audio)
+│   ├── process-audio.js          # ffmpeg .wav -> 96kbps/44.1kHz .mp3 optimizer
+│   └── sync-audio.js             # Idempotent Audio Note Bar injector for matching notes
+├── index.html                    # Master index & portal with search, filters & audio player
+├── notes.json                    # Auto-generated index of all notes & audio streams
 ├── PRD.md                        # Product Requirements Document
 ├── ARCHITECTURE.md               # Technical architecture & data flows
 ├── API.md                        # Manifest schema & integration contracts
@@ -72,7 +83,7 @@ BatchHub-notes/
 ├── CONTRIBUTING.md               # Contributor guidelines & PR protocol
 ├── CHANGELOG.md                  # Chronological release & revision history
 ├── README.md                     # Public documentation
-└── package.json                  # Scripts (npm run build)
+└── package.json                  # Scripts (build, audio:process, audio:sync)
 ```
 
 ---
@@ -96,11 +107,13 @@ The `<head>` section must define these exact meta tags, and the `<title>` tag MU
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="note-id"      content="dcn-unit3">
-<meta name="note-subject" content="DCN">
-<meta name="note-unit"    content="Unit 3">
-<meta name="note-tags"    content="Networking, IP Addressing, IPv4, IPv6, Subnetting, CIDR">
-<meta name="note-summary" content="Comprehensive notes on IP Addressing: IPv4 classes, subnetting, supernetting, CIDR, and IPv6 representation and auto-configuration.">
+<meta name="note-id"             content="dcn-unit3">
+<meta name="note-subject"        content="DCN">
+<meta name="note-unit"           content="Unit 3">
+<meta name="note-tags"           content="Networking, IP Addressing, IPv4, IPv6, Subnetting, CIDR">
+<meta name="note-summary"        content="Comprehensive notes on IP Addressing: IPv4 classes, subnetting, supernetting, CIDR, and IPv6 representation and auto-configuration.">
+<meta name="note-audio"          content="audio/dcn/dcn-unit3.mp3"> <!-- Optional; auto-detected if omitted -->
+<meta name="note-audio-duration" content="12:30">                   <!-- Optional; auto-parsed from MP3/M4A if omitted -->
 <title>DCNU3</title>
 ```
 
@@ -136,6 +149,7 @@ Always use the standardized components rather than ad-hoc markup:
 | **Formula Block** | `<div class="formula">...</div>` | Mathematical formulas and derivations |
 | **Comparison Table** | `<div class="table-wrap"><table>...</table></div>` | Protocol comparisons, pros/cons, metrics |
 | **Diagram Frame** | `<div class="visual">...<div class="visual-caption">Fig 1.1</div></div>` | ASCII/Flexbox architecture diagrams |
+| **Audio Note Bar** | `<div class="audio-bar" id="audioBar" ...>...</div>` | Unit audio summary player (play/pause, `-15s`/`+15s`, seek, `1x`–`2x` speed) |
 
 ### Step 5: Table of Contents Synchronization
 Ensure every `<div class="section" id="...">` has a corresponding link in the `<nav class="sidebar">` TOC:
@@ -154,17 +168,21 @@ Ensure every `<div class="section" id="...">` has a corresponding link in the `<
 
 ---
 
-## 4. Build, Verification & Sync Workflow
+## 4. Build, Audio Processing & Sync Workflow
 
-Whenever changes are made to `notes/`:
+Whenever changes are made to `notes/` or `audio/`:
 
 ```bash
-# 1. Regenerate notes.json manifest
+# 0. (If adding raw .wav recordings in audio-raw/<subject>/)
+npm run audio:process          # Converts .wav -> 96 kbps / 44.1 kHz .mp3 in audio/<subject>/
+npm run audio:sync             # Injects Audio Note Bar into matching notes & rebuilds notes.json
+
+# 1. Regenerate notes.json manifest (or after adding .mp3/.m4a directly in audio/<subject>/)
 node scripts/generate-manifest.js
 # or
 npm run build
 
-# 2. Check git status to verify additions/deletions
+# 2. Check git status to verify additions/deletions (no .wav files!)
 git status
 
 # 3. Commit with semantic message
@@ -181,11 +199,12 @@ git push origin main
 
 Before completing any task or reporting back to the user:
 - [ ] Has `node scripts/generate-manifest.js` (or `npm run build`) been run?
-- [ ] Does `notes.json` contain every note with valid `id`, `subject`, `unit`, `title`, `path`, and `url`?
+- [ ] Does `notes.json` contain every note with valid `id`, `subject`, `unit`, `title`, `path`, `url`, and optional `audioPath` / `audioUrl` / `audioDuration`?
+- [ ] Are raw `.wav` files excluded from git tracking (`audio-raw/` and `*.wav` in `.gitignore`)?
 - [ ] Does the `<title>` tag of each note file strictly match the filename without `.html` (e.g. `<title>DCNU3</title>`)?
 - [ ] Does every note HTML file include an interactive light/dark mode switcher icon button and functionality (`#themeBtn`) with anti-flash script and synchronized storage (`batchhub-theme`)?
 - [ ] Are all relative links (`../../index.html`) intact in the note sidebar?
-- [ ] Does `@media print` exist in the note CSS so students can cleanly export to PDF?
+- [ ] Does `@media print` exist in the note CSS (and hide `#audioBar` if present) so students can cleanly export to PDF?
 - [ ] Are mobile and tablet responsive styles present (reading progress bar, off-canvas TOC drawer with trigger button and backdrop scrim)?
 - [ ] Are all data tables and formula blocks responsive (`display: block; max-width: 100%; overflow-x: auto;`) with zero horizontal page blowout on 320px–375px screens?
 - [ ] Have font sizes been verified with fluid `clamp()` to prevent heading overflow on small mobile displays?

@@ -8,15 +8,16 @@ Whether you are authoring a new unit note, fixing an academic typo, or enhancing
 
 ## 1. Core Principles
 
-1. **Pure Static Stack**: Do not introduce build frameworks (React, Vue, Vite, Tailwind CSS, or npm runtime dependencies). Notes must remain single, standalone HTML5/CSS3 files.
-2. **Deterministic Manifest**: Whenever a note is added, renamed, or modified, run `npm run build` to keep `notes.json` synchronized.
-3. **Canonical Subjects Only**: Stick strictly to the 5 official curriculum subjects (VIT Pune CSE-IoTCSBT Pattern A-25):
+1. **Pure Static Stack**: Do not introduce build frameworks (React, Vue, Vite, Tailwind CSS, or npm runtime dependencies). Notes must remain single, standalone HTML5/CSS3 files (with optional `.mp3`/`.m4a` files in `audio/<subject>/`).
+2. **Deterministic Manifest**: Whenever a note or audio file is added, renamed, or modified, run `npm run build` (or `npm run audio:sync`) to keep `notes.json` synchronized.
+3. **Never Commit Raw `.wav` Files**: Keep uncompressed `.wav` sources inside the gitignored `audio-raw/` directory and convert them via `npm run audio:process` (`ffmpeg` → `96 kbps` / `44.1 kHz` `.mp3`).
+4. **Canonical Subjects Only**: Stick strictly to the 5 official curriculum subjects (VIT Pune CSE-IoTCSBT Pattern A-25):
    - `biot` — Basics of IoT (`CB2005`, 4 Units)
    - `dcn`  — Data Communication and Networking (`CB2004`, 4 Units)
    - `fds`  — Fundamentals of Data Structures (`CB2003`, 6 Units)
    - `oop`  — Object Oriented Programming (`CB2006`, 4 Units: C++ & Java)
    - `pas`  — Probability and Statistics (`MM0501`, 4 Units)
-4. **Mandatory System Markdown Synchronization**: Every pull request or task MUST update the system markdown suite (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) and push all changes.
+5. **Mandatory System Markdown Synchronization**: Every pull request or task MUST update the system markdown suite (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`) and push all changes.
 
 ---
 
@@ -25,6 +26,7 @@ Whether you are authoring a new unit note, fixing an academic typo, or enhancing
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16 or higher)
 - [Git](https://git-scm.com/)
+- [ffmpeg](https://ffmpeg.org/) *(optional — only needed when converting raw `.wav` recordings via `npm run audio:process`)*
 
 ### Clone the Repository
 ```bash
@@ -57,11 +59,13 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 
 ### Step 3: Populate Required `<meta>` Tags in `<head>`
 ```html
-<meta name="note-id"      content="dcn-unit3">
-<meta name="note-subject" content="DCN">
-<meta name="note-unit"    content="Unit 3">
-<meta name="note-tags"    content="Networking, TCP, UDP, Transport Layer">
-<meta name="note-summary" content="Complete guide to Transport Layer protocols, sliding window flow control, and TCP 3-way handshake.">
+<meta name="note-id"             content="dcn-unit3">
+<meta name="note-subject"        content="DCN">
+<meta name="note-unit"           content="Unit 3">
+<meta name="note-tags"           content="Networking, TCP, UDP, Transport Layer">
+<meta name="note-summary"        content="Complete guide to Transport Layer protocols, sliding window flow control, and TCP 3-way handshake.">
+<meta name="note-audio"          content="audio/dcn/dcn-unit3.mp3"> <!-- Optional; auto-detected if omitted -->
+<meta name="note-audio-duration" content="12:30">                   <!-- Optional; auto-parsed if omitted -->
 <title>DCNU3</title>
 ```
 > **Uniformity Rule**: The `<title>` tag MUST strictly match the filename without the `.html` extension (e.g. `<title>DCNU3</title>`).
@@ -82,12 +86,13 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 - Test responsiveness by resizing browser window to mobile dimensions.
 - Press `Ctrl + P` (Print Preview) to verify clean black-and-white print styling.
 
-### Step 6: Regenerate the Manifest
+### Step 6: Process Audio (If Applicable) & Regenerate the Manifest
 ```bash
-npm run build
-# or: node scripts/generate-manifest.js
+npm run audio:process  # Optional: converts audio-raw/**/*.wav -> audio/<subject>/*.mp3
+npm run audio:sync     # Optional: injects Audio Note Bar into matching notes & rebuilds notes.json
+npm run build          # Or directly run node scripts/generate-manifest.js
 ```
-Verify that `notes.json` reflects your new note with all metadata populated (currently tracking 22 units across 20 files: BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4 in 2 files), PAS (4/4)).
+Verify that `notes.json` reflects your new note (and `audioPath`/`audioUrl`/`audioDuration` when audio exists) with all metadata populated (currently tracking 22 units across 20 files: BIOT (4/4), DCN (4/4), FDS (6/6), OOP (4/4 in 2 files), PAS (4/4)).
 
 ### Step 7: Update System Markdowns
 - Update [`TASKS.md`](TASKS.md) to mark the unit as complete.
@@ -114,7 +119,8 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) stand
 
 Before submitting your pull request or committing to `main`:
 
-- [ ] Does the note contain all mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`)?
+- [ ] Does the note contain all mandatory `<meta>` tags (`note-id`, `note-subject`, `note-unit`, `note-tags`, `note-summary`) and optional audio metadata (`note-audio`, `note-audio-duration`) if applicable?
+- [ ] Are raw `.wav` files excluded from commit (`audio-raw/` / `*.wav` ignored) and only speech-optimized `.mp3`/`.m4a` committed under `audio/<subject>/`?
 - [ ] Does the `<title>` tag strictly match the filename without `.html` (e.g. `<title>DCNU3</title>`) for archive uniformity?
 - [ ] Does `npm run build` (or `node scripts/generate-manifest.js`) run cleanly and produce valid JSON in `notes.json`?
 - [ ] Has the note been verified across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **Desktop** viewports?

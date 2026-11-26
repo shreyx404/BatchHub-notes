@@ -6,7 +6,7 @@
 **Deployment Target**: `https://shreyx404.github.io/BatchHub-notes/`  
 **Consumer Platform**: **BatchHub** (`https://batch-hub-red.vercel.app/notes`)  
 **Status**: Active / Production Ready  
-**Version**: 2.4.0  
+**Version**: 2.5.0  
 
 ---
 
@@ -102,26 +102,29 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 
 ### 4.1 Integration Flow
 1. Contributor writes or updates an HTML note in `notes/<subject>/`.
-2. Contributor runs `npm run build` to synchronize `notes.json`.
-3. Changes are pushed to `main`. GitHub Actions automatically verifies and deploys to GitHub Pages in ~25 seconds.
-4. The admin visits `https://shreyx404.github.io/BatchHub-notes/`, clicks **"Copy Link"** on the note card.
-5. In BatchHub Admin (`/admin/notes`), the admin creates a note entry under the respective subject (e.g. *Data Communication and Networking*) and pastes the URL.
-6. BatchHub links directly to the hosted note for all batch students.
+2. *(Optional Audio)* Contributor places raw `.wav` files in untracked `audio-raw/<subject>/` and runs `npm run audio:process` (`.wav` → `96 kbps` / `44.1 kHz` `.mp3` in `audio/<subject>/`), then runs `npm run audio:sync` to inject the **Audio Note Bar** into matching notes and compile `notes.json` (or drops `.mp3`/`.m4a` directly into `audio/<subject>/`).
+3. Contributor runs `npm run build` to synchronize `notes.json`.
+4. Changes are pushed to `main`. GitHub Actions automatically verifies and deploys to GitHub Pages in ~25 seconds.
+5. The admin visits `https://shreyx404.github.io/BatchHub-notes/`, clicks **"Copy Link"** (and **"Copy Audio URL"** when audio is present) on the note card.
+6. In BatchHub Admin (`/admin/notes`), the admin creates a note entry under the respective subject (e.g. *Data Communication and Networking*) and pastes the note and audio URLs.
+7. BatchHub links directly to the hosted note and streams audio summaries for all batch students.
 
 ---
 
 ## 5. Functional Requirements (FR)
 
 ### FR-1: Master Index Portal (`index.html`)
-- **Hero Display**: Displays archive branding, subtitle, live note counter badge.
+- **Hero Display**: Displays archive branding, subtitle, live note counter badge (and audio count when audio summaries are published).
 - **Search Engine**: Real-time client-side filter searching across `title`, `subject`, `unit`, `summary`, and `tags`.
-- **Subject Filter Pills**: Dynamic buttons allowing one-click filtering by subject code (`All`, `DCN`, `FDS`, `OOP`, `BIOT`, `PAS`).
+- **Subject & Audio Filter Pills**: Dynamic buttons allowing one-click filtering by subject code (`All`, `DCN`, `FDS`, `OOP`, `BIOT`, `PAS`) plus an **`🎧 Audio Available`** toggle pill in `#filterRow`.
 - **Card Ledger Grid**: Render cards containing:
-  - Subject code badge & Unit designation
+  - Subject code badge, Unit designation, and `🎧 Audio` badge (with duration when available)
   - Title and descriptive summary
   - Keyword tag pills
+  - Compact inline audio player (`▶ Listen`, scrub slider, time readout, direct stream link) when `audioUrl` is present
   - Primary button: "Read Notes" (opens in new tab)
   - Secondary button: "Copy Link" (copies canonical GitHub Pages URL with animated toast notification)
+  - Tertiary button: "Copy Audio URL" (when `audioUrl` is present, copies canonical `.mp3`/`.m4a` URL)
 - **Zero Framework Footprint**: Built with vanilla ES6 and scoped CSS.
 
 ### FR-2: Automated Manifest Pipeline (`scripts/generate-manifest.js`)
@@ -132,12 +135,21 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
   - `note-unit`: Unit number (e.g., `Unit 2`)
   - `note-tags`: Comma-delimited keywords
   - `note-summary`: High-level summary of covered concepts
+  - `note-audio` *(optional)*: Repo-relative audio file path (e.g. `audio/dcn/dcn-unit2.mp3`)
+  - `note-audio-duration` *(optional)*: Formatted duration string (e.g. `12:30`)
   - `<title>`: Normalized document title matching the uppercase filename without extension (e.g. `BIOTU1`, `DCNU3`, `OOPU1`) for archive-wide uniformity
-- Generates `notes.json` formatted with consistent indentation and sorted by subject and unit.
-- Zero external npm runtime dependencies (uses Node.js built-in `fs` and `path`).
+- Auto-detects matching `.mp3` / `.m4a` files in `audio/<subject>/` (matching `<note-id>.mp3`/`.m4a` or `<html-basename>.mp3`/`.m4a`) even if `<meta name="note-audio">` is omitted.
+- Computes MP3/M4A duration natively in pure Node.js (`scripts/audio-utils.js`) when `<meta name="note-audio-duration">` is absent.
+- Generates `notes.json` formatted with consistent indentation and sorted by subject and unit, emitting optional `audioPath`, `audioUrl`, and `audioDuration` fields only when audio is present (preserving backwards compatibility).
+- Zero external npm runtime dependencies (uses Node.js built-ins `fs` and `path`).
 
 ### FR-3: Standardized Editorial Note Template & Responsive Architecture (`templates/note-template.html`)
 - **Reading Progress Bar**: Subtle accent bar fixed to top viewport edge showing percentage scrolled.
+- **In-Note Audio Note Bar (`#audioBar`)**:
+  - Zero-dependency vanilla HTML/CSS/JS audio player built with the design tokens (`--surface`, `--surface2`, `--border`, `--warm`, `--text`, etc.), adapting seamlessly to dark and light mode (`batchhub-theme`).
+  - Conditionally displayed when `<meta name="note-audio">` or `data-src` is populated (and injected via `scripts/sync-audio.js` into existing notes that have matching audio files).
+  - Controls: Play/Pause toggle, interactive seek/scrub bar, current time / total duration display, `-15s` / `+15s` skip buttons, and playback speed selector (`1x`, `1.25x`, `1.5x`, `2x`).
+  - Cleanly responsive down to `320px` viewports and hidden inside `@media print`.
 - **Cross-Device Table of Contents (TOC)**:
   - Desktop (>1024px): Fixed sidebar (260px) with smooth scroll tracking and active link indicator.
   - Tablet (641px–1024px): Optimized layout margins with adaptive sidebar or drawer mode.
@@ -161,7 +173,12 @@ The repository strictly mirrors the official **Vishwakarma Institute of Technolo
 ### FR-4: CI/CD Pipeline (`.github/workflows/deploy.yml`)
 - Triggered on push to `main` branch or manual dispatch.
 - Uses official GitHub actions: `checkout@v4`, `configure-pages@v5`, `upload-pages-artifact@v3`, `deploy-pages@v4`.
-- Auto-deploys repository contents directly to GitHub Pages environment.
+- Auto-deploys repository contents (HTML notes, `notes.json`, `index.html`, and `audio/` `.mp3`/`.m4a` assets) directly to GitHub Pages environment.
+
+### FR-5: Audio Optimization & Sync Pipeline (`scripts/process-audio.js`, `scripts/sync-audio.js`)
+- **Raw Staging Protection**: `.gitignore` excludes `audio-raw/` and `*.wav` so large uncompressed recordings are never committed to GitHub.
+- **Speech Optimization (`npm run audio:process`)**: Invokes `ffmpeg` (when installed) to encode raw `.wav` files from `audio-raw/` into `96 kbps` / `44.1 kHz` mono (or `--stereo`) `.mp3` files under `audio/<subject>/`.
+- **Player Synchronization (`npm run audio:sync`)**: Scans all notes, auto-detects matching audio files in `audio/<subject>/`, idempotently injects `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and the self-contained Audio Note Bar into matching HTML files, and rebuilds `notes.json`.
 
 ---
 

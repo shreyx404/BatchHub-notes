@@ -7,8 +7,8 @@
 | **Phase 1** | Repository Scaffolding, CI/CD, Master Portal & Note Template | ✅ **Completed** | 100% |
 | **Phase 2** | Data Communication & Networking (`dcn` - CB2004) | ✅ **Completed** | **100%** (4/4 Units) |
 | **Phase 3** | Multi-Subject Expansion (`fds`, `oop`, `biot`, `pas`) | ✅ **Completed** | **100%** (22/22 Units) |
-| **Phase 4** | Portal & Note Reader Enhancements (Responsive Architecture) | 🟡 **In Progress** | 85% |
-| **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 65% |
+| **Phase 4** | Portal & Note Reader Enhancements (Responsive, Theme, Audio Notes) | 🟡 **In Progress** | 92% |
+| **Phase 5** | BatchHub Admin Sync & Ingestion | 🟡 **In Progress** | 70% |
 
 > **Curriculum Benchmark**: Vishwakarma Institute of Technology (VIT Pune) — CSE-IoTCSBT Pattern A-25.  
 > **Total Note Inventory Scope**: **22 Units** across 5 core subjects. Current published: **22 / 22 Units** (**100% — CURRICULUM COMPLETE!**).
@@ -164,6 +164,13 @@
   - High-contrast, WCAG AAA compliant dual design tokens (`html[data-theme="dark"]`, `html.dark`, `html[data-theme="light"]`, `html.light`).
   - Dynamic vector Sun/Moon SVG icons, `<head>` anti-flash guard, and synchronized `localStorage` preference (`batchhub-theme`).
   - Automated headless Chromium CDP testing across 100% of notes (all 20 notes): verified button existence, click event toggle to light, toggle back to dark, and zero console errors.
+- [x] **Audio Notes Architecture & Pipeline (v2.5.0)**:
+  - Scaffolded canonical `audio/<subject>/` directories (`biot`, `dcn`, `fds`, `oop`, `pas`) and excluded `audio-raw/` + `*.wav` in `.gitignore`.
+  - Built `scripts/process-audio.js` (`ffmpeg` `.wav` → speech-optimized `96 kbps` / `44.1 kHz` `.mp3`), `scripts/audio-utils.js` (auto-detection + zero-dep MP3/M4A duration calculation), and `scripts/sync-audio.js` (idempotent Audio Note Bar injector for matching notes).
+  - Extended `scripts/generate-manifest.js` (`notes.json`) to support `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and auto-detected `.mp3`/`.m4a` files, emitting optional `audioPath`, `audioUrl`, and `audioDuration` fields.
+  - Designed and integrated the zero-dependency **Audio Note Bar** in `templates/note-template.html` (Play/Pause, seek/scrub bar, time display, `-15s`/`+15s` skip, `1x`–`2x` speed selector, dark/light token adaptation, `320px` responsive layout, `@media print` suppression).
+  - Updated `index.html` with **`🎧 Audio Available`** filter pill, `🎧 Audio` card badges, inline compact audio player toggle, and **"Copy Audio URL"** clipboard button.
+- [ ] **Populate Unit Audio Recordings**: Convert and ingest unit `.mp3` audio summaries into `audio/<subject>/` and run `npm run audio:sync` when recordings are provided.
 - [ ] **Mathematical Notation Engine**: Lightweight KaTeX integration for math-intensive subjects (PAS, FDS) without impacting performance.
 - [ ] **Local Reading State**: Save scroll position and completed section checkboxes in `localStorage`.
 - [ ] **Interactive Code Sandboxes**: Lightweight runnable code snippets for OOP and FDS examples.
@@ -173,6 +180,6 @@
 ## Phase 5: BatchHub Portal Integration 🟡
 
 - [x] **URL Schema Verification**: Ensure all note URLs conform to `https://shreyx404.github.io/BatchHub-notes/notes/<subject>/<file>.html`.
-- [x] **Copy-to-Clipboard Flow**: Verified instant copy button functionality for `/admin/notes` dashboard.
+- [x] **Copy-to-Clipboard Flow**: Verified instant copy button functionality (`Copy Link` & `Copy Audio URL`) for `/admin/notes` dashboard.
 - [ ] **Ingest DCN Units 1 & 2 into BatchHub**: Add the live links in the BatchHub Admin console.
 - [ ] **End-to-End Navigation Test**: Verify opening notes directly from the student `/notes` portal.

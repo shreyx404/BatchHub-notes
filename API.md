@@ -1,6 +1,6 @@
 # API & Integration Contract (`API.md`)
 
-> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, and iframe embedding interfaces between **`BatchHub-notes`** (v2.4.0, 20 published notes covering all 22 units — 100% curriculum complete with universal light/dark mode switcher) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
+> **Scope**: This document specifies the data contracts, JSON schemas, URL resolution rules, audio streaming endpoints, and iframe embedding interfaces between **`BatchHub-notes`** (v2.5.0, 20 published notes covering all 22 units — 100% curriculum complete with universal light/dark mode switcher and Audio Notes architecture) and the consumer web platform **BatchHub** (`https://batch-hub-red.vercel.app`).
 
 ---
 
@@ -23,6 +23,10 @@ BatchHub integrates with `BatchHub-notes` through a decoupled static architectur
 │  ┌─────────────────────┐  │                │                               │
 │  │ Direct Tab Link OR  │──┼──HTTP GET──────┼─► notes/<sub/file>.html       │
 │  │ Responsive <iframe> │  │   (Render HTML)│                               │
+│  └─────────────────────┘  │                │                               │
+│  ┌─────────────────────┐  │                │                               │
+│  │ Audio Stream Player │──┼──HTTP Range────┼─► audio/<sub/file>.mp3        │
+│  │ (optional audioUrl) │  │   (MP3/M4A)    │                               │
 │  └─────────────────────┘  │                │                               │
 └───────────────────────────┘                └───────────────────────────────┘
 ```
@@ -79,6 +83,19 @@ The central manifest is located at the root of the deployment:
         "type": "array",
         "items": { "type": "string" },
         "description": "List of searchable technical keywords"
+      },
+      "audioPath": {
+        "type": ["string", "null"],
+        "description": "Optional repository-relative audio file path (e.g. audio/dcn/dcn-unit2.mp3); omitted when no audio exists"
+      },
+      "audioUrl": {
+        "type": ["string", "null"],
+        "format": "uri",
+        "description": "Optional canonical GitHub Pages URL to speech-optimized .mp3/.m4a stream; omitted when no audio exists"
+      },
+      "audioDuration": {
+        "type": ["string", "null"],
+        "description": "Optional formatted duration string (e.g. 12:30); omitted when no audio or duration is unavailable"
       }
     }
   }
@@ -229,21 +246,24 @@ The build tool [`scripts/generate-manifest.js`](file:///c:/Users/shrey/Downloads
 
 | Target Metadata | Extraction Regex Pattern | Fallback Value |
 |---|---|---|
-| `note-id` | `<meta\s+name=["']note-id["']\s+content=["']([^"']*)["']` | File basename without `.html` |
-| `note-subject` | `<meta\s+name=["']note-subject["']\s+content=["']([^"']*)["']` | Parent folder uppercase |
-| `note-unit` | `<meta\s+name=["']note-unit["']\s+content=["']([^"']*)["']` | Empty string `""` |
-| `note-tags` | `<meta\s+name=["']note-tags["']\s+content=["']([^"']*)["']` | Empty array `[]` |
-| `note-summary` | `<meta\s+name=["']note-summary["']\s+content=["']([^"']*)["']` | Empty string `""` |
+| `note-id` | `<meta\s+[^>]*name=["']note-id["'][^>]*content=["']([^"']*)["']` | File basename without `.html` |
+| `note-subject` | `<meta\s+[^>]*name=["']note-subject["'][^>]*content=["']([^"']*)["']` | Parent folder uppercase |
+| `note-unit` | `<meta\s+[^>]*name=["']note-unit["'][^>]*content=["']([^"']*)["']` | Empty string `""` |
+| `note-tags` | `<meta\s+[^>]*name=["']note-tags["'][^>]*content=["']([^"']*)["']` | Empty array `[]` |
+| `note-summary` | `<meta\s+[^>]*name=["']note-summary["'][^>]*content=["']([^"']*)["']` | Empty string `""` |
+| `note-audio` | `<meta\s+[^>]*name=["']note-audio["'][^>]*content=["']([^"']*)["']` | Auto-detect `<note-id>.mp3`/`.m4a` or `<html-basename>.mp3`/`.m4a` in `audio/<subject>/` (omitted if none) |
+| `note-audio-duration` | `<meta\s+[^>]*name=["']note-audio-duration["'][^>]*content=["']([^"']*)["']` | Pure-Node MPEG/M4A header duration parser (`MM:SS`), or omitted |
 | `title` | `<title>([^<]*)<\/title>` | `"Untitled"` |
 
 ---
 
 ## 4. URL Resolution & Deep Linking Contract
 
-### 4.1 Canonical URL Pattern
-All notes resolve at predictable public URLs:
+### 4.1 Canonical URL Patterns
+All notes and audio summaries resolve at predictable public URLs:
 ```
-https://shreyx404.github.io/BatchHub-notes/notes/<subject>/<filename>.html
+Notes: https://shreyx404.github.io/BatchHub-notes/notes/<subject>/<filename>.html
+Audio: https://shreyx404.github.io/BatchHub-notes/audio/<subject>/<note-id-or-basename>.mp3
 ```
 
 ### 4.2 Fragment Anchor Deep Linking
@@ -292,11 +312,13 @@ When registering a note in BatchHub Admin:
   "subjectId": "subj-dcn",
   "unit": 2,
   "externalUrl": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU2.html",
+  "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/dcn/dcn-unit2.mp3",
+  "audioDuration": "12:30",
   "summary": "Comprehensive guide to the OSI 7-Layer Reference Model."
 }
 ```
 
-The master portal (`index.html`) features a dedicated **"Copy Link for BatchHub"** button that places this exact `externalUrl` into the system clipboard with feedback.
+The master portal (`index.html`) features **"Copy Link"** and (for audio-enabled notes) **"Copy Audio URL"** buttons that place `externalUrl` and `audioUrl` into the system clipboard with toast feedback.
 
 ---
 

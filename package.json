@@ -1,9 +1,11 @@
 {
   "name": "batchhub-notes",
-  "version": "2.4.0",
-  "description": "Static HTML notes repository for BatchHub — deployed via GitHub Pages",
+  "version": "2.5.0",
+  "description": "Static HTML notes and audio summaries repository for BatchHub — deployed via GitHub Pages",
   "scripts": {
-    "build": "node scripts/generate-manifest.js"
+    "build": "node scripts/generate-manifest.js",
+    "audio:process": "node scripts/process-audio.js",
+    "audio:sync": "node scripts/sync-audio.js"
   },
   "author": "shreyx404",
   "license": "MIT",

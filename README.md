@@ -13,6 +13,13 @@ Static HTML notes repository for **[BatchHub](https://batch-hub-red.vercel.app)*
 ```
 BatchHub-notes/
 ├── .github/workflows/deploy.yml   ← Auto-deploy to GitHub Pages on push to main
+├── audio/                         ← Speech-optimized .mp3/.m4a audio summaries
+│   ├── biot/                      ← Basics of IoT audio summaries
+│   ├── dcn/                       ← DCN audio summaries (e.g. dcn-unit2.mp3)
+│   ├── fds/                       ← FDS audio summaries
+│   ├── oop/                       ← OOP audio summaries
+│   └── pas/                       ← PAS audio summaries
+├── audio-raw/                     ← [GITIGNORED] Staging folder for raw .wav files
 ├── notes/                         ← Subject folders (mirrors BatchHub database)
 │   ├── biot/                      ← Basics of IoT (CB2005 - 4 Units) [100% COMPLETE]
 │   │   ├── BIOTU1.html            ← Unit 1: Introduction to IoT & Architecture
@@ -39,10 +46,14 @@ BatchHub-notes/
 │       ├── PASU2.html             ← Unit 2: Probability Basics & Distributions
 │       ├── PASU3.html             ← Unit 3: Normal Distribution, Sampling & Statistical Inference
 │       └── PASU4.html             ← Unit 4: Statistical Inference & Regression
-├── templates/note-template.html   ← Reusable editorial note template
-├── scripts/generate-manifest.js   ← Scans notes/ and compiles notes.json
-├── index.html                     ← Standalone index portal with live search
-├── notes.json                     ← Auto-generated manifest of all notes
+├── templates/note-template.html   ← Reusable editorial note template (with Audio Note Bar)
+├── scripts/
+│   ├── audio-utils.js             ← Shared audio auto-detection & duration parser
+│   ├── generate-manifest.js       ← Scans notes/ & audio/ and compiles notes.json
+│   ├── process-audio.js           ← Converts raw .wav -> 96kbps/44.1kHz .mp3 via ffmpeg
+│   └── sync-audio.js              ← Injects Audio Note Bar into matching HTML notes
+├── index.html                     ← Standalone index portal with search, audio filter & player
+├── notes.json                     ← Auto-generated manifest of all notes & audio URLs
 ├── PRD.md                         ← Product Requirements Document
 ├── ARCHITECTURE.md                ← System architecture & integration flows
 ├── API.md                         ← Manifest schema & BatchHub integration contract
@@ -53,7 +64,7 @@ BatchHub-notes/
 ├── CONTRIBUTING.md                ← Contributor guidelines & pull request protocol
 ├── CHANGELOG.md                   ← Version history & release notes
 ├── README.md                      ← Repository overview & public guide
-└── package.json                   ← Build script (npm run build)
+└── package.json                   ← Build & audio scripts (build, audio:process, audio:sync)
 ```
 
 ---
@@ -107,6 +118,17 @@ npm run build
 # or: node scripts/generate-manifest.js
 ```
 
+### 3. Audio Notes Pipeline (Optional Spoken Summaries)
+
+> **Important**: Never commit raw `.wav` files to GitHub (`audio-raw/` and `*.wav` are ignored by `.gitignore`).
+
+1. **From `.wav` recordings** (requires `ffmpeg`): Place raw files in `audio-raw/<subject>/` (e.g. `audio-raw/dcn/dcn-unit2.wav`), then run:
+   ```bash
+   npm run audio:process   # Converts .wav -> 96 kbps / 44.1 kHz .mp3 in audio/<subject>/
+   npm run audio:sync      # Injects Audio Note Bar into matching notes & rebuilds notes.json
+   ```
+2. **From pre-encoded `.mp3` / `.m4a` files**: Drop them into `audio/<subject>/` named `<note-id>.mp3` (e.g. `audio/dcn/dcn-unit2.mp3`) or `<HTML_BASENAME>.mp3` (e.g. `audio/dcn/DCNU2.mp3`), and run `npm run audio:sync` (or `npm run build`). Both auto-detection and explicit `<meta name="note-audio">` / `<meta name="note-audio-duration">` tags are supported.
+
 ---
 
 ## 📝 Adding a New Note
@@ -123,11 +145,13 @@ cp templates/note-template.html notes/dcn/DCNU3.html
 ### Step 2: Configure `<meta>` tags in `<head>`
 
 ```html
-<meta name="note-id"      content="dcn-unit3">
-<meta name="note-subject" content="DCN">
-<meta name="note-unit"    content="Unit 3">
-<meta name="note-tags"    content="Networking, IP Addressing, Subnetting, IPv4, IPv6">
-<meta name="note-summary" content="Complete guide to IP addressing, classful routing, subnetting, CIDR, and IPv6.">
+<meta name="note-id"             content="dcn-unit3">
+<meta name="note-subject"        content="DCN">
+<meta name="note-unit"           content="Unit 3">
+<meta name="note-tags"           content="Networking, IP Addressing, Subnetting, IPv4, IPv6">
+<meta name="note-summary"        content="Complete guide to IP addressing, classful routing, subnetting, CIDR, and IPv6.">
+<meta name="note-audio"          content="audio/dcn/dcn-unit3.mp3"> <!-- Optional -->
+<meta name="note-audio-duration" content="12:30">                   <!-- Optional -->
 <title>DCNU3</title>
 ```
 
@@ -186,10 +210,10 @@ git push origin main
 ## 🔗 Adding Notes to BatchHub
 
 1. Visit the [Notes Archive](https://shreyx404.github.io/BatchHub-notes/).
-2. Locate the note and click **"Copy Link"** (copies canonical URL to clipboard with toast confirmation).
+2. Filter by subject or **`🎧 Audio Available`**, locate the note, and click **"Copy Link"** (and **"Copy Audio URL"** if audio is available — copies canonical URLs to clipboard with toast confirmation).
 3. In BatchHub, navigate to **Admin Dashboard** (`/admin/notes`).
-4. Select the Subject (e.g., *Data Communication and Networking*), enter the title, paste the copied URL, and click **Save Note**.
-5. The note instantly appears in the student gallery under [`https://batch-hub-red.vercel.app/notes`](https://batch-hub-red.vercel.app/notes)!
+4. Select the Subject (e.g., *Data Communication and Networking*), enter the title, paste the copied URL(s), and click **Save Note**.
+5. The note (and optional audio summary) instantly appears in the student gallery under [`https://batch-hub-red.vercel.app/notes`](https://batch-hub-red.vercel.app/notes)!
 
 ---
 

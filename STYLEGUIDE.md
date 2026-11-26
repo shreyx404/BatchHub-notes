@@ -231,6 +231,21 @@ Always nest tables inside `<div class="table-wrap">` to guarantee mobile horizon
 
 ---
 
+### 4.5 Audio Note Bar (`.audio-bar`)
+Use the zero-dependency **Audio Note Bar** directly beneath `.hero` for spoken/podcast unit summaries:
+- **Theme Token Mapping**: Styled exclusively via `--surface`, `--surface2`, `--border`, `--border2`, `--warm`, `--text`, `--text-dim`, `--mono`, and `--sans` (with fallback token mapping for legacy notes), adapting automatically across dark and light mode (`batchhub-theme`).
+- **Required Controls**:
+  - Play / Pause toggle (`#abPlay`) with SVG play/pause state swap
+  - `-15s` / `+15s` skip buttons (`#abBack15`, `#abFwd15`)
+  - Interactive seek/scrub range bar (`#abSeek`) with dynamic `--ab-pct` fill in `var(--warm)`
+  - Current time / total duration readout (`#abTime`, `font-variant-numeric: tabular-nums`)
+  - Playback speed selector (`1x`, `1.25x`, `1.5x`, `2x`, `.ab-rate[aria-pressed]`, persisted in `batchhub-audio-rate`)
+- **Responsive & Print Rules**:
+  - On viewports `<= 560px` (down to `320px`), `.ab-progress-wrap` stacks full-width above the transport controls with `>= 38px` touch targets and zero horizontal overflow.
+  - Strictly hidden in `@media print { .audio-bar { display: none !important; } }`.
+
+---
+
 ## 5. Cross-Device Responsive Standards & Breakpoints
 
 All notes MUST render cleanly across **Mobile** (320px–640px), **Tablet** (641px–1024px), and **PC/Laptop** (>1024px) viewports with zero horizontal overflow.
@@ -270,7 +285,7 @@ Every note MUST include this exact print style block so students can cleanly exp
 
 ```css
 @media print {
-  .sidebar, .toc-toggle, .progress-bar { display: none !important; }
+  .sidebar, .toc-toggle, .progress-bar, .audio-bar { display: none !important; }
   .main { margin-left: 0 !important; padding: 10px !important; max-width: 100% !important; }
   body { background: #ffffff !important; color: #111111 !important; font-size: 12px !important; }
   h1, h2, h3, h4, strong { color: #000000 !important; }

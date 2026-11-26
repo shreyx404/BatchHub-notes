@@ -188,6 +188,24 @@
     border-color: var(--warm-border);
     color: var(--warm);
   }
+  .filter-divider {
+    width: 1px;
+    height: 18px;
+    background: var(--border2);
+    margin: 0 2px;
+  }
+  .pill-audio {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-color: var(--warm-border);
+  }
+  .pill-audio.active {
+    background: var(--warm);
+    border-color: var(--warm);
+    color: var(--bg);
+    font-weight: 600;
+  }
 
   /* ─── NOTES GRID ─── */
   .notes-grid {
@@ -221,6 +239,23 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
+  }
+  .audio-badge {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--warm-bg);
+    border: 1px solid var(--warm-border);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--warm);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
   }
   .subject-badge {
     padding: 3px 10px;
@@ -271,16 +306,112 @@
     letter-spacing: 0.03em;
   }
 
+  /* ─── INLINE CARD AUDIO PLAYER ─── */
+  .card-audio {
+    --ca-pct: 0%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .card-audio-btn {
+    appearance: none;
+    border: 1px solid var(--warm-border);
+    background: var(--warm-bg);
+    color: var(--warm);
+    border-radius: 5px;
+    padding: 4px 9px;
+    min-height: 28px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .card-audio-btn:hover,
+  .card-audio-btn.playing {
+    background: var(--warm);
+    border-color: var(--warm);
+    color: var(--bg);
+  }
+  .card-audio-track {
+    flex: 1 1 80px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+  .card-audio-seek {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    min-width: 0;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      var(--warm) 0%,
+      var(--warm) var(--ca-pct),
+      var(--border2) var(--ca-pct),
+      var(--border2) 100%
+    );
+    outline: none;
+    cursor: pointer;
+  }
+  .card-audio-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--warm);
+    cursor: pointer;
+  }
+  .card-audio-seek::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: var(--warm);
+    cursor: pointer;
+  }
+  .card-audio-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-dim);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .card-audio-open {
+    color: var(--text-dimmer);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .card-audio-open:hover { color: var(--warm); }
+
   .card-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    padding-top: 4px;
+    padding-top: 10px;
     border-top: 1px solid var(--border);
     margin-top: auto;
   }
   .btn {
-    flex: 1;
-    padding: 9px 16px;
+    flex: 1 1 auto;
+    padding: 9px 14px;
     border-radius: 6px;
     font-family: var(--mono);
     font-size: 11px;
@@ -295,6 +426,7 @@
     justify-content: center;
     gap: 6px;
     border: none;
+    white-space: nowrap;
   }
   .btn-read {
     background: var(--accent);
@@ -318,6 +450,17 @@
     border-color: rgba(92,184,120,0.3);
     color: var(--success);
     background: rgba(92,184,120,0.06);
+  }
+  .btn-reset {
+    margin-top: 14px;
+    flex: initial;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+  }
+  .btn-reset:hover {
+    border-color: var(--warm-border);
+    color: var(--warm);
   }
 
   /* ─── EMPTY STATE ─── */
@@ -404,6 +547,9 @@
     .card-actions { flex-direction: column; }
     .btn { min-height: 40px; }
     .pill { min-height: 32px; padding: 6px 14px; }
+    .filter-divider { display: none; }
+    .card-audio { flex-wrap: wrap; }
+    .card-audio-btn { min-height: 34px; }
     .footer { flex-direction: column; gap: 8px; text-align: center; }
   }
 </style>
@@ -424,7 +570,7 @@
     </p>
     <div class="header-badge">
       <span class="count" id="noteCount">—</span>
-      <span>notes published</span>
+      <span id="noteCountLabel">notes published</span>
     </div>
   </header>
 
@@ -437,6 +583,8 @@
     <div class="filter-row" id="filterRow">
       <span class="filter-label">Subject</span>
       <button class="pill active" data-filter="all">All</button>
+      <span class="filter-divider" id="audioDivider" aria-hidden="true"></span>
+      <button class="pill pill-audio" id="audioFilterPill" data-audio-filter="true" type="button" aria-pressed="false">🎧 Audio Available</button>
     </div>
   </div>
 
@@ -469,13 +617,32 @@
   const grid = document.getElementById('notesGrid');
   const searchInput = document.getElementById('searchInput');
   const filterRow = document.getElementById('filterRow');
+  const audioDivider = document.getElementById('audioDivider');
+  const audioFilterPill = document.getElementById('audioFilterPill');
   const noteCountEl = document.getElementById('noteCount');
+  const noteCountLabel = document.getElementById('noteCountLabel');
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
 
   let allNotes = [];
   let activeFilter = 'all';
+  let audioOnly = false;
   let searchQuery = '';
+
+  // Shared single-stream audio player state across portal cards
+  const sharedAudio = new Audio();
+  sharedAudio.preload = 'metadata';
+  let playingNoteId = null;
+
+  function fmtTime(sec) {
+    if (!Number.isFinite(sec) || sec < 0) return '0:00';
+    const s = Math.floor(sec);
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const r = s % 60;
+    if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
+    return `${m}:${String(r).padStart(2, '0')}`;
+  }
 
   // ── Fetch manifest ──
   fetch('notes.json')
@@ -483,6 +650,10 @@
     .then(notes => {
       allNotes = notes;
       noteCountEl.textContent = notes.length;
+      const audioTotal = notes.filter(n => Boolean(n.audioUrl)).length;
+      if (noteCountLabel && audioTotal > 0) {
+        noteCountLabel.textContent = `notes published · ${audioTotal} with audio`;
+      }
       buildFilters(notes);
       renderNotes();
     })
@@ -503,7 +674,7 @@
       pill.className = 'pill';
       pill.dataset.filter = subj;
       pill.textContent = subj;
-      filterRow.appendChild(pill);
+      filterRow.insertBefore(pill, audioDivider);
     }
   }
 
@@ -512,60 +683,156 @@
     const q = searchQuery.toLowerCase();
     const filtered = allNotes.filter(note => {
       if (activeFilter !== 'all' && note.subject !== activeFilter) return false;
+      if (audioOnly && !note.audioUrl) return false;
       if (!q) return true;
       const haystack = [note.title, note.subject, note.unit, note.summary, ...note.tags].join(' ').toLowerCase();
       return haystack.includes(q);
     });
 
     if (filtered.length === 0) {
+      const emptyTitle = audioOnly && allNotes.every(n => !n.audioUrl)
+        ? 'No audio summaries published yet'
+        : 'No notes found';
+      const emptySub = audioOnly && allNotes.every(n => !n.audioUrl)
+        ? 'Audio summaries will appear here once added to audio/<subject>/.'
+        : 'Try adjusting your search or filter.';
       grid.innerHTML = `
         <div class="empty-state">
-          <div class="icon">🔍</div>
-          <h3>No notes found</h3>
-          <p>Try adjusting your search or filter.</p>
+          <div class="icon">${audioOnly ? '🎧' : '🔍'}</div>
+          <h3>${emptyTitle}</h3>
+          <p>${emptySub}</p>
+          <button type="button" class="btn btn-reset" data-reset-filters="true">Reset Filters</button>
         </div>`;
       return;
     }
 
-    grid.innerHTML = filtered.map((note, i) => `
+    const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+
+    grid.innerHTML = filtered.map((note, i) => {
+      const hasAudio = Boolean(note.audioUrl);
+      const isPlayingThis = hasAudio && playingNoteId === note.id && !sharedAudio.paused;
+      const durLabel = note.audioDuration ? ` · ${esc(note.audioDuration)}` : '';
+      const timeInit = note.audioDuration ? `0:00 / ${esc(note.audioDuration)}` : '0:00';
+      return `
       <div class="note-card" style="animation-delay: ${i * 0.06}s">
         <div class="card-top">
           <span class="subject-badge">${esc(note.subject)}</span>
           <span class="unit-label">${esc(note.unit)}</span>
+          ${hasAudio ? `<span class="audio-badge" title="Audio summary available">🎧 Audio${durLabel}</span>` : ''}
         </div>
         <div class="card-title">${esc(note.title)}</div>
         <div class="card-summary">${esc(note.summary)}</div>
         ${note.tags.length ? `<div class="card-tags">${note.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+        ${hasAudio ? `
+        <div class="card-audio" data-audio-id="${esc(note.id)}">
+          <button type="button" class="card-audio-btn${isPlayingThis ? ' playing' : ''}" data-play-note="${esc(note.id)}" aria-label="${isPlayingThis ? 'Pause' : 'Play'} audio summary for ${esc(note.title)}">
+            <span class="ca-icon">${isPlayingThis ? '⏸' : '▶'}</span>
+            <span class="ca-label">${isPlayingThis ? 'Pause' : 'Listen'}</span>
+          </button>
+          <div class="card-audio-track">
+            <input type="range" class="card-audio-seek" data-seek-note="${esc(note.id)}" min="0" max="1000" value="0" step="1" aria-label="Seek audio for ${esc(note.title)}">
+          </div>
+          <span class="card-audio-time">${timeInit}</span>
+          <a class="card-audio-open" href="${esc(note.audioPath || note.audioUrl)}" target="_blank" rel="noopener" title="Open audio file" aria-label="Open audio file for ${esc(note.title)}">↗</a>
+        </div>` : ''}
         <div class="card-actions">
           <a class="btn btn-read" href="${esc(note.path)}" target="_blank">Read Notes</a>
-          <button class="btn btn-copy" data-url="${esc(note.url)}" onclick="copyLink(this)">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <button type="button" class="btn btn-copy" data-copy-url="${esc(note.url)}" data-copy-label="Copy Link">
+            ${copyIcon}
             Copy Link
           </button>
+          ${hasAudio ? `
+          <button type="button" class="btn btn-copy" data-copy-url="${esc(note.audioUrl)}" data-copy-label="Copy Audio URL">
+            ${copyIcon}
+            Copy Audio URL
+          </button>` : ''}
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
+
+    syncActiveCardAudioUI();
   }
 
   function esc(str) {
     const d = document.createElement('div');
-    d.textContent = str;
+    d.textContent = str == null ? '' : String(str);
     return d.innerHTML;
   }
 
+  function syncActiveCardAudioUI() {
+    grid.querySelectorAll('.card-audio').forEach(box => {
+      const id = box.dataset.audioId;
+      const btn = box.querySelector('.card-audio-btn');
+      const icon = box.querySelector('.ca-icon');
+      const label = box.querySelector('.ca-label');
+      const seek = box.querySelector('.card-audio-seek');
+      const timeEl = box.querySelector('.card-audio-time');
+      const note = allNotes.find(n => n.id === id);
+      const fallbackDur = note && note.audioDuration ? note.audioDuration : '';
+
+      if (id === playingNoteId) {
+        const isPlaying = !sharedAudio.paused && !sharedAudio.ended;
+        btn.classList.toggle('playing', isPlaying);
+        icon.textContent = isPlaying ? '⏸' : '▶';
+        label.textContent = isPlaying ? 'Pause' : 'Listen';
+        const dur = Number.isFinite(sharedAudio.duration) && sharedAudio.duration > 0 ? sharedAudio.duration : 0;
+        const cur = Number.isFinite(sharedAudio.currentTime) ? sharedAudio.currentTime : 0;
+        const pct = dur > 0 ? Math.min(100, Math.max(0, (cur / dur) * 100)) : 0;
+        seek.value = Math.round(pct * 10);
+        box.style.setProperty('--ca-pct', pct.toFixed(2) + '%');
+        timeEl.textContent = dur > 0 ? `${fmtTime(cur)} / ${fmtTime(dur)}` : (fallbackDur ? `${fmtTime(cur)} / ${fallbackDur}` : fmtTime(cur));
+      } else {
+        btn.classList.remove('playing');
+        icon.textContent = '▶';
+        label.textContent = 'Listen';
+        seek.value = 0;
+        box.style.setProperty('--ca-pct', '0%');
+        timeEl.textContent = fallbackDur ? `0:00 / ${fallbackDur}` : '0:00';
+      }
+    });
+  }
+
   // ── Copy link handler ──
-  window.copyLink = function (btn) {
-    const url = btn.dataset.url;
-    navigator.clipboard.writeText(url).then(() => {
+  function fallbackCopy(text) {
+    return new Promise((resolve, reject) => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) resolve();
+        else reject(new Error('Clipboard copy failed'));
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  function handleCopy(btn) {
+    const url = btn.dataset.copyUrl;
+    const baseLabel = btn.dataset.copyLabel || 'Copy Link';
+    const copyIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+    const doWrite = (navigator.clipboard && navigator.clipboard.writeText)
+      ? navigator.clipboard.writeText(url).catch(() => fallbackCopy(url))
+      : fallbackCopy(url);
+    doWrite.then(() => {
       btn.classList.add('copied');
       btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Copied!`;
       showToast(`Copied: ${url}`);
       setTimeout(() => {
         btn.classList.remove('copied');
-        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy Link`;
+        btn.innerHTML = `${copyIcon} ${esc(baseLabel)}`;
       }, 2500);
+    }).catch(() => {
+      showToast('Copy failed — copy manually from address bar');
     });
-  };
+  }
 
   // ── Toast ──
   function showToast(msg) {
@@ -574,6 +841,71 @@
     clearTimeout(showToast._timer);
     showToast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
   }
+
+  // ── Delegated Grid Actions (Play, Copy, Reset) ──
+  grid.addEventListener('click', (e) => {
+    const resetBtn = e.target.closest('[data-reset-filters]');
+    if (resetBtn) {
+      activeFilter = 'all';
+      audioOnly = false;
+      searchQuery = '';
+      searchInput.value = '';
+      filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
+      if (audioFilterPill) {
+        audioFilterPill.classList.remove('active');
+        audioFilterPill.setAttribute('aria-pressed', 'false');
+      }
+      renderNotes();
+      return;
+    }
+
+    const copyBtn = e.target.closest('[data-copy-url]');
+    if (copyBtn) {
+      handleCopy(copyBtn);
+      return;
+    }
+
+    const playBtn = e.target.closest('[data-play-note]');
+    if (playBtn) {
+      const noteId = playBtn.dataset.playNote;
+      const note = allNotes.find(n => n.id === noteId);
+      if (!note || !note.audioUrl) return;
+      const targetSrc = note.audioPath || note.audioUrl;
+
+      if (playingNoteId === noteId) {
+        if (sharedAudio.paused) {
+          sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
+        } else {
+          sharedAudio.pause();
+        }
+      } else {
+        playingNoteId = noteId;
+        sharedAudio.src = targetSrc;
+        sharedAudio.play().catch(() => showToast('Unable to play audio stream'));
+      }
+      syncActiveCardAudioUI();
+    }
+  });
+
+  grid.addEventListener('input', (e) => {
+    const seekInput = e.target.closest('[data-seek-note]');
+    if (!seekInput) return;
+    const noteId = seekInput.dataset.seekNote;
+    if (playingNoteId !== noteId || !Number.isFinite(sharedAudio.duration) || sharedAudio.duration <= 0) return;
+    const pct = parseFloat(seekInput.value) / 1000;
+    sharedAudio.currentTime = pct * sharedAudio.duration;
+    syncActiveCardAudioUI();
+  });
+
+  sharedAudio.addEventListener('play', syncActiveCardAudioUI);
+  sharedAudio.addEventListener('pause', syncActiveCardAudioUI);
+  sharedAudio.addEventListener('ended', syncActiveCardAudioUI);
+  sharedAudio.addEventListener('loadedmetadata', syncActiveCardAudioUI);
+  sharedAudio.addEventListener('timeupdate', syncActiveCardAudioUI);
+  sharedAudio.addEventListener('error', () => {
+    showToast('Audio file could not be loaded');
+    syncActiveCardAudioUI();
+  });
 
   // ── Search ──
   searchInput.addEventListener('input', (e) => {
@@ -585,7 +917,14 @@
   filterRow.addEventListener('click', (e) => {
     const pill = e.target.closest('.pill');
     if (!pill) return;
-    filterRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    if (pill.dataset.audioFilter) {
+      audioOnly = !audioOnly;
+      pill.classList.toggle('active', audioOnly);
+      pill.setAttribute('aria-pressed', audioOnly ? 'true' : 'false');
+      renderNotes();
+      return;
+    }
+    filterRow.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
     activeFilter = pill.dataset.filter;
     renderNotes();

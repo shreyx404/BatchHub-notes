@@ -12,6 +12,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - KaTeX mathematical formula rendering engine.
 - In-note search shortcuts and client-side reading progress tracking.
+- Unit `.mp3` audio summary recordings across core subjects.
+
+## [2.5.0] - 2026-11-26
+
+### Added
+- **Audio Notes Architecture & `.wav` → `.mp3` Optimization Pipeline**:
+  - Scaffolded canonical `audio/<subject>/` directories (`audio/biot/`, `audio/dcn/`, `audio/fds/`, `audio/oop/`, `audio/pas/`).
+  - Updated `.gitignore` to ignore `audio-raw/` and `*.wav` so uncompressed recordings are never committed to GitHub.
+  - Added `scripts/process-audio.js` (`npm run audio:process`) using `ffmpeg` to convert `.wav` recordings in `audio-raw/` into speech-optimized `.mp3` files (`96 kbps`, `44.1 kHz`, mono by default or `--stereo`).
+  - Added `scripts/audio-utils.js` (shared zero-dependency audio discovery, metadata parsing, and pure-Node MP3/M4A duration calculation) and `scripts/sync-audio.js` (`npm run audio:sync`) to idempotently inject the Audio Note Bar and metadata into matching note HTML files.
+- **Manifest Audio Schema Extensions (`scripts/generate-manifest.js` & `notes.json`)**:
+  - Added support for `<meta name="note-audio">` and `<meta name="note-audio-duration">` tags plus automatic detection of `<note-id>.mp3`/`.m4a` and `<html-basename>.mp3`/`.m4a` in `audio/<subject>/`.
+  - Emits optional `audioPath`, `audioUrl`, and `audioDuration` fields in `notes.json` when audio exists, preserving full backwards compatibility by omitting them when a note has no audio.
+- **In-Note Audio Note Bar (`templates/note-template.html` & `scripts/sync-audio.js`)**:
+  - Built a zero-dependency vanilla HTML/CSS/JS **Audio Note Bar** (`#audioBar`) using design tokens (`--surface`, `--surface2`, `--border`, `--warm`, `--text`, etc.) with automatic dark/light theme adaptation (`batchhub-theme`).
+  - Features Play/Pause toggle, interactive seek/scrub bar, current time / total duration display, `-15s` / `+15s` skip buttons, and playback speed selector (`1x`, `1.25x`, `1.5x`, `2x`) with `localStorage` rate persistence (`batchhub-audio-rate`).
+  - Responsive down to `320px` viewports with zero horizontal overflow and hidden in `@media print`.
+- **Master Portal Audio Support (`index.html`)**:
+  - Added **`🎧 Audio Available`** toggle filter pill in `#filterRow`.
+  - Added `🎧 Audio` badge, compact inline play/listen player with scrub slider, and **"Copy Audio URL"** button alongside **"Copy Link"** on cards with `audioUrl` (plus clipboard `execCommand` fallback).
+- **System Documentation Suite Synchronization (v2.5.0)**:
+  - Bumped `package.json` to `2.5.0` and synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
 
 ## [2.4.0] - 2026-11-14
 

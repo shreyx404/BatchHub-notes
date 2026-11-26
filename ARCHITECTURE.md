@@ -9,24 +9,32 @@
 |                          DEVELOPMENT WORKFLOW                           |
 |                                                                         |
 |  +--------------------+        +---------------------+                  |
-|  | Author HTML Note   |        | Run Generator       |                  |
-|  | (notes/<sub/file>) | -----> | (generate-manifest) |                  |
-|  +--------------------+        +----------+----------+                  |
-|                                           |                             |
-|                                           v                             |
-|                                 +--------------------+                  |
-|                                 | Updated notes.json |                  |
-|                                 +---------+----------+                  |
-|                                           |                             |
-|                                           v                             |
-|                                 +--------------------+                  |
-|                                 | Update System MDs  |                  |
-|                                 | (PRD, AGENTS, etc) |                  |
-|                                 +---------+----------+                  |
-+-------------------------------------------|-----------------------------+
-                                            |
-                                            | git push origin main
-                                            v
+|  | Author HTML Note   |        | Raw .wav Staging    |                  |
+|  | (notes/<sub/file>) |        | (audio-raw/ ignored)|                  |
+|  +---------+----------+        +----------+----------+                  |
+|            |                              | npm run audio:process       |
+|            |                              v (ffmpeg -> 96k/44.1k mp3)   |
+|            |                   +---------------------+                  |
+|            |                   | audio/<sub/*.mp3>   |                  |
+|            |                   +----------+----------+                  |
+|            |                              |                             |
+|            +--------------+---------------+                             |
+|                           | npm run audio:sync / npm run build          |
+|                           v                                             |
+|                 +--------------------+                                  |
+|                 | Updated notes.json |                                  |
+|                 | & Audio Note Bars  |                                  |
+|                 +---------+----------+                                  |
+|                           |                                             |
+|                           v                                             |
+|                 +--------------------+                                  |
+|                 | Update System MDs  |                                  |
+|                 | (PRD, AGENTS, etc) |                                  |
+|                 +---------+----------+                                  |
++---------------------------|---------------------------------------------+
+                            |
+                            | git push origin main
+                            v
 +-------------------------------------------------------------------------+
 |                            CI/CD & HOSTING                              |
 |                                                                         |
@@ -46,21 +54,23 @@
          |                       |
          v                       v
 +--------------------+  +-------------------------------------------------+
-| Master Portal      |  | Standalone Note Pages                           |
-| (index.html)       |  | (notes/dcn/DCNU1.html, notes/oop/OOPU1.html, etc)|
-| - Live search      |  | - Sticky Sidebar TOC                            |
-| - Filter pills     |  | - Reading progress indicator                    |
-| - Copy Link utility|  | - Print-optimized stylesheet                    |
+| Master Portal      |  | Standalone Note Pages & Audio Streams           |
+| (index.html)       |  | (notes/<sub/file>.html + audio/<sub/*.mp3>)     |
+| - Live search      |  | - Sticky Sidebar TOC & Progress Bar             |
+| - Subject & Audio  |  | - In-Note Audio Note Bar (when audio exists)    |
+|   filter pills     |  | - Print-optimized stylesheet (hides audio bar)  |
+| - Inline audio play|  |                                                 |
+| - Copy Link / Audio|  |                                                 |
 +---------+----------+  +------------------------+------------------------+
           |                                      ^
-          | Admin copies URL                     |
+          | Admin copies Note & Audio URLs       |
           v                                      |
 +------------------------------------------------+------------------------+
 |                      BATCHHUB MAIN APPLICATION                         |
 |                 (https://batch-hub-red.vercel.app)                     |
 |                                                                         |
 |  +---------------------------+       +-------------------------------+  |
-|  | Admin Portal              | ----> | Student Notes Dashboard       |  |
+|  | Admin Portal              | ----> | Student Notes & Audio Player  |  |
 |  | (/admin/notes)            |       | (/notes?subject=subj-dcn)     |  |
 |  +---------------------------+       +-------------------------------+  |
 +-------------------------------------------------------------------------+
@@ -79,10 +89,12 @@
 - **Client-Side Manifest Consumption**: Uses the browser's native `fetch()` API to consume `notes.json`.
 - **Search & Filter Subsystem**:
   - Implements multi-field search against title, subject, unit, summary, and tags.
-  - Generates subject filter pills dynamically based on available subjects in `notes.json`.
+  - Generates subject filter pills dynamically based on available subjects in `notes.json`, alongside an **`🎧 Audio Available`** toggle filter pill in `#filterRow`.
+- **Inline Audio Preview & Badges**:
+  - Note cards with `audioUrl` display an `🎧 Audio` badge (with duration when present) and a compact shared-stream inline audio player (`▶ Listen` / `⏸ Pause`, scrub bar, time display).
 - **Admin Clipboard Utility**:
   - Automatically computes canonical URLs: `https://shreyx404.github.io/BatchHub-notes/<path>`.
-  - Uses `navigator.clipboard.writeText()` with interactive animated toast notifications.
+  - Provides **"Copy Link"** and (for audio-enabled cards) **"Copy Audio URL"** buttons using `navigator.clipboard.writeText()` (with `execCommand` fallback) and animated toast notifications.
 
 ### 2.3 Standalone Note Documents & Responsive Architecture
 Each note is an independent, single-file HTML document requiring zero external runtime framework dependencies:
@@ -102,57 +114,71 @@ Each note is an independent, single-file HTML document requiring zero external r
   - **Zero-Blowout Architecture**: Multi-column grids converted to `display: block` at `<=960px`; negative margins strictly banned on mobile containers; root safety constraints (`overflow-x: hidden; max-width: 100vw;`) on `html` and `body`.
   - **Universal Table & Diagram Containers**: Tables and multi-unit diagrams (checkpoints, frame anatomy, pipelines) encapsulated in dedicated scroll containers (`.tblwrap`, `.tw`) with `-webkit-overflow-scrolling: touch;`, completely preventing horizontal page blowouts.
   - **Fluid Headings**: Header typography uses CSS `clamp()` to scale down smoothly across 320px–500px screens without text clipping.
-- **Print Styles**: `@media print` directives to convert dark mode to high-contrast ink-efficient monochrome layout with clean page breaks.
+- **Print Styles**: `@media print` directives to convert dark mode to high-contrast ink-efficient monochrome layout with clean page breaks, while hiding interactive UI such as `.theme-btn`, `.sidebar`, `.toc-toggle`, `.progress-bar`, and `.audio-bar`.
+- **In-Note Audio Note Bar (`#audioBar`)**: Zero-dependency HTML5 `<audio preload="metadata">` controller using theme tokens (`--surface`, `--surface2`, `--border`, `--warm`, `--text`) for automatic dark/light adaptation. Features Play/Pause, seek/scrub bar, current time/duration, `-15s`/`+15s` skip buttons, and playback speed selector (`1x`, `1.25x`, `1.5x`, `2x`). Conditionally shown on `templates/note-template.html` and automatically injected by `scripts/sync-audio.js` into notes with matching audio files.
 
 ---
 
 ## 3. Data Flow & Manifest Contract
 
-### 3.1 Metadata Extraction Pipeline (`scripts/generate-manifest.js`)
-The build script parses all HTML files under `notes/` without parsing the full DOM:
+### 3.1 Metadata Extraction & Audio Resolution Pipeline (`scripts/generate-manifest.js`)
+The build script parses all HTML files under `notes/` without parsing the full DOM and resolves matching audio files via `scripts/audio-utils.js`:
 
 ```
-[ HTML Note File ]
-       │
-       ▼  (Regex Pattern Extraction)
-<meta name="note-id" content="...">
-<meta name="note-subject" content="...">
-<meta name="note-unit" content="...">
-<meta name="note-tags" content="...">
-<meta name="note-summary" content="...">
-<title>...</title>
-       │
-       ▼
-[ Canonical JSON Schema Record ]
-       │
-       ▼
-[ Formatted notes.json ]
+[ HTML Note File ]                          [ audio/<subject>/ ]
+       │                                           │
+       ▼  (Regex Pattern Extraction)               ▼  (Auto-detect <id>.mp3/.m4a
+<meta name="note-id" content="...">                   or <basename>.mp3/.m4a)
+<meta name="note-subject" content="...">           │
+<meta name="note-unit" content="...">              │
+<meta name="note-tags" content="...">              │
+<meta name="note-summary" content="...">           │
+<meta name="note-audio" content="..."> (optional)  │
+<meta name="note-audio-duration">      (optional)  │
+<title>...</title>                                 │
+       │                                           │
+       └───────────────────┬───────────────────────┘
+                           ▼ (Pure-Node MP3/M4A duration fallback)
+             [ Canonical JSON Schema Record ]
+                           │
+                           ▼
+                 [ Formatted notes.json ]
 ```
 
 ### 3.2 JSON Schema (`notes.json`)
+*(Note: `audioPath`, `audioUrl`, and `audioDuration` are omitted when a note has no audio file yet to preserve backwards compatibility.)*
+
 ```json
 [
   {
-    "id": "dcn-unit1",
+    "id": "dcn-unit2",
     "subject": "DCN",
-    "unit": "Unit 1",
-    "title": "DCNU1",
-    "summary": "Comprehensive notes covering networking fundamentals, data communication components, transmission modes, network topologies, transmission media, and network types.",
-    "path": "notes/dcn/DCNU1.html",
-    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU1.html",
-    "tags": ["Networking", "Data Communication", "Fundamentals", "Signals", "Transmission"]
+    "unit": "Unit 2",
+    "title": "DCNU2",
+    "summary": "Comprehensive examination notes on the OSI 7-Layer Reference Model...",
+    "path": "notes/dcn/DCNU2.html",
+    "url": "https://shreyx404.github.io/BatchHub-notes/notes/dcn/DCNU2.html",
+    "tags": ["Networking", "OSI", "Reference Model"],
+    "audioPath": "audio/dcn/dcn-unit2.mp3",
+    "audioUrl": "https://shreyx404.github.io/BatchHub-notes/audio/dcn/dcn-unit2.mp3",
+    "audioDuration": "12:30"
   }
 ]
 ```
+
+### 3.3 Audio Conversion & Sync Pipeline (`scripts/process-audio.js`, `scripts/sync-audio.js`)
+- Uncompressed recordings placed in `audio-raw/` are ignored by Git (`.gitignore` excludes `audio-raw/` and `*.wav`).
+- `npm run audio:process` uses `ffmpeg` (`libmp3lame`, `96 kbps`, `44.1 kHz`, mono by default) to convert `.wav` recordings into GitHub-friendly `.mp3` files under `audio/<subject>/`.
+- `npm run audio:sync` injects `<meta name="note-audio">`, `<meta name="note-audio-duration">`, and the Audio Note Bar cleanly into every note HTML file that has a corresponding audio file, then rebuilds `notes.json`.
 
 ---
 
 ## 4. Subject Directory Specification & Academic Mapping
 
-To maintain strict parity with VIT Pune's CSE-IoTCSBT (Pattern A-25) curriculum and BatchHub's database subjects, the folder taxonomy is locked:
+To maintain strict parity with VIT Pune's CSE-IoTCSBT (Pattern A-25) curriculum and BatchHub's database subjects, both `notes/` and `audio/` folder taxonomies are locked:
 
 ```
-notes/
+notes/ & audio/
 ├── biot/     # Basics of IoT (CB2005 - 4 Units)
 ├── dcn/      # Data Communication and Networking (CB2004 - 4 Units)
 ├── fds/      # Fundamentals of Data Structures (CB2003 - 6 Units)

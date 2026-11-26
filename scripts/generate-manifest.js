@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * generate-manifest.js
- * Scans all .html files under notes/ and generates notes.json
+ * Scans all .html files under notes/ and audio files under audio/ and generates notes.json
  * Zero dependencies — uses only Node.js built-ins (fs, path)
  *
  * Usage:  node scripts/generate-manifest.js
@@ -10,55 +10,20 @@
 
 const fs = require('fs');
 const path = require('path');
+const {
+  ROOT_DIR,
+  NOTES_DIR,
+  BASE_URL,
+  extractMeta,
+  extractTitle,
+  findHtmlFiles,
+  resolveAudioForNote
+} = require('./audio-utils');
 
-const NOTES_DIR = path.join(__dirname, '..', 'notes');
-const OUTPUT_FILE = path.join(__dirname, '..', 'notes.json');
-const BASE_URL = 'https://shreyx404.github.io/BatchHub-notes';
-
-function decodeEntities(str) {
-  return str
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
-}
+const OUTPUT_FILE = path.join(ROOT_DIR, 'notes.json');
 
 /**
- * Extract content of a <meta name="key" content="value"> tag
- */
-function extractMeta(html, name) {
-  const regex = new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']`, 'i');
-  const match = html.match(regex);
-  return match ? decodeEntities(match[1].trim()) : '';
-}
-
-/**
- * Extract <title>...</title> content
- */
-function extractTitle(html) {
-  const match = html.match(/<title>([^<]*)<\/title>/i);
-  return match ? decodeEntities(match[1].trim()) : 'Untitled';
-}
-
-/**
- * Recursively find all .html files in a directory
- */
-function findHtmlFiles(dir, fileList = []) {
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      findHtmlFiles(fullPath, fileList);
-    } else if (entry.isFile() && entry.name.endsWith('.html')) {
-      fileList.push(fullPath);
-    }
-  }
-  return fileList;
-}
-
-/**
- * Main: scan notes, extract metadata, write manifest
+ * Main: scan notes, extract metadata & audio links, write manifest
  */
 function main() {
   if (!fs.existsSync(NOTES_DIR)) {
@@ -75,10 +40,11 @@ function main() {
   }
 
   const manifest = [];
+  let audioCount = 0;
 
   for (const filePath of htmlFiles) {
     const html = fs.readFileSync(filePath, 'utf-8');
-    const relativePath = path.relative(path.join(__dirname, '..'), filePath).replace(/\\/g, '/');
+    const relativePath = path.relative(ROOT_DIR, filePath).replace(/\\/g, '/');
 
     const id = extractMeta(html, 'note-id');
     const subject = extractMeta(html, 'note-subject');
@@ -87,7 +53,7 @@ function main() {
     const summary = extractMeta(html, 'note-summary');
     const title = extractTitle(html);
 
-    manifest.push({
+    const entry = {
       id: id || path.basename(filePath, '.html'),
       subject: subject || path.basename(path.dirname(filePath)).toUpperCase(),
       unit: unit || '',
@@ -96,7 +62,24 @@ function main() {
       path: relativePath,
       url: `${BASE_URL}/${relativePath}`,
       tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : []
-    });
+    };
+
+    const audio = resolveAudioForNote(filePath, html);
+    if (audio) {
+      audioCount += 1;
+      if (audio.missingMetaTarget) {
+        console.warn(`⚠  Audio referenced by <meta name="note-audio"> in ${relativePath} not found at ${audio.audioPath}`);
+      }
+      if (audio.audioPath) {
+        entry.audioPath = audio.audioPath;
+      }
+      entry.audioUrl = audio.audioUrl;
+      if (audio.audioDuration) {
+        entry.audioDuration = audio.audioDuration;
+      }
+    }
+
+    manifest.push(entry);
   }
 
   // Sort by subject, then by unit
@@ -106,11 +89,20 @@ function main() {
   });
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(manifest, null, 2), 'utf-8');
-  console.log(`✅  notes.json generated — ${manifest.length} note(s) found:\n`);
+  console.log(`✅  notes.json generated — ${manifest.length} note(s) found (${audioCount} with audio):\n`);
   for (const note of manifest) {
     console.log(`   ${note.subject} · ${note.unit} · ${note.title}`);
-    console.log(`   → ${note.url}\n`);
+    console.log(`   → ${note.url}`);
+    if (note.audioUrl) {
+      const dur = note.audioDuration ? ` (${note.audioDuration})` : '';
+      console.log(`   🎧 ${note.audioUrl}${dur}`);
+    }
+    console.log('');
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = { main };

@@ -16,3 +16,7 @@ Desktop.ini
 # Logs
 *.log
 npm-debug.log*
+
+# Raw uncompressed audio staging (never commit .wav files)
+audio-raw/
+*.wav
