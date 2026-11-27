@@ -110,14 +110,16 @@
   - [x] OOP fundamentals vs C, I/O streams, dynamic memory (`new`/`delete`), classes & objects.
   - [x] Access specifiers, `this` pointer, constructors/destructors, static members, friend functions, overloading.
   - [x] Complete 13-chapter lecture suite: const/control structures, memory map, inheritance, virtual functions, templates, and file handling.
-- [x] **Units 3 & 4: Java Programming (Lectures 14–21)** (`OOPU2.html`) ✅
+- [x] **Units 3 & 4: Java Programming (Lectures 14–23)** (`OOPU2.html`) ✅
   - [x] JVM/JRE/JDK architecture, bytecode execution pipeline, Java primitives, reference types, string immutability.
   - [x] OOP in Java: classes, objects, Heap vs Stack memory, garbage collection, constructors, method overloading.
   - [x] Inheritance (`extends`), `super()`, method overriding, runtime polymorphism (dynamic method dispatch), `final`, `instanceof`.
   - [x] Abstraction: `abstract` classes vs `interface`, multiple interface implementation, packages & access modifiers.
-  - [x] Exception handling: `try-catch-finally`, multi-catch, checked vs unchecked exceptions, `throw`/`throws`, custom exceptions.
-  - [x] GUI & Event Programming: AWT vs Swing, layout managers (`BorderLayout`, `FlowLayout`, `GridLayout`), event delegation model & listeners.
-  - [x] In-note search (`/` hotkey), theme toggle (dark/light), reading progress bar, off-canvas TOC drawer, copyable code snippets, `@media print`.
+  - [x] Exception handling: `try-catch-finally`, multi-catch (incl. Java 7 pipe syntax), nested `try`, checked vs unchecked, `throw`/`throws`, custom exceptions, `final` vs `finally` vs `finalize()`.
+  - [x] GUI & Event-Driven Programming: component/container basics, AWT controls & window menus (`MenuBar`/`Menu`/`MenuItem`), Swing extensions (`JFrame`, `JPanel`, `JRadioButton`, `JTextArea`, `JOptionPane`, etc.), layout managers (`BorderLayout`, `FlowLayout`, `GridLayout`, `CardLayout`, `GridBagLayout`), Delegation Event Model (sources, event classes, listeners & Adapter classes).
+  - [x] `java.util` & Collection Framework: `Scanner`, `StringTokenizer`, `Random`, `Arrays`, `Collections`; `Collection` vs `Map` hierarchy; Sequence (`ArrayList` vs `Vector`), `Set`, `Queue`, `Map`, and internal Hashing (`hashCode()`/`equals()` contract, chaining, treeification, load factor).
+  - [x] JDBC Programming: 4 driver types, `DriverManager` & 7 connection steps, Oracle & MySQL connectivity, `Statement` / `PreparedStatement` / `CallableStatement`, `ResultSet` cursors, and end-to-end CRUD operations.
+  - [x] In-note search (`/` hotkey), theme toggle (dark/light), reading progress bar, off-canvas TOC drawer, copyable code snippets, `@media print`, and 22-question self-test.
 
 ### 3. Basics of IoT (BIoT — CB2005) — `notes/biot/` (4 Units) ✅ 100% Complete
 - [x] **Unit 1: Introduction to IoT** (`BIOTU1.html`) ✅

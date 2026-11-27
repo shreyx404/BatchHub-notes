@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - In-note search shortcuts and client-side reading progress tracking.
 - Unit `.mp3` audio summary recordings for DCN, FDS, and PAS.
 
+## [2.5.2] - 2026-11-27
+
+### Added & Updated
+- **OOP Units 3 & 4 (`notes/oop/OOPU2.html`) Expanded to Complete Syllabus Coverage (Lectures 14–23)**:
+  - **Exception Handling (`#lec19`)**: Added Java 7 union multi-catch syntax (`19.7`), User-Defined / Custom Exceptions (`19.12` — `InvalidAgeException` with `throw`/`throws`), and a dedicated **`final` vs `finally` vs `finalize()`** deep-dive (`19.13` with comparison matrix, `System.gc()` demo, and Java 9 deprecation note).
+  - **GUI Design & Event-Driven Programming (`#lec2021`)**: Added **Basics of Components & Using Containers** (`20.2`), complete working **AWT Registration Form** (`20.3`), **`Adding a Menu to a Window`** (`20.5` — `MenuBar` / `Menu` / `MenuItem` / `CheckboxMenuItem` / submenus / `ActionListener`), working Java examples for **`GridLayout`**, **`CardLayout`**, and **`GridBagLayout`** (`21.4`), explicit **Event-Driven Programming & EDT Event-Handling Mechanism** (`21.5`), **`EventObject` → `AWTEvent` hierarchy, Event Sources & Registration Methods table, and Adapter Classes** (`21.7` — `MouseAdapter` & `WindowAdapter`), and extended **Swing components** demo (`21.8` — `JRadioButton` + `ButtonGroup`, `JCheckBox`, `JTextArea`, `JScrollPane`, `JOptionPane`).
+  - **Java Utilities (`java.util`) & Collection Framework (`#lec22`)**: Added complete Lecture 22 covering `java.util` utilities (`Scanner`, `StringTokenizer`, `Random`, `Date`/`Calendar`, `Arrays`, `Collections`), Collection Framework hierarchy (`Iterable` → `Collection` → `List`/`Set`/`Queue` vs separate `Map`), Sequence in practice (**`ArrayList` vs `Vector`** with worked demos & comparison table), **`Set`** (`HashSet`, `LinkedHashSet`, `TreeSet`) & `PriorityQueue`, **`Map`** (`HashMap`, `LinkedHashMap`, `TreeMap`, `Hashtable`), and **Understanding Hashing** (bucket indexing, collisions, separate chaining, Java 8 Red-Black treeification, load factor `0.75`, rehashing, SVG bucket diagram, and the `equals()`/`hashCode()` contract).
+  - **JDBC — Java Database Connectivity (`#lec23`)**: Added complete Lecture 23 covering JDBC architecture (`java.sql`/`javax.sql`, 2-tier vs 3-tier), all **4 JDBC Driver Types** (Bridge, Native-API, Network Protocol, Thin Pure-Java), **`DriverManager` & the 7 connection steps**, **Oracle & MySQL connectivity** programs, **Types of JDBC Statements** (`Statement`, `PreparedStatement`, `CallableStatement` with `IN`/`OUT` parameters), **`ResultSet` cursors & `ResultSetMetaData`**, and complete **CRUD Operations** (`INSERT`, `SELECT`, `UPDATE`, `DELETE`) with transaction control notes.
+  - **Cover, Rapid Revision & Manifest**: Updated `<meta>` tags, topbar/cover index (`L14–23`), master comparison tables, 20 output traps, rules cheat-sheet, facts & figures, and expanded Self-Test from 15 to 22 questions.
+  - **Verification**: Compiled all 15 new/updated Java programs via `javac` (JDK 27), ran all 8 console demos to verify exact outputs, rebuilt `notes.json` via `npm run build`, and verified `OOPU2.html` in headless Chrome CDP across `1280px`, `768px`, `375px`, and `320px` (0 horizontal overflow, 0 runtime errors, `@media print` hides `#audioBar`, theme toggle & search verified).
+  - **Documentation Synchronization**: Updated `package.json` to `2.5.2` and synchronized all 10 system markdowns (`PRD.md`, `AGENTS.md`, `TASKS.md`, `ARCHITECTURE.md`, `README.md`, `SYLLABUS.md`, `STYLEGUIDE.md`, `API.md`, `CONTRIBUTING.md`, `CHANGELOG.md`).
+
 ## [2.5.1] - 2026-11-26
 
 ### Added

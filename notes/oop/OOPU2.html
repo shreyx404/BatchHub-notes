@@ -6,9 +6,9 @@
 <meta name="note-id" content="oop-unit2">
 <meta name="note-subject" content="OOP">
 <meta name="note-unit" content="Units 3 & 4">
-<meta name="note-tags" content="OOP, Java, JVM, JRE, JDK, Classes, Objects, Inheritance, Polymorphism, Interfaces, Packages, Exception Handling, AWT, Swing, Event Handling">
-<meta name="note-summary" content="Complete lecture notes for CB2006 Units 3 & 4 covering Java Programming (Lectures 14–21): JVM/JRE/JDK architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling, AWT/Swing GUI components, and event-driven programming.">
-<meta name="description" content="Deep, exam-oriented Java notes for Unit II, Lectures 14–21: JVM/JRE/JDK, OOP, inheritance, polymorphism, interfaces, packages, exceptions, AWT/Swing and event handling. Single-file, offline, mobile-first.">
+<meta name="note-tags" content="OOP, Java, JVM, JRE, JDK, Classes, Objects, Inheritance, Polymorphism, Interfaces, Packages, Exception Handling, Final Finally Finalize, AWT, Swing, Menu, Event Handling, Delegation Event Model, Adapters, java.util, Collection Framework, ArrayList, Vector, Set, Map, Hashing, JDBC, DriverManager, PreparedStatement, CallableStatement, ResultSet, CRUD">
+<meta name="note-summary" content="Complete lecture notes for CB2006 Units 3 & 4 covering Java Programming (Lectures 14–23): JVM/JRE/JDK architecture, OOP in Java, inheritance, polymorphism, interfaces, packages, exception handling (final vs finally vs finalize), AWT/Swing GUI with menus & event delegation, java.util & Collection Framework (ArrayList, Vector, Set, Map, Hashing), and JDBC CRUD operations.">
+<meta name="description" content="Deep, exam-oriented Java notes for CB2006 Units 3 & 4, Lectures 14–23: JVM/JRE/JDK, OOP, inheritance, polymorphism, interfaces, packages, exceptions, AWT/Swing GUI & event handling, java.util, Collections & Hashing, and JDBC. Single-file, offline, mobile-first.">
 <meta name="theme-color" content="#FAFAFA">
 <meta name="note-audio" content="audio/oop/OOPU2.mp3">
 <meta name="note-audio-duration" content="28:28">
@@ -585,7 +585,7 @@ figcaption{margin-top:.6rem;font-size:.72rem;color:var(--fg3);font-family:var(--
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </button>
   <a class="brand" href="#top">
-    <b>Java</b><small>Unit II · L14–21</small>
+    <b>Java</b><small>Units 3 &amp; 4 · L14–23</small>
   </a>
   <div class="search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
@@ -632,11 +632,11 @@ figcaption{margin-top:.6rem;font-size:.72rem;color:var(--fg3);font-family:var(--
       <path d="M25 12c0-3 2.5-3 2.5-6"/>
       <path d="M32 12c0-3 2.5-3 2.5-6"/>
     </svg>
-    <div class="kicker">Unit II · Programming in Java</div>
+    <div class="kicker">Units 3 &amp; 4 · Programming in Java</div>
     <h1>Java<em>.</em></h1>
-    <p class="lede">Deep, exam-focused notes for Lectures 14–21 — from the JVM and language fundamentals through objects, inheritance, polymorphism, interfaces, exceptions and GUI programming. Every definition, every program, every classic exam trap — in one self-contained file that works offline on any screen.</p>
+    <p class="lede">Deep, exam-focused notes for Lectures 14–23 — from the JVM and language fundamentals through objects, inheritance, polymorphism, interfaces, exceptions, GUI &amp; event handling, <code>java.util</code> &amp; the Collection Framework, and JDBC database programming. Every definition, every program, every classic exam trap — in one self-contained file that works offline on any screen.</p>
     <ul class="meta">
-      <li>Lectures 14–21</li>
+      <li>Lectures 14–23</li>
       <li>Diagrams &amp; tables</li>
       <li>Programs + outputs</li>
       <li>Offline · single file</li>
@@ -645,7 +645,7 @@ figcaption{margin-top:.6rem;font-size:.72rem;color:var(--fg3);font-family:var(--
       <a class="btn" href="#lec14">Start with Lecture 14</a>
       <a class="btn outline" href="#revise">Skip to Rapid Revision</a>
     </div>
-    <p class="src">Compiled from the Unit II lecture slide decks (Lectures 14, 15, 16, 17, 18, 19, 20 &amp; 21 — “Introduction to Java”, Dr. Priya M Shelke) and expanded with standard Java facts, tables and diagrams for exam preparation.</p>
+    <p class="src">Compiled from the CB2006 Java lecture slide decks (Lectures 14–21, “Introduction to Java”, Dr. Priya M Shelke) and expanded with complete syllabus modules on <code>final/finally/finalize</code>, AWT Menus &amp; Adapters, <code>java.util</code> &amp; the Collection Framework, and JDBC for exam preparation.</p>
 
     <div class="idx">
       <a class="idx-card" href="#lec14"><span class="idx-no">LECTURE 14</span><p class="idx-t">Introduction to Java</p><p class="idx-d">History · JDK editions · JVM / JRE / JDK · features · platform independence &amp; WORA · Hello World · data types · operators · casting · control flow · methods</p></a>
@@ -653,9 +653,11 @@ figcaption{margin-top:.6rem;font-size:.72rem;color:var(--fg3);font-family:var(--
       <a class="idx-card" href="#lec16"><span class="idx-no">LECTURE 16</span><p class="idx-t">Inheritance, Aggregation, Overloading &amp; Overriding</p><p class="idx-d">extends · single / multilevel / hierarchical inheritance · why no multiple inheritance · aggregation (HAS-A) · method overloading &amp; type promotion · overriding · super</p></a>
       <a class="idx-card" href="#lec17"><span class="idx-no">LECTURE 17</span><p class="idx-t">final, Polymorphism &amp; Binding</p><p class="idx-d">final variable / method / class · blank finals · runtime polymorphism &amp; upcasting · static vs dynamic binding · instanceof · downcasting</p></a>
       <a class="idx-card" href="#lec18"><span class="idx-no">LECTURE 18</span><p class="idx-t">Abstraction, Interfaces, Packages &amp; Arrays</p><p class="idx-d">abstract classes · interfaces &amp; multiple inheritance · default / static / marker / nested interfaces · packages · access modifiers · encapsulation · Object class · arrays</p></a>
-      <a class="idx-card" href="#lec19"><span class="idx-no">LECTURE 19</span><p class="idx-t">Exception Handling</p><p class="idx-d">checked vs unchecked vs error · Throwable hierarchy · try–catch–finally · multi-catch · nested try · throw vs throws · JVM call-stack handling</p></a>
-      <a class="idx-card" href="#lec2021"><span class="idx-no">LECTURES 20 &amp; 21</span><p class="idx-t">GUI: AWT &amp; Swing with Event Handling</p><p class="idx-d">AWT hierarchy &amp; components · containers · layout managers · Swing vs AWT · JFrame / JPanel / components · delegation event model · ActionListener</p></a>
-      <a class="idx-card" href="#revise"><span class="idx-no">RAPID REVISION</span><p class="idx-t">Last-Minute Cheat Sheet</p><p class="idx-d">All comparison tables in one place · classic output traps · rules cheat-sheet · facts &amp; figures · 15-question self-test</p></a>
+      <a class="idx-card" href="#lec19"><span class="idx-no">LECTURE 19</span><p class="idx-t">Exception Handling</p><p class="idx-d">checked vs unchecked vs error · Throwable hierarchy · try–catch–finally · multi-catch · nested try · throw vs throws · custom exceptions · final vs finally vs finalize</p></a>
+      <a class="idx-card" href="#lec2021"><span class="idx-no">LECTURES 20 &amp; 21</span><p class="idx-t">GUI: AWT, Swing &amp; Event Handling</p><p class="idx-d">components &amp; containers · AWT controls &amp; menus · layout managers · extending GUI with Swing · delegation event model · sources, classes, listeners &amp; adapters</p></a>
+      <a class="idx-card" href="#lec22"><span class="idx-no">LECTURE 22</span><p class="idx-t">java.util &amp; Collection Framework</p><p class="idx-d">Scanner, StringTokenizer, Random, Arrays &amp; Collections · Collection vs Map hierarchy · List (ArrayList vs Vector) · Set · Queue · Map · hashing &amp; equals/hashCode</p></a>
+      <a class="idx-card" href="#lec23"><span class="idx-no">LECTURE 23</span><p class="idx-t">JDBC — Java Database Connectivity</p><p class="idx-d">4 driver types · 7 connection steps · DriverManager · Oracle &amp; MySQL connectivity · Statement, PreparedStatement &amp; CallableStatement · ResultSet · CRUD</p></a>
+      <a class="idx-card" href="#revise"><span class="idx-no">RAPID REVISION</span><p class="idx-t">Last-Minute Cheat Sheet</p><p class="idx-d">All comparison tables in one place · classic output traps · rules cheat-sheet · facts &amp; figures · 22-question self-test</p></a>
     </div>
   </div>
 </section>
@@ -3530,6 +3532,16 @@ rest of the code...</pre></div>
     <div class="out"><span class="out-lbl">Output</span><pre>Arithmetic Exception occurs
 rest of the code</pre></div>
     <aside class="callout trap"><span class="lbl">Why Arithmetic, not ArrayIndexOutOfBounds?</span><p>In <code>a[5] = 30 / 0;</code> the right-hand side <code>30 / 0</code> is evaluated <b>before</b> the value is stored into index 5 — so the arithmetic blow-up happens first and its catch runs. The out-of-bounds store never gets a chance. If you reverse the catch order (Exception first), the specific blocks become <b>unreachable</b> — a compile-time error.</p></aside>
+    <h4>Java 7 union multi-catch (single catch for multiple exceptions)</h4>
+    <p>Since Java 7, if two unrelated exceptions need the <b>same handling code</b>, you can combine them with a single pipe (<code>|</code>) instead of duplicating catch blocks (note: the parameter <code>e</code> becomes implicitly <code>final</code>):</p>
+    <div class="code" data-label="MultiPipeCatch.java">
+<pre><code>try {
+  int[] a = new int[3];
+  a[5] = 10 / 0;
+} catch (ArithmeticException | ArrayIndexOutOfBoundsException e) {
+  System.out.println("Math or index error: " + e.getMessage());
+}</code></pre>
+    </div>
   </article>
 
   <article class="topic" id="t19-8">
@@ -3691,24 +3703,107 @@ Outer catch: java.lang.NullPointerException:
     <p>No try–catch anywhere on the call stack — so the default handler prints the trace and the JVM exits. That last line <code>at Geeks.main(Geeks.java:4)</code> is the stack trace doing its job: naming the class, method and line of the failure.</p>
   </article>
 
+  <article class="topic" id="t19-12">
+    <h3><span class="tno">19.12</span> User-Defined (Custom) Exceptions</h3>
+    <p>When Java’s built-in exception classes do not describe a domain-specific failure (such as insufficient balance or invalid voter age), you create a <b>user-defined exception</b> by extending <code>Exception</code> (for a <b>checked</b> custom exception) or <code>RuntimeException</code> (for an <b>unchecked</b> custom exception) and passing a descriptive message to <code>super(msg)</code>.</p>
+    <div class="code" data-label="CustomExceptionDemo.java">
+<pre><code>class InvalidAgeException extends Exception {
+  public InvalidAgeException(String message) {
+    super(message);              // stores error message in Throwable
+  }
+}
+
+public class CustomExceptionDemo {
+  static void validate(int age) throws InvalidAgeException {
+    if (age &lt; 18) {
+      throw new InvalidAgeException("Not eligible to vote: age = " + age);
+    }
+    System.out.println("Welcome to vote!");
+  }
+
+  public static void main(String[] args) {
+    try {
+      validate(16);
+    } catch (InvalidAgeException e) {
+      System.out.println("Caught custom exception: " + e.getMessage());
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Caught custom exception: Not eligible to vote: age = 16</pre></div>
+  </article>
+
+  <article class="topic" id="t19-13">
+    <h3><span class="tno">19.13</span> final vs finally vs finalize()</h3>
+    <p>Despite sharing the same prefix, these three belong to completely different parts of Java — a <b>modifier keyword</b>, an <b>exception-handling block</b>, and a <b>garbage-collection callback method</b>:</p>
+    <div class="cards c3">
+      <div class="card"><span class="card-k">KEYWORD</span><h4>final</h4><p>Restricts modification: a <code>final</code> variable is constant, a <code>final</code> method cannot be overridden, and a <code>final</code> class cannot be inherited.</p></div>
+      <div class="card"><span class="card-k">BLOCK</span><h4>finally</h4><p>Paired with <code>try</code> (and optional <code>catch</code>) to run cleanup code unconditionally — whether an exception occurs or not.</p></div>
+      <div class="card"><span class="card-k">METHOD</span><h4>finalize()</h4><p>A <code>protected</code> method of <code>java.lang.Object</code> invoked by the Garbage Collector right before reclaiming an unreachable object’s memory.</p></div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:720px">
+      <thead><tr><th>Feature</th><th><code>final</code></th><th><code>finally</code></th><th><code>finalize()</code></th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Category</td><td><b>Keyword</b> (access/non-access modifier)</td><td><b>Block</b> in exception handling</td><td><b>Method</b> in <code>java.lang.Object</code></td></tr>
+        <tr><td class="rowh">Applies to</td><td>Variables, methods, classes</td><td><code>try</code> / <code>try-catch</code> statements</td><td>Objects eligible for Garbage Collection</td></tr>
+        <tr><td class="rowh">Primary purpose</td><td>Immutability &amp; inheritance restriction</td><td>Guaranteed resource cleanup (closing files/DB)</td><td>Pre-destruction cleanup before GC reclaims object</td></tr>
+        <tr><td class="rowh">Execution trigger</td><td>Enforced by compiler at compile time (runtime constant value)</td><td>Runs automatically after <code>try</code>/<code>catch</code> completes</td><td>Called by GC thread at most once per object (if GC runs)</td></tr>
+        <tr><td class="rowh">When skipped?</td><td>Never — it is a compile-time restriction</td><td>Only on <code>System.exit()</code>, JVM crash, or infinite loop</td><td>Not guaranteed if JVM exits before GC runs</td></tr>
+        <tr><td class="rowh">Modern status</td><td>Core language feature</td><td>Core feature (complemented by <code>try-with-resources</code>)</td><td>Deprecated in <b>Java 9</b> (replaced by <code>AutoCloseable</code> / <code>Cleaner</code>)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code" data-label="FinalFinallyFinalizeDemo.java">
+<pre><code>class ResourceBox {
+  final int ID = 101;                 // final variable: cannot be changed
+
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("finalize() called before GC reclaims box #" + ID);
+  }
+}
+
+public class FinalFinallyFinalizeDemo {
+  public static void main(String[] args) {
+    ResourceBox box = new ResourceBox();
+    try {
+      System.out.println("Using ResourceBox ID = " + box.ID);
+      int x = 10 / 0;
+    } catch (ArithmeticException e) {
+      System.out.println("catch: handled " + e.getMessage());
+    } finally {
+      box = null;                     // make object unreachable
+      System.out.println("finally: always executes for cleanup");
+    }
+    System.gc();                      // requests JVM to run Garbage Collector
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Using ResourceBox ID = 101
+catch: handled / by zero
+finally: always executes for cleanup
+finalize() called before GC reclaims box #101</pre></div>
+    <aside class="callout trap"><span class="lbl">Exam trap</span><p><code>System.gc()</code> only <i>requests</i> garbage collection — it does not force immediate execution, though on standard JVMs it usually triggers <code>finalize()</code> in short demos. Remember also: <code>finalize()</code> runs <b>at most once</b> per object, and any uncaught exception thrown inside <code>finalize()</code> is ignored by the GC.</p></aside>
+  </article>
+
   <aside class="callout key"><span class="lbl">Lecture 19 checkpoint</span>
     <ul>
       <li>Reproduce the Throwable tree and classify any exception as checked / unchecked / error.</li>
       <li>Name the five keywords and their precise roles.</li>
-      <li>State the two multi-catch rules (one catch at a time; specific before general).</li>
+      <li>State the two multi-catch rules (one catch at a time; specific before general) and Java 7 pipe syntax.</li>
       <li>Give the three situations in which finally does not run.</li>
-      <li>Differentiate throw (instance, inside body, one) from throws (classes, in signature, many).</li>
+      <li>Differentiate throw (instance, inside body, one) from throws (classes, in signature, many) and write a custom exception.</li>
+      <li>Contrast <code>final</code> (keyword), <code>finally</code> (block), and <code>finalize()</code> (Object GC method) in a 6-row table.</li>
       <li>Narrate the JVM call-stack search in four steps.</li>
     </ul>
   </aside>
 </section>
 <!-- ============================ LECTURES 20 & 21 ============================ -->
-<section class="lec" id="lec2021" data-no="20·21" data-title="GUI: AWT &amp; Swing with Event Handling">
+<section class="lec" id="lec2021" data-no="20·21" data-title="GUI: AWT, Swing &amp; Event-Driven Programming">
   <header class="lec-head">
     <span class="ghost" aria-hidden="true">20·21</span>
     <div class="kicker">Lectures 20 &amp; 21</div>
-    <h2>GUI: AWT &amp; Swing with Event Handling</h2>
-    <p class="lec-sub">Building window-based applications — the AWT toolkit, the Swing component library, the layout managers, and the Delegation Event Model that makes interfaces respond.</p>
+    <h2>Designing GUIs: AWT, Swing &amp; Event-Driven Programming</h2>
+    <p class="lec-sub">Building window-based applications — basics of components and containers, AWT widgets, menus, layout managers, extending GUI features with Swing, and the Delegation Event Model with sources, classes, listeners &amp; adapters.</p>
   </header>
 
   <article class="topic" id="t20-1">
@@ -3744,28 +3839,42 @@ Outer catch: java.lang.NullPointerException:
   </article>
 
   <article class="topic" id="t20-2">
-    <h3><span class="tno">20.2</span> The Four AWT Containers</h3>
-    <p><b>Containers are special AWT components that can hold and organize other GUI components</b> — buttons, labels, text fields, checkboxes. Java AWT provides four main containers:</p>
+    <h3><span class="tno">20.2</span> Basics of Components &amp; Using Containers</h3>
+    <p>Every Java GUI rests on two building blocks: <b>components</b> (visual controls the user sees and clicks) and <b>containers</b> (areas that hold, group, and lay out those components).</p>
+    <h4>Basics of Components (<code>java.awt.Component</code>)</h4>
+    <p><code>Component</code> is the abstract superclass of almost all AWT user-interface elements (except menu classes, which inherit from <code>MenuComponent</code>). Every component encapsulates position, dimensions, colours, font, and visibility, exposing core methods inherited across both AWT and Swing:</p>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:640px">
+      <thead><tr><th>Method</th><th>Role on any Component</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh"><code>setSize(w, h)</code> / <code>setLocation(x, y)</code></td><td>Resize component in pixels / move top-left corner inside parent container</td></tr>
+        <tr><td class="rowh"><code>setBounds(x, y, w, h)</code></td><td>Combine location + size in one call (effective when layout manager is <code>null</code>)</td></tr>
+        <tr><td class="rowh"><code>setVisible(boolean)</code></td><td>Show or hide the component or top-level window (top-level windows start hidden!)</td></tr>
+        <tr><td class="rowh"><code>setEnabled(boolean)</code></td><td>Enable or grey out user interaction (e.g. disabling a Submit button)</td></tr>
+        <tr><td class="rowh"><code>setFont(Font)</code> / <code>setForeground(Color)</code> / <code>setBackground(Color)</code></td><td>Customize typeface, text colour, and background fill</td></tr>
+      </tbody>
+    </table></div>
+    <h4>Using Containers (<code>java.awt.Container</code>)</h4>
+    <p><b>Containers are special AWT components that can hold and organize other GUI components</b> — because <code>Container</code> itself extends <code>Component</code>, containers can be nested (e.g. placing a <code>Panel</code> inside a <code>Frame</code>). Use <code>add(comp)</code>, <code>remove(comp)</code>, and <code>setLayout(mgr)</code> to manage children. Java AWT provides four main containers:</p>
     <dl class="defs">
       <div><dt>Window</dt><dd>A <b>top-level container representing a graphical window without a title bar, border or menu bar</b>. It serves as the base class for other top-level containers such as Frame and Dialog.</dd></div>
-      <div><dt>Panel</dt><dd>A <b>lightweight container used to group and organize related components</b> within a window or frame — commonly used to divide a user interface into sections.</dd></div>
-      <div><dt>Frame</dt><dd>A top-level container that <b>includes a title bar, border and optional menu bar</b>. It is <b>the most commonly used container for standalone AWT applications</b>.</dd></div>
-      <div><dt>Dialog</dt><dd>A <b>temporary pop-up window</b> used to interact with the user — displaying messages, warnings, confirmations or collecting input. It is <b>usually associated with a parent frame</b>.</dd></div>
+      <div><dt>Panel</dt><dd>A <b>lightweight sub-container without a title bar or border used to group and organize related components</b> within a window or frame — commonly used to mix layout managers inside one UI.</dd></div>
+      <div><dt>Frame</dt><dd>A top-level container that <b>includes a title bar, border and optional menu bar</b>. It is <b>the most commonly used container for standalone AWT applications</b>. Create it by <b>extending <code>Frame</code></b> (inheritance) or <b>instantiating <code>new Frame()</code></b> (association).</dd></div>
+      <div><dt>Dialog</dt><dd>A <b>temporary pop-up window</b> used to interact with the user — displaying messages, warnings, confirmations or collecting input. It is <b>usually associated with a parent frame</b> and can be <i>modal</i> (blocks parent until closed).</dd></div>
     </dl>
   </article>
 
   <article class="topic" id="t20-3">
-    <h3><span class="tno">20.3</span> Common AWT Components</h3>
+    <h3><span class="tno">20.3</span> AWT Components — Reference &amp; Working Program</h3>
     <div class="tbl-wrap"><table class="tbl" style="--mw:680px">
       <thead><tr><th>Component</th><th>Role</th></tr></thead>
       <tbody>
         <tr><td class="rowh"><code>Label</code></td><td>Displays a single line of read-only text</td></tr>
         <tr><td class="rowh"><code>Button</code></td><td>A clickable button that performs an action when pressed</td></tr>
-        <tr><td class="rowh"><code>TextField</code></td><td>Lets users enter and edit a single line of text</td></tr>
+        <tr><td class="rowh"><code>TextField</code></td><td>Lets users enter and edit a single line of text (also <code>TextArea</code> for multi-line)</td></tr>
         <tr><td class="rowh"><code>Checkbox</code></td><td>Enables users to select or deselect an option</td></tr>
         <tr><td class="rowh"><code>CheckboxGroup</code></td><td>Groups checkboxes so only one option can be selected at a time (radio behaviour)</td></tr>
         <tr><td class="rowh"><code>Choice</code></td><td>A drop-down list from which the user selects one item</td></tr>
-        <tr><td class="rowh"><code>List</code></td><td>Displays a list of items; allows single or multiple selections</td></tr>
+        <tr><td class="rowh"><code>List</code></td><td>Displays a scrollable list of items; allows single or multiple selections</td></tr>
         <tr><td class="rowh"><code>Canvas</code></td><td>A blank area for custom drawing and graphics</td></tr>
         <tr><td class="rowh"><code>Scrollbar</code></td><td>Scrolls content vertically or horizontally</td></tr>
         <tr><td class="rowh"><code>Menu · MenuItem</code></td><td>Builds menus and menu items inside a menu bar</td></tr>
@@ -3774,6 +3883,55 @@ Outer catch: java.lang.NullPointerException:
         <tr><td class="rowh"><code>Toolkit</code></td><td>Access to platform-specific GUI resources and utility methods</td></tr>
       </tbody>
     </table></div>
+    <h4>Using AWT containers &amp; components together</h4>
+    <p>Notice the two essentials in pure AWT: (1) group controls cleanly inside a <code>Panel</code> inside a <code>Frame</code>, and (2) attach a <code>WindowListener</code> (or <code>WindowAdapter</code>) because clicking the close button on an AWT <code>Frame</code> does nothing by default unless you call <code>dispose()</code> / <code>System.exit(0)</code>:</p>
+    <div class="code" data-label="AwtRegistrationForm.java — Frame + Panel + AWT controls">
+<pre><code>import java.awt.*;
+import java.awt.event.*;
+
+public class AwtRegistrationForm extends Frame {
+  public AwtRegistrationForm() {
+    setTitle("AWT Student Form");
+    setSize(380, 260);
+    setLayout(new BorderLayout(8, 8));
+
+    Panel form = new Panel(new GridLayout(4, 2, 6, 6));
+    form.add(new Label("Student Name:"));
+    TextField nameField = new TextField(15);
+    form.add(nameField);
+
+    form.add(new Label("Branch:"));
+    Choice branch = new Choice();
+    branch.add("CSE-IoT");
+    branch.add("Computer Engg");
+    branch.add("IT");
+    form.add(branch);
+
+    form.add(new Label("Track:"));
+    Panel trackPanel = new Panel(new FlowLayout(FlowLayout.LEFT));
+    CheckboxGroup grp = new CheckboxGroup();
+    trackPanel.add(new Checkbox("Java", grp, true));
+    trackPanel.add(new Checkbox("C++", grp, false));
+    form.add(trackPanel);
+
+    form.add(new Label("Hostel:"));
+    form.add(new Checkbox("Required"));
+
+    Button submit = new Button("Register");
+    add(form, BorderLayout.CENTER);
+    add(submit, BorderLayout.SOUTH);
+
+    addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) { dispose(); }
+    });
+    setVisible(true);
+  }
+
+  public static void main(String[] args) {
+    new AwtRegistrationForm();
+  }
+}</code></pre>
+    </div>
   </article>
 
   <article class="topic" id="t20-4">
@@ -3813,9 +3971,75 @@ Outer catch: java.lang.NullPointerException:
     </div>
   </article>
 
+  <article class="topic" id="t20-5">
+    <h3><span class="tno">20.5</span> Adding a Menu to a Window (AWT &amp; Swing)</h3>
+    <p>Menus live inside a strict four-tier containment chain — notice that menu classes inherit from <code>MenuComponent</code> (not <code>Component</code>) in AWT, and attach directly to a <code>Frame</code> (or <code>JFrame</code>) rather than via <code>add()</code>:</p>
+    <div class="flow stack">
+      <span class="n">Frame / JFrame</span><span class="arr"></span>
+      <span class="n">MenuBar / JMenuBar</span><span class="arr"></span>
+      <span class="n fill">Menu / JMenu (e.g. File, Edit)</span><span class="arr"></span>
+      <span class="n">MenuItem / JMenuItem · CheckboxMenuItem · Submenu</span>
+    </div>
+    <ol class="steps">
+      <li>Create a <b><code>MenuBar</code></b> (or <code>JMenuBar</code>) to span the top of the window.</li>
+      <li>Create one or more <b><code>Menu</code></b> objects (top-level headings such as <i>File</i>, <i>Edit</i>) and add them to the menu bar with <code>mb.add(menu)</code>.</li>
+      <li>Create <b><code>MenuItem</code></b>, <b><code>CheckboxMenuItem</code></b>, or nested <b><code>Menu</code></b> (submenu) entries, insert dividers with <code>menu.addSeparator()</code>, and add them to the menu.</li>
+      <li>Attach the menu bar to the window using <b><code>frame.setMenuBar(mb)</code></b> in AWT (or <b><code>frame.setJMenuBar(jmb)</code></b> in Swing).</li>
+      <li>Attach an <b><code>ActionListener</code></b> to each <code>MenuItem</code> (or <code>ItemListener</code> to a <code>CheckboxMenuItem</code>) to handle clicks.</li>
+    </ol>
+    <div class="code" data-label="AwtMenuDemo.java — AWT MenuBar + Submenu + ActionListener">
+<pre><code>import java.awt.*;
+import java.awt.event.*;
+
+public class AwtMenuDemo extends Frame implements ActionListener {
+  Label status = new Label("Select a menu option...");
+
+  public AwtMenuDemo() {
+    setTitle("AWT Menu Window");
+    setSize(380, 220);
+
+    MenuBar mb = new MenuBar();
+    Menu file = new Menu("File");
+    Menu exportSub = new Menu("Export");       // nested submenu
+
+    MenuItem mNew = new MenuItem("New", new MenuShortcut(KeyEvent.VK_N));
+    MenuItem mExit = new MenuItem("Exit");
+    CheckboxMenuItem mWrap = new CheckboxMenuItem("Word Wrap", true);
+    exportSub.add(new MenuItem("As PDF"));
+    exportSub.add(new MenuItem("As HTML"));
+
+    file.add(mNew);
+    file.add(mWrap);
+    file.add(exportSub);
+    file.addSeparator();                       // horizontal divider line
+    file.add(mExit);
+    mb.add(file);
+    setMenuBar(mb);                            // attach MenuBar to Frame
+
+    mNew.addActionListener(this);
+    mExit.addActionListener(this);
+    add(status, BorderLayout.SOUTH);
+
+    addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) { dispose(); }
+    });
+    setVisible(true);
+  }
+
+  public void actionPerformed(ActionEvent e) {
+    if ("Exit".equals(e.getActionCommand())) dispose();
+    else status.setText("Clicked: " + e.getActionCommand());
+  }
+
+  public static void main(String[] args) { new AwtMenuDemo(); }
+}</code></pre>
+    </div>
+    <aside class="callout tip"><span class="lbl">Menu rule</span><p>In AWT use <code>frame.setMenuBar(mb)</code>; in Swing use <code>jframe.setJMenuBar(jmb)</code> (Section 21.8). Only <code>Frame</code>/<code>JFrame</code> (and applets/dialogs with root panes in Swing) host a menu bar — a plain <code>Panel</code> cannot.</p></aside>
+  </article>
+
   <article class="topic" id="t21-1">
-    <h3><span class="tno">21.1</span> Java Swing</h3>
-    <aside class="callout def"><span class="lbl">Definition</span><p><b>Java Swing is a part of the Java Foundation Classes (JFC) used to create window-based applications.</b> It is <b>built on top of the AWT API and entirely written in Java</b>. The JFC is a set of GUI components that simplify desktop development. <b>Unlike AWT, Swing provides platform-independent and lightweight components</b>. The classes live in the <b><code>javax.swing</code></b> package — <code>JButton</code>, <code>JTextField</code>, <code>JTextArea</code>, <code>JRadioButton</code>, <code>JCheckBox</code>, <code>JMenu</code>, <code>JColorChooser</code> and so on.</p></aside>
+    <h3><span class="tno">21.1</span> Extending GUI Features Using Swing Components</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p><b>Java Swing is a part of the Java Foundation Classes (JFC) used to extend AWT and build rich, platform-independent desktop GUIs.</b> It is <b>built on top of the AWT API and entirely written in Java</b>. <b>Unlike AWT, Swing provides lightweight components</b> painted directly by Java rather than native OS peers, supporting a <b>pluggable look-and-feel</b>, tooltips, icons, borders, and MVC data models. The classes live in the <b><code>javax.swing</code></b> package — <code>JButton</code>, <code>JTextField</code>, <code>JTextArea</code>, <code>JRadioButton</code>, <code>JCheckBox</code>, <code>JMenu</code>, <code>JTable</code>, <code>JTree</code>, <code>JTabbedPane</code>, <code>JOptionPane</code>, <code>JColorChooser</code> and so on.</p></aside>
     <h4>AWT vs Swing — the standard table</h4>
     <div class="tbl-wrap"><table class="tbl" style="--mw:680px">
       <thead><tr><th></th><th>AWT</th><th>Swing</th></tr></thead>
@@ -4008,37 +4232,65 @@ frame.add(panel);
 frame.pack();
 frame.setVisible(true);</code></pre>
     </div>
+    <div class="vs">
+      <div class="vs-col">
+        <span class="vs-tag">GridLayout — uniform rows × cols</span>
+        <div class="code" data-label="GridLayoutDemo.java"><pre><code>JPanel grid = new JPanel(new GridLayout(2, 3, 6, 6));
+for (int i = 1; i &lt;= 6; i++) {
+  grid.add(new JButton("Btn " + i));
+}</code></pre></div>
+      </div>
+      <div class="vs-col">
+        <span class="vs-tag">CardLayout — switchable views</span>
+        <div class="code" data-label="CardLayoutDemo.java"><pre><code>CardLayout cl = new CardLayout();
+JPanel cards = new JPanel(cl);
+cards.add(new JLabel("Home Page"), "home");
+cards.add(new JLabel("Profile Page"), "profile");
+cl.show(cards, "profile");   // switch card by name</code></pre></div>
+      </div>
+    </div>
+    <div class="code" data-label="GridBagLayout — multi-cell spanning with GridBagConstraints">
+<pre><code>JPanel p = new JPanel(new GridBagLayout());
+GridBagConstraints gbc = new GridBagConstraints();
+gbc.fill = GridBagConstraints.HORIZONTAL;
+gbc.gridx = 0; gbc.gridy = 0; p.add(new JButton("One"), gbc);
+gbc.gridx = 1; gbc.gridy = 0; p.add(new JButton("Two"), gbc);
+gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2;   // spans 2 columns!
+p.add(new JButton("Spanning Both Columns"), gbc);</code></pre>
+    </div>
     <aside class="callout key"><span class="lbl">Remember</span><p><b>BorderLayout is the default for JFrame; FlowLayout is the default for JPanel.</b> And GridBagLayout is the sophisticated one — grid cells with spanning, driven by <code>GridBagConstraints</code>.</p></aside>
   </article>
 
   <article class="topic" id="t21-5">
-    <h3><span class="tno">21.5</span> Event Handling &amp; the Delegation Event Model</h3>
-    <aside class="callout def"><span class="lbl">Definition</span><p><b>A change in the state of an object is known as an event</b> — the event describes the change in the state of the source. Events are generated as a result of <b>user interaction with the GUI components</b>: clicking a button, moving the mouse, typing a character, selecting an item from a list, scrolling the page. <b>Event handling is the mechanism that controls the event and decides what should happen if an event occurs</b> — the code that runs when an event occurs is the <b>event handler</b>.</p></aside>
+    <h3><span class="tno">21.5</span> Event-Driven Programming, Handling Process &amp; Delegation Event Model</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p>In <b>Event-Driven Programming</b>, the execution flow is governed by external events (mouse clicks, keystrokes, timers, network signals) rather than a fixed top-to-bottom script. <b>A change in the state of an object is known as an event</b> — the event describes the state change of the source. <b>Event handling is the mechanism that detects events and dispatches responses</b> via code blocks called <b>event handlers</b>.</p></aside>
+    <p>Unlike sequential console programs that block at <code>Scanner.nextInt()</code> and exit after <code>main()</code> finishes, a GUI app starts an infinite <b>Event Dispatch Thread (EDT)</b> loop that listens for OS/UI inputs and wakes registered handlers whenever events arrive.</p>
     <h4>Two types of events</h4>
     <div class="cards c2">
       <div class="card"><span class="card-k">TYPE 01</span><h4>Foreground events</h4><p><b>Require direct interaction of the user</b> — generated by a person interacting with the graphical components: clicking a button, moving the mouse, typing a character, selecting from a list, scrolling the page.</p></div>
       <div class="card"><span class="card-k">TYPE 02</span><h4>Background events</h4><p><b>Don’t require the interaction of the end user</b> — operating-system interrupts, hardware or software failure, timer expiration, operation completion.</p></div>
     </div>
-    <h4>Java uses the Delegation Event Model</h4>
-    <p>The model has two pillars:</p>
+    <h4>The Delegation Event Model (Java 1.1+)</h4>
+    <p>In Java 1.0, events bubbled blindly up the container hierarchy (slow and coupled). Modern Java uses the <b>Delegation Event Model</b>, built on three collaborating pieces:</p>
     <dl class="defs">
-      <div><dt>Source</dt><dd>The object <b>on which the event occurs</b>. The source is responsible for <b>providing information about the occurred event to its handler</b>. Java provides classes for the source objects, and registration methods (<code>addActionListener(…)</code>) so listeners can subscribe.</dd></div>
-      <div><dt>Listener</dt><dd>Also known as the <b>event handler</b>. The listener is <b>responsible for generating a response to an event</b>. In Java it is also an object: it <b>waits until it receives an event</b>, then <b>processes the event and returns</b>.</dd></div>
+      <div><dt>Event Source</dt><dd>The GUI object <b>on which the event occurs</b> (e.g., <code>JButton</code>, <code>JTextField</code>, <code>Window</code>). It generates an event object and maintains a list of subscribed listeners via registration methods such as <code>addActionListener(…)</code> and <code>removeActionListener(…)</code>.</dd></div>
+      <div><dt>Event Object</dt><dd>An instance of an event class (subclass of <code>java.util.EventObject</code>) that <b>encapsulates all details of what happened</b> — source reference (<code>getSource()</code>), timestamp, coordinates, key code, or command string.</dd></div>
+      <div><dt>Event Listener</dt><dd>Also known as the <b>event handler</b>. An object implementing a listener interface that <b>waits until notified</b> by a registered source, executes its callback method to process the event, and returns.</dd></div>
     </dl>
     <div class="flow stack">
       <span class="n">User clicks the button</span><span class="arr"></span>
-      <span class="n">Source — the JButton</span><span class="arr"></span>
-      <span class="n fill">Event object — ActionEvent created &amp; filled with source info</span><span class="arr"></span>
-      <span class="n">Registered listener receives the event</span><span class="arr"></span>
+      <span class="n">Event Source — JButton</span><span class="arr"></span>
+      <span class="n fill">Event Object — ActionEvent created &amp; filled with source info</span><span class="arr"></span>
+      <span class="n">EDT dispatches to registered Event Listener</span><span class="arr"></span>
       <span class="n alt">actionPerformed() runs — the response</span>
     </div>
-    <p><b>The benefit of the Delegation Event Model:</b> the <b>user interface logic is completely separated from the logic that generates the event</b> — the UI element can delegate the processing of an event to a separate piece of code. The listener must be <b>registered with the source object</b> to receive notifications, which makes the model <b>efficient: notifications are sent only to the listeners that want them</b>.</p>
-    <h4>Steps involved in event handling</h4>
+    <p><b>Event Handling Mechanism &amp; Benefit:</b> The Delegation Event Model <b>completely separates user-interface presentation from application logic</b> — a button delegates event processing to a dedicated listener object. Because the listener must explicitly <b>register with the source</b>, notifications are sent <b>only to interested listeners</b>, making the mechanism fast and clean.</p>
+    <h4>Steps involved in the event-handling process</h4>
     <ol class="steps">
-      <li>The user clicks the button — <b>the event is generated</b>.</li>
-      <li>An <b>object of the concerned event class is created automatically</b>, and information about the source and the event is <b>populated within that object</b>.</li>
-      <li>The <b>event object is forwarded to the callback method</b> of the registered listener class.</li>
-      <li>The method <b>is executed and returns</b>.</li>
+      <li>The user interacts with a component (e.g. clicks a button) — <b>the event is generated</b> at the event source.</li>
+      <li>An <b>object of the concerned event class is created automatically</b>, and information about the source and event state is <b>populated within that object</b>.</li>
+      <li>The Event Dispatch Thread <b>forwards the event object to the callback method</b> of every listener registered on that source.</li>
+      <li>The listener callback <b>executes the response logic and returns</b> control to the EDT loop.</li>
     </ol>
   </article>
 
@@ -4096,26 +4348,80 @@ public class Simpleframe extends JFrame implements ActionListener {
   </article>
 
   <article class="topic" id="t21-7">
-    <h3><span class="tno">21.7</span> Event Classes &amp; Event Listeners</h3>
-    <p><b>Event classes represent the event</b> (they carry its state); <b>event listeners are the interfaces responsible for handling events</b>. Match each event class to its listener and callback method:</p>
-    <div class="tbl-wrap"><table class="tbl" style="--mw:720px">
-      <thead><tr><th>Event class</th><th>Generated by</th><th>Listener interface</th><th>Key methods</th></tr></thead>
+    <h3><span class="tno">21.7</span> Event Classes, Event Sources, Event Listeners &amp; Adapter Classes</h3>
+    <h4>1 · The Event Class Hierarchy</h4>
+    <p>Every AWT/Swing event descends from <b><code>java.util.EventObject</code></b> (which provides <code>getSource()</code>) via <b><code>java.awt.AWTEvent</code></b> (which adds <code>getID()</code>):</p>
+    <div class="tree">
+      <ul>
+        <li><span class="tb">java.util.EventObject</span><span class="tag">getSource()</span>
+          <ul>
+            <li><span class="tb hi">java.awt.AWTEvent</span><span class="tag">getID()</span>
+              <ul>
+                <li><span class="tb">ActionEvent</span><span class="tag">getActionCommand()</span></li>
+                <li><span class="tb">ItemEvent</span><span class="tag">getItem(), getStateChange()</span></li>
+                <li><span class="tb">TextEvent · AdjustmentEvent</span></li>
+                <li><span class="tb hi">ComponentEvent</span>
+                  <ul>
+                    <li><span class="tb">InputEvent → MouseEvent (getX/getY) · KeyEvent (getKeyChar/getKeyCode)</span></li>
+                    <li><span class="tb">FocusEvent · WindowEvent</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <h4>2 · Event Sources, Event Classes &amp; Event Listeners</h4>
+    <p><b>Event sources</b> generate events and expose <code>addXListener()</code> / <code>removeXListener()</code> registration methods; <b>event classes</b> carry the state; <b>event listeners</b> define the callback methods:</p>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:760px">
+      <thead><tr><th>Event class</th><th>Event sources (generated by)</th><th>Source registration method</th><th>Listener interface &amp; key methods</th></tr></thead>
       <tbody>
-        <tr><td class="rowh"><code>ActionEvent</code></td><td>Button / MenuItem click</td><td><code>ActionListener</code></td><td><code>actionPerformed()</code></td></tr>
-        <tr><td class="rowh"><code>MouseEvent</code></td><td>Mouse activity</td><td><code>MouseListener</code> / <code>MouseMotionListener</code></td><td><code>mouseClicked()</code>, <code>mousePressed()</code>, <code>mouseDragged()</code>, <code>mouseMoved()</code></td></tr>
-        <tr><td class="rowh"><code>KeyEvent</code></td><td>Keyboard activity</td><td><code>KeyListener</code></td><td><code>keyPressed()</code>, <code>keyTyped()</code>, <code>keyReleased()</code></td></tr>
-        <tr><td class="rowh"><code>ItemEvent</code></td><td>Checkbox / Choice select</td><td><code>ItemListener</code></td><td><code>itemStateChanged()</code></td></tr>
-        <tr><td class="rowh"><code>FocusEvent</code></td><td>Component gains/loses focus</td><td><code>FocusListener</code></td><td><code>focusGained()</code>, <code>focusLost()</code></td></tr>
-        <tr><td class="rowh"><code>WindowEvent</code></td><td>Window state change</td><td><code>WindowListener</code></td><td><code>windowClosing()</code>, <code>windowOpened()</code></td></tr>
-        <tr><td class="rowh"><code>TextEvent</code></td><td>Text value changes</td><td><code>TextListener</code></td><td><code>textValueChanged()</code></td></tr>
-        <tr><td class="rowh"><code>AdjustmentEvent</code></td><td>Scrollbar moved</td><td><code>AdjustmentListener</code></td><td><code>adjustmentValueChanged()</code></td></tr>
+        <tr><td class="rowh"><code>ActionEvent</code></td><td><code>Button/JButton</code>, <code>MenuItem/JMenuItem</code>, <code>TextField</code> (Enter)</td><td><code>addActionListener()</code></td><td><code>ActionListener</code> → <code>actionPerformed()</code></td></tr>
+        <tr><td class="rowh"><code>MouseEvent</code></td><td>Any <code>Component</code> (clicks, presses, movement)</td><td><code>addMouseListener()</code> / <code>addMouseMotionListener()</code></td><td><code>MouseListener</code> (5 methods) / <code>MouseMotionListener</code> (<code>mouseDragged</code>, <code>mouseMoved</code>)</td></tr>
+        <tr><td class="rowh"><code>KeyEvent</code></td><td>Focused <code>Component</code> (keyboard press/type/release)</td><td><code>addKeyListener()</code></td><td><code>KeyListener</code> → <code>keyPressed()</code>, <code>keyTyped()</code>, <code>keyReleased()</code></td></tr>
+        <tr><td class="rowh"><code>ItemEvent</code></td><td><code>Checkbox/JCheckBox</code>, <code>JRadioButton</code>, <code>Choice/JComboBox</code></td><td><code>addItemListener()</code></td><td><code>ItemListener</code> → <code>itemStateChanged()</code></td></tr>
+        <tr><td class="rowh"><code>FocusEvent</code></td><td>Any <code>Component</code> gaining/losing keyboard focus</td><td><code>addFocusListener()</code></td><td><code>FocusListener</code> → <code>focusGained()</code>, <code>focusLost()</code></td></tr>
+        <tr><td class="rowh"><code>WindowEvent</code></td><td><code>Window</code>, <code>Frame/JFrame</code>, <code>Dialog/JDialog</code></td><td><code>addWindowListener()</code></td><td><code>WindowListener</code> (7 methods, e.g. <code>windowClosing()</code>, <code>windowOpened()</code>)</td></tr>
+        <tr><td class="rowh"><code>TextEvent</code></td><td>AWT <code>TextField</code>, <code>TextArea</code></td><td><code>addTextListener()</code></td><td><code>TextListener</code> → <code>textValueChanged()</code></td></tr>
+        <tr><td class="rowh"><code>AdjustmentEvent</code></td><td><code>Scrollbar</code> / <code>JScrollBar</code></td><td><code>addAdjustmentListener()</code></td><td><code>AdjustmentListener</code> → <code>adjustmentValueChanged()</code></td></tr>
       </tbody>
     </table></div>
+    <h4>3 · Adapter Classes (eliminating empty boilerplate)</h4>
+    <p>Multi-method interfaces like <code>MouseListener</code> (5 methods) or <code>WindowListener</code> (7 methods) force you to implement every method even if you only care about one. Java provides matching <b>Adapter classes</b> (<code>MouseAdapter</code>, <code>MouseMotionAdapter</code>, <code>KeyAdapter</code>, <code>WindowAdapter</code>, <code>FocusAdapter</code>) that supply empty default implementations so you can extend the adapter and override <b>only the method you need</b>:</p>
+    <div class="code" data-label="MouseAdapterDemo.java — anonymous Adapter class + MouseEvent coordinates">
+<pre><code>import javax.swing.*;
+import java.awt.event.*;
+
+public class MouseAdapterDemo extends JFrame {
+  JLabel coords = new JLabel("Click anywhere inside the window");
+
+  public MouseAdapterDemo() {
+    setTitle("Adapter Demo");
+    setSize(340, 200);
+    add(coords, "South");
+
+    // Override ONLY mouseClicked() instead of all 5 MouseListener methods
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        coords.setText("Clicked at (" + e.getX() + ", " + e.getY() + ")");
+      }
+    });
+
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+  }
+
+  public static void main(String[] args) { new MouseAdapterDemo(); }
+}</code></pre>
+    </div>
+    <aside class="callout tip"><span class="lbl">Rule of thumb</span><p>Single-method listeners (<code>ActionListener</code>, <code>ItemListener</code>, <code>AdjustmentListener</code>, <code>TextListener</code>) have <b>no Adapter class</b> — and can also be written concisely using Java 8 lambdas: <code>b.addActionListener(e -&gt; tf.setText("Clicked!"));</code></p></aside>
   </article>
 
   <article class="topic" id="t21-8">
-    <h3><span class="tno">21.8</span> More Swing Components — with Working Examples</h3>
-    <p>Beyond the core set, the lecture tours these components: <b>JScrollBar</b>, <b>JMenu</b>, <b>JList</b>, <b>JRadioButton</b>, <b>JTextArea</b>, <b>JComboBox</b>, <b>JTable</b>, <b>JColorChooser</b>, <b>JProgressBar</b> and <b>JSlider</b>. Four come with complete programs — study their structure (constructor → <code>setBounds</code> → <code>add</code> → <code>setVisible</code>):</p>
+    <h3><span class="tno">21.8</span> Extending GUI Features: Rich Swing Components</h3>
+    <p>Beyond the core set, Swing extends AWT with rich, model-driven controls: <b>JScrollBar</b>, <b>JMenu</b>, <b>JList</b>, <b>JRadioButton</b> (with <code>ButtonGroup</code>), <b>JCheckBox</b>, <b>JTextArea</b> (inside <code>JScrollPane</code>), <b>JComboBox</b>, <b>JTable</b>, <b>JTree</b>, <b>JTabbedPane</b>, <b>JOptionPane</b>, <b>JColorChooser</b>, <b>JProgressBar</b> and <b>JSlider</b>. Study their structure (constructor → bounds/layout → <code>add</code> → <code>setVisible</code>):</p>
     <div class="code" data-label="JScrollBar.java">
 <pre><code>import javax.swing.*;
 
@@ -4229,17 +4535,696 @@ public class Example {
   }
 }</code></pre>
     </div>
-    <p>The remaining components in one line each — enough to recognize them in MCQs: <b>JRadioButton</b> (mutually exclusive option buttons), <b>JTextArea</b> (multi-line text), <b>JTable</b> (editable grid of rows and columns), <b>JColorChooser</b> (color picker dialog), <b>JProgressBar</b> (task-completion bar) and <b>JSlider</b> (draggable knob on a range).</p>
+    <div class="code" data-label="SwingExtendedDemo.java — JRadioButton + ButtonGroup + JCheckBox + JTextArea + JOptionPane">
+<pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class SwingExtendedDemo extends JFrame {
+  public SwingExtendedDemo() {
+    setTitle("Extended Swing Controls");
+    setSize(380, 260);
+    setLayout(new FlowLayout());
+
+    JRadioButton r1 = new JRadioButton("Online", true);
+    JRadioButton r2 = new JRadioButton("Offline");
+    ButtonGroup bg = new ButtonGroup();   // ensures mutual exclusion!
+    bg.add(r1); bg.add(r2);
+
+    JCheckBox cb = new JCheckBox("Send receipt");
+    JTextArea notes = new JTextArea(4, 24);
+    JScrollPane sp = new JScrollPane(notes);   // adds scrollbars to JTextArea
+    JButton save = new JButton("Save");
+    save.addActionListener(e -&gt;
+      JOptionPane.showMessageDialog(this, "Saved: " + (r1.isSelected() ? "Online" : "Offline"))
+    );
+
+    add(r1); add(r2); add(cb); add(sp); add(save);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+  }
+  public static void main(String[] args) { new SwingExtendedDemo(); }
+}</code></pre>
+    </div>
+    <p>The remaining rich Swing controls in one line each: <b>JTable</b> (editable tabular grid of rows &amp; columns), <b>JTree</b> (hierarchical expandable tree), <b>JTabbedPane</b> (tabbed multi-panel container), <b>JOptionPane</b> (standard alert/input dialogs), <b>JColorChooser</b> (color picker dialog), <b>JProgressBar</b> (task-completion meter) and <b>JSlider</b> (draggable range selector).</p>
   </article>
 
   <aside class="callout key"><span class="lbl">Lectures 20–21 checkpoint</span>
     <ul>
       <li>Draw the AWT hierarchy from Object down to Frame, Dialog and Panel.</li>
-      <li>Name the four AWT containers and the four AWT layout managers with their behaviours.</li>
-      <li>Give at least five rows of the AWT-vs-Swing table (weight, platform, package, MVC, naming).</li>
-      <li>Reproduce the Delegation Event Model: <b>source → event object → registered listener → handler</b>, and its efficiency argument.</li>
-      <li>List the three steps to use ActionListener and trace the full “Click Me → VIIT” program.</li>
-      <li>Match the eight event classes to their listener interfaces.</li>
+      <li>Name the four AWT containers, core Component methods, and the five layout managers (Flow, Border, Grid, Card, GridBag).</li>
+      <li>Write the menu containment chain (<code>Frame → MenuBar → Menu → MenuItem</code>) and <code>setMenuBar()</code> / <code>setJMenuBar()</code>.</li>
+      <li>Give at least five rows of the AWT-vs-Swing table (weight, platform, package, MVC, naming) and explain how Swing extends AWT.</li>
+      <li>Reproduce the Delegation Event Model: <b>source → event object → registered listener → handler</b>, and explain why Adapter classes avoid empty boilerplate.</li>
+      <li>List the three steps to use ActionListener and match the eight event classes, their sources, and listener interfaces.</li>
+    </ul>
+  </aside>
+</section>
+<!-- ============================ LECTURE 22 ============================ -->
+<section class="lec" id="lec22" data-no="22" data-title="java.util Package &amp; Collection Framework">
+  <header class="lec-head">
+    <span class="ghost" aria-hidden="true">22</span>
+    <div class="kicker">Lecture 22</div>
+    <h2>Java Utilities (<code>java.util</code>) &amp; The Collection Framework</h2>
+    <p class="lec-sub">Java’s everyday utility toolkit and unified data-structure architecture — <code>java.util</code> helpers, collections of objects, Sequence (<code>ArrayList</code> &amp; <code>Vector</code>), <code>Set</code>, <code>Queue</code>, <code>Map</code>, and how hashing works under the hood.</p>
+  </header>
+
+  <article class="topic" id="t22-1">
+    <h3><span class="tno">22.1</span> Java Utilities (<code>java.util</code> Package)</h3>
+    <aside class="callout def"><span class="lbl">Overview</span><p>While <code>java.lang</code> provides core language classes automatically, <b><code>java.util</code></b> is Java’s foundational utility package housing <b>the Collection Framework, date/time utilities, random number generation, input scanning, string tokenization, and array/collection algorithm helpers</b>.</p></aside>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:700px">
+      <thead><tr><th>Class</th><th>Purpose &amp; commonly tested methods</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh"><code>Scanner</code></td><td>Parses primitive types &amp; strings from <code>System.in</code>, files, or strings: <code>nextInt()</code>, <code>nextDouble()</code>, <code>next()</code>, <code>nextLine()</code>, <code>hasNext()</code></td></tr>
+        <tr><td class="rowh"><code>StringTokenizer</code></td><td>Legacy utility that splits a string into delimiter-separated tokens: <code>hasMoreTokens()</code>, <code>nextToken()</code>, <code>countTokens()</code></td></tr>
+        <tr><td class="rowh"><code>Random</code></td><td>Generates pseudorandom numbers: <code>nextInt(bound)</code>, <code>nextDouble()</code>, <code>nextBoolean()</code></td></tr>
+        <tr><td class="rowh"><code>Date</code> &amp; <code>Calendar</code></td><td>Legacy date/time representation and field arithmetic (<code>Calendar.getInstance()</code>, <code>get(Calendar.YEAR)</code>; modern apps prefer <code>java.time.LocalDate</code>)</td></tr>
+        <tr><td class="rowh"><code>Arrays</code></td><td>Static algorithms on arrays: <code>Arrays.sort(a)</code>, <code>Arrays.binarySearch(a, key)</code>, <code>Arrays.toString(a)</code>, <code>Arrays.asList(...)</code></td></tr>
+        <tr><td class="rowh"><code>Collections</code></td><td>Static algorithms on Collection objects: <code>Collections.sort(list)</code>, <code>reverse(list)</code>, <code>min(c)</code>, <code>max(c)</code>, <code>shuffle(list)</code>, <code>frequency(c, obj)</code></td></tr>
+        <tr><td class="rowh"><code>Optional&lt;T&gt;</code> / <code>Objects</code></td><td>Null-safe wrappers &amp; helpers (<code>Objects.hash(...)</code>, <code>Objects.equals(a, b)</code>, <code>Optional.ofNullable(...)</code>)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code" data-label="UtilToolkitDemo.java — StringTokenizer, Random, Arrays &amp; Collections">
+<pre><code>import java.util.*;
+
+public class UtilToolkitDemo {
+  public static void main(String[] args) {
+    // 1. StringTokenizer: split CSV string
+    StringTokenizer st = new StringTokenizer("Java,JDBC,Swing", ",");
+    System.out.println("Tokens: " + st.countTokens());
+    while (st.hasMoreTokens()) {
+      System.out.print(st.nextToken() + " | ");
+    }
+    System.out.println();
+
+    // 2. Arrays utility class
+    int[] marks = {78, 92, 65, 84};
+    Arrays.sort(marks);
+    System.out.println("Sorted marks: " + Arrays.toString(marks));
+    System.out.println("Index of 84: " + Arrays.binarySearch(marks, 84));
+
+    // 3. Random &amp; Calendar
+    Random rng = new Random(42);
+    System.out.println("Random 0..99: " + rng.nextInt(100));
+    Calendar cal = Calendar.getInstance();
+    System.out.println("Year: " + cal.get(Calendar.YEAR));
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Tokens: 3
+Java | JDBC | Swing | 
+Sorted marks: [65, 78, 84, 92]
+Index of 84: 2
+Random 0..99: 30
+Year: 2026</pre></div>
+  </article>
+
+  <article class="topic" id="t22-2">
+    <h3><span class="tno">22.2</span> Collections of Objects &amp; The Collection Framework Hierarchy</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p>A <b>Collection</b> is a single container object representing a group of other <b>objects</b> (elements). The <b>Java Collection Framework (JCF)</b>, introduced in JDK 1.2 inside <code>java.util</code>, provides a unified architecture of <b>Interfaces</b> (abstract types), <b>Implementations</b> (concrete data structures), and <b>Algorithms</b> (searching, sorting).</p></aside>
+    <h4>Why Collections instead of Arrays?</h4>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:640px">
+      <thead><tr><th>Feature</th><th>Arrays (<code>T[]</code>)</th><th>Collections (<code>java.util</code>)</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Size</td><td><b>Fixed</b> at creation time; cannot grow or shrink</td><td><b>Dynamic</b> — automatically grows/shrinks at runtime</td></tr>
+        <tr><td class="rowh">Data types</td><td>Can hold primitives or objects (homogeneous)</td><td>Holds <b>only Object references</b> (primitives auto-boxed into <code>Integer</code>, <code>Double</code>, etc.)</td></tr>
+        <tr><td class="rowh">Built-in operations</td><td>Only <code>.length</code>; manual loops for insert/delete</td><td>Rich API: <code>add</code>, <code>remove</code>, <code>contains</code>, <code>sort</code>, <code>iterator</code></td></tr>
+        <tr><td class="rowh">Data structures</td><td>Contiguous indexed memory only</td><td>Dynamic arrays, linked lists, hash tables, balanced trees, heaps</td></tr>
+      </tbody>
+    </table></div>
+    <h4>The Collection Framework Hierarchy</h4>
+    <p>Memorise the two roots: <b><code>Collection&lt;E&gt;</code></b> (single elements, extending <code>Iterable&lt;E&gt;</code>) and <b><code>Map&lt;K, V&gt;</code></b> (key–value pairs; does <b>not</b> extend <code>Collection</code>):</p>
+    <div class="tree">
+      <ul>
+        <li><span class="tb">Iterable&lt;E&gt;</span><span class="tag">for-each support</span>
+          <ul>
+            <li><span class="tb fill">Collection&lt;E&gt;</span><span class="tag">root interface</span>
+              <ul>
+                <li><span class="tb hi">List&lt;E&gt;</span><span class="tag">ordered · duplicates OK</span>
+                  <ul>
+                    <li><span class="tb">ArrayList</span><span class="tag">resizable array</span></li>
+                    <li><span class="tb">LinkedList</span><span class="tag">doubly linked</span></li>
+                    <li><span class="tb">Vector → Stack</span><span class="tag">synchronized</span></li>
+                  </ul>
+                </li>
+                <li><span class="tb hi">Set&lt;E&gt;</span><span class="tag">unique · no duplicates</span>
+                  <ul>
+                    <li><span class="tb">HashSet</span><span class="tag">hash table</span></li>
+                    <li><span class="tb">LinkedHashSet</span><span class="tag">insertion order</span></li>
+                    <li><span class="tb">SortedSet → TreeSet</span><span class="tag">sorted tree</span></li>
+                  </ul>
+                </li>
+                <li><span class="tb hi">Queue&lt;E&gt;</span><span class="tag">FIFO / priority</span>
+                  <ul>
+                    <li><span class="tb">PriorityQueue</span><span class="tag">min-heap</span></li>
+                    <li><span class="tb">Deque → ArrayDeque / LinkedList</span><span class="tag">double-ended</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li style="margin-top:.75rem"><span class="tb fill">Map&lt;K, V&gt;</span><span class="tag">separate · key–value</span>
+          <ul>
+            <li><span class="tb">HashMap</span><span class="tag">1 null key</span></li>
+            <li><span class="tb">LinkedHashMap</span><span class="tag">insertion order</span></li>
+            <li><span class="tb">SortedMap → TreeMap</span><span class="tag">sorted keys</span></li>
+            <li><span class="tb">Hashtable</span><span class="tag">legacy sync</span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <h4>Core <code>Collection&lt;E&gt;</code> methods &amp; Iterators</h4>
+    <p>Every <code>List</code>, <code>Set</code>, and <code>Queue</code> shares <code>add(e)</code>, <code>remove(o)</code>, <code>contains(o)</code>, <code>size()</code>, <code>isEmpty()</code>, <code>clear()</code>, <code>toArray()</code>, and <code>iterator()</code>. Use <b><code>Iterator&lt;E&gt;</code></b> (<code>hasNext()</code>, <code>next()</code>, <code>remove()</code>) to safely traverse and remove elements without throwing <code>ConcurrentModificationException</code> (<code>ListIterator&lt;E&gt;</code> adds bidirectional <code>hasPrevious()</code>/<code>previous()</code> for lists).</p>
+  </article>
+
+  <article class="topic" id="t22-3">
+    <h3><span class="tno">22.3</span> Collection Types — Sequence, Set, Queue &amp; Map</h3>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:700px">
+      <thead><tr><th>Collection Type</th><th>Ordering</th><th>Duplicates?</th><th>Nulls?</th><th>Primary Implementations</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh"><b>Sequence (<code>List</code>)</b></td><td>Maintains insertion order; <b>0-based index</b></td><td class="ok">Yes</td><td class="ok">Yes (multiple)</td><td><code>ArrayList</code>, <code>LinkedList</code>, <code>Vector</code>, <code>Stack</code></td></tr>
+        <tr><td class="rowh"><b>Set (<code>Set</code>)</b></td><td>Unordered (<code>HashSet</code>), insertion (<code>LinkedHashSet</code>), sorted (<code>TreeSet</code>)</td><td class="no">No</td><td>1 null (<code>HashSet</code>), 0 (<code>TreeSet</code>)</td><td><code>HashSet</code>, <code>LinkedHashSet</code>, <code>TreeSet</code></td></tr>
+        <tr><td class="rowh"><b>Queue (<code>Queue</code>)</b></td><td>FIFO or Priority ordering</td><td class="ok">Yes</td><td class="no">No (in <code>PriorityQueue</code>/<code>ArrayDeque</code>)</td><td><code>PriorityQueue</code>, <code>ArrayDeque</code>, <code>LinkedList</code></td></tr>
+        <tr><td class="rowh"><b>Map (<code>Map&lt;K,V&gt;</code>)</b></td><td>Key–value associations (unordered, insertion, or sorted by key)</td><td>Keys: <span class="no">No</span> · Values: <span class="ok">Yes</span></td><td>1 null key (<code>HashMap</code>), 0 (<code>Hashtable</code>/<code>TreeMap</code>)</td><td><code>HashMap</code>, <code>LinkedHashMap</code>, <code>TreeMap</code>, <code>Hashtable</code></td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout key"><span class="lbl">Remember</span><p><b>Collections store Objects, not primitives.</b> Writing <code>ArrayList&lt;int&gt;</code> is a compile-time error — always use wrapper classes such as <code>ArrayList&lt;Integer&gt;</code>. Java’s autoboxing converts <code>list.add(42)</code> into <code>list.add(Integer.valueOf(42))</code> automatically.</p></aside>
+  </article>
+
+  <article class="topic" id="t22-4">
+    <h3><span class="tno">22.4</span> Sequence in Practice: Use of <code>ArrayList</code> and <code>Vector</code></h3>
+    <p>A <b>Sequence</b> (<code>java.util.List</code>) is an ordered collection where every element sits at an integer index (<code>0</code> to <code>size() - 1</code>). The two classic resizable-array implementations tested side-by-side are <b><code>ArrayList</code></b> (modern, unsynchronized) and <b><code>Vector</code></b> (legacy, thread-safe).</p>
+    <h4>1 · Using <code>ArrayList&lt;E&gt;</code></h4>
+    <p><code>ArrayList</code> wraps a dynamic backing array (default initial capacity <b>10</b>). Random access via <code>get(i)</code> runs in <b>O(1)</b> time; when full, it grows by <b>50%</b> of its current capacity (<code>old + old / 2</code>).</p>
+    <div class="code" data-label="ArrayListDemo.java — CRUD, iteration &amp; sorting">
+<pre><code>import java.util.*;
+
+public class ArrayListDemo {
+  public static void main(String[] args) {
+    ArrayList&lt;String&gt; subjects = new ArrayList&lt;&gt;();
+    subjects.add("Java");
+    subjects.add("DSA");
+    subjects.add("Networking");
+    subjects.add(1, "IoT");           // insert at index 1
+    subjects.set(2, "FDS");           // replace element at index 2
+
+    System.out.println("List: " + subjects);
+    System.out.println("Element at 0: " + subjects.get(0));
+
+    Collections.sort(subjects);       // alphabetical sort
+    System.out.println("Sorted: " + subjects);
+
+    // Safe removal while iterating via Iterator
+    Iterator&lt;String&gt; it = subjects.iterator();
+    while (it.hasNext()) {
+      if (it.next().equals("IoT")) it.remove();
+    }
+    System.out.println("After removing IoT: " + subjects);
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>List: [Java, IoT, FDS, Networking]
+Element at 0: Java
+Sorted: [FDS, IoT, Java, Networking]
+After removing IoT: [FDS, Java, Networking]</pre></div>
+
+    <h4>2 · Using <code>Vector&lt;E&gt;</code></h4>
+    <p><code>Vector</code> (since JDK 1.0, later retrofitted into <code>List</code>) works like <code>ArrayList</code> except every method is <b><code>synchronized</code></b> (thread-safe) and when full it <b>doubles (100% growth)</b> its capacity (or adds a custom <code>capacityIncrement</code>). It also supports legacy <code>Enumeration</code> alongside <code>Iterator</code>:</p>
+    <div class="code" data-label="VectorDemo.java — capacity, increment &amp; Enumeration">
+<pre><code>import java.util.*;
+
+public class VectorDemo {
+  public static void main(String[] args) {
+    // initial capacity = 2, grows by +3 when full
+    Vector&lt;Integer&gt; vec = new Vector&lt;&gt;(2, 3);
+    System.out.println("Initial capacity: " + vec.capacity());
+
+    vec.addElement(10);               // legacy Vector method
+    vec.addElement(20);
+    vec.add(30);                      // List interface method triggers resize!
+
+    System.out.println("Size: " + vec.size() + ", Capacity: " + vec.capacity());
+    System.out.print("Elements via Enumeration: ");
+    Enumeration&lt;Integer&gt; en = vec.elements();
+    while (en.hasMoreElements()) {
+      System.out.print(en.nextElement() + " ");
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Initial capacity: 2
+Size: 3, Capacity: 5
+Elements via Enumeration: 10 20 30 </pre></div>
+
+    <h4><code>ArrayList</code> vs <code>Vector</code> — Exam Comparison Table</h4>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:680px">
+      <thead><tr><th>Feature</th><th><code>ArrayList</code></th><th><code>Vector</code></th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Synchronization</td><td><b>Non-synchronized</b> (not thread-safe by default)</td><td><b>Synchronized</b> (all methods locked; thread-safe)</td></tr>
+        <tr><td class="rowh">Performance</td><td><b>Faster</b> (no lock overhead in single-threaded code)</td><td><b>Slower</b> due to synchronization locking on every call</td></tr>
+        <tr><td class="rowh">Capacity growth</td><td>Increases by <b>50%</b> of current size</td><td><b>Doubles (100%)</b> by default, or adds <code>capacityIncrement</code></td></tr>
+        <tr><td class="rowh">Origin</td><td>Added in <b>JDK 1.2</b> (Collection Framework)</td><td>Legacy class from <b>JDK 1.0</b> (retrofitted to <code>List</code>)</td></tr>
+        <tr><td class="rowh">Traversal</td><td><code>Iterator</code>, <code>ListIterator</code>, for-each</td><td><code>Enumeration</code>, <code>Iterator</code>, <code>ListIterator</code>, for-each</td></tr>
+      </tbody>
+    </table></div>
+    <p class="fine"><b>Quick note on siblings:</b> <code>LinkedList</code> uses a doubly linked list (O(1) ends insertion/deletion, O(n) random <code>get</code>), and <code>Stack</code> extends <code>Vector</code> for LIFO operations (<code>push</code>, <code>pop</code>, <code>peek</code>).</p>
+  </article>
+
+  <article class="topic" id="t22-5">
+    <h3><span class="tno">22.5</span> Sets (<code>HashSet</code>, <code>LinkedHashSet</code>, <code>TreeSet</code>) &amp; Queues</h3>
+    <p>A <b><code>Set&lt;E&gt;</code></b> models the mathematical set: <b>duplicate elements are automatically rejected</b> (<code>add()</code> returns <code>false</code> if an equal element already exists):</p>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:680px">
+      <thead><tr><th>Set Class</th><th>Internal Structure</th><th>Ordering</th><th>Null allowed?</th><th>Avg Complexity</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh"><code>HashSet</code></td><td>Backed by a <code>HashMap</code></td><td><b>Unordered</b> (hash-based)</td><td>Yes (at most 1)</td><td>O(1)</td></tr>
+        <tr><td class="rowh"><code>LinkedHashSet</code></td><td>Hash table + doubly linked list</td><td><b>Insertion order</b> preserved</td><td>Yes (at most 1)</td><td>O(1)</td></tr>
+        <tr><td class="rowh"><code>TreeSet</code></td><td>Red-Black self-balancing BST</td><td><b>Sorted</b> (natural / <code>Comparator</code>)</td><td><b>No</b> (<code>NullPointerException</code>)</td><td>O(log n)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code" data-label="SetAndQueueDemo.java — uniqueness, ordering &amp; PriorityQueue">
+<pre><code>import java.util.*;
+
+public class SetAndQueueDemo {
+  public static void main(String[] args) {
+    List&lt;String&gt; raw = Arrays.asList("Java", "C++", "Java", "Python", "C++");
+
+    Set&lt;String&gt; hashSet   = new HashSet&lt;&gt;(raw);         // fast, arbitrary order
+    Set&lt;String&gt; linkedSet = new LinkedHashSet&lt;&gt;(raw);   // keeps first-seen order
+    Set&lt;String&gt; treeSet   = new TreeSet&lt;&gt;(raw);         // alphabetical sort
+
+    System.out.println("HashSet:       " + hashSet);
+    System.out.println("LinkedHashSet: " + linkedSet);
+    System.out.println("TreeSet:       " + treeSet);
+
+    PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();  // min-heap
+    pq.offer(30); pq.offer(10); pq.offer(20);
+    System.out.println("PriorityQueue poll order: " + pq.poll() + ", " + pq.poll());
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>HashSet:       [Java, C++, Python]
+LinkedHashSet: [Java, C++, Python]
+TreeSet:       [C++, Java, Python]
+PriorityQueue poll order: 10, 20</pre></div>
+  </article>
+
+  <article class="topic" id="t22-6">
+    <h3><span class="tno">22.6</span> Maps (<code>HashMap</code>, <code>LinkedHashMap</code>, <code>TreeMap</code>, <code>Hashtable</code>)</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p>A <b><code>Map&lt;K, V&gt;</code></b> stores <b>key–value associations</b> (entries). Every key maps to at most one value — <b>keys must be unique</b>, whereas values may duplicate. Because a Map stores pairs rather than single elements, <code>Map</code> does <b>not</b> inherit from <code>Collection</code>.</p></aside>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:700px">
+      <thead><tr><th>Map Class</th><th>Order</th><th>Null Keys / Values</th><th>Thread-safe?</th><th>Internal Data Structure</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh"><code>HashMap</code></td><td>Unordered</td><td><b>1 null key</b>, multiple null values</td><td class="no">No</td><td>Hash table (buckets + Red-Black tree in Java 8+)</td></tr>
+        <tr><td class="rowh"><code>LinkedHashMap</code></td><td>Insertion (or access) order</td><td>1 null key, multiple null values</td><td class="no">No</td><td>Hash table + doubly linked list</td></tr>
+        <tr><td class="rowh"><code>TreeMap</code></td><td><b>Sorted</b> by keys</td><td><b>No null keys</b>, null values OK</td><td class="no">No</td><td>Red-Black Tree</td></tr>
+        <tr><td class="rowh"><code>Hashtable</code></td><td>Unordered</td><td><b>Neither null key nor null value</b></td><td class="ok">Yes (synchronized)</td><td>Legacy hash table (JDK 1.0)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code" data-label="HashMapDemo.java — put, get, containsKey &amp; entrySet traversal">
+<pre><code>import java.util.*;
+
+public class HashMapDemo {
+  public static void main(String[] args) {
+    Map&lt;Integer, String&gt; students = new HashMap&lt;&gt;();
+    students.put(101, "Aarav");
+    students.put(102, "Diya");
+    students.put(103, "Rohan");
+    students.put(102, "Diya Sharma");     // same key overwrites old value!
+
+    System.out.println("Roll 102: " + students.get(102));
+    System.out.println("Has 104?  " + students.containsKey(104));
+
+    for (Map.Entry&lt;Integer, String&gt; entry : students.entrySet()) {
+      System.out.println(entry.getKey() + " -&gt; " + entry.getValue());
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Roll 102: Diya Sharma
+Has 104?  false
+101 -&gt; Aarav
+102 -&gt; Diya Sharma
+103 -&gt; Rohan</pre></div>
+  </article>
+
+  <article class="topic" id="t22-7">
+    <h3><span class="tno">22.7</span> Understanding Hashing</h3>
+    <p><b>Hashing</b> is the technique that gives <code>HashMap</code>, <code>HashSet</code>, and <code>Hashtable</code> near-constant <b>O(1)</b> average lookup, insertion, and deletion — instead of scanning every element linearly (O(n)).</p>
+    <h4>How a key maps to a memory bucket</h4>
+    <ol class="steps">
+      <li><b>Compute <code>hashCode()</code>:</b> Java calls <code>key.hashCode()</code> to produce a 32-bit integer hash, then mixes upper bits into lower bits to spread values evenly.</li>
+      <li><b>Bucket Index Calculation:</b> The mixed hash is mapped to an array slot (<b>bucket</b>) using bitwise AND: <code>index = hash &amp; (capacity - 1)</code> (where default initial capacity <code>n = 16</code>, indices <code>0..15</code>).</li>
+      <li><b>Collision Handling (Separate Chaining):</b> When two unequal keys land on the same bucket index (a <b>hash collision</b>), Java links them in a list of <code>Node&lt;K,V&gt;</code> objects in that bucket and checks equality via <code>equals()</code>.</li>
+      <li><b>Java 8 Treeification:</b> If a single bucket grows past <b><code>TREEIFY_THRESHOLD = 8</code></b> nodes (and table capacity &ge; 64), the linked list automatically converts into a balanced <b>Red-Black Tree</b>, guaranteeing <b>O(log n)</b> worst-case lookup instead of O(n).</li>
+      <li><b>Load Factor &amp; Rehashing:</b> With default <b>load factor = <code>0.75f</code></b> and capacity <code>16</code>, once entries exceed <code>16 × 0.75 = 12</code>, the bucket array doubles to <code>32</code> and existing keys are <b>rehashed</b> into new slots.</li>
+    </ol>
+    <figure class="fig">
+      <div class="fig-body">
+        <svg viewBox="0 0 660 220" role="img" aria-label="HashMap bucket array and separate chaining diagram" style="max-width:660px">
+          <rect x="14" y="24" width="150" height="44" rx="8" class="dgb"/>
+          <text x="89" y="44" class="dgt">key = "Java"</text>
+          <text x="89" y="59" class="dgts">hashCode() → index 2</text>
+          <rect x="14" y="100" width="150" height="44" rx="8" class="dgb"/>
+          <text x="89" y="120" class="dgt">key = "IoT"</text>
+          <text x="89" y="135" class="dgts">collision → index 2</text>
+          <path d="M164 46h54v28h28" class="dgl"/>
+          <path d="M164 122h54V82h28" class="dgl"/>
+          <rect x="250" y="14" width="108" height="28" rx="6" class="dgn"/>
+          <text x="304" y="32" class="dgts">bucket [0] · null</text>
+          <rect x="250" y="46" width="108" height="28" rx="6" class="dgn"/>
+          <text x="304" y="64" class="dgts">bucket [1] · null</text>
+          <rect x="250" y="78" width="108" height="32" rx="6" class="dgb"/>
+          <text x="304" y="99" class="dgt">bucket [2]</text>
+          <rect x="250" y="114" width="108" height="28" rx="6" class="dgn"/>
+          <text x="304" y="132" class="dgts">bucket [3] · null</text>
+          <text x="304" y="162" class="dgts">⋮ (capacity = 16)</text>
+          <path d="M358 94h32" class="dgl"/>
+          <rect x="392" y="76" width="114" height="36" rx="7" class="dgb"/>
+          <text x="449" y="92" class="dgt">"Java" → val1</text>
+          <text x="449" y="105" class="dgts">next pointer</text>
+          <path d="M506 94h28" class="dgl"/>
+          <rect x="536" y="76" width="110" height="36" rx="7" class="dgb"/>
+          <text x="591" y="92" class="dgt">"IoT" → val2</text>
+          <text x="591" y="105" class="dgts">next = null</text>
+          <text x="330" y="200" class="dgts">Collision in bucket [2]: resolved by chaining (becomes Red-Black Tree if chain length ≥ 8)</text>
+        </svg>
+      </div>
+      <figcaption>Fig. 22.1 — Hashing maps keys into buckets; unequal keys landing on the same bucket chain via <code>next</code> references.</figcaption>
+    </figure>
+    <aside class="callout trap"><span class="lbl">The equals() &amp; hashCode() Contract (Guaranteed Exam Question!)</span>
+      <ul>
+        <li><b>Rule 1:</b> If <code>a.equals(b)</code> is <code>true</code>, then <code>a.hashCode() == b.hashCode()</code> <b>must</b> be <code>true</code>.</li>
+        <li><b>Rule 2:</b> If <code>a.hashCode() == b.hashCode()</code>, <code>a.equals(b)</code> does <b>not</b> have to be <code>true</code> (two different objects can collide on the same bucket).</li>
+        <li><b>Trap:</b> If you override <code>equals()</code> in a custom key class (e.g. <code>Student</code>) without overriding <code>hashCode()</code>, <code>HashSet</code> / <code>HashMap</code> will treat two logically identical students as different buckets and allow <b>duplicates</b>!</li>
+      </ul>
+    </aside>
+    <div class="code" data-label="HashingContractDemo.java — overriding both equals() &amp; hashCode()">
+<pre><code>import java.util.*;
+
+class StudentKey {
+  int id;
+  String name;
+
+  StudentKey(int id, String name) { this.id = id; this.name = name; }
+
+  @Override
+  public int hashCode() { return Objects.hash(id, name); }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof StudentKey)) return false;
+    StudentKey other = (StudentKey) o;
+    return id == other.id &amp;&amp; Objects.equals(name, other.name);
+  }
+}
+
+public class HashingContractDemo {
+  public static void main(String[] args) {
+    Set&lt;StudentKey&gt; set = new HashSet&lt;&gt;();
+    set.add(new StudentKey(1, "Meera"));
+    set.add(new StudentKey(1, "Meera"));   // duplicate rejected because BOTH match!
+    System.out.println("Unique students in HashSet: " + set.size());
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Unique students in HashSet: 1</pre></div>
+  </article>
+
+  <aside class="callout key"><span class="lbl">Lecture 22 checkpoint</span>
+    <ul>
+      <li>Name 5 utility classes in <code>java.util</code> (<code>Scanner</code>, <code>StringTokenizer</code>, <code>Random</code>, <code>Arrays</code>, <code>Collections</code>).</li>
+      <li>Draw the Collection Framework hierarchy and explain why <code>Map</code> does not extend <code>Collection</code>.</li>
+      <li>Contrast <code>ArrayList</code> vs <code>Vector</code> on synchronization, growth rate (50% vs 100%), and speed.</li>
+      <li>Compare <code>HashSet</code>, <code>LinkedHashSet</code>, and <code>TreeSet</code> — plus <code>HashMap</code> vs <code>Hashtable</code> vs <code>TreeMap</code>.</li>
+      <li>Explain hashing: bucket index, collision chaining, Java 8 treeification (threshold 8), load factor 0.75, and the <code>equals()</code>/<code>hashCode()</code> contract.</li>
+    </ul>
+  </aside>
+</section>
+<!-- ============================ LECTURE 23 ============================ -->
+<section class="lec" id="lec23" data-no="23" data-title="JDBC — Java Database Connectivity">
+  <header class="lec-head">
+    <span class="ghost" aria-hidden="true">23</span>
+    <div class="kicker">Lecture 23</div>
+    <h2>JDBC — Java Database Connectivity</h2>
+    <p class="lec-sub">Connecting Java programs to relational databases — the 4 JDBC driver types, <code>DriverManager</code>, the 7 connection steps, Oracle &amp; MySQL connectivity, <code>Statement</code> / <code>PreparedStatement</code> / <code>CallableStatement</code>, <code>ResultSet</code> cursors, and full CRUD operations.</p>
+  </header>
+
+  <article class="topic" id="t23-1">
+    <h3><span class="tno">23.1</span> What Is JDBC &amp; Its Architecture</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p><b>JDBC (Java Database Connectivity)</b> is a standard Java API (located in <b><code>java.sql</code></b> and <b><code>javax.sql</code></b>) that allows Java applications to connect to relational databases (MySQL, Oracle, PostgreSQL, SQLite), send SQL queries/updates, and process tabular results uniformly — regardless of the underlying vendor.</p></aside>
+    <div class="flow stack">
+      <span class="n">Java Application</span><span class="arr"></span>
+      <span class="n fill">JDBC API (java.sql.*)</span><span class="arr"></span>
+      <span class="n">DriverManager</span><span class="arr"></span>
+      <span class="n">Vendor JDBC Driver (JAR)</span><span class="arr"></span>
+      <span class="n alt">Database (MySQL / Oracle)</span>
+    </div>
+    <div class="cards c2">
+      <div class="card"><span class="card-k">2-TIER ARCHITECTURE</span><h4>Client → Database directly</h4><p>The Java program talks straight to the database server using a JDBC driver on the client machine (typical for desktop apps &amp; lab programs).</p></div>
+      <div class="card"><span class="card-k">3-TIER ARCHITECTURE</span><h4>Client → App Server → Database</h4><p>Client UI sends requests to a middle-tier Java server (Servlet/Spring), which executes JDBC calls against the database (typical for enterprise web apps).</p></div>
+    </div>
+  </article>
+
+  <article class="topic" id="t23-2">
+    <h3><span class="tno">23.2</span> JDBC Drivers (Types 1 to 4)</h3>
+    <p>A <b>JDBC Driver</b> is a software component implementing the JDBC interfaces to translate Java calls into vendor-specific database protocol commands. There are <b>four types</b>:</p>
+    <dl class="defs">
+      <div><dt>Type 1 · JDBC-ODBC Bridge</dt><dd>Translates JDBC calls into ODBC calls, which an ODBC driver translates to the DB. Requires native ODBC client libraries; slow and <b>removed from the JDK starting Java 8</b>.</dd></div>
+      <div><dt>Type 2 · Native-API Driver</dt><dd>Converts JDBC calls into vendor-specific native C/C++ client API calls (e.g. Oracle OCI). Faster than Type 1, but requires <b>platform-dependent native binaries</b> on every client.</dd></div>
+      <div><dt>Type 3 · Network Protocol Driver</dt><dd>Pure-Java client driver sends DB-independent calls over the network to a <b>middleware application server</b>, which translates them into the target database protocol.</dd></div>
+      <div><dt>Type 4 · Thin (Pure-Java) Driver</dt><dd>Written <b>100% in Java</b>; converts JDBC calls directly into the vendor’s TCP/IP wire protocol (no ODBC, no native libs, no middleware). <b>Fastest and the modern industry standard</b> (e.g. MySQL Connector/J, Oracle Thin Driver).</dd></div>
+    </dl>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:720px">
+      <thead><tr><th>Driver Type</th><th>Written in</th><th>Extra dependency?</th><th>Portability</th><th>Performance</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Type 1 (Bridge)</td><td>Java + native ODBC</td><td>ODBC driver + DSN on client</td><td class="no">Platform-dependent</td><td>Slowest (extra layer)</td></tr>
+        <tr><td class="rowh">Type 2 (Native-API)</td><td>Java + native C/C++ libs</td><td>Vendor native client library</td><td class="no">Platform-dependent</td><td>Fast (native calls)</td></tr>
+        <tr><td class="rowh">Type 3 (Middleware)</td><td>100% Java client</td><td>Middleware server required</td><td class="ok">Platform-independent</td><td>Moderate (extra hop)</td></tr>
+        <tr><td class="rowh">Type 4 (Thin)</td><td><b>100% Pure Java</b></td><td><b>None</b> (just driver <code>.jar</code>)</td><td class="ok">Fully portable</td><td class="ok">Fastest (direct socket)</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="topic" id="t23-3">
+    <h3><span class="tno">23.3</span> <code>DriverManager</code> &amp; The 7 Steps to Connect to a Database</h3>
+    <p><b><code>DriverManager</code></b> (class in <code>java.sql</code>) acts as the central factory that tracks registered drivers and matches a JDBC connection URL to the right driver to return a live <code>Connection</code> object:</p>
+    <ul>
+      <li><code>DriverManager.registerDriver(Driver d)</code> — manually registers a driver (normally triggered automatically inside <code>Class.forName(...)</code> static block or JDBC 4.0+ SPI).</li>
+      <li><code>DriverManager.getConnection(url, user, password)</code> — establishes and returns a <code>Connection</code> session to the database.</li>
+    </ul>
+    <aside class="callout def"><span class="lbl">JDBC Connection URL Anatomy</span><p><code>jdbc:&lt;subprotocol&gt;:&lt;subname&gt;</code> — for example <code>jdbc:mysql://localhost:3306/college</code> or <code>jdbc:oracle:thin:@localhost:1521:xe</code>.</p></aside>
+    <h4>The 7 Standard JDBC Connection Steps (Exam Essential)</h4>
+    <ol class="steps">
+      <li><b>Import the JDBC package:</b> <code>import java.sql.*;</code></li>
+      <li><b>Load &amp; Register the Driver class:</b> <code>Class.forName("com.mysql.cj.jdbc.Driver");</code> <i>(optional since JDBC 4.0 if the driver JAR is on classpath, but required in exam answers!)</i>.</li>
+      <li><b>Establish the Connection:</b> <code>Connection con = DriverManager.getConnection(url, user, pass);</code></li>
+      <li><b>Create a Statement object:</b> <code>Statement st = con.createStatement();</code> (or <code>PreparedStatement</code> / <code>CallableStatement</code>).</li>
+      <li><b>Execute the SQL query / update:</b> <code>ResultSet rs = st.executeQuery("SELECT ...");</code> or <code>int rows = st.executeUpdate("INSERT ...");</code></li>
+      <li><b>Process the ResultSet:</b> Iterate rows using <code>while (rs.next())</code> and extract columns via <code>rs.getInt(...)</code> / <code>rs.getString(...)</code>.</li>
+      <li><b>Close all resources:</b> Close <code>rs.close()</code>, <code>st.close()</code>, and <code>con.close()</code> in reverse order (or use <code>try-with-resources</code>).</li>
+    </ol>
+  </article>
+
+  <article class="topic" id="t23-4">
+    <h3><span class="tno">23.4</span> Connectivity with Oracle &amp; Connectivity with MySQL</h3>
+    <p>Every database vendor ships its own Type 4 Thin driver JAR (<code>ojdbc8.jar</code> for Oracle, <code>mysql-connector-j.jar</code> for MySQL) with a specific driver class name, default port, and JDBC URL:</p>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:700px">
+      <thead><tr><th>Parameter</th><th>MySQL (Connector/J)</th><th>Oracle (Thin Driver)</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Driver Class Name</td><td><code>com.mysql.cj.jdbc.Driver</code> <span class="fine">(legacy: <code>com.mysql.jdbc.Driver</code>)</span></td><td><code>oracle.jdbc.driver.OracleDriver</code> <span class="fine">(or <code>oracle.jdbc.OracleDriver</code>)</span></td></tr>
+        <tr><td class="rowh">Default Port</td><td><code>3306</code></td><td><code>1521</code></td></tr>
+        <tr><td class="rowh">JDBC URL Format</td><td><code>jdbc:mysql://localhost:3306/college</code></td><td><code>jdbc:oracle:thin:@localhost:1521:xe</code> <span class="fine">(or <code>//localhost:1521/orcl</code>)</span></td></tr>
+        <tr><td class="rowh">Driver JAR File</td><td><code>mysql-connector-j-8.x.jar</code></td><td><code>ojdbc8.jar</code> / <code>ojdbc11.jar</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs">
+      <div class="vs-col">
+        <span class="vs-tag">MySQL Connectivity</span>
+        <div class="code" data-label="MySqlConnect.java"><pre><code>import java.sql.*;
+
+public class MySqlConnect {
+  public static void main(String[] args) {
+    String url = "jdbc:mysql://localhost:3306/college";
+    String user = "root", pass = "root123";
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      try (Connection con = DriverManager.getConnection(url, user, pass);
+           Statement st = con.createStatement();
+           ResultSet rs = st.executeQuery("SELECT id, name FROM students")) {
+        while (rs.next()) {
+          System.out.println(rs.getInt(1) + " : " + rs.getString(2));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}</code></pre></div>
+      </div>
+      <div class="vs-col">
+        <span class="vs-tag">Oracle Connectivity</span>
+        <div class="code" data-label="OracleConnect.java"><pre><code>import java.sql.*;
+
+public class OracleConnect {
+  public static void main(String[] args) {
+    String url = "jdbc:oracle:thin:@localhost:1521:xe";
+    String user = "system", pass = "oracle";
+    try {
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      try (Connection con = DriverManager.getConnection(url, user, pass);
+           Statement st = con.createStatement();
+           ResultSet rs = st.executeQuery("SELECT id, name FROM students")) {
+        while (rs.next()) {
+          System.out.println(rs.getInt("id") + " : " + rs.getString("name"));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}</code></pre></div>
+      </div>
+    </div>
+    <div class="out"><span class="out-lbl">Output (both DBs)</span><pre>101 : Aarav
+102 : Diya</pre></div>
+  </article>
+
+  <article class="topic" id="t23-5">
+    <h3><span class="tno">23.5</span> Types of JDBC Statements: <code>Statement</code>, <code>PreparedStatement</code> &amp; <code>CallableStatement</code></h3>
+    <p>JDBC provides three interfaces (in an inheritance chain: <code>Statement</code> ← <code>PreparedStatement</code> ← <code>CallableStatement</code>) to send SQL to the database:</p>
+    <h4>1 · <code>Statement</code> (Static SQL)</h4>
+    <p>Created via <code>con.createStatement()</code>. Sends plain SQL strings compiled by the DB every single time — suited for one-off DDL (<code>CREATE TABLE</code>) or static queries, but <b>vulnerable to SQL Injection</b> if strings are concatenated with user input.</p>
+    <h4>2 · <code>PreparedStatement</code> (Precompiled Parameterized SQL)</h4>
+    <p>Created via <code>con.prepareStatement(sql)</code> with <code>?</code> placeholders. The SQL template is compiled <b>once</b> by the database and reused with bound values via <code>setInt(1, val)</code>, <code>setString(2, val)</code> — <b>faster for repeated execution and completely prevents SQL Injection</b>.</p>
+    <h4>3 · <code>CallableStatement</code> (Stored Procedures &amp; Functions)</h4>
+    <p>Created via <code>con.prepareCall("{call procName(?, ?)}")</code>. Invokes database stored procedures supporting <code>IN</code>, <code>OUT</code>, and <code>INOUT</code> parameters (output parameters must be registered first with <code>registerOutParameter(index, Types.INTEGER)</code>).</p>
+    <div class="code" data-label="StatementTypesDemo.java — Statement, PreparedStatement &amp; CallableStatement">
+<pre><code>// 1. Statement — static query / DDL
+Statement st = con.createStatement();
+st.executeUpdate("CREATE TABLE IF NOT EXISTS students(id INT PRIMARY KEY, name VARCHAR(40))");
+
+// 2. PreparedStatement — safe, parameterized, 1-based '?' placeholders
+PreparedStatement ps = con.prepareStatement("INSERT INTO students VALUES(?, ?)");
+ps.setInt(1, 103);                  // 1st '?'
+ps.setString(2, "Rohan");           // 2nd '?'
+int inserted = ps.executeUpdate();  // returns affected row count
+
+// 3. CallableStatement — calling stored procedure getStudentCount(OUT total)
+CallableStatement cs = con.prepareCall("{call getStudentCount(?)}");
+cs.registerOutParameter(1, java.sql.Types.INTEGER);
+cs.execute();
+System.out.println("Total students from stored proc: " + cs.getInt(1));</code></pre>
+    </div>
+    <h4>Master Comparison — Three JDBC Statement Interfaces</h4>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:740px">
+      <thead><tr><th>Feature</th><th><code>Statement</code></th><th><code>PreparedStatement</code></th><th><code>CallableStatement</code></th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Factory method</td><td><code>con.createStatement()</code></td><td><code>con.prepareStatement(sql)</code></td><td><code>con.prepareCall("{call ...}")</code></td></tr>
+        <tr><td class="rowh">Use case</td><td>Static SQL &amp; DDL statements</td><td>Dynamic / repeated parameterized DML &amp; queries</td><td>Executing database <b>stored procedures &amp; functions</b></td></tr>
+        <tr><td class="rowh">Compilation</td><td>Compiled every time query runs</td><td><b>Precompiled once</b> on the DB server</td><td>Precompiled inside database catalog</td></tr>
+        <tr><td class="rowh">SQL Injection safety</td><td class="no">Vulnerable if concatenated</td><td class="ok">Safe (bound parameters escaped)</td><td class="ok">Safe (parameterized)</td></tr>
+        <tr><td class="rowh">Parameters</td><td>None</td><td><code>IN</code> parameters only (<code>?</code>)</td><td><code>IN</code>, <code>OUT</code>, and <code>INOUT</code> parameters</td></tr>
+      </tbody>
+    </table></div>
+    <aside class="callout key"><span class="lbl">Three execution methods</span><p><b><code>executeQuery(sql)</code></b> → for <code>SELECT</code> (returns <code>ResultSet</code>) · <b><code>executeUpdate(sql)</code></b> → for <code>INSERT/UPDATE/DELETE/DDL</code> (returns <code>int</code> row count) · <b><code>execute(sql)</code></b> → when SQL type is unknown (returns <code>true</code> if result is a <code>ResultSet</code>, else <code>false</code>).</p></aside>
+  </article>
+
+  <article class="topic" id="t23-6">
+    <h3><span class="tno">23.6</span> <code>ResultSet</code> &amp; Cursor Navigation</h3>
+    <aside class="callout def"><span class="lbl">Definition</span><p>A <b><code>ResultSet</code></b> object maintains a <b>cursor</b> pointing to its current row of tabular data returned by <code>executeQuery()</code>. Initially the cursor sits <b>before the first row</b> — so you <b>must call <code>rs.next()</code></b> before reading row 1.</p></aside>
+    <div class="tbl-wrap"><table class="tbl" style="--mw:680px">
+      <thead><tr><th>Category</th><th>Key Methods / Constants</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Navigation</td><td><code>next()</code>, <code>previous()</code>, <code>first()</code>, <code>last()</code>, <code>absolute(n)</code>, <code>beforeFirst()</code></td><td>Moves cursor (note: <code>previous</code>/<code>first</code>/<code>last</code> require a scrollable ResultSet)</td></tr>
+        <tr><td class="rowh">Column Getters</td><td><code>getInt(1)</code> / <code>getInt("id")</code>, <code>getString(2)</code> / <code>getDouble("gpa")</code></td><td>Read column value by <b>1-based index</b> or column name</td></tr>
+        <tr><td class="rowh">Scroll Types</td><td><code>TYPE_FORWARD_ONLY</code> (default), <code>TYPE_SCROLL_INSENSITIVE</code>, <code>TYPE_SCROLL_SENSITIVE</code></td><td>Forward-only vs bidirectional; insensitive ignores live DB edits while open</td></tr>
+        <tr><td class="rowh">Concurrency</td><td><code>CONCUR_READ_ONLY</code> (default), <code>CONCUR_UPDATABLE</code></td><td>Whether rows can be edited in place via <code>updateString()</code> + <code>updateRow()</code></td></tr>
+        <tr><td class="rowh">Metadata</td><td><code>ResultSetMetaData rsmd = rs.getMetaData();</code></td><td>Inspect <code>getColumnCount()</code>, <code>getColumnName(i)</code>, <code>getColumnTypeName(i)</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="code" data-label="ScrollableResultSet.java — navigating backward &amp; reading metadata">
+<pre><code>Statement st = con.createStatement(
+    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+ResultSet rs = st.executeQuery("SELECT id, name, cgpa FROM students");
+if (rs.last()) {
+  System.out.println("Last student: " + rs.getInt("id") + " - " + rs.getString("name"));
+  System.out.println("Total rows: " + rs.getRow());
+}
+ResultSetMetaData md = rs.getMetaData();
+System.out.println("Columns: " + md.getColumnCount() + ", Col 1 = " + md.getColumnName(1));</code></pre>
+    </div>
+  </article>
+
+  <article class="topic" id="t23-7">
+    <h3><span class="tno">23.7</span> CRUD Operations Using Java</h3>
+    <p><b>CRUD</b> stands for the four persistent-storage operations: <b>Create</b> (<code>INSERT</code>), <b>Read</b> (<code>SELECT</code>), <b>Update</b> (<code>UPDATE</code>), and <b>Delete</b> (<code>DELETE</code>). Below is a complete end-to-end Java JDBC program performing all four operations safely with <code>PreparedStatement</code>:</p>
+    <div class="code" data-label="StudentJdbcCrud.java — Complete Create, Read, Update &amp; Delete">
+<pre><code>import java.sql.*;
+
+public class StudentJdbcCrud {
+  static final String URL  = "jdbc:mysql://localhost:3306/college";
+  static final String USER = "root";
+  static final String PASS = "root123";
+
+  public static void main(String[] args) {
+    try (Connection con = DriverManager.getConnection(URL, USER, PASS)) {
+
+      // 1. CREATE (INSERT)
+      try (PreparedStatement ins = con.prepareStatement(
+          "INSERT INTO students (id, name, marks) VALUES (?, ?, ?)")) {
+        ins.setInt(1, 101);
+        ins.setString(2, "Ananya");
+        ins.setDouble(3, 91.5);
+        System.out.println("Inserted rows: " + ins.executeUpdate());
+      }
+
+      // 2. READ (SELECT)
+      try (PreparedStatement sel = con.prepareStatement("SELECT id, name, marks FROM students");
+           ResultSet rs = sel.executeQuery()) {
+        System.out.println("-- Students --");
+        while (rs.next()) {
+          System.out.println(rs.getInt("id") + " | " + rs.getString("name") + " | " + rs.getDouble("marks"));
+        }
+      }
+
+      // 3. UPDATE
+      try (PreparedStatement upd = con.prepareStatement(
+          "UPDATE students SET marks = ? WHERE id = ?")) {
+        upd.setDouble(1, 95.0);
+        upd.setInt(2, 101);
+        System.out.println("Updated rows: " + upd.executeUpdate());
+      }
+
+      // 4. DELETE
+      try (PreparedStatement del = con.prepareStatement(
+          "DELETE FROM students WHERE id = ?")) {
+        del.setInt(1, 101);
+        System.out.println("Deleted rows: " + del.executeUpdate());
+      }
+
+    } catch (SQLException e) {
+      System.out.println("SQL Error [" + e.getSQLState() + "]: " + e.getMessage());
+    }
+  }
+}</code></pre>
+    </div>
+    <div class="out"><span class="out-lbl">Output</span><pre>Inserted rows: 1
+-- Students --
+101 | Ananya | 91.5
+Updated rows: 1
+Deleted rows: 1</pre></div>
+    <aside class="callout tip"><span class="lbl">Transactions bonus</span><p>By default JDBC connections run in <b>auto-commit mode</b> (<code>con.getAutoCommit() == true</code>). For atomic multi-statement updates, call <code>con.setAutoCommit(false)</code>, execute statements, call <code>con.commit()</code> on success, or <code>con.rollback()</code> inside <code>catch (SQLException)</code>.</p></aside>
+  </article>
+
+  <aside class="callout key"><span class="lbl">Lecture 23 checkpoint</span>
+    <ul>
+      <li>Describe all 4 JDBC driver types and explain why Type 4 (Thin) is preferred.</li>
+      <li>Recite the 7 steps to connect to a database using <code>DriverManager.getConnection()</code>.</li>
+      <li>Write the exact driver class and JDBC URL for both MySQL (<code>3306</code>) and Oracle (<code>1521</code>).</li>
+      <li>Compare <code>Statement</code>, <code>PreparedStatement</code>, and <code>CallableStatement</code> (SQL injection, compilation, stored procs).</li>
+      <li>Explain <code>ResultSet</code> cursor positioning (<code>rs.next()</code> first!) and 1-based indexing.</li>
+      <li>Write a complete JDBC CRUD program performing INSERT, SELECT, UPDATE, and DELETE.</li>
     </ul>
   </aside>
 </section>
@@ -4249,7 +5234,7 @@ public class Example {
     <span class="ghost" aria-hidden="true">R</span>
     <div class="kicker">Rapid Revision</div>
     <h2>Last-Minute Cheat Sheet</h2>
-    <p class="lec-sub">Everything the exam loves, compressed: master comparison tables, the classic output traps, the rules you must quote, the facts you must state — and a 15-question self-test to prove you are ready.</p>
+    <p class="lec-sub">Everything the exam loves, compressed: master comparison tables, the classic output traps, the rules you must quote, the facts you must state — and a 22-question self-test to prove you are ready.</p>
   </header>
 
   <article class="topic" id="tR-1">
@@ -4265,11 +5250,17 @@ public class Example {
         <tr><td class="rowh">IS-A vs HAS-A?</td><td>extends (inheritance) · holds a reference (aggregation)</td></tr>
         <tr><td class="rowh">Checked vs unchecked?</td><td>Checked at compile-time (IOException) · surface at runtime (RuntimeException family)</td></tr>
         <tr><td class="rowh">throw vs throws?</td><td>One instance, inside the body · class names, in the signature</td></tr>
+        <tr><td class="rowh">final vs finally vs finalize()?</td><td>Keyword (constant/no override/no extend) · block (guaranteed cleanup) · Object GC method (deprecated Java 9)</td></tr>
         <tr><td class="rowh">Upcasting vs downcasting?</td><td>Parent ref → child object (safe, implicit) · child ref ← parent object (explicit, instanceof-guarded)</td></tr>
         <tr><td class="rowh">Static vs dynamic binding?</td><td>private/final/static — compile time · overridden instance methods — runtime</td></tr>
         <tr><td class="rowh">AWT vs Swing?</td><td>Heavyweight, native, java.awt · lightweight, pure Java, javax.swing</td></tr>
         <tr><td class="rowh">Default layouts?</td><td>JFrame → BorderLayout · JPanel → FlowLayout</td></tr>
-        <tr><td class="rowh">Delegation Event Model?</td><td>Source + Listener; event object forwarded to registered listener’s callback</td></tr>
+        <tr><td class="rowh">Delegation Event Model?</td><td>Source + Event Object + Listener; event forwarded only to registered listeners</td></tr>
+        <tr><td class="rowh">ArrayList vs Vector?</td><td>Unsynchronized, faster, +50% growth (JDK 1.2) · synchronized, thread-safe, 2x growth (JDK 1.0)</td></tr>
+        <tr><td class="rowh">List vs Set vs Map?</td><td>Ordered + duplicates (List) · unique elements (Set) · unique-key → value pairs (Map, not a Collection)</td></tr>
+        <tr><td class="rowh">HashMap vs Hashtable vs TreeMap?</td><td>Fast unsync + 1 null key · legacy sync + no nulls · sorted keys (Red-Black tree) + no null keys</td></tr>
+        <tr><td class="rowh">JDBC Driver Types 1–4?</td><td>Type 1 Bridge · Type 2 Native API · Type 3 Middleware · Type 4 Pure-Java Thin (fastest, standard)</td></tr>
+        <tr><td class="rowh">Statement vs Prepared vs Callable?</td><td>Static SQL · precompiled parameterized (safe vs SQLi) · stored procedures (IN/OUT/INOUT)</td></tr>
         <tr><td class="rowh">Encapsulation in one line?</td><td>Private fields + public getters/setters (JavaBean)</td></tr>
       </tbody>
     </table></div>
@@ -4277,7 +5268,7 @@ public class Example {
 
   <article class="topic" id="tR-2">
     <h3><span class="tno">R.2</span> The Classic Output Traps</h3>
-    <p>Sixteen outputs the exam reuses year after year. Cover the right column and predict each one:</p>
+    <p>Twenty outputs and traps the exam reuses year after year. Cover the right column and predict each one:</p>
     <div class="tbl-wrap"><table class="tbl" style="--mw:720px">
       <thead><tr><th>Code fragment</th><th>Output / error — and why</th></tr></thead>
       <tbody>
@@ -4297,6 +5288,10 @@ public class Example {
         <tr><td><code>Bike b = new Splendor(); b.run();</code> (overridden)</td><td class="rowh">Splendor’s version — object type decides</td></tr>
         <tr><td><code>d instanceof Dog2</code> where <code>d = null</code></td><td class="rowh">false — always</td></tr>
         <tr><td>loop <code>i &lt;= arr.length</code> over a 4-element array</td><td class="rowh">prints 4 values, then ArrayIndexOutOfBoundsException: 4</td></tr>
+        <tr><td>Override <code>equals()</code> without overriding <code>hashCode()</code> in <code>HashSet</code></td><td class="rowh">size 2 (duplicates kept!) — buckets differ</td></tr>
+        <tr><td>Call <code>list.remove()</code> inside a <code>for-each</code> loop</td><td class="rowh">ConcurrentModificationException — use Iterator.remove()</td></tr>
+        <tr><td>Call <code>rs.getInt(1)</code> right after <code>executeQuery()</code> without <code>rs.next()</code></td><td class="rowh">SQLException — cursor starts BEFORE first row</td></tr>
+        <tr><td><code>ps.setInt(0, 101)</code> on <code>PreparedStatement</code></td><td class="rowh">SQLException — both ? params &amp; ResultSet columns are 1-based!</td></tr>
       </tbody>
     </table></div>
   </article>
@@ -4319,6 +5314,8 @@ public class Example {
         <tr><td class="rowh">Access order</td><td>private &lt; default &lt; protected &lt; public (narrow to wide); overriding must not narrow</td></tr>
         <tr><td class="rowh">catch order</td><td>Most specific to most general — else unreachable-code compile error</td></tr>
         <tr><td class="rowh">finally</td><td>Always runs — except System.exit(), JVM crash, or being blocked forever before it</td></tr>
+        <tr><td class="rowh">equals() &amp; hashCode()</td><td>a.equals(b) ⇒ same hashCode(); same hashCode() does NOT imply equal (collision)</td></tr>
+        <tr><td class="rowh">JDBC indexing</td><td>Both PreparedStatement '?' parameters and ResultSet column getters are 1-based (start at 1, not 0)</td></tr>
         <tr><td class="rowh">Call-by-value</td><td>Primitives: copy of value · references: copy of the address — mutations visible, reassignment not</td></tr>
       </tbody>
     </table></div>
@@ -4335,15 +5332,17 @@ public class Example {
       <li><code>java.lang</code> is auto-imported; <code>-d .</code> sets the package destination folder.</li>
       <li>Array = object, contiguous memory, index from 0, fixed size, <code>length</code> property; implements Serializable &amp; Cloneable.</li>
       <li><code>Object</code> is the topmost class — toString, equals, hashCode, getClass, clone, finalize, wait/notify.</li>
-      <li>Java 8 gave interfaces default &amp; static methods; Java 9 gave private methods.</li>
+      <li>Java 8 gave interfaces default &amp; static methods; Java 9 gave private methods and deprecated <code>Object.finalize()</code>.</li>
       <li>ActionListener: one method, <code>actionPerformed(ActionEvent)</code>, in <code>java.awt.event</code>.</li>
-      <li>AWT containers: Window, Panel, Frame, Dialog · AWT layouts: Flow, Border, Grid, Card.</li>
+      <li>AWT containers: Window, Panel, Frame, Dialog · AWT layouts: Flow, Border, Grid, Card (+ Swing GridBag).</li>
+      <li><code>ArrayList</code> / <code>Vector</code> default capacity = <b>10</b>; <code>HashMap</code> default capacity = <b>16</b>, load factor = <b>0.75</b>, Java 8 treeify threshold = <b>8</b>.</li>
+      <li>JDBC URLs: MySQL <code>jdbc:mysql://localhost:3306/db</code> (<code>com.mysql.cj.jdbc.Driver</code>) · Oracle <code>jdbc:oracle:thin:@localhost:1521:xe</code> (<code>oracle.jdbc.driver.OracleDriver</code>).</li>
     </ul>
   </article>
 
   <article class="topic" id="tR-5">
-    <h3><span class="tno">R.5</span> Self-Test — 15 Questions</h3>
-    <p>Tap a question to reveal the answer. Score honestly: 13+ means you are exam-ready.</p>
+    <h3><span class="tno">R.5</span> Self-Test — 22 Questions</h3>
+    <p>Tap a question to reveal the answer. Score honestly: 19+ means you are exam-ready.</p>
     <details class="qa"><summary>Which component executes bytecode, and which one compiles source code?</summary><div class="qa-body"><p>The <b>JVM executes bytecode</b>; the <b>compiler <code>javac</code></b> (part of the JDK) compiles source code into bytecode.</p></div></details>
     <details class="qa"><summary>Why is Java called platform independent while the JVM is platform dependent?</summary><div class="qa-body"><p>Java programs compile to platform-neutral bytecode; each OS ships its <b>own JVM</b> that interprets the same bytecode — identical output everywhere. The JVM is platform dependent because a separate implementation exists per OS.</p></div></details>
     <details class="qa"><summary>Why must main be static?</summary><div class="qa-body"><p>So the JVM can invoke it <b>without creating an object</b> of the class — nothing of the program exists before main runs. It also saves memory.</p></div></details>
@@ -4358,7 +5357,14 @@ public class Example {
     <details class="qa"><summary>Multiple inheritance by interface causes no ambiguity — why?</summary><div class="qa-body"><p>Because the interface supplies <b>no implementation at all</b> — the single implementation is written by the implementing class, so there is only ever one method body to call.</p></div></details>
     <details class="qa"><summary>Order these by scope: default, private, public, protected.</summary><div class="qa-body"><p><b>private &lt; default &lt; protected &lt; public</b> — class · package · package+subclass · everywhere. And an overriding method may never move leftward.</p></div></details>
     <details class="qa"><summary>Classify IOException, ArithmeticException and OutOfMemoryError.</summary><div class="qa-body"><p><b>IOException</b> — checked (compile-time, must be handled/declared). <b>ArithmeticException</b> — unchecked (RuntimeException, surfaces at runtime). <b>OutOfMemoryError</b> — Error (irrecoverable).</p></div></details>
-    <details class="qa"><summary>In the Delegation Event Model, what are the source and the listener?</summary><div class="qa-body"><p><b>Source</b> — the object on which the event occurs; it creates the event object and notifies registered handlers. <b>Listener</b> — the object registered with the source that receives the event and responds (the event handler). Registration keeps notifications efficient: only willing listeners are told.</p></div></details>
+    <details class="qa"><summary>Contrast final, finally, and finalize() in one sentence each.</summary><div class="qa-body"><p><b><code>final</code></b> is a modifier keyword preventing reassignment, overriding, or inheritance; <b><code>finally</code></b> is an exception-handling block that always executes cleanup code; <b><code>finalize()</code></b> is an <code>Object</code> method invoked by the GC before reclaiming an object (deprecated in Java 9).</p></div></details>
+    <details class="qa"><summary>In the Delegation Event Model, what are the source, listener, and adapter class?</summary><div class="qa-body"><p><b>Source</b> creates the event object and notifies registered handlers. <b>Listener</b> is the registered interface implementation that responds. <b>Adapter classes</b> (e.g. <code>WindowAdapter</code>, <code>MouseAdapter</code>) supply empty defaults for multi-method listeners so you override only what you need.</p></div></details>
+    <details class="qa"><summary>How do you attach a menu bar to an AWT Frame vs a Swing JFrame?</summary><div class="qa-body"><p>Build <code>MenuBar</code> → <code>Menu</code> → <code>MenuItem</code>, then call <code>frame.setMenuBar(mb)</code> in AWT (or <code>jframe.setJMenuBar(jmb)</code> for <code>JMenuBar</code>/<code>JMenu</code>/<code>JMenuItem</code> in Swing).</p></div></details>
+    <details class="qa"><summary>Give three differences between ArrayList and Vector.</summary><div class="qa-body"><p>1) <code>ArrayList</code> is non-synchronized &amp; faster; <code>Vector</code> is synchronized &amp; thread-safe. 2) <code>ArrayList</code> grows by 50%; <code>Vector</code> doubles (100%) by default. 3) <code>Vector</code> is legacy (JDK 1.0) supporting <code>Enumeration</code>, while <code>ArrayList</code> joined in JDK 1.2.</p></div></details>
+    <details class="qa"><summary>Why does Map not extend Collection, and what happens if equals() is overridden without hashCode()?</summary><div class="qa-body"><p><code>Map</code> stores key–value pairs rather than single elements, so <code>Collection.add(E)</code> does not fit. Overriding <code>equals()</code> without <code>hashCode()</code> breaks hashing: equal objects get different hash buckets, so <code>HashMap</code>/<code>HashSet</code> allow duplicates and miss lookups.</p></div></details>
+    <details class="qa"><summary>Which JDBC driver type is fastest and why?</summary><div class="qa-body"><p><b>Type 4 (Thin / Pure-Java Driver)</b> — written 100% in Java, it talks directly to the database server over TCP/IP with zero ODBC bridges, native libraries, or middleware hops.</p></div></details>
+    <details class="qa"><summary>Why prefer PreparedStatement over Statement in JDBC CRUD operations?</summary><div class="qa-body"><p><code>PreparedStatement</code> precompiles the SQL template once (faster for repeated queries) and binds <code>?</code> parameters safely, completely preventing <b>SQL Injection</b>.</p></div></details>
+    <details class="qa"><summary>What happens if you read rs.getString(1) immediately after executeQuery() without calling rs.next()?</summary><div class="qa-body"><p>It throws a <b><code>SQLException</code></b> because the <code>ResultSet</code> cursor starts positioned <b>before the first row</b> — <code>rs.next()</code> must move it onto row 1 first (and column indices are 1-based).</p></div></details>
   </article>
 </section>
 
@@ -4367,7 +5373,7 @@ public class Example {
 </div><!-- /.layout -->
 
 <footer class="foot">
-  <p><b>Java · Unit II Master Notes</b> — compiled from Lectures 14–21 (Introduction to Java, Dr. Priya M Shelke) and expanded for exam preparation.</p>
+  <p><b>Java · CB2006 Units 3 &amp; 4 Master Notes</b> — compiled from Lectures 14–23 (Introduction to Java, Exception Handling, GUI &amp; Events, <code>java.util</code> &amp; Collections, and JDBC) for exam preparation.</p>
   <p>A single offline HTML file — search with <b>/</b>, toggle dark mode in the header, print for a hard copy.</p>
   <p><a href="../../index.html" style="font-family:var(--mono);font-size:.78rem;font-weight:700;display:inline-block;margin-right:1rem;border:1px solid var(--line2);border-radius:99px;padding:.3rem .9rem;text-decoration:none;">← Return to Notes Hub</a> <a href="#top">Back to top ↑</a></p>
 </footer>

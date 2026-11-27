@@ -58,7 +58,7 @@ BatchHub-notes/
 │   │   └── FDSU6.html            # Unit 6 Notes (Published)
 │   ├── oop/                      # Object Oriented Programming (CB2006 - 4 Units) [100% Complete]
 │   │   ├── OOPU1.html            # Units 1 & 2 Notes (C++ Programming) (Published)
-│   │   └── OOPU2.html            # Units 3 & 4 Notes (Java Programming) (Published)
+│   │   └── OOPU2.html            # Units 3 & 4 Notes (Java L14–23: OOP, Exceptions, GUI, Collections, JDBC) (Published)
 │   └── pas/                      # Probability and Statistics (MM0501 - 4 Units) [100% Complete]
 │       ├── PASU1.html            # Unit 1 Notes (Published)
 │       ├── PASU2.html            # Unit 2 Notes (Published)
